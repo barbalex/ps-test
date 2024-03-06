@@ -557,6 +557,62 @@ export type Taxonomies = {
 }
 
 /**
+ * Model Tile_layers
+ * 
+ */
+export type Tile_layers = {
+  /**
+   * @zod.string.uuid()
+   */
+  tile_layer_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  project_id: string
+  label: string | null
+  /**
+   * @zod.number.int().gte(-32768).lte(32767)
+   */
+  sort: number | null
+  active: boolean | null
+  type: tile_layer_type_enum | null
+  wmts_url_template: string | null
+  wmts_subdomains: Prisma.JsonValue | null
+  wms_base_url: string | null
+  wms_format: Prisma.JsonValue | null
+  wms_layer: Prisma.JsonValue | null
+  wms_parameters: Prisma.JsonValue | null
+  wms_styles: Prisma.JsonValue | null
+  wms_transparent: boolean | null
+  wms_version: string | null
+  wms_info_format: Prisma.JsonValue | null
+  wms_legend: Prisma.JsonValue | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  max_zoom: number | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  min_zoom: number | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  opacity_percent: number | null
+  grayscale: boolean | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  local_data_size: number | null
+  local_data_bounds: Prisma.JsonValue | null
+  deleted: boolean | null
+}
+
+/**
  * Model Ui_options
  * 
  */
@@ -746,6 +802,14 @@ export const taxonomy_type: {
 };
 
 export type taxonomy_type = (typeof taxonomy_type)[keyof typeof taxonomy_type]
+
+
+export const tile_layer_type_enum: {
+  wms: 'wms',
+  wmts: 'wmts'
+};
+
+export type tile_layer_type_enum = (typeof tile_layer_type_enum)[keyof typeof tile_layer_type_enum]
 
 
 export const unit_type: {
@@ -1083,6 +1147,16 @@ export class PrismaClient<
     * ```
     */
   get taxonomies(): Prisma.TaxonomiesDelegate<GlobalReject>;
+
+  /**
+   * `prisma.tile_layers`: Exposes CRUD operations for the **Tile_layers** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tile_layers
+    * const tile_layers = await prisma.tile_layers.findMany()
+    * ```
+    */
+  get tile_layers(): Prisma.Tile_layersDelegate<GlobalReject>;
 
   /**
    * `prisma.ui_options`: Exposes CRUD operations for the **Ui_options** model.
@@ -1648,6 +1722,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     Subprojects: 'Subprojects',
     Taxa: 'Taxa',
     Taxonomies: 'Taxonomies',
+    Tile_layers: 'Tile_layers',
     Ui_options: 'Ui_options',
     Units: 'Units',
     User_messages: 'User_messages',
@@ -1842,6 +1917,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects: number
     taxa: number
     taxonomies: number
+    tile_layers: number
     ui_options: number
     units: number
     user_messages: number
@@ -1866,6 +1942,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: boolean | AccountsCountOutputTypeCountSubprojectsArgs
     taxa?: boolean | AccountsCountOutputTypeCountTaxaArgs
     taxonomies?: boolean | AccountsCountOutputTypeCountTaxonomiesArgs
+    tile_layers?: boolean | AccountsCountOutputTypeCountTile_layersArgs
     ui_options?: boolean | AccountsCountOutputTypeCountUi_optionsArgs
     units?: boolean | AccountsCountOutputTypeCountUnitsArgs
     user_messages?: boolean | AccountsCountOutputTypeCountUser_messagesArgs
@@ -2042,6 +2119,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type AccountsCountOutputTypeCountTaxonomiesArgs = {
     where?: TaxonomiesWhereInput
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountTile_layersArgs = {
+    where?: Tile_layersWhereInput
   }
 
 
@@ -2356,6 +2441,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users: number
     subprojects: number
     taxonomies: number
+    tile_layers: number
     units: number
   }
 
@@ -2370,6 +2456,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: boolean | ProjectsCountOutputTypeCountProject_usersArgs
     subprojects?: boolean | ProjectsCountOutputTypeCountSubprojectsArgs
     taxonomies?: boolean | ProjectsCountOutputTypeCountTaxonomiesArgs
+    tile_layers?: boolean | ProjectsCountOutputTypeCountTile_layersArgs
     units?: boolean | ProjectsCountOutputTypeCountUnitsArgs
   }
 
@@ -2480,6 +2567,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type ProjectsCountOutputTypeCountTaxonomiesArgs = {
     where?: TaxonomiesWhereInput
+  }
+
+
+  /**
+   * ProjectsCountOutputType without action
+   */
+  export type ProjectsCountOutputTypeCountTile_layersArgs = {
+    where?: Tile_layersWhereInput
   }
 
 
@@ -3084,6 +3179,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: boolean | Accounts$subprojectsArgs
     taxa?: boolean | Accounts$taxaArgs
     taxonomies?: boolean | Accounts$taxonomiesArgs
+    tile_layers?: boolean | Accounts$tile_layersArgs
     ui_options?: boolean | Accounts$ui_optionsArgs
     units?: boolean | Accounts$unitsArgs
     user_messages?: boolean | Accounts$user_messagesArgs
@@ -3111,6 +3207,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: boolean | Accounts$subprojectsArgs
     taxa?: boolean | Accounts$taxaArgs
     taxonomies?: boolean | Accounts$taxonomiesArgs
+    tile_layers?: boolean | Accounts$tile_layersArgs
     ui_options?: boolean | Accounts$ui_optionsArgs
     units?: boolean | Accounts$unitsArgs
     user_messages?: boolean | Accounts$user_messagesArgs
@@ -3143,6 +3240,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'subprojects' ? Array < SubprojectsGetPayload<S['include'][P]>>  :
         P extends 'taxa' ? Array < TaxaGetPayload<S['include'][P]>>  :
         P extends 'taxonomies' ? Array < TaxonomiesGetPayload<S['include'][P]>>  :
+        P extends 'tile_layers' ? Array < Tile_layersGetPayload<S['include'][P]>>  :
         P extends 'ui_options' ? Array < Ui_optionsGetPayload<S['include'][P]>>  :
         P extends 'units' ? Array < UnitsGetPayload<S['include'][P]>>  :
         P extends 'user_messages' ? Array < User_messagesGetPayload<S['include'][P]>>  :
@@ -3170,6 +3268,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'subprojects' ? Array < SubprojectsGetPayload<S['select'][P]>>  :
         P extends 'taxa' ? Array < TaxaGetPayload<S['select'][P]>>  :
         P extends 'taxonomies' ? Array < TaxonomiesGetPayload<S['select'][P]>>  :
+        P extends 'tile_layers' ? Array < Tile_layersGetPayload<S['select'][P]>>  :
         P extends 'ui_options' ? Array < Ui_optionsGetPayload<S['select'][P]>>  :
         P extends 'units' ? Array < UnitsGetPayload<S['select'][P]>>  :
         P extends 'user_messages' ? Array < User_messagesGetPayload<S['select'][P]>>  :
@@ -3584,6 +3683,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa<T extends Accounts$taxaArgs= {}>(args?: Subset<T, Accounts$taxaArgs>): PrismaPromise<Array<TaxaGetPayload<T>>| Null>;
 
     taxonomies<T extends Accounts$taxonomiesArgs= {}>(args?: Subset<T, Accounts$taxonomiesArgs>): PrismaPromise<Array<TaxonomiesGetPayload<T>>| Null>;
+
+    tile_layers<T extends Accounts$tile_layersArgs= {}>(args?: Subset<T, Accounts$tile_layersArgs>): PrismaPromise<Array<Tile_layersGetPayload<T>>| Null>;
 
     ui_options<T extends Accounts$ui_optionsArgs= {}>(args?: Subset<T, Accounts$ui_optionsArgs>): PrismaPromise<Array<Ui_optionsGetPayload<T>>| Null>;
 
@@ -4423,6 +4524,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<TaxonomiesScalarFieldEnum>
+  }
+
+
+  /**
+   * Accounts.tile_layers
+   */
+  export type Accounts$tile_layersArgs = {
+    /**
+     * Select specific fields to fetch from the Tile_layers
+     * 
+    **/
+    select?: Tile_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Tile_layersInclude | null
+    where?: Tile_layersWhereInput
+    orderBy?: Enumerable<Tile_layersOrderByWithRelationInput>
+    cursor?: Tile_layersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Tile_layersScalarFieldEnum>
   }
 
 
@@ -19939,6 +20063,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: boolean | Projects$accountsArgs
     subprojects?: boolean | Projects$subprojectsArgs
     taxonomies?: boolean | Projects$taxonomiesArgs
+    tile_layers?: boolean | Projects$tile_layersArgs
     units?: boolean | Projects$unitsArgs
     _count?: boolean | ProjectsCountOutputTypeArgs
   }
@@ -19956,6 +20081,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: boolean | Projects$accountsArgs
     subprojects?: boolean | Projects$subprojectsArgs
     taxonomies?: boolean | Projects$taxonomiesArgs
+    tile_layers?: boolean | Projects$tile_layersArgs
     units?: boolean | Projects$unitsArgs
     _count?: boolean | ProjectsCountOutputTypeArgs
   } 
@@ -19978,6 +20104,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
         P extends 'subprojects' ? Array < SubprojectsGetPayload<S['include'][P]>>  :
         P extends 'taxonomies' ? Array < TaxonomiesGetPayload<S['include'][P]>>  :
+        P extends 'tile_layers' ? Array < Tile_layersGetPayload<S['include'][P]>>  :
         P extends 'units' ? Array < UnitsGetPayload<S['include'][P]>>  :
         P extends '_count' ? ProjectsCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
@@ -19995,6 +20122,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
         P extends 'subprojects' ? Array < SubprojectsGetPayload<S['select'][P]>>  :
         P extends 'taxonomies' ? Array < TaxonomiesGetPayload<S['select'][P]>>  :
+        P extends 'tile_layers' ? Array < Tile_layersGetPayload<S['select'][P]>>  :
         P extends 'units' ? Array < UnitsGetPayload<S['select'][P]>>  :
         P extends '_count' ? ProjectsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Projects ? Projects[P] : never
   } 
@@ -20391,6 +20519,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects<T extends Projects$subprojectsArgs= {}>(args?: Subset<T, Projects$subprojectsArgs>): PrismaPromise<Array<SubprojectsGetPayload<T>>| Null>;
 
     taxonomies<T extends Projects$taxonomiesArgs= {}>(args?: Subset<T, Projects$taxonomiesArgs>): PrismaPromise<Array<TaxonomiesGetPayload<T>>| Null>;
+
+    tile_layers<T extends Projects$tile_layersArgs= {}>(args?: Subset<T, Projects$tile_layersArgs>): PrismaPromise<Array<Tile_layersGetPayload<T>>| Null>;
 
     units<T extends Projects$unitsArgs= {}>(args?: Subset<T, Projects$unitsArgs>): PrismaPromise<Array<UnitsGetPayload<T>>| Null>;
 
@@ -21042,6 +21172,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<TaxonomiesScalarFieldEnum>
+  }
+
+
+  /**
+   * Projects.tile_layers
+   */
+  export type Projects$tile_layersArgs = {
+    /**
+     * Select specific fields to fetch from the Tile_layers
+     * 
+    **/
+    select?: Tile_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Tile_layersInclude | null
+    where?: Tile_layersWhereInput
+    orderBy?: Enumerable<Tile_layersOrderByWithRelationInput>
+    cursor?: Tile_layersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Tile_layersScalarFieldEnum>
   }
 
 
@@ -26645,6 +26798,1196 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     include?: TaxonomiesInclude | null
+  }
+
+
+
+  /**
+   * Model Tile_layers
+   */
+
+
+  export type AggregateTile_layers = {
+    _count: Tile_layersCountAggregateOutputType | null
+    _avg: Tile_layersAvgAggregateOutputType | null
+    _sum: Tile_layersSumAggregateOutputType | null
+    _min: Tile_layersMinAggregateOutputType | null
+    _max: Tile_layersMaxAggregateOutputType | null
+  }
+
+  export type Tile_layersAvgAggregateOutputType = {
+    sort: number | null
+    max_zoom: number | null
+    min_zoom: number | null
+    opacity_percent: number | null
+    local_data_size: number | null
+  }
+
+  export type Tile_layersSumAggregateOutputType = {
+    sort: number | null
+    max_zoom: number | null
+    min_zoom: number | null
+    opacity_percent: number | null
+    local_data_size: number | null
+  }
+
+  export type Tile_layersMinAggregateOutputType = {
+    tile_layer_id: string | null
+    account_id: string | null
+    project_id: string | null
+    label: string | null
+    sort: number | null
+    active: boolean | null
+    type: tile_layer_type_enum | null
+    wmts_url_template: string | null
+    wms_base_url: string | null
+    wms_transparent: boolean | null
+    wms_version: string | null
+    max_zoom: number | null
+    min_zoom: number | null
+    opacity_percent: number | null
+    grayscale: boolean | null
+    local_data_size: number | null
+    deleted: boolean | null
+  }
+
+  export type Tile_layersMaxAggregateOutputType = {
+    tile_layer_id: string | null
+    account_id: string | null
+    project_id: string | null
+    label: string | null
+    sort: number | null
+    active: boolean | null
+    type: tile_layer_type_enum | null
+    wmts_url_template: string | null
+    wms_base_url: string | null
+    wms_transparent: boolean | null
+    wms_version: string | null
+    max_zoom: number | null
+    min_zoom: number | null
+    opacity_percent: number | null
+    grayscale: boolean | null
+    local_data_size: number | null
+    deleted: boolean | null
+  }
+
+  export type Tile_layersCountAggregateOutputType = {
+    tile_layer_id: number
+    account_id: number
+    project_id: number
+    label: number
+    sort: number
+    active: number
+    type: number
+    wmts_url_template: number
+    wmts_subdomains: number
+    wms_base_url: number
+    wms_format: number
+    wms_layer: number
+    wms_parameters: number
+    wms_styles: number
+    wms_transparent: number
+    wms_version: number
+    wms_info_format: number
+    wms_legend: number
+    max_zoom: number
+    min_zoom: number
+    opacity_percent: number
+    grayscale: number
+    local_data_size: number
+    local_data_bounds: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type Tile_layersAvgAggregateInputType = {
+    sort?: true
+    max_zoom?: true
+    min_zoom?: true
+    opacity_percent?: true
+    local_data_size?: true
+  }
+
+  export type Tile_layersSumAggregateInputType = {
+    sort?: true
+    max_zoom?: true
+    min_zoom?: true
+    opacity_percent?: true
+    local_data_size?: true
+  }
+
+  export type Tile_layersMinAggregateInputType = {
+    tile_layer_id?: true
+    account_id?: true
+    project_id?: true
+    label?: true
+    sort?: true
+    active?: true
+    type?: true
+    wmts_url_template?: true
+    wms_base_url?: true
+    wms_transparent?: true
+    wms_version?: true
+    max_zoom?: true
+    min_zoom?: true
+    opacity_percent?: true
+    grayscale?: true
+    local_data_size?: true
+    deleted?: true
+  }
+
+  export type Tile_layersMaxAggregateInputType = {
+    tile_layer_id?: true
+    account_id?: true
+    project_id?: true
+    label?: true
+    sort?: true
+    active?: true
+    type?: true
+    wmts_url_template?: true
+    wms_base_url?: true
+    wms_transparent?: true
+    wms_version?: true
+    max_zoom?: true
+    min_zoom?: true
+    opacity_percent?: true
+    grayscale?: true
+    local_data_size?: true
+    deleted?: true
+  }
+
+  export type Tile_layersCountAggregateInputType = {
+    tile_layer_id?: true
+    account_id?: true
+    project_id?: true
+    label?: true
+    sort?: true
+    active?: true
+    type?: true
+    wmts_url_template?: true
+    wmts_subdomains?: true
+    wms_base_url?: true
+    wms_format?: true
+    wms_layer?: true
+    wms_parameters?: true
+    wms_styles?: true
+    wms_transparent?: true
+    wms_version?: true
+    wms_info_format?: true
+    wms_legend?: true
+    max_zoom?: true
+    min_zoom?: true
+    opacity_percent?: true
+    grayscale?: true
+    local_data_size?: true
+    local_data_bounds?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type Tile_layersAggregateArgs = {
+    /**
+     * Filter which Tile_layers to aggregate.
+     * 
+    **/
+    where?: Tile_layersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tile_layers to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Tile_layersOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: Tile_layersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tile_layers from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tile_layers.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Tile_layers
+    **/
+    _count?: true | Tile_layersCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Tile_layersAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Tile_layersSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Tile_layersMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Tile_layersMaxAggregateInputType
+  }
+
+  export type GetTile_layersAggregateType<T extends Tile_layersAggregateArgs> = {
+        [P in keyof T & keyof AggregateTile_layers]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTile_layers[P]>
+      : GetScalarType<T[P], AggregateTile_layers[P]>
+  }
+
+
+
+
+  export type Tile_layersGroupByArgs = {
+    where?: Tile_layersWhereInput
+    orderBy?: Enumerable<Tile_layersOrderByWithAggregationInput>
+    by: Array<Tile_layersScalarFieldEnum>
+    having?: Tile_layersScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Tile_layersCountAggregateInputType | true
+    _avg?: Tile_layersAvgAggregateInputType
+    _sum?: Tile_layersSumAggregateInputType
+    _min?: Tile_layersMinAggregateInputType
+    _max?: Tile_layersMaxAggregateInputType
+  }
+
+
+  export type Tile_layersGroupByOutputType = {
+    tile_layer_id: string
+    account_id: string | null
+    project_id: string
+    label: string | null
+    sort: number | null
+    active: boolean | null
+    type: tile_layer_type_enum | null
+    wmts_url_template: string | null
+    wmts_subdomains: JsonValue | null
+    wms_base_url: string | null
+    wms_format: JsonValue | null
+    wms_layer: JsonValue | null
+    wms_parameters: JsonValue | null
+    wms_styles: JsonValue | null
+    wms_transparent: boolean | null
+    wms_version: string | null
+    wms_info_format: JsonValue | null
+    wms_legend: JsonValue | null
+    max_zoom: number | null
+    min_zoom: number | null
+    opacity_percent: number | null
+    grayscale: boolean | null
+    local_data_size: number | null
+    local_data_bounds: JsonValue | null
+    deleted: boolean | null
+    _count: Tile_layersCountAggregateOutputType | null
+    _avg: Tile_layersAvgAggregateOutputType | null
+    _sum: Tile_layersSumAggregateOutputType | null
+    _min: Tile_layersMinAggregateOutputType | null
+    _max: Tile_layersMaxAggregateOutputType | null
+  }
+
+  type GetTile_layersGroupByPayload<T extends Tile_layersGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Tile_layersGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Tile_layersGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Tile_layersGroupByOutputType[P]>
+            : GetScalarType<T[P], Tile_layersGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Tile_layersSelect = {
+    tile_layer_id?: boolean
+    account_id?: boolean
+    project_id?: boolean
+    label?: boolean
+    sort?: boolean
+    active?: boolean
+    type?: boolean
+    wmts_url_template?: boolean
+    wmts_subdomains?: boolean
+    wms_base_url?: boolean
+    wms_format?: boolean
+    wms_layer?: boolean
+    wms_parameters?: boolean
+    wms_styles?: boolean
+    wms_transparent?: boolean
+    wms_version?: boolean
+    wms_info_format?: boolean
+    wms_legend?: boolean
+    max_zoom?: boolean
+    min_zoom?: boolean
+    opacity_percent?: boolean
+    grayscale?: boolean
+    local_data_size?: boolean
+    local_data_bounds?: boolean
+    deleted?: boolean
+    accounts?: boolean | Tile_layers$accountsArgs
+    projects?: boolean | ProjectsArgs
+  }
+
+
+  export type Tile_layersInclude = {
+    accounts?: boolean | Tile_layers$accountsArgs
+    projects?: boolean | ProjectsArgs
+  } 
+
+  export type Tile_layersGetPayload<S extends boolean | null | undefined | Tile_layersArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Tile_layers :
+    S extends undefined ? never :
+    S extends { include: any } & (Tile_layersArgs | Tile_layersFindManyArgs)
+    ? Tile_layers  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (Tile_layersArgs | Tile_layersFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> :  P extends keyof Tile_layers ? Tile_layers[P] : never
+  } 
+      : Tile_layers
+
+
+  type Tile_layersCountArgs = Merge<
+    Omit<Tile_layersFindManyArgs, 'select' | 'include'> & {
+      select?: Tile_layersCountAggregateInputType | true
+    }
+  >
+
+  export interface Tile_layersDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Tile_layers that matches the filter.
+     * @param {Tile_layersFindUniqueArgs} args - Arguments to find a Tile_layers
+     * @example
+     * // Get one Tile_layers
+     * const tile_layers = await prisma.tile_layers.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends Tile_layersFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Tile_layersFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Tile_layers'> extends True ? Prisma__Tile_layersClient<Tile_layersGetPayload<T>> : Prisma__Tile_layersClient<Tile_layersGetPayload<T> | null, null>
+
+    /**
+     * Find one Tile_layers that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {Tile_layersFindUniqueOrThrowArgs} args - Arguments to find a Tile_layers
+     * @example
+     * // Get one Tile_layers
+     * const tile_layers = await prisma.tile_layers.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends Tile_layersFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, Tile_layersFindUniqueOrThrowArgs>
+    ): Prisma__Tile_layersClient<Tile_layersGetPayload<T>>
+
+    /**
+     * Find the first Tile_layers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Tile_layersFindFirstArgs} args - Arguments to find a Tile_layers
+     * @example
+     * // Get one Tile_layers
+     * const tile_layers = await prisma.tile_layers.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends Tile_layersFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Tile_layersFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Tile_layers'> extends True ? Prisma__Tile_layersClient<Tile_layersGetPayload<T>> : Prisma__Tile_layersClient<Tile_layersGetPayload<T> | null, null>
+
+    /**
+     * Find the first Tile_layers that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Tile_layersFindFirstOrThrowArgs} args - Arguments to find a Tile_layers
+     * @example
+     * // Get one Tile_layers
+     * const tile_layers = await prisma.tile_layers.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends Tile_layersFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, Tile_layersFindFirstOrThrowArgs>
+    ): Prisma__Tile_layersClient<Tile_layersGetPayload<T>>
+
+    /**
+     * Find zero or more Tile_layers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Tile_layersFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Tile_layers
+     * const tile_layers = await prisma.tile_layers.findMany()
+     * 
+     * // Get first 10 Tile_layers
+     * const tile_layers = await prisma.tile_layers.findMany({ take: 10 })
+     * 
+     * // Only select the `tile_layer_id`
+     * const tile_layersWithTile_layer_idOnly = await prisma.tile_layers.findMany({ select: { tile_layer_id: true } })
+     * 
+    **/
+    findMany<T extends Tile_layersFindManyArgs>(
+      args?: SelectSubset<T, Tile_layersFindManyArgs>
+    ): PrismaPromise<Array<Tile_layersGetPayload<T>>>
+
+    /**
+     * Create a Tile_layers.
+     * @param {Tile_layersCreateArgs} args - Arguments to create a Tile_layers.
+     * @example
+     * // Create one Tile_layers
+     * const Tile_layers = await prisma.tile_layers.create({
+     *   data: {
+     *     // ... data to create a Tile_layers
+     *   }
+     * })
+     * 
+    **/
+    create<T extends Tile_layersCreateArgs>(
+      args: SelectSubset<T, Tile_layersCreateArgs>
+    ): Prisma__Tile_layersClient<Tile_layersGetPayload<T>>
+
+    /**
+     * Create many Tile_layers.
+     *     @param {Tile_layersCreateManyArgs} args - Arguments to create many Tile_layers.
+     *     @example
+     *     // Create many Tile_layers
+     *     const tile_layers = await prisma.tile_layers.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends Tile_layersCreateManyArgs>(
+      args?: SelectSubset<T, Tile_layersCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Tile_layers.
+     * @param {Tile_layersDeleteArgs} args - Arguments to delete one Tile_layers.
+     * @example
+     * // Delete one Tile_layers
+     * const Tile_layers = await prisma.tile_layers.delete({
+     *   where: {
+     *     // ... filter to delete one Tile_layers
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends Tile_layersDeleteArgs>(
+      args: SelectSubset<T, Tile_layersDeleteArgs>
+    ): Prisma__Tile_layersClient<Tile_layersGetPayload<T>>
+
+    /**
+     * Update one Tile_layers.
+     * @param {Tile_layersUpdateArgs} args - Arguments to update one Tile_layers.
+     * @example
+     * // Update one Tile_layers
+     * const tile_layers = await prisma.tile_layers.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends Tile_layersUpdateArgs>(
+      args: SelectSubset<T, Tile_layersUpdateArgs>
+    ): Prisma__Tile_layersClient<Tile_layersGetPayload<T>>
+
+    /**
+     * Delete zero or more Tile_layers.
+     * @param {Tile_layersDeleteManyArgs} args - Arguments to filter Tile_layers to delete.
+     * @example
+     * // Delete a few Tile_layers
+     * const { count } = await prisma.tile_layers.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends Tile_layersDeleteManyArgs>(
+      args?: SelectSubset<T, Tile_layersDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tile_layers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Tile_layersUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Tile_layers
+     * const tile_layers = await prisma.tile_layers.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends Tile_layersUpdateManyArgs>(
+      args: SelectSubset<T, Tile_layersUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Tile_layers.
+     * @param {Tile_layersUpsertArgs} args - Arguments to update or create a Tile_layers.
+     * @example
+     * // Update or create a Tile_layers
+     * const tile_layers = await prisma.tile_layers.upsert({
+     *   create: {
+     *     // ... data to create a Tile_layers
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Tile_layers we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends Tile_layersUpsertArgs>(
+      args: SelectSubset<T, Tile_layersUpsertArgs>
+    ): Prisma__Tile_layersClient<Tile_layersGetPayload<T>>
+
+    /**
+     * Count the number of Tile_layers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Tile_layersCountArgs} args - Arguments to filter Tile_layers to count.
+     * @example
+     * // Count the number of Tile_layers
+     * const count = await prisma.tile_layers.count({
+     *   where: {
+     *     // ... the filter for the Tile_layers we want to count
+     *   }
+     * })
+    **/
+    count<T extends Tile_layersCountArgs>(
+      args?: Subset<T, Tile_layersCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Tile_layersCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Tile_layers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Tile_layersAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Tile_layersAggregateArgs>(args: Subset<T, Tile_layersAggregateArgs>): PrismaPromise<GetTile_layersAggregateType<T>>
+
+    /**
+     * Group by Tile_layers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Tile_layersGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Tile_layersGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Tile_layersGroupByArgs['orderBy'] }
+        : { orderBy?: Tile_layersGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Tile_layersGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTile_layersGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Tile_layers.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__Tile_layersClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Tile_layers$accountsArgs= {}>(args?: Subset<T, Tile_layers$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    projects<T extends ProjectsArgs= {}>(args?: Subset<T, ProjectsArgs>): Prisma__ProjectsClient<ProjectsGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Tile_layers base type for findUnique actions
+   */
+  export type Tile_layersFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Tile_layers
+     * 
+    **/
+    select?: Tile_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Tile_layersInclude | null
+    /**
+     * Filter, which Tile_layers to fetch.
+     * 
+    **/
+    where: Tile_layersWhereUniqueInput
+  }
+
+  /**
+   * Tile_layers findUnique
+   */
+  export interface Tile_layersFindUniqueArgs extends Tile_layersFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Tile_layers findUniqueOrThrow
+   */
+  export type Tile_layersFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Tile_layers
+     * 
+    **/
+    select?: Tile_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Tile_layersInclude | null
+    /**
+     * Filter, which Tile_layers to fetch.
+     * 
+    **/
+    where: Tile_layersWhereUniqueInput
+  }
+
+
+  /**
+   * Tile_layers base type for findFirst actions
+   */
+  export type Tile_layersFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Tile_layers
+     * 
+    **/
+    select?: Tile_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Tile_layersInclude | null
+    /**
+     * Filter, which Tile_layers to fetch.
+     * 
+    **/
+    where?: Tile_layersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tile_layers to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Tile_layersOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tile_layers.
+     * 
+    **/
+    cursor?: Tile_layersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tile_layers from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tile_layers.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tile_layers.
+     * 
+    **/
+    distinct?: Enumerable<Tile_layersScalarFieldEnum>
+  }
+
+  /**
+   * Tile_layers findFirst
+   */
+  export interface Tile_layersFindFirstArgs extends Tile_layersFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Tile_layers findFirstOrThrow
+   */
+  export type Tile_layersFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Tile_layers
+     * 
+    **/
+    select?: Tile_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Tile_layersInclude | null
+    /**
+     * Filter, which Tile_layers to fetch.
+     * 
+    **/
+    where?: Tile_layersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tile_layers to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Tile_layersOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tile_layers.
+     * 
+    **/
+    cursor?: Tile_layersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tile_layers from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tile_layers.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tile_layers.
+     * 
+    **/
+    distinct?: Enumerable<Tile_layersScalarFieldEnum>
+  }
+
+
+  /**
+   * Tile_layers findMany
+   */
+  export type Tile_layersFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Tile_layers
+     * 
+    **/
+    select?: Tile_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Tile_layersInclude | null
+    /**
+     * Filter, which Tile_layers to fetch.
+     * 
+    **/
+    where?: Tile_layersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tile_layers to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Tile_layersOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Tile_layers.
+     * 
+    **/
+    cursor?: Tile_layersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tile_layers from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tile_layers.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Tile_layersScalarFieldEnum>
+  }
+
+
+  /**
+   * Tile_layers create
+   */
+  export type Tile_layersCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Tile_layers
+     * 
+    **/
+    select?: Tile_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Tile_layersInclude | null
+    /**
+     * The data needed to create a Tile_layers.
+     * 
+    **/
+    data: XOR<Tile_layersCreateInput, Tile_layersUncheckedCreateInput>
+  }
+
+
+  /**
+   * Tile_layers createMany
+   */
+  export type Tile_layersCreateManyArgs = {
+    /**
+     * The data used to create many Tile_layers.
+     * 
+    **/
+    data: Enumerable<Tile_layersCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Tile_layers update
+   */
+  export type Tile_layersUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Tile_layers
+     * 
+    **/
+    select?: Tile_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Tile_layersInclude | null
+    /**
+     * The data needed to update a Tile_layers.
+     * 
+    **/
+    data: XOR<Tile_layersUpdateInput, Tile_layersUncheckedUpdateInput>
+    /**
+     * Choose, which Tile_layers to update.
+     * 
+    **/
+    where: Tile_layersWhereUniqueInput
+  }
+
+
+  /**
+   * Tile_layers updateMany
+   */
+  export type Tile_layersUpdateManyArgs = {
+    /**
+     * The data used to update Tile_layers.
+     * 
+    **/
+    data: XOR<Tile_layersUpdateManyMutationInput, Tile_layersUncheckedUpdateManyInput>
+    /**
+     * Filter which Tile_layers to update
+     * 
+    **/
+    where?: Tile_layersWhereInput
+  }
+
+
+  /**
+   * Tile_layers upsert
+   */
+  export type Tile_layersUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Tile_layers
+     * 
+    **/
+    select?: Tile_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Tile_layersInclude | null
+    /**
+     * The filter to search for the Tile_layers to update in case it exists.
+     * 
+    **/
+    where: Tile_layersWhereUniqueInput
+    /**
+     * In case the Tile_layers found by the `where` argument doesn't exist, create a new Tile_layers with this data.
+     * 
+    **/
+    create: XOR<Tile_layersCreateInput, Tile_layersUncheckedCreateInput>
+    /**
+     * In case the Tile_layers was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<Tile_layersUpdateInput, Tile_layersUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Tile_layers delete
+   */
+  export type Tile_layersDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Tile_layers
+     * 
+    **/
+    select?: Tile_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Tile_layersInclude | null
+    /**
+     * Filter which Tile_layers to delete.
+     * 
+    **/
+    where: Tile_layersWhereUniqueInput
+  }
+
+
+  /**
+   * Tile_layers deleteMany
+   */
+  export type Tile_layersDeleteManyArgs = {
+    /**
+     * Filter which Tile_layers to delete
+     * 
+    **/
+    where?: Tile_layersWhereInput
+  }
+
+
+  /**
+   * Tile_layers.accounts
+   */
+  export type Tile_layers$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Tile_layers without action
+   */
+  export type Tile_layersArgs = {
+    /**
+     * Select specific fields to fetch from the Tile_layers
+     * 
+    **/
+    select?: Tile_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Tile_layersInclude | null
   }
 
 
@@ -33556,6 +34899,37 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type TaxonomiesScalarFieldEnum = (typeof TaxonomiesScalarFieldEnum)[keyof typeof TaxonomiesScalarFieldEnum]
 
 
+  export const Tile_layersScalarFieldEnum: {
+    tile_layer_id: 'tile_layer_id',
+    account_id: 'account_id',
+    project_id: 'project_id',
+    label: 'label',
+    sort: 'sort',
+    active: 'active',
+    type: 'type',
+    wmts_url_template: 'wmts_url_template',
+    wmts_subdomains: 'wmts_subdomains',
+    wms_base_url: 'wms_base_url',
+    wms_format: 'wms_format',
+    wms_layer: 'wms_layer',
+    wms_parameters: 'wms_parameters',
+    wms_styles: 'wms_styles',
+    wms_transparent: 'wms_transparent',
+    wms_version: 'wms_version',
+    wms_info_format: 'wms_info_format',
+    wms_legend: 'wms_legend',
+    max_zoom: 'max_zoom',
+    min_zoom: 'min_zoom',
+    opacity_percent: 'opacity_percent',
+    grayscale: 'grayscale',
+    local_data_size: 'local_data_size',
+    local_data_bounds: 'local_data_bounds',
+    deleted: 'deleted'
+  };
+
+  export type Tile_layersScalarFieldEnum = (typeof Tile_layersScalarFieldEnum)[keyof typeof Tile_layersScalarFieldEnum]
+
+
   export const Ui_optionsScalarFieldEnum: {
     user_id: 'user_id',
     account_id: 'account_id',
@@ -33806,6 +35180,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Reference to a field of type 'tile_layer_type_enum'
+   */
+  export type Enumtile_layer_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'tile_layer_type_enum'>
+    
+
+
+  /**
+   * Reference to a field of type 'tile_layer_type_enum[]'
+   */
+  export type ListEnumtile_layer_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'tile_layer_type_enum[]'>
+    
+
+
+  /**
    * Reference to a field of type 'unit_type'
    */
   export type Enumunit_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'unit_type'>
@@ -33852,6 +35240,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsListRelationFilter
     taxa?: TaxaListRelationFilter
     taxonomies?: TaxonomiesListRelationFilter
+    tile_layers?: Tile_layersListRelationFilter
     ui_options?: Ui_optionsListRelationFilter
     units?: UnitsListRelationFilter
     user_messages?: User_messagesListRelationFilter
@@ -33884,6 +35273,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsOrderByRelationAggregateInput
     taxa?: TaxaOrderByRelationAggregateInput
     taxonomies?: TaxonomiesOrderByRelationAggregateInput
+    tile_layers?: Tile_layersOrderByRelationAggregateInput
     ui_options?: Ui_optionsOrderByRelationAggregateInput
     units?: UnitsOrderByRelationAggregateInput
     user_messages?: User_messagesOrderByRelationAggregateInput
@@ -33919,6 +35309,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsListRelationFilter
     taxa?: TaxaListRelationFilter
     taxonomies?: TaxonomiesListRelationFilter
+    tile_layers?: Tile_layersListRelationFilter
     ui_options?: Ui_optionsListRelationFilter
     units?: UnitsListRelationFilter
     user_messages?: User_messagesListRelationFilter
@@ -35040,6 +36431,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     subprojects?: SubprojectsListRelationFilter
     taxonomies?: TaxonomiesListRelationFilter
+    tile_layers?: Tile_layersListRelationFilter
     units?: UnitsListRelationFilter
   }
 
@@ -35080,6 +36472,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsOrderByWithRelationInput
     subprojects?: SubprojectsOrderByRelationAggregateInput
     taxonomies?: TaxonomiesOrderByRelationAggregateInput
+    tile_layers?: Tile_layersOrderByRelationAggregateInput
     units?: UnitsOrderByRelationAggregateInput
   }
 
@@ -35123,6 +36516,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     subprojects?: SubprojectsListRelationFilter
     taxonomies?: TaxonomiesListRelationFilter
+    tile_layers?: Tile_layersListRelationFilter
     units?: UnitsListRelationFilter
   }, "project_id">
 
@@ -35580,6 +36974,166 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: JsonNullableWithAggregatesFilter<"Taxonomies">
     label_replace_by_generated_column?: StringNullableWithAggregatesFilter<"Taxonomies"> | string | null
     deleted?: BoolNullableWithAggregatesFilter<"Taxonomies"> | boolean | null
+  }
+
+  export type Tile_layersWhereInput = {
+    AND?: Enumerable<Tile_layersWhereInput>
+    OR?: Enumerable<Tile_layersWhereInput>
+    NOT?: Enumerable<Tile_layersWhereInput>
+    tile_layer_id?: UuidFilter<"Tile_layers"> | string
+    account_id?: UuidNullableFilter<"Tile_layers"> | string | null
+    project_id?: UuidFilter<"Tile_layers"> | string
+    label?: StringNullableFilter<"Tile_layers"> | string | null
+    sort?: IntNullableFilter<"Tile_layers"> | number | null
+    active?: BoolNullableFilter<"Tile_layers"> | boolean | null
+    type?: Enumtile_layer_type_enumNullableFilter<"Tile_layers"> | tile_layer_type_enum | null
+    wmts_url_template?: StringNullableFilter<"Tile_layers"> | string | null
+    wmts_subdomains?: JsonNullableFilter<"Tile_layers">
+    wms_base_url?: StringNullableFilter<"Tile_layers"> | string | null
+    wms_format?: JsonNullableFilter<"Tile_layers">
+    wms_layer?: JsonNullableFilter<"Tile_layers">
+    wms_parameters?: JsonNullableFilter<"Tile_layers">
+    wms_styles?: JsonNullableFilter<"Tile_layers">
+    wms_transparent?: BoolNullableFilter<"Tile_layers"> | boolean | null
+    wms_version?: StringNullableFilter<"Tile_layers"> | string | null
+    wms_info_format?: JsonNullableFilter<"Tile_layers">
+    wms_legend?: JsonNullableFilter<"Tile_layers">
+    max_zoom?: IntNullableFilter<"Tile_layers"> | number | null
+    min_zoom?: IntNullableFilter<"Tile_layers"> | number | null
+    opacity_percent?: IntNullableFilter<"Tile_layers"> | number | null
+    grayscale?: BoolNullableFilter<"Tile_layers"> | boolean | null
+    local_data_size?: IntNullableFilter<"Tile_layers"> | number | null
+    local_data_bounds?: JsonNullableFilter<"Tile_layers">
+    deleted?: BoolNullableFilter<"Tile_layers"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    projects?: XOR<ProjectsRelationFilter, ProjectsWhereInput>
+  }
+
+  export type Tile_layersOrderByWithRelationInput = {
+    tile_layer_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    project_id?: SortOrder
+    label?: SortOrderInput | SortOrder
+    sort?: SortOrderInput | SortOrder
+    active?: SortOrderInput | SortOrder
+    type?: SortOrderInput | SortOrder
+    wmts_url_template?: SortOrderInput | SortOrder
+    wmts_subdomains?: SortOrderInput | SortOrder
+    wms_base_url?: SortOrderInput | SortOrder
+    wms_format?: SortOrderInput | SortOrder
+    wms_layer?: SortOrderInput | SortOrder
+    wms_parameters?: SortOrderInput | SortOrder
+    wms_styles?: SortOrderInput | SortOrder
+    wms_transparent?: SortOrderInput | SortOrder
+    wms_version?: SortOrderInput | SortOrder
+    wms_info_format?: SortOrderInput | SortOrder
+    wms_legend?: SortOrderInput | SortOrder
+    max_zoom?: SortOrderInput | SortOrder
+    min_zoom?: SortOrderInput | SortOrder
+    opacity_percent?: SortOrderInput | SortOrder
+    grayscale?: SortOrderInput | SortOrder
+    local_data_size?: SortOrderInput | SortOrder
+    local_data_bounds?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    projects?: ProjectsOrderByWithRelationInput
+  }
+
+  export type Tile_layersWhereUniqueInput = Prisma.AtLeast<{
+    tile_layer_id?: string
+    AND?: Enumerable<Tile_layersWhereInput>
+    OR?: Enumerable<Tile_layersWhereInput>
+    NOT?: Enumerable<Tile_layersWhereInput>
+    account_id?: UuidNullableFilter<"Tile_layers"> | string | null
+    project_id?: UuidFilter<"Tile_layers"> | string
+    label?: StringNullableFilter<"Tile_layers"> | string | null
+    sort?: IntNullableFilter<"Tile_layers"> | number | null
+    active?: BoolNullableFilter<"Tile_layers"> | boolean | null
+    type?: Enumtile_layer_type_enumNullableFilter<"Tile_layers"> | tile_layer_type_enum | null
+    wmts_url_template?: StringNullableFilter<"Tile_layers"> | string | null
+    wmts_subdomains?: JsonNullableFilter<"Tile_layers">
+    wms_base_url?: StringNullableFilter<"Tile_layers"> | string | null
+    wms_format?: JsonNullableFilter<"Tile_layers">
+    wms_layer?: JsonNullableFilter<"Tile_layers">
+    wms_parameters?: JsonNullableFilter<"Tile_layers">
+    wms_styles?: JsonNullableFilter<"Tile_layers">
+    wms_transparent?: BoolNullableFilter<"Tile_layers"> | boolean | null
+    wms_version?: StringNullableFilter<"Tile_layers"> | string | null
+    wms_info_format?: JsonNullableFilter<"Tile_layers">
+    wms_legend?: JsonNullableFilter<"Tile_layers">
+    max_zoom?: IntNullableFilter<"Tile_layers"> | number | null
+    min_zoom?: IntNullableFilter<"Tile_layers"> | number | null
+    opacity_percent?: IntNullableFilter<"Tile_layers"> | number | null
+    grayscale?: BoolNullableFilter<"Tile_layers"> | boolean | null
+    local_data_size?: IntNullableFilter<"Tile_layers"> | number | null
+    local_data_bounds?: JsonNullableFilter<"Tile_layers">
+    deleted?: BoolNullableFilter<"Tile_layers"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    projects?: XOR<ProjectsRelationFilter, ProjectsWhereInput>
+  }, "tile_layer_id">
+
+  export type Tile_layersOrderByWithAggregationInput = {
+    tile_layer_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    project_id?: SortOrder
+    label?: SortOrderInput | SortOrder
+    sort?: SortOrderInput | SortOrder
+    active?: SortOrderInput | SortOrder
+    type?: SortOrderInput | SortOrder
+    wmts_url_template?: SortOrderInput | SortOrder
+    wmts_subdomains?: SortOrderInput | SortOrder
+    wms_base_url?: SortOrderInput | SortOrder
+    wms_format?: SortOrderInput | SortOrder
+    wms_layer?: SortOrderInput | SortOrder
+    wms_parameters?: SortOrderInput | SortOrder
+    wms_styles?: SortOrderInput | SortOrder
+    wms_transparent?: SortOrderInput | SortOrder
+    wms_version?: SortOrderInput | SortOrder
+    wms_info_format?: SortOrderInput | SortOrder
+    wms_legend?: SortOrderInput | SortOrder
+    max_zoom?: SortOrderInput | SortOrder
+    min_zoom?: SortOrderInput | SortOrder
+    opacity_percent?: SortOrderInput | SortOrder
+    grayscale?: SortOrderInput | SortOrder
+    local_data_size?: SortOrderInput | SortOrder
+    local_data_bounds?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    _count?: Tile_layersCountOrderByAggregateInput
+    _avg?: Tile_layersAvgOrderByAggregateInput
+    _max?: Tile_layersMaxOrderByAggregateInput
+    _min?: Tile_layersMinOrderByAggregateInput
+    _sum?: Tile_layersSumOrderByAggregateInput
+  }
+
+  export type Tile_layersScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<Tile_layersScalarWhereWithAggregatesInput>
+    OR?: Enumerable<Tile_layersScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<Tile_layersScalarWhereWithAggregatesInput>
+    tile_layer_id?: UuidWithAggregatesFilter<"Tile_layers"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"Tile_layers"> | string | null
+    project_id?: UuidWithAggregatesFilter<"Tile_layers"> | string
+    label?: StringNullableWithAggregatesFilter<"Tile_layers"> | string | null
+    sort?: IntNullableWithAggregatesFilter<"Tile_layers"> | number | null
+    active?: BoolNullableWithAggregatesFilter<"Tile_layers"> | boolean | null
+    type?: Enumtile_layer_type_enumNullableWithAggregatesFilter<"Tile_layers"> | tile_layer_type_enum | null
+    wmts_url_template?: StringNullableWithAggregatesFilter<"Tile_layers"> | string | null
+    wmts_subdomains?: JsonNullableWithAggregatesFilter<"Tile_layers">
+    wms_base_url?: StringNullableWithAggregatesFilter<"Tile_layers"> | string | null
+    wms_format?: JsonNullableWithAggregatesFilter<"Tile_layers">
+    wms_layer?: JsonNullableWithAggregatesFilter<"Tile_layers">
+    wms_parameters?: JsonNullableWithAggregatesFilter<"Tile_layers">
+    wms_styles?: JsonNullableWithAggregatesFilter<"Tile_layers">
+    wms_transparent?: BoolNullableWithAggregatesFilter<"Tile_layers"> | boolean | null
+    wms_version?: StringNullableWithAggregatesFilter<"Tile_layers"> | string | null
+    wms_info_format?: JsonNullableWithAggregatesFilter<"Tile_layers">
+    wms_legend?: JsonNullableWithAggregatesFilter<"Tile_layers">
+    max_zoom?: IntNullableWithAggregatesFilter<"Tile_layers"> | number | null
+    min_zoom?: IntNullableWithAggregatesFilter<"Tile_layers"> | number | null
+    opacity_percent?: IntNullableWithAggregatesFilter<"Tile_layers"> | number | null
+    grayscale?: BoolNullableWithAggregatesFilter<"Tile_layers"> | boolean | null
+    local_data_size?: IntNullableWithAggregatesFilter<"Tile_layers"> | number | null
+    local_data_bounds?: JsonNullableWithAggregatesFilter<"Tile_layers">
+    deleted?: BoolNullableWithAggregatesFilter<"Tile_layers"> | boolean | null
   }
 
   export type Ui_optionsWhereInput = {
@@ -36100,6 +37654,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -36131,6 +37686,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -36162,6 +37718,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -36193,6 +37750,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -37337,6 +38895,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
@@ -37376,6 +38935,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
@@ -37415,6 +38975,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
@@ -37454,6 +39015,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
@@ -37938,6 +39500,200 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     obsolete?: NullableBoolFieldUpdateOperationsInput | boolean | null
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Tile_layersCreateInput = {
+    tile_layer_id: string
+    label?: string | null
+    sort?: number | null
+    active?: boolean | null
+    type?: tile_layer_type_enum | null
+    wmts_url_template?: string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: boolean | null
+    wms_version?: string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: number | null
+    min_zoom?: number | null
+    opacity_percent?: number | null
+    grayscale?: boolean | null
+    local_data_size?: number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutTile_layersInput
+    projects: ProjectsCreateNestedOneWithoutTile_layersInput
+  }
+
+  export type Tile_layersUncheckedCreateInput = {
+    tile_layer_id: string
+    account_id?: string | null
+    project_id: string
+    label?: string | null
+    sort?: number | null
+    active?: boolean | null
+    type?: tile_layer_type_enum | null
+    wmts_url_template?: string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: boolean | null
+    wms_version?: string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: number | null
+    min_zoom?: number | null
+    opacity_percent?: number | null
+    grayscale?: boolean | null
+    local_data_size?: number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+  }
+
+  export type Tile_layersUpdateInput = {
+    tile_layer_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    type?: NullableEnumtile_layer_type_enumFieldUpdateOperationsInput | tile_layer_type_enum | null
+    wmts_url_template?: NullableStringFieldUpdateOperationsInput | string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    wms_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    opacity_percent?: NullableIntFieldUpdateOperationsInput | number | null
+    grayscale?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutTile_layersNestedInput
+    projects?: ProjectsUpdateOneRequiredWithoutTile_layersNestedInput
+  }
+
+  export type Tile_layersUncheckedUpdateInput = {
+    tile_layer_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    type?: NullableEnumtile_layer_type_enumFieldUpdateOperationsInput | tile_layer_type_enum | null
+    wmts_url_template?: NullableStringFieldUpdateOperationsInput | string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    wms_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    opacity_percent?: NullableIntFieldUpdateOperationsInput | number | null
+    grayscale?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Tile_layersCreateManyInput = {
+    tile_layer_id: string
+    account_id?: string | null
+    project_id: string
+    label?: string | null
+    sort?: number | null
+    active?: boolean | null
+    type?: tile_layer_type_enum | null
+    wmts_url_template?: string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: boolean | null
+    wms_version?: string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: number | null
+    min_zoom?: number | null
+    opacity_percent?: number | null
+    grayscale?: boolean | null
+    local_data_size?: number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+  }
+
+  export type Tile_layersUpdateManyMutationInput = {
+    tile_layer_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    type?: NullableEnumtile_layer_type_enumFieldUpdateOperationsInput | tile_layer_type_enum | null
+    wmts_url_template?: NullableStringFieldUpdateOperationsInput | string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    wms_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    opacity_percent?: NullableIntFieldUpdateOperationsInput | number | null
+    grayscale?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Tile_layersUncheckedUpdateManyInput = {
+    tile_layer_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    type?: NullableEnumtile_layer_type_enumFieldUpdateOperationsInput | tile_layer_type_enum | null
+    wmts_url_template?: NullableStringFieldUpdateOperationsInput | string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    wms_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    opacity_percent?: NullableIntFieldUpdateOperationsInput | number | null
+    grayscale?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
@@ -38633,6 +40389,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     none?: TaxonomiesWhereInput
   }
 
+  export type Tile_layersListRelationFilter = {
+    every?: Tile_layersWhereInput
+    some?: Tile_layersWhereInput
+    none?: Tile_layersWhereInput
+  }
+
   export type Ui_optionsListRelationFilter = {
     every?: Ui_optionsWhereInput
     some?: Ui_optionsWhereInput
@@ -38725,6 +40487,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type TaxonomiesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type Tile_layersOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -39791,6 +41557,112 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedEnumtaxonomy_typeNullableFilter<$PrismaModel>
   }
 
+  export type Enumtile_layer_type_enumNullableFilter<$PrismaModel = never> = {
+    equals?: tile_layer_type_enum | Enumtile_layer_type_enumFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<tile_layer_type_enum> | ListEnumtile_layer_type_enumFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<tile_layer_type_enum> | ListEnumtile_layer_type_enumFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumtile_layer_type_enumNullableFilter<$PrismaModel> | tile_layer_type_enum | null
+  }
+
+  export type ProjectsRelationFilter = {
+    is?: ProjectsWhereInput
+    isNot?: ProjectsWhereInput
+  }
+
+  export type Tile_layersCountOrderByAggregateInput = {
+    tile_layer_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    label?: SortOrder
+    sort?: SortOrder
+    active?: SortOrder
+    type?: SortOrder
+    wmts_url_template?: SortOrder
+    wmts_subdomains?: SortOrder
+    wms_base_url?: SortOrder
+    wms_format?: SortOrder
+    wms_layer?: SortOrder
+    wms_parameters?: SortOrder
+    wms_styles?: SortOrder
+    wms_transparent?: SortOrder
+    wms_version?: SortOrder
+    wms_info_format?: SortOrder
+    wms_legend?: SortOrder
+    max_zoom?: SortOrder
+    min_zoom?: SortOrder
+    opacity_percent?: SortOrder
+    grayscale?: SortOrder
+    local_data_size?: SortOrder
+    local_data_bounds?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Tile_layersAvgOrderByAggregateInput = {
+    sort?: SortOrder
+    max_zoom?: SortOrder
+    min_zoom?: SortOrder
+    opacity_percent?: SortOrder
+    local_data_size?: SortOrder
+  }
+
+  export type Tile_layersMaxOrderByAggregateInput = {
+    tile_layer_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    label?: SortOrder
+    sort?: SortOrder
+    active?: SortOrder
+    type?: SortOrder
+    wmts_url_template?: SortOrder
+    wms_base_url?: SortOrder
+    wms_transparent?: SortOrder
+    wms_version?: SortOrder
+    max_zoom?: SortOrder
+    min_zoom?: SortOrder
+    opacity_percent?: SortOrder
+    grayscale?: SortOrder
+    local_data_size?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Tile_layersMinOrderByAggregateInput = {
+    tile_layer_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    label?: SortOrder
+    sort?: SortOrder
+    active?: SortOrder
+    type?: SortOrder
+    wmts_url_template?: SortOrder
+    wms_base_url?: SortOrder
+    wms_transparent?: SortOrder
+    wms_version?: SortOrder
+    max_zoom?: SortOrder
+    min_zoom?: SortOrder
+    opacity_percent?: SortOrder
+    grayscale?: SortOrder
+    local_data_size?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Tile_layersSumOrderByAggregateInput = {
+    sort?: SortOrder
+    max_zoom?: SortOrder
+    min_zoom?: SortOrder
+    opacity_percent?: SortOrder
+    local_data_size?: SortOrder
+  }
+
+  export type Enumtile_layer_type_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: tile_layer_type_enum | Enumtile_layer_type_enumFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<tile_layer_type_enum> | ListEnumtile_layer_type_enumFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<tile_layer_type_enum> | ListEnumtile_layer_type_enumFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumtile_layer_type_enumNullableWithAggregatesFilter<$PrismaModel> | tile_layer_type_enum | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumtile_layer_type_enumNullableFilter<$PrismaModel>
+    _max?: NestedEnumtile_layer_type_enumNullableFilter<$PrismaModel>
+  }
+
   export type UsersRelationFilter = {
     is?: UsersWhereInput
     isNot?: UsersWhereInput
@@ -40204,6 +42076,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<TaxonomiesWhereUniqueInput>
   }
 
+  export type Tile_layersCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Tile_layersCreateWithoutAccountsInput>, Enumerable<Tile_layersUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Tile_layersCreateOrConnectWithoutAccountsInput>
+    createMany?: Tile_layersCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Tile_layersWhereUniqueInput>
+  }
+
   export type Ui_optionsCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<Ui_optionsCreateWithoutAccountsInput>, Enumerable<Ui_optionsUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<Ui_optionsCreateOrConnectWithoutAccountsInput>
@@ -40349,6 +42228,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<TaxonomiesCreateOrConnectWithoutAccountsInput>
     createMany?: TaxonomiesCreateManyAccountsInputEnvelope
     connect?: Enumerable<TaxonomiesWhereUniqueInput>
+  }
+
+  export type Tile_layersUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Tile_layersCreateWithoutAccountsInput>, Enumerable<Tile_layersUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Tile_layersCreateOrConnectWithoutAccountsInput>
+    createMany?: Tile_layersCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Tile_layersWhereUniqueInput>
   }
 
   export type Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput = {
@@ -40646,6 +42532,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<TaxonomiesScalarWhereInput>
   }
 
+  export type Tile_layersUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Tile_layersCreateWithoutAccountsInput>, Enumerable<Tile_layersUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Tile_layersCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Tile_layersUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Tile_layersCreateManyAccountsInputEnvelope
+    set?: Enumerable<Tile_layersWhereUniqueInput>
+    disconnect?: Enumerable<Tile_layersWhereUniqueInput>
+    delete?: Enumerable<Tile_layersWhereUniqueInput>
+    connect?: Enumerable<Tile_layersWhereUniqueInput>
+    update?: Enumerable<Tile_layersUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Tile_layersUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Tile_layersScalarWhereInput>
+  }
+
   export type Ui_optionsUpdateManyWithoutAccountsNestedInput = {
     create?: XOR<Enumerable<Ui_optionsCreateWithoutAccountsInput>, Enumerable<Ui_optionsUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<Ui_optionsCreateOrConnectWithoutAccountsInput>
@@ -40938,6 +42838,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<TaxonomiesUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<TaxonomiesUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<TaxonomiesScalarWhereInput>
+  }
+
+  export type Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Tile_layersCreateWithoutAccountsInput>, Enumerable<Tile_layersUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Tile_layersCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Tile_layersUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Tile_layersCreateManyAccountsInputEnvelope
+    set?: Enumerable<Tile_layersWhereUniqueInput>
+    disconnect?: Enumerable<Tile_layersWhereUniqueInput>
+    delete?: Enumerable<Tile_layersWhereUniqueInput>
+    connect?: Enumerable<Tile_layersWhereUniqueInput>
+    update?: Enumerable<Tile_layersUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Tile_layersUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Tile_layersScalarWhereInput>
   }
 
   export type Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput = {
@@ -41782,6 +43696,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<TaxonomiesWhereUniqueInput>
   }
 
+  export type Tile_layersCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<Tile_layersCreateWithoutProjectsInput>, Enumerable<Tile_layersUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Tile_layersCreateOrConnectWithoutProjectsInput>
+    createMany?: Tile_layersCreateManyProjectsInputEnvelope
+    connect?: Enumerable<Tile_layersWhereUniqueInput>
+  }
+
   export type UnitsCreateNestedManyWithoutProjectsInput = {
     create?: XOR<Enumerable<UnitsCreateWithoutProjectsInput>, Enumerable<UnitsUncheckedCreateWithoutProjectsInput>>
     connectOrCreate?: Enumerable<UnitsCreateOrConnectWithoutProjectsInput>
@@ -41857,6 +43778,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<TaxonomiesCreateOrConnectWithoutProjectsInput>
     createMany?: TaxonomiesCreateManyProjectsInputEnvelope
     connect?: Enumerable<TaxonomiesWhereUniqueInput>
+  }
+
+  export type Tile_layersUncheckedCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<Tile_layersCreateWithoutProjectsInput>, Enumerable<Tile_layersUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Tile_layersCreateOrConnectWithoutProjectsInput>
+    createMany?: Tile_layersCreateManyProjectsInputEnvelope
+    connect?: Enumerable<Tile_layersWhereUniqueInput>
   }
 
   export type UnitsUncheckedCreateNestedManyWithoutProjectsInput = {
@@ -42020,6 +43948,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<TaxonomiesScalarWhereInput>
   }
 
+  export type Tile_layersUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<Tile_layersCreateWithoutProjectsInput>, Enumerable<Tile_layersUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Tile_layersCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<Tile_layersUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: Tile_layersCreateManyProjectsInputEnvelope
+    set?: Enumerable<Tile_layersWhereUniqueInput>
+    disconnect?: Enumerable<Tile_layersWhereUniqueInput>
+    delete?: Enumerable<Tile_layersWhereUniqueInput>
+    connect?: Enumerable<Tile_layersWhereUniqueInput>
+    update?: Enumerable<Tile_layersUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<Tile_layersUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<Tile_layersScalarWhereInput>
+  }
+
   export type UnitsUpdateManyWithoutProjectsNestedInput = {
     create?: XOR<Enumerable<UnitsCreateWithoutProjectsInput>, Enumerable<UnitsUncheckedCreateWithoutProjectsInput>>
     connectOrCreate?: Enumerable<UnitsCreateOrConnectWithoutProjectsInput>
@@ -42172,6 +44114,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<TaxonomiesUpdateWithWhereUniqueWithoutProjectsInput>
     updateMany?: Enumerable<TaxonomiesUpdateManyWithWhereWithoutProjectsInput>
     deleteMany?: Enumerable<TaxonomiesScalarWhereInput>
+  }
+
+  export type Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<Tile_layersCreateWithoutProjectsInput>, Enumerable<Tile_layersUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Tile_layersCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<Tile_layersUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: Tile_layersCreateManyProjectsInputEnvelope
+    set?: Enumerable<Tile_layersWhereUniqueInput>
+    disconnect?: Enumerable<Tile_layersWhereUniqueInput>
+    delete?: Enumerable<Tile_layersWhereUniqueInput>
+    connect?: Enumerable<Tile_layersWhereUniqueInput>
+    update?: Enumerable<Tile_layersUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<Tile_layersUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<Tile_layersScalarWhereInput>
   }
 
   export type UnitsUncheckedUpdateManyWithoutProjectsNestedInput = {
@@ -42676,6 +44632,40 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<TaxaUpdateWithWhereUniqueWithoutTaxonomiesInput>
     updateMany?: Enumerable<TaxaUpdateManyWithWhereWithoutTaxonomiesInput>
     deleteMany?: Enumerable<TaxaScalarWhereInput>
+  }
+
+  export type AccountsCreateNestedOneWithoutTile_layersInput = {
+    create?: XOR<AccountsCreateWithoutTile_layersInput, AccountsUncheckedCreateWithoutTile_layersInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutTile_layersInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type ProjectsCreateNestedOneWithoutTile_layersInput = {
+    create?: XOR<ProjectsCreateWithoutTile_layersInput, ProjectsUncheckedCreateWithoutTile_layersInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutTile_layersInput
+    connect?: ProjectsWhereUniqueInput
+  }
+
+  export type NullableEnumtile_layer_type_enumFieldUpdateOperationsInput = {
+    set?: tile_layer_type_enum | null
+  }
+
+  export type AccountsUpdateOneWithoutTile_layersNestedInput = {
+    create?: XOR<AccountsCreateWithoutTile_layersInput, AccountsUncheckedCreateWithoutTile_layersInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutTile_layersInput
+    upsert?: AccountsUpsertWithoutTile_layersInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutTile_layersInput, AccountsUpdateWithoutTile_layersInput>, AccountsUncheckedUpdateWithoutTile_layersInput>
+  }
+
+  export type ProjectsUpdateOneRequiredWithoutTile_layersNestedInput = {
+    create?: XOR<ProjectsCreateWithoutTile_layersInput, ProjectsUncheckedCreateWithoutTile_layersInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutTile_layersInput
+    upsert?: ProjectsUpsertWithoutTile_layersInput
+    connect?: ProjectsWhereUniqueInput
+    update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutTile_layersInput, ProjectsUpdateWithoutTile_layersInput>, ProjectsUncheckedUpdateWithoutTile_layersInput>
   }
 
   export type AccountsCreateNestedOneWithoutUi_optionsInput = {
@@ -43395,6 +45385,23 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedEnumtaxonomy_typeNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumtile_layer_type_enumNullableFilter<$PrismaModel = never> = {
+    equals?: tile_layer_type_enum | Enumtile_layer_type_enumFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<tile_layer_type_enum> | ListEnumtile_layer_type_enumFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<tile_layer_type_enum> | ListEnumtile_layer_type_enumFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumtile_layer_type_enumNullableFilter<$PrismaModel> | tile_layer_type_enum | null
+  }
+
+  export type NestedEnumtile_layer_type_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: tile_layer_type_enum | Enumtile_layer_type_enumFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<tile_layer_type_enum> | ListEnumtile_layer_type_enumFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<tile_layer_type_enum> | ListEnumtile_layer_type_enumFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumtile_layer_type_enumNullableWithAggregatesFilter<$PrismaModel> | tile_layer_type_enum | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumtile_layer_type_enumNullableFilter<$PrismaModel>
+    _max?: NestedEnumtile_layer_type_enumNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumunit_typeNullableFilter<$PrismaModel = never> = {
     equals?: unit_type | Enumunit_typeFieldRefInput<$PrismaModel> | null
     in?: Enumerable<unit_type> | ListEnumunit_typeFieldRefInput<$PrismaModel> | null
@@ -43856,6 +45863,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
@@ -43894,6 +45902,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
@@ -44068,6 +46077,70 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type TaxonomiesCreateManyAccountsInputEnvelope = {
     data: Enumerable<TaxonomiesCreateManyAccountsInput>
+    skipDuplicates?: boolean
+  }
+
+  export type Tile_layersCreateWithoutAccountsInput = {
+    tile_layer_id: string
+    label?: string | null
+    sort?: number | null
+    active?: boolean | null
+    type?: tile_layer_type_enum | null
+    wmts_url_template?: string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: boolean | null
+    wms_version?: string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: number | null
+    min_zoom?: number | null
+    opacity_percent?: number | null
+    grayscale?: boolean | null
+    local_data_size?: number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+    projects: ProjectsCreateNestedOneWithoutTile_layersInput
+  }
+
+  export type Tile_layersUncheckedCreateWithoutAccountsInput = {
+    tile_layer_id: string
+    project_id: string
+    label?: string | null
+    sort?: number | null
+    active?: boolean | null
+    type?: tile_layer_type_enum | null
+    wmts_url_template?: string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: boolean | null
+    wms_version?: string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: number | null
+    min_zoom?: number | null
+    opacity_percent?: number | null
+    grayscale?: boolean | null
+    local_data_size?: number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+  }
+
+  export type Tile_layersCreateOrConnectWithoutAccountsInput = {
+    where: Tile_layersWhereUniqueInput
+    create: XOR<Tile_layersCreateWithoutAccountsInput, Tile_layersUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Tile_layersCreateManyAccountsInputEnvelope = {
+    data: Enumerable<Tile_layersCreateManyAccountsInput>
     skipDuplicates?: boolean
   }
 
@@ -44789,6 +46862,53 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableFilter<"Taxonomies"> | boolean | null
   }
 
+  export type Tile_layersUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: Tile_layersWhereUniqueInput
+    update: XOR<Tile_layersUpdateWithoutAccountsInput, Tile_layersUncheckedUpdateWithoutAccountsInput>
+    create: XOR<Tile_layersCreateWithoutAccountsInput, Tile_layersUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Tile_layersUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: Tile_layersWhereUniqueInput
+    data: XOR<Tile_layersUpdateWithoutAccountsInput, Tile_layersUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type Tile_layersUpdateManyWithWhereWithoutAccountsInput = {
+    where: Tile_layersScalarWhereInput
+    data: XOR<Tile_layersUpdateManyMutationInput, Tile_layersUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type Tile_layersScalarWhereInput = {
+    AND?: Enumerable<Tile_layersScalarWhereInput>
+    OR?: Enumerable<Tile_layersScalarWhereInput>
+    NOT?: Enumerable<Tile_layersScalarWhereInput>
+    tile_layer_id?: UuidFilter<"Tile_layers"> | string
+    account_id?: UuidNullableFilter<"Tile_layers"> | string | null
+    project_id?: UuidFilter<"Tile_layers"> | string
+    label?: StringNullableFilter<"Tile_layers"> | string | null
+    sort?: IntNullableFilter<"Tile_layers"> | number | null
+    active?: BoolNullableFilter<"Tile_layers"> | boolean | null
+    type?: Enumtile_layer_type_enumNullableFilter<"Tile_layers"> | tile_layer_type_enum | null
+    wmts_url_template?: StringNullableFilter<"Tile_layers"> | string | null
+    wmts_subdomains?: JsonNullableFilter<"Tile_layers">
+    wms_base_url?: StringNullableFilter<"Tile_layers"> | string | null
+    wms_format?: JsonNullableFilter<"Tile_layers">
+    wms_layer?: JsonNullableFilter<"Tile_layers">
+    wms_parameters?: JsonNullableFilter<"Tile_layers">
+    wms_styles?: JsonNullableFilter<"Tile_layers">
+    wms_transparent?: BoolNullableFilter<"Tile_layers"> | boolean | null
+    wms_version?: StringNullableFilter<"Tile_layers"> | string | null
+    wms_info_format?: JsonNullableFilter<"Tile_layers">
+    wms_legend?: JsonNullableFilter<"Tile_layers">
+    max_zoom?: IntNullableFilter<"Tile_layers"> | number | null
+    min_zoom?: IntNullableFilter<"Tile_layers"> | number | null
+    opacity_percent?: IntNullableFilter<"Tile_layers"> | number | null
+    grayscale?: BoolNullableFilter<"Tile_layers"> | boolean | null
+    local_data_size?: IntNullableFilter<"Tile_layers"> | number | null
+    local_data_bounds?: JsonNullableFilter<"Tile_layers">
+    deleted?: BoolNullableFilter<"Tile_layers"> | boolean | null
+  }
+
   export type Ui_optionsUpsertWithWhereUniqueWithoutAccountsInput = {
     where: Ui_optionsWhereUniqueInput
     update: XOR<Ui_optionsUpdateWithoutAccountsInput, Ui_optionsUncheckedUpdateWithoutAccountsInput>
@@ -44969,6 +47089,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -44999,6 +47120,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -45044,6 +47166,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
@@ -45082,6 +47205,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
@@ -45163,6 +47287,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -45193,6 +47318,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -45244,6 +47370,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
@@ -45282,6 +47409,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
@@ -45353,6 +47481,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -45383,6 +47512,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -45428,6 +47558,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
@@ -45466,6 +47597,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
@@ -45547,6 +47679,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -45577,6 +47710,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -45628,6 +47762,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
@@ -45666,6 +47801,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
@@ -45737,6 +47873,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -45767,6 +47904,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -45812,6 +47950,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
@@ -45850,6 +47989,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
@@ -45894,6 +48034,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -45924,6 +48065,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -45975,6 +48117,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
@@ -46013,6 +48156,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
@@ -46041,6 +48185,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -46071,6 +48216,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -46185,6 +48331,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -46215,6 +48362,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -46357,6 +48505,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -46387,6 +48536,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -46476,6 +48626,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -46506,6 +48657,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -46597,6 +48749,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -46627,6 +48780,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -46726,6 +48880,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -46756,6 +48911,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -46829,6 +48985,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -46859,6 +49016,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -46934,6 +49092,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -46964,6 +49123,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -47057,6 +49217,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -47087,6 +49248,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -47132,6 +49294,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
@@ -47170,6 +49333,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
@@ -47280,6 +49444,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -47310,6 +49475,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -47361,6 +49527,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
@@ -47399,6 +49566,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
@@ -47485,6 +49653,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -47515,6 +49684,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -47560,6 +49730,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
@@ -47598,6 +49769,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
@@ -47642,6 +49814,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -47672,6 +49845,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -47723,6 +49897,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
@@ -47761,6 +49936,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
@@ -47789,6 +49965,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -47819,6 +49996,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -47864,6 +50042,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
@@ -47902,6 +50081,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
@@ -47946,6 +50126,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -47976,6 +50157,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -48027,6 +50209,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
@@ -48065,6 +50248,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
@@ -48093,6 +50277,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -48123,6 +50308,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -48168,6 +50354,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
@@ -48206,6 +50393,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
@@ -48250,6 +50438,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -48280,6 +50469,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -48331,6 +50521,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
@@ -48369,6 +50560,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
@@ -48397,6 +50589,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -48427,6 +50620,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -48472,6 +50666,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
@@ -48510,6 +50705,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
@@ -48583,6 +50779,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -48613,6 +50810,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -48664,6 +50862,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
@@ -48702,6 +50901,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
@@ -49025,6 +51225,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -49055,6 +51256,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -49140,6 +51342,70 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type TaxonomiesCreateManyProjectsInputEnvelope = {
     data: Enumerable<TaxonomiesCreateManyProjectsInput>
+    skipDuplicates?: boolean
+  }
+
+  export type Tile_layersCreateWithoutProjectsInput = {
+    tile_layer_id: string
+    label?: string | null
+    sort?: number | null
+    active?: boolean | null
+    type?: tile_layer_type_enum | null
+    wmts_url_template?: string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: boolean | null
+    wms_version?: string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: number | null
+    min_zoom?: number | null
+    opacity_percent?: number | null
+    grayscale?: boolean | null
+    local_data_size?: number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutTile_layersInput
+  }
+
+  export type Tile_layersUncheckedCreateWithoutProjectsInput = {
+    tile_layer_id: string
+    account_id?: string | null
+    label?: string | null
+    sort?: number | null
+    active?: boolean | null
+    type?: tile_layer_type_enum | null
+    wmts_url_template?: string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: boolean | null
+    wms_version?: string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: number | null
+    min_zoom?: number | null
+    opacity_percent?: number | null
+    grayscale?: boolean | null
+    local_data_size?: number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+  }
+
+  export type Tile_layersCreateOrConnectWithoutProjectsInput = {
+    where: Tile_layersWhereUniqueInput
+    create: XOR<Tile_layersCreateWithoutProjectsInput, Tile_layersUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type Tile_layersCreateManyProjectsInputEnvelope = {
+    data: Enumerable<Tile_layersCreateManyProjectsInput>
     skipDuplicates?: boolean
   }
 
@@ -49357,6 +51623,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -49387,6 +51654,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -49422,6 +51690,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type TaxonomiesUpdateManyWithWhereWithoutProjectsInput = {
     where: TaxonomiesScalarWhereInput
     data: XOR<TaxonomiesUpdateManyMutationInput, TaxonomiesUncheckedUpdateManyWithoutProjectsInput>
+  }
+
+  export type Tile_layersUpsertWithWhereUniqueWithoutProjectsInput = {
+    where: Tile_layersWhereUniqueInput
+    update: XOR<Tile_layersUpdateWithoutProjectsInput, Tile_layersUncheckedUpdateWithoutProjectsInput>
+    create: XOR<Tile_layersCreateWithoutProjectsInput, Tile_layersUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type Tile_layersUpdateWithWhereUniqueWithoutProjectsInput = {
+    where: Tile_layersWhereUniqueInput
+    data: XOR<Tile_layersUpdateWithoutProjectsInput, Tile_layersUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type Tile_layersUpdateManyWithWhereWithoutProjectsInput = {
+    where: Tile_layersScalarWhereInput
+    data: XOR<Tile_layersUpdateManyMutationInput, Tile_layersUncheckedUpdateManyWithoutProjectsInput>
   }
 
   export type UnitsUpsertWithWhereUniqueWithoutProjectsInput = {
@@ -49465,6 +51749,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -49495,6 +51780,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -49605,6 +51891,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -49635,6 +51922,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -49741,6 +52029,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -49771,6 +52060,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -49883,6 +52173,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -49913,6 +52204,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -50173,6 +52465,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subproject_users?: Subproject_usersCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -50203,6 +52496,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -50248,6 +52542,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
@@ -50286,6 +52581,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
@@ -50410,6 +52706,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subproject_users?: Subproject_usersUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -50440,6 +52737,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subproject_users?: Subproject_usersUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -50491,6 +52789,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
@@ -50529,6 +52828,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
@@ -50583,6 +52883,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subproject_users?: Subproject_usersCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -50613,6 +52914,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -50706,6 +53008,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subproject_users?: Subproject_usersUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -50736,6 +53039,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subproject_users?: Subproject_usersUncheckedUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -50835,6 +53139,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subproject_users?: Subproject_usersCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -50865,6 +53170,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -50910,6 +53216,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
@@ -50948,6 +53255,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
@@ -51008,6 +53316,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subproject_users?: Subproject_usersUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -51038,6 +53347,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subproject_users?: Subproject_usersUncheckedUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -51089,6 +53399,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
@@ -51127,6 +53438,319 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type AccountsCreateWithoutTile_layersInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
+    goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesCreateNestedManyWithoutAccountsInput
+    lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutTile_layersInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutTile_layersInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutTile_layersInput, AccountsUncheckedCreateWithoutTile_layersInput>
+  }
+
+  export type ProjectsCreateWithoutTile_layersInput = {
+    project_id: string
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
+    lists?: ListsCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutProjectsInput
+    persons?: PersonsCreateNestedManyWithoutProjectsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
+    project_users?: Project_usersCreateNestedManyWithoutProjectsInput
+    accounts?: AccountsCreateNestedOneWithoutProjectsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    units?: UnitsCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectsUncheckedCreateWithoutTile_layersInput = {
+    project_id: string
+    account_id?: string | null
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectsCreateOrConnectWithoutTile_layersInput = {
+    where: ProjectsWhereUniqueInput
+    create: XOR<ProjectsCreateWithoutTile_layersInput, ProjectsUncheckedCreateWithoutTile_layersInput>
+  }
+
+  export type AccountsUpsertWithoutTile_layersInput = {
+    update: XOR<AccountsUpdateWithoutTile_layersInput, AccountsUncheckedUpdateWithoutTile_layersInput>
+    create: XOR<AccountsCreateWithoutTile_layersInput, AccountsUncheckedCreateWithoutTile_layersInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutTile_layersInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutTile_layersInput, AccountsUncheckedUpdateWithoutTile_layersInput>
+  }
+
+  export type AccountsUpdateWithoutTile_layersInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
+    goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutTile_layersInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type ProjectsUpsertWithoutTile_layersInput = {
+    update: XOR<ProjectsUpdateWithoutTile_layersInput, ProjectsUncheckedUpdateWithoutTile_layersInput>
+    create: XOR<ProjectsCreateWithoutTile_layersInput, ProjectsUncheckedCreateWithoutTile_layersInput>
+    where?: ProjectsWhereInput
+  }
+
+  export type ProjectsUpdateToOneWithWhereWithoutTile_layersInput = {
+    where?: ProjectsWhereInput
+    data: XOR<ProjectsUpdateWithoutTile_layersInput, ProjectsUncheckedUpdateWithoutTile_layersInput>
+  }
+
+  export type ProjectsUpdateWithoutTile_layersInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
+    lists?: ListsUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutProjectsNestedInput
+    persons?: PersonsUpdateManyWithoutProjectsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
+    project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
+    accounts?: AccountsUpdateOneWithoutProjectsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type ProjectsUncheckedUpdateWithoutTile_layersInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
@@ -51156,6 +53780,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
@@ -51186,6 +53811,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
@@ -51261,6 +53887,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
@@ -51291,6 +53918,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
@@ -51388,6 +54016,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
@@ -51418,6 +54047,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
@@ -51492,6 +54122,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutUnitsInput = {
@@ -51530,6 +54161,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutUnitsInput = {
@@ -51590,6 +54222,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
@@ -51620,6 +54253,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
@@ -51706,6 +54340,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutUnitsInput = {
@@ -51744,6 +54379,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type AccountsCreateWithoutUser_messagesInput = {
@@ -51772,6 +54408,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
   }
@@ -51802,6 +54439,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
   }
@@ -51896,6 +54534,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
   }
@@ -51926,6 +54565,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
   }
@@ -52015,6 +54655,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -52045,6 +54686,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -52654,6 +55296,33 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
   }
 
+  export type Tile_layersCreateManyAccountsInput = {
+    tile_layer_id: string
+    project_id: string
+    label?: string | null
+    sort?: number | null
+    active?: boolean | null
+    type?: tile_layer_type_enum | null
+    wmts_url_template?: string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: boolean | null
+    wms_version?: string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: number | null
+    min_zoom?: number | null
+    opacity_percent?: number | null
+    grayscale?: boolean | null
+    local_data_size?: number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+  }
+
   export type Ui_optionsCreateManyAccountsInput = {
     user_id: string
     designing?: boolean | null
@@ -53119,6 +55788,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
@@ -53157,6 +55827,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
@@ -53348,6 +56019,87 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     obsolete?: NullableBoolFieldUpdateOperationsInput | boolean | null
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Tile_layersUpdateWithoutAccountsInput = {
+    tile_layer_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    type?: NullableEnumtile_layer_type_enumFieldUpdateOperationsInput | tile_layer_type_enum | null
+    wmts_url_template?: NullableStringFieldUpdateOperationsInput | string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    wms_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    opacity_percent?: NullableIntFieldUpdateOperationsInput | number | null
+    grayscale?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    projects?: ProjectsUpdateOneRequiredWithoutTile_layersNestedInput
+  }
+
+  export type Tile_layersUncheckedUpdateWithoutAccountsInput = {
+    tile_layer_id?: StringFieldUpdateOperationsInput | string
+    project_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    type?: NullableEnumtile_layer_type_enumFieldUpdateOperationsInput | tile_layer_type_enum | null
+    wmts_url_template?: NullableStringFieldUpdateOperationsInput | string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    wms_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    opacity_percent?: NullableIntFieldUpdateOperationsInput | number | null
+    grayscale?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Tile_layersUncheckedUpdateManyWithoutAccountsInput = {
+    tile_layer_id?: StringFieldUpdateOperationsInput | string
+    project_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    type?: NullableEnumtile_layer_type_enumFieldUpdateOperationsInput | tile_layer_type_enum | null
+    wmts_url_template?: NullableStringFieldUpdateOperationsInput | string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    wms_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    opacity_percent?: NullableIntFieldUpdateOperationsInput | number | null
+    grayscale?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
@@ -53848,6 +56600,33 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
   }
 
+  export type Tile_layersCreateManyProjectsInput = {
+    tile_layer_id: string
+    account_id?: string | null
+    label?: string | null
+    sort?: number | null
+    active?: boolean | null
+    type?: tile_layer_type_enum | null
+    wmts_url_template?: string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: boolean | null
+    wms_version?: string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: number | null
+    min_zoom?: number | null
+    opacity_percent?: number | null
+    grayscale?: boolean | null
+    local_data_size?: number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+  }
+
   export type UnitsCreateManyProjectsInput = {
     unit_id: string
     account_id?: string | null
@@ -54213,6 +56992,87 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     obsolete?: NullableBoolFieldUpdateOperationsInput | boolean | null
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Tile_layersUpdateWithoutProjectsInput = {
+    tile_layer_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    type?: NullableEnumtile_layer_type_enumFieldUpdateOperationsInput | tile_layer_type_enum | null
+    wmts_url_template?: NullableStringFieldUpdateOperationsInput | string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    wms_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    opacity_percent?: NullableIntFieldUpdateOperationsInput | number | null
+    grayscale?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutTile_layersNestedInput
+  }
+
+  export type Tile_layersUncheckedUpdateWithoutProjectsInput = {
+    tile_layer_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    type?: NullableEnumtile_layer_type_enumFieldUpdateOperationsInput | tile_layer_type_enum | null
+    wmts_url_template?: NullableStringFieldUpdateOperationsInput | string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    wms_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    opacity_percent?: NullableIntFieldUpdateOperationsInput | number | null
+    grayscale?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Tile_layersUncheckedUpdateManyWithoutProjectsInput = {
+    tile_layer_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    type?: NullableEnumtile_layer_type_enumFieldUpdateOperationsInput | tile_layer_type_enum | null
+    wmts_url_template?: NullableStringFieldUpdateOperationsInput | string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    wms_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    opacity_percent?: NullableIntFieldUpdateOperationsInput | number | null
+    grayscale?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
@@ -54655,6 +57515,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -54685,6 +57546,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
