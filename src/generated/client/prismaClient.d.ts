@@ -732,6 +732,66 @@ export type Users = {
 }
 
 /**
+ * Model Vector_layers
+ * 
+ */
+export type Vector_layers = {
+  /**
+   * @zod.string.uuid()
+   */
+  vector_layer_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  project_id: string
+  label: string | null
+  type: vector_layer_type_enum | null
+  display_by_property_field: string | null
+  /**
+   * @zod.number.int().gte(-32768).lte(32767)
+   */
+  sort: number | null
+  active: boolean | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  max_zoom: number | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  min_zoom: number | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  max_features: number | null
+  wfs_url: string | null
+  wfs_layer: Prisma.JsonValue | null
+  wfs_version: string | null
+  wfs_output_format: Prisma.JsonValue | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  feature_count: number | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  point_count: number | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  line_count: number | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  polygon_count: number | null
+  deleted: boolean | null
+}
+
+/**
  * Model Widget_types
  * 
  */
@@ -819,6 +879,22 @@ export const unit_type: {
 };
 
 export type unit_type = (typeof unit_type)[keyof typeof unit_type]
+
+
+export const vector_layer_type_enum: {
+  wfs: 'wfs',
+  upload: 'upload',
+  places1: 'places1',
+  places2: 'places2',
+  actions1: 'actions1',
+  actions2: 'actions2',
+  checks1: 'checks1',
+  checks2: 'checks2',
+  observations1: 'observations1',
+  observations2: 'observations2'
+};
+
+export type vector_layer_type_enum = (typeof vector_layer_type_enum)[keyof typeof vector_layer_type_enum]
 
 
 /**
@@ -1197,6 +1273,16 @@ export class PrismaClient<
     * ```
     */
   get users(): Prisma.UsersDelegate<GlobalReject>;
+
+  /**
+   * `prisma.vector_layers`: Exposes CRUD operations for the **Vector_layers** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Vector_layers
+    * const vector_layers = await prisma.vector_layers.findMany()
+    * ```
+    */
+  get vector_layers(): Prisma.Vector_layersDelegate<GlobalReject>;
 
   /**
    * `prisma.widget_types`: Exposes CRUD operations for the **Widget_types** model.
@@ -1727,6 +1813,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     Units: 'Units',
     User_messages: 'User_messages',
     Users: 'Users',
+    Vector_layers: 'Vector_layers',
     Widget_types: 'Widget_types',
     Widgets_for_fields: 'Widgets_for_fields'
   };
@@ -1921,6 +2008,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options: number
     units: number
     user_messages: number
+    vector_layers: number
   }
 
   export type AccountsCountOutputTypeSelect = {
@@ -1946,6 +2034,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: boolean | AccountsCountOutputTypeCountUi_optionsArgs
     units?: boolean | AccountsCountOutputTypeCountUnitsArgs
     user_messages?: boolean | AccountsCountOutputTypeCountUser_messagesArgs
+    vector_layers?: boolean | AccountsCountOutputTypeCountVector_layersArgs
   }
 
   export type AccountsCountOutputTypeGetPayload<S extends boolean | null | undefined | AccountsCountOutputTypeArgs> =
@@ -2151,6 +2240,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type AccountsCountOutputTypeCountUser_messagesArgs = {
     where?: User_messagesWhereInput
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountVector_layersArgs = {
+    where?: Vector_layersWhereInput
   }
 
 
@@ -2443,6 +2540,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies: number
     tile_layers: number
     units: number
+    vector_layers: number
   }
 
   export type ProjectsCountOutputTypeSelect = {
@@ -2458,6 +2556,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: boolean | ProjectsCountOutputTypeCountTaxonomiesArgs
     tile_layers?: boolean | ProjectsCountOutputTypeCountTile_layersArgs
     units?: boolean | ProjectsCountOutputTypeCountUnitsArgs
+    vector_layers?: boolean | ProjectsCountOutputTypeCountVector_layersArgs
   }
 
   export type ProjectsCountOutputTypeGetPayload<S extends boolean | null | undefined | ProjectsCountOutputTypeArgs> =
@@ -2583,6 +2682,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type ProjectsCountOutputTypeCountUnitsArgs = {
     where?: UnitsWhereInput
+  }
+
+
+  /**
+   * ProjectsCountOutputType without action
+   */
+  export type ProjectsCountOutputTypeCountVector_layersArgs = {
+    where?: Vector_layersWhereInput
   }
 
 
@@ -3183,6 +3290,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: boolean | Accounts$ui_optionsArgs
     units?: boolean | Accounts$unitsArgs
     user_messages?: boolean | Accounts$user_messagesArgs
+    vector_layers?: boolean | Accounts$vector_layersArgs
     _count?: boolean | AccountsCountOutputTypeArgs
   }
 
@@ -3211,6 +3319,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: boolean | Accounts$ui_optionsArgs
     units?: boolean | Accounts$unitsArgs
     user_messages?: boolean | Accounts$user_messagesArgs
+    vector_layers?: boolean | Accounts$vector_layersArgs
     _count?: boolean | AccountsCountOutputTypeArgs
   } 
 
@@ -3244,6 +3353,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'ui_options' ? Array < Ui_optionsGetPayload<S['include'][P]>>  :
         P extends 'units' ? Array < UnitsGetPayload<S['include'][P]>>  :
         P extends 'user_messages' ? Array < User_messagesGetPayload<S['include'][P]>>  :
+        P extends 'vector_layers' ? Array < Vector_layersGetPayload<S['include'][P]>>  :
         P extends '_count' ? AccountsCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (AccountsArgs | AccountsFindManyArgs)
@@ -3272,6 +3382,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'ui_options' ? Array < Ui_optionsGetPayload<S['select'][P]>>  :
         P extends 'units' ? Array < UnitsGetPayload<S['select'][P]>>  :
         P extends 'user_messages' ? Array < User_messagesGetPayload<S['select'][P]>>  :
+        P extends 'vector_layers' ? Array < Vector_layersGetPayload<S['select'][P]>>  :
         P extends '_count' ? AccountsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Accounts ? Accounts[P] : never
   } 
       : Accounts
@@ -3691,6 +3802,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units<T extends Accounts$unitsArgs= {}>(args?: Subset<T, Accounts$unitsArgs>): PrismaPromise<Array<UnitsGetPayload<T>>| Null>;
 
     user_messages<T extends Accounts$user_messagesArgs= {}>(args?: Subset<T, Accounts$user_messagesArgs>): PrismaPromise<Array<User_messagesGetPayload<T>>| Null>;
+
+    vector_layers<T extends Accounts$vector_layersArgs= {}>(args?: Subset<T, Accounts$vector_layersArgs>): PrismaPromise<Array<Vector_layersGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -4616,6 +4729,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<User_messagesScalarFieldEnum>
+  }
+
+
+  /**
+   * Accounts.vector_layers
+   */
+  export type Accounts$vector_layersArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layers
+     * 
+    **/
+    select?: Vector_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layersInclude | null
+    where?: Vector_layersWhereInput
+    orderBy?: Enumerable<Vector_layersOrderByWithRelationInput>
+    cursor?: Vector_layersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Vector_layersScalarFieldEnum>
   }
 
 
@@ -20065,6 +20201,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: boolean | Projects$taxonomiesArgs
     tile_layers?: boolean | Projects$tile_layersArgs
     units?: boolean | Projects$unitsArgs
+    vector_layers?: boolean | Projects$vector_layersArgs
     _count?: boolean | ProjectsCountOutputTypeArgs
   }
 
@@ -20083,6 +20220,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: boolean | Projects$taxonomiesArgs
     tile_layers?: boolean | Projects$tile_layersArgs
     units?: boolean | Projects$unitsArgs
+    vector_layers?: boolean | Projects$vector_layersArgs
     _count?: boolean | ProjectsCountOutputTypeArgs
   } 
 
@@ -20106,6 +20244,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'taxonomies' ? Array < TaxonomiesGetPayload<S['include'][P]>>  :
         P extends 'tile_layers' ? Array < Tile_layersGetPayload<S['include'][P]>>  :
         P extends 'units' ? Array < UnitsGetPayload<S['include'][P]>>  :
+        P extends 'vector_layers' ? Array < Vector_layersGetPayload<S['include'][P]>>  :
         P extends '_count' ? ProjectsCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (ProjectsArgs | ProjectsFindManyArgs)
@@ -20124,6 +20263,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'taxonomies' ? Array < TaxonomiesGetPayload<S['select'][P]>>  :
         P extends 'tile_layers' ? Array < Tile_layersGetPayload<S['select'][P]>>  :
         P extends 'units' ? Array < UnitsGetPayload<S['select'][P]>>  :
+        P extends 'vector_layers' ? Array < Vector_layersGetPayload<S['select'][P]>>  :
         P extends '_count' ? ProjectsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Projects ? Projects[P] : never
   } 
       : Projects
@@ -20523,6 +20663,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     tile_layers<T extends Projects$tile_layersArgs= {}>(args?: Subset<T, Projects$tile_layersArgs>): PrismaPromise<Array<Tile_layersGetPayload<T>>| Null>;
 
     units<T extends Projects$unitsArgs= {}>(args?: Subset<T, Projects$unitsArgs>): PrismaPromise<Array<UnitsGetPayload<T>>| Null>;
+
+    vector_layers<T extends Projects$vector_layersArgs= {}>(args?: Subset<T, Projects$vector_layersArgs>): PrismaPromise<Array<Vector_layersGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -21218,6 +21360,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<UnitsScalarFieldEnum>
+  }
+
+
+  /**
+   * Projects.vector_layers
+   */
+  export type Projects$vector_layersArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layers
+     * 
+    **/
+    select?: Vector_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layersInclude | null
+    where?: Vector_layersWhereInput
+    orderBy?: Enumerable<Vector_layersOrderByWithRelationInput>
+    cursor?: Vector_layersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Vector_layersScalarFieldEnum>
   }
 
 
@@ -32478,6 +32643,1192 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Model Vector_layers
+   */
+
+
+  export type AggregateVector_layers = {
+    _count: Vector_layersCountAggregateOutputType | null
+    _avg: Vector_layersAvgAggregateOutputType | null
+    _sum: Vector_layersSumAggregateOutputType | null
+    _min: Vector_layersMinAggregateOutputType | null
+    _max: Vector_layersMaxAggregateOutputType | null
+  }
+
+  export type Vector_layersAvgAggregateOutputType = {
+    sort: number | null
+    max_zoom: number | null
+    min_zoom: number | null
+    max_features: number | null
+    feature_count: number | null
+    point_count: number | null
+    line_count: number | null
+    polygon_count: number | null
+  }
+
+  export type Vector_layersSumAggregateOutputType = {
+    sort: number | null
+    max_zoom: number | null
+    min_zoom: number | null
+    max_features: number | null
+    feature_count: number | null
+    point_count: number | null
+    line_count: number | null
+    polygon_count: number | null
+  }
+
+  export type Vector_layersMinAggregateOutputType = {
+    vector_layer_id: string | null
+    account_id: string | null
+    project_id: string | null
+    label: string | null
+    type: vector_layer_type_enum | null
+    display_by_property_field: string | null
+    sort: number | null
+    active: boolean | null
+    max_zoom: number | null
+    min_zoom: number | null
+    max_features: number | null
+    wfs_url: string | null
+    wfs_version: string | null
+    feature_count: number | null
+    point_count: number | null
+    line_count: number | null
+    polygon_count: number | null
+    deleted: boolean | null
+  }
+
+  export type Vector_layersMaxAggregateOutputType = {
+    vector_layer_id: string | null
+    account_id: string | null
+    project_id: string | null
+    label: string | null
+    type: vector_layer_type_enum | null
+    display_by_property_field: string | null
+    sort: number | null
+    active: boolean | null
+    max_zoom: number | null
+    min_zoom: number | null
+    max_features: number | null
+    wfs_url: string | null
+    wfs_version: string | null
+    feature_count: number | null
+    point_count: number | null
+    line_count: number | null
+    polygon_count: number | null
+    deleted: boolean | null
+  }
+
+  export type Vector_layersCountAggregateOutputType = {
+    vector_layer_id: number
+    account_id: number
+    project_id: number
+    label: number
+    type: number
+    display_by_property_field: number
+    sort: number
+    active: number
+    max_zoom: number
+    min_zoom: number
+    max_features: number
+    wfs_url: number
+    wfs_layer: number
+    wfs_version: number
+    wfs_output_format: number
+    feature_count: number
+    point_count: number
+    line_count: number
+    polygon_count: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type Vector_layersAvgAggregateInputType = {
+    sort?: true
+    max_zoom?: true
+    min_zoom?: true
+    max_features?: true
+    feature_count?: true
+    point_count?: true
+    line_count?: true
+    polygon_count?: true
+  }
+
+  export type Vector_layersSumAggregateInputType = {
+    sort?: true
+    max_zoom?: true
+    min_zoom?: true
+    max_features?: true
+    feature_count?: true
+    point_count?: true
+    line_count?: true
+    polygon_count?: true
+  }
+
+  export type Vector_layersMinAggregateInputType = {
+    vector_layer_id?: true
+    account_id?: true
+    project_id?: true
+    label?: true
+    type?: true
+    display_by_property_field?: true
+    sort?: true
+    active?: true
+    max_zoom?: true
+    min_zoom?: true
+    max_features?: true
+    wfs_url?: true
+    wfs_version?: true
+    feature_count?: true
+    point_count?: true
+    line_count?: true
+    polygon_count?: true
+    deleted?: true
+  }
+
+  export type Vector_layersMaxAggregateInputType = {
+    vector_layer_id?: true
+    account_id?: true
+    project_id?: true
+    label?: true
+    type?: true
+    display_by_property_field?: true
+    sort?: true
+    active?: true
+    max_zoom?: true
+    min_zoom?: true
+    max_features?: true
+    wfs_url?: true
+    wfs_version?: true
+    feature_count?: true
+    point_count?: true
+    line_count?: true
+    polygon_count?: true
+    deleted?: true
+  }
+
+  export type Vector_layersCountAggregateInputType = {
+    vector_layer_id?: true
+    account_id?: true
+    project_id?: true
+    label?: true
+    type?: true
+    display_by_property_field?: true
+    sort?: true
+    active?: true
+    max_zoom?: true
+    min_zoom?: true
+    max_features?: true
+    wfs_url?: true
+    wfs_layer?: true
+    wfs_version?: true
+    wfs_output_format?: true
+    feature_count?: true
+    point_count?: true
+    line_count?: true
+    polygon_count?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type Vector_layersAggregateArgs = {
+    /**
+     * Filter which Vector_layers to aggregate.
+     * 
+    **/
+    where?: Vector_layersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vector_layers to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Vector_layersOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: Vector_layersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vector_layers from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vector_layers.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Vector_layers
+    **/
+    _count?: true | Vector_layersCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Vector_layersAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Vector_layersSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Vector_layersMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Vector_layersMaxAggregateInputType
+  }
+
+  export type GetVector_layersAggregateType<T extends Vector_layersAggregateArgs> = {
+        [P in keyof T & keyof AggregateVector_layers]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVector_layers[P]>
+      : GetScalarType<T[P], AggregateVector_layers[P]>
+  }
+
+
+
+
+  export type Vector_layersGroupByArgs = {
+    where?: Vector_layersWhereInput
+    orderBy?: Enumerable<Vector_layersOrderByWithAggregationInput>
+    by: Array<Vector_layersScalarFieldEnum>
+    having?: Vector_layersScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Vector_layersCountAggregateInputType | true
+    _avg?: Vector_layersAvgAggregateInputType
+    _sum?: Vector_layersSumAggregateInputType
+    _min?: Vector_layersMinAggregateInputType
+    _max?: Vector_layersMaxAggregateInputType
+  }
+
+
+  export type Vector_layersGroupByOutputType = {
+    vector_layer_id: string
+    account_id: string | null
+    project_id: string
+    label: string | null
+    type: vector_layer_type_enum | null
+    display_by_property_field: string | null
+    sort: number | null
+    active: boolean | null
+    max_zoom: number | null
+    min_zoom: number | null
+    max_features: number | null
+    wfs_url: string | null
+    wfs_layer: JsonValue | null
+    wfs_version: string | null
+    wfs_output_format: JsonValue | null
+    feature_count: number | null
+    point_count: number | null
+    line_count: number | null
+    polygon_count: number | null
+    deleted: boolean | null
+    _count: Vector_layersCountAggregateOutputType | null
+    _avg: Vector_layersAvgAggregateOutputType | null
+    _sum: Vector_layersSumAggregateOutputType | null
+    _min: Vector_layersMinAggregateOutputType | null
+    _max: Vector_layersMaxAggregateOutputType | null
+  }
+
+  type GetVector_layersGroupByPayload<T extends Vector_layersGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Vector_layersGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Vector_layersGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Vector_layersGroupByOutputType[P]>
+            : GetScalarType<T[P], Vector_layersGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Vector_layersSelect = {
+    vector_layer_id?: boolean
+    account_id?: boolean
+    project_id?: boolean
+    label?: boolean
+    type?: boolean
+    display_by_property_field?: boolean
+    sort?: boolean
+    active?: boolean
+    max_zoom?: boolean
+    min_zoom?: boolean
+    max_features?: boolean
+    wfs_url?: boolean
+    wfs_layer?: boolean
+    wfs_version?: boolean
+    wfs_output_format?: boolean
+    feature_count?: boolean
+    point_count?: boolean
+    line_count?: boolean
+    polygon_count?: boolean
+    deleted?: boolean
+    accounts?: boolean | Vector_layers$accountsArgs
+    projects?: boolean | ProjectsArgs
+  }
+
+
+  export type Vector_layersInclude = {
+    accounts?: boolean | Vector_layers$accountsArgs
+    projects?: boolean | ProjectsArgs
+  } 
+
+  export type Vector_layersGetPayload<S extends boolean | null | undefined | Vector_layersArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Vector_layers :
+    S extends undefined ? never :
+    S extends { include: any } & (Vector_layersArgs | Vector_layersFindManyArgs)
+    ? Vector_layers  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (Vector_layersArgs | Vector_layersFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> :  P extends keyof Vector_layers ? Vector_layers[P] : never
+  } 
+      : Vector_layers
+
+
+  type Vector_layersCountArgs = Merge<
+    Omit<Vector_layersFindManyArgs, 'select' | 'include'> & {
+      select?: Vector_layersCountAggregateInputType | true
+    }
+  >
+
+  export interface Vector_layersDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Vector_layers that matches the filter.
+     * @param {Vector_layersFindUniqueArgs} args - Arguments to find a Vector_layers
+     * @example
+     * // Get one Vector_layers
+     * const vector_layers = await prisma.vector_layers.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends Vector_layersFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Vector_layersFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Vector_layers'> extends True ? Prisma__Vector_layersClient<Vector_layersGetPayload<T>> : Prisma__Vector_layersClient<Vector_layersGetPayload<T> | null, null>
+
+    /**
+     * Find one Vector_layers that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {Vector_layersFindUniqueOrThrowArgs} args - Arguments to find a Vector_layers
+     * @example
+     * // Get one Vector_layers
+     * const vector_layers = await prisma.vector_layers.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends Vector_layersFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, Vector_layersFindUniqueOrThrowArgs>
+    ): Prisma__Vector_layersClient<Vector_layersGetPayload<T>>
+
+    /**
+     * Find the first Vector_layers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Vector_layersFindFirstArgs} args - Arguments to find a Vector_layers
+     * @example
+     * // Get one Vector_layers
+     * const vector_layers = await prisma.vector_layers.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends Vector_layersFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Vector_layersFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Vector_layers'> extends True ? Prisma__Vector_layersClient<Vector_layersGetPayload<T>> : Prisma__Vector_layersClient<Vector_layersGetPayload<T> | null, null>
+
+    /**
+     * Find the first Vector_layers that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Vector_layersFindFirstOrThrowArgs} args - Arguments to find a Vector_layers
+     * @example
+     * // Get one Vector_layers
+     * const vector_layers = await prisma.vector_layers.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends Vector_layersFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, Vector_layersFindFirstOrThrowArgs>
+    ): Prisma__Vector_layersClient<Vector_layersGetPayload<T>>
+
+    /**
+     * Find zero or more Vector_layers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Vector_layersFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Vector_layers
+     * const vector_layers = await prisma.vector_layers.findMany()
+     * 
+     * // Get first 10 Vector_layers
+     * const vector_layers = await prisma.vector_layers.findMany({ take: 10 })
+     * 
+     * // Only select the `vector_layer_id`
+     * const vector_layersWithVector_layer_idOnly = await prisma.vector_layers.findMany({ select: { vector_layer_id: true } })
+     * 
+    **/
+    findMany<T extends Vector_layersFindManyArgs>(
+      args?: SelectSubset<T, Vector_layersFindManyArgs>
+    ): PrismaPromise<Array<Vector_layersGetPayload<T>>>
+
+    /**
+     * Create a Vector_layers.
+     * @param {Vector_layersCreateArgs} args - Arguments to create a Vector_layers.
+     * @example
+     * // Create one Vector_layers
+     * const Vector_layers = await prisma.vector_layers.create({
+     *   data: {
+     *     // ... data to create a Vector_layers
+     *   }
+     * })
+     * 
+    **/
+    create<T extends Vector_layersCreateArgs>(
+      args: SelectSubset<T, Vector_layersCreateArgs>
+    ): Prisma__Vector_layersClient<Vector_layersGetPayload<T>>
+
+    /**
+     * Create many Vector_layers.
+     *     @param {Vector_layersCreateManyArgs} args - Arguments to create many Vector_layers.
+     *     @example
+     *     // Create many Vector_layers
+     *     const vector_layers = await prisma.vector_layers.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends Vector_layersCreateManyArgs>(
+      args?: SelectSubset<T, Vector_layersCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Vector_layers.
+     * @param {Vector_layersDeleteArgs} args - Arguments to delete one Vector_layers.
+     * @example
+     * // Delete one Vector_layers
+     * const Vector_layers = await prisma.vector_layers.delete({
+     *   where: {
+     *     // ... filter to delete one Vector_layers
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends Vector_layersDeleteArgs>(
+      args: SelectSubset<T, Vector_layersDeleteArgs>
+    ): Prisma__Vector_layersClient<Vector_layersGetPayload<T>>
+
+    /**
+     * Update one Vector_layers.
+     * @param {Vector_layersUpdateArgs} args - Arguments to update one Vector_layers.
+     * @example
+     * // Update one Vector_layers
+     * const vector_layers = await prisma.vector_layers.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends Vector_layersUpdateArgs>(
+      args: SelectSubset<T, Vector_layersUpdateArgs>
+    ): Prisma__Vector_layersClient<Vector_layersGetPayload<T>>
+
+    /**
+     * Delete zero or more Vector_layers.
+     * @param {Vector_layersDeleteManyArgs} args - Arguments to filter Vector_layers to delete.
+     * @example
+     * // Delete a few Vector_layers
+     * const { count } = await prisma.vector_layers.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends Vector_layersDeleteManyArgs>(
+      args?: SelectSubset<T, Vector_layersDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Vector_layers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Vector_layersUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Vector_layers
+     * const vector_layers = await prisma.vector_layers.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends Vector_layersUpdateManyArgs>(
+      args: SelectSubset<T, Vector_layersUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Vector_layers.
+     * @param {Vector_layersUpsertArgs} args - Arguments to update or create a Vector_layers.
+     * @example
+     * // Update or create a Vector_layers
+     * const vector_layers = await prisma.vector_layers.upsert({
+     *   create: {
+     *     // ... data to create a Vector_layers
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Vector_layers we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends Vector_layersUpsertArgs>(
+      args: SelectSubset<T, Vector_layersUpsertArgs>
+    ): Prisma__Vector_layersClient<Vector_layersGetPayload<T>>
+
+    /**
+     * Count the number of Vector_layers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Vector_layersCountArgs} args - Arguments to filter Vector_layers to count.
+     * @example
+     * // Count the number of Vector_layers
+     * const count = await prisma.vector_layers.count({
+     *   where: {
+     *     // ... the filter for the Vector_layers we want to count
+     *   }
+     * })
+    **/
+    count<T extends Vector_layersCountArgs>(
+      args?: Subset<T, Vector_layersCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Vector_layersCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Vector_layers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Vector_layersAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Vector_layersAggregateArgs>(args: Subset<T, Vector_layersAggregateArgs>): PrismaPromise<GetVector_layersAggregateType<T>>
+
+    /**
+     * Group by Vector_layers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Vector_layersGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Vector_layersGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Vector_layersGroupByArgs['orderBy'] }
+        : { orderBy?: Vector_layersGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Vector_layersGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVector_layersGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Vector_layers.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__Vector_layersClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Vector_layers$accountsArgs= {}>(args?: Subset<T, Vector_layers$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    projects<T extends ProjectsArgs= {}>(args?: Subset<T, ProjectsArgs>): Prisma__ProjectsClient<ProjectsGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Vector_layers base type for findUnique actions
+   */
+  export type Vector_layersFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Vector_layers
+     * 
+    **/
+    select?: Vector_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layersInclude | null
+    /**
+     * Filter, which Vector_layers to fetch.
+     * 
+    **/
+    where: Vector_layersWhereUniqueInput
+  }
+
+  /**
+   * Vector_layers findUnique
+   */
+  export interface Vector_layersFindUniqueArgs extends Vector_layersFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Vector_layers findUniqueOrThrow
+   */
+  export type Vector_layersFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layers
+     * 
+    **/
+    select?: Vector_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layersInclude | null
+    /**
+     * Filter, which Vector_layers to fetch.
+     * 
+    **/
+    where: Vector_layersWhereUniqueInput
+  }
+
+
+  /**
+   * Vector_layers base type for findFirst actions
+   */
+  export type Vector_layersFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Vector_layers
+     * 
+    **/
+    select?: Vector_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layersInclude | null
+    /**
+     * Filter, which Vector_layers to fetch.
+     * 
+    **/
+    where?: Vector_layersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vector_layers to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Vector_layersOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Vector_layers.
+     * 
+    **/
+    cursor?: Vector_layersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vector_layers from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vector_layers.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Vector_layers.
+     * 
+    **/
+    distinct?: Enumerable<Vector_layersScalarFieldEnum>
+  }
+
+  /**
+   * Vector_layers findFirst
+   */
+  export interface Vector_layersFindFirstArgs extends Vector_layersFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Vector_layers findFirstOrThrow
+   */
+  export type Vector_layersFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layers
+     * 
+    **/
+    select?: Vector_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layersInclude | null
+    /**
+     * Filter, which Vector_layers to fetch.
+     * 
+    **/
+    where?: Vector_layersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vector_layers to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Vector_layersOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Vector_layers.
+     * 
+    **/
+    cursor?: Vector_layersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vector_layers from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vector_layers.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Vector_layers.
+     * 
+    **/
+    distinct?: Enumerable<Vector_layersScalarFieldEnum>
+  }
+
+
+  /**
+   * Vector_layers findMany
+   */
+  export type Vector_layersFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layers
+     * 
+    **/
+    select?: Vector_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layersInclude | null
+    /**
+     * Filter, which Vector_layers to fetch.
+     * 
+    **/
+    where?: Vector_layersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vector_layers to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Vector_layersOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Vector_layers.
+     * 
+    **/
+    cursor?: Vector_layersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vector_layers from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vector_layers.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Vector_layersScalarFieldEnum>
+  }
+
+
+  /**
+   * Vector_layers create
+   */
+  export type Vector_layersCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layers
+     * 
+    **/
+    select?: Vector_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layersInclude | null
+    /**
+     * The data needed to create a Vector_layers.
+     * 
+    **/
+    data: XOR<Vector_layersCreateInput, Vector_layersUncheckedCreateInput>
+  }
+
+
+  /**
+   * Vector_layers createMany
+   */
+  export type Vector_layersCreateManyArgs = {
+    /**
+     * The data used to create many Vector_layers.
+     * 
+    **/
+    data: Enumerable<Vector_layersCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Vector_layers update
+   */
+  export type Vector_layersUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layers
+     * 
+    **/
+    select?: Vector_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layersInclude | null
+    /**
+     * The data needed to update a Vector_layers.
+     * 
+    **/
+    data: XOR<Vector_layersUpdateInput, Vector_layersUncheckedUpdateInput>
+    /**
+     * Choose, which Vector_layers to update.
+     * 
+    **/
+    where: Vector_layersWhereUniqueInput
+  }
+
+
+  /**
+   * Vector_layers updateMany
+   */
+  export type Vector_layersUpdateManyArgs = {
+    /**
+     * The data used to update Vector_layers.
+     * 
+    **/
+    data: XOR<Vector_layersUpdateManyMutationInput, Vector_layersUncheckedUpdateManyInput>
+    /**
+     * Filter which Vector_layers to update
+     * 
+    **/
+    where?: Vector_layersWhereInput
+  }
+
+
+  /**
+   * Vector_layers upsert
+   */
+  export type Vector_layersUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layers
+     * 
+    **/
+    select?: Vector_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layersInclude | null
+    /**
+     * The filter to search for the Vector_layers to update in case it exists.
+     * 
+    **/
+    where: Vector_layersWhereUniqueInput
+    /**
+     * In case the Vector_layers found by the `where` argument doesn't exist, create a new Vector_layers with this data.
+     * 
+    **/
+    create: XOR<Vector_layersCreateInput, Vector_layersUncheckedCreateInput>
+    /**
+     * In case the Vector_layers was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<Vector_layersUpdateInput, Vector_layersUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Vector_layers delete
+   */
+  export type Vector_layersDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layers
+     * 
+    **/
+    select?: Vector_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layersInclude | null
+    /**
+     * Filter which Vector_layers to delete.
+     * 
+    **/
+    where: Vector_layersWhereUniqueInput
+  }
+
+
+  /**
+   * Vector_layers deleteMany
+   */
+  export type Vector_layersDeleteManyArgs = {
+    /**
+     * Filter which Vector_layers to delete
+     * 
+    **/
+    where?: Vector_layersWhereInput
+  }
+
+
+  /**
+   * Vector_layers.accounts
+   */
+  export type Vector_layers$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Vector_layers without action
+   */
+  export type Vector_layersArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layers
+     * 
+    **/
+    select?: Vector_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layersInclude | null
+  }
+
+
+
+  /**
    * Model Widget_types
    */
 
@@ -34997,6 +36348,32 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
 
 
+  export const Vector_layersScalarFieldEnum: {
+    vector_layer_id: 'vector_layer_id',
+    account_id: 'account_id',
+    project_id: 'project_id',
+    label: 'label',
+    type: 'type',
+    display_by_property_field: 'display_by_property_field',
+    sort: 'sort',
+    active: 'active',
+    max_zoom: 'max_zoom',
+    min_zoom: 'min_zoom',
+    max_features: 'max_features',
+    wfs_url: 'wfs_url',
+    wfs_layer: 'wfs_layer',
+    wfs_version: 'wfs_version',
+    wfs_output_format: 'wfs_output_format',
+    feature_count: 'feature_count',
+    point_count: 'point_count',
+    line_count: 'line_count',
+    polygon_count: 'polygon_count',
+    deleted: 'deleted'
+  };
+
+  export type Vector_layersScalarFieldEnum = (typeof Vector_layersScalarFieldEnum)[keyof typeof Vector_layersScalarFieldEnum]
+
+
   export const Widget_typesScalarFieldEnum: {
     widget_type_id: 'widget_type_id',
     name: 'name',
@@ -35205,6 +36582,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type ListEnumunit_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'unit_type[]'>
     
+
+
+  /**
+   * Reference to a field of type 'vector_layer_type_enum'
+   */
+  export type Enumvector_layer_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'vector_layer_type_enum'>
+    
+
+
+  /**
+   * Reference to a field of type 'vector_layer_type_enum[]'
+   */
+  export type ListEnumvector_layer_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'vector_layer_type_enum[]'>
+    
   /**
    * Deep Input Types
    */
@@ -35244,6 +36635,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsListRelationFilter
     units?: UnitsListRelationFilter
     user_messages?: User_messagesListRelationFilter
+    vector_layers?: Vector_layersListRelationFilter
   }
 
   export type AccountsOrderByWithRelationInput = {
@@ -35277,6 +36669,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsOrderByRelationAggregateInput
     units?: UnitsOrderByRelationAggregateInput
     user_messages?: User_messagesOrderByRelationAggregateInput
+    vector_layers?: Vector_layersOrderByRelationAggregateInput
   }
 
   export type AccountsWhereUniqueInput = Prisma.AtLeast<{
@@ -35313,6 +36706,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsListRelationFilter
     units?: UnitsListRelationFilter
     user_messages?: User_messagesListRelationFilter
+    vector_layers?: Vector_layersListRelationFilter
   }, "account_id">
 
   export type AccountsOrderByWithAggregationInput = {
@@ -36433,6 +37827,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesListRelationFilter
     tile_layers?: Tile_layersListRelationFilter
     units?: UnitsListRelationFilter
+    vector_layers?: Vector_layersListRelationFilter
   }
 
   export type ProjectsOrderByWithRelationInput = {
@@ -36474,6 +37869,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesOrderByRelationAggregateInput
     tile_layers?: Tile_layersOrderByRelationAggregateInput
     units?: UnitsOrderByRelationAggregateInput
+    vector_layers?: Vector_layersOrderByRelationAggregateInput
   }
 
   export type ProjectsWhereUniqueInput = Prisma.AtLeast<{
@@ -36518,6 +37914,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesListRelationFilter
     tile_layers?: Tile_layersListRelationFilter
     units?: UnitsListRelationFilter
+    vector_layers?: Vector_layersListRelationFilter
   }, "project_id">
 
   export type ProjectsOrderByWithAggregationInput = {
@@ -37503,6 +38900,141 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableWithAggregatesFilter<"Users"> | boolean | null
   }
 
+  export type Vector_layersWhereInput = {
+    AND?: Enumerable<Vector_layersWhereInput>
+    OR?: Enumerable<Vector_layersWhereInput>
+    NOT?: Enumerable<Vector_layersWhereInput>
+    vector_layer_id?: UuidFilter<"Vector_layers"> | string
+    account_id?: UuidNullableFilter<"Vector_layers"> | string | null
+    project_id?: UuidFilter<"Vector_layers"> | string
+    label?: StringNullableFilter<"Vector_layers"> | string | null
+    type?: Enumvector_layer_type_enumNullableFilter<"Vector_layers"> | vector_layer_type_enum | null
+    display_by_property_field?: StringNullableFilter<"Vector_layers"> | string | null
+    sort?: IntNullableFilter<"Vector_layers"> | number | null
+    active?: BoolNullableFilter<"Vector_layers"> | boolean | null
+    max_zoom?: IntNullableFilter<"Vector_layers"> | number | null
+    min_zoom?: IntNullableFilter<"Vector_layers"> | number | null
+    max_features?: IntNullableFilter<"Vector_layers"> | number | null
+    wfs_url?: StringNullableFilter<"Vector_layers"> | string | null
+    wfs_layer?: JsonNullableFilter<"Vector_layers">
+    wfs_version?: StringNullableFilter<"Vector_layers"> | string | null
+    wfs_output_format?: JsonNullableFilter<"Vector_layers">
+    feature_count?: IntNullableFilter<"Vector_layers"> | number | null
+    point_count?: IntNullableFilter<"Vector_layers"> | number | null
+    line_count?: IntNullableFilter<"Vector_layers"> | number | null
+    polygon_count?: IntNullableFilter<"Vector_layers"> | number | null
+    deleted?: BoolNullableFilter<"Vector_layers"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    projects?: XOR<ProjectsRelationFilter, ProjectsWhereInput>
+  }
+
+  export type Vector_layersOrderByWithRelationInput = {
+    vector_layer_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    project_id?: SortOrder
+    label?: SortOrderInput | SortOrder
+    type?: SortOrderInput | SortOrder
+    display_by_property_field?: SortOrderInput | SortOrder
+    sort?: SortOrderInput | SortOrder
+    active?: SortOrderInput | SortOrder
+    max_zoom?: SortOrderInput | SortOrder
+    min_zoom?: SortOrderInput | SortOrder
+    max_features?: SortOrderInput | SortOrder
+    wfs_url?: SortOrderInput | SortOrder
+    wfs_layer?: SortOrderInput | SortOrder
+    wfs_version?: SortOrderInput | SortOrder
+    wfs_output_format?: SortOrderInput | SortOrder
+    feature_count?: SortOrderInput | SortOrder
+    point_count?: SortOrderInput | SortOrder
+    line_count?: SortOrderInput | SortOrder
+    polygon_count?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    projects?: ProjectsOrderByWithRelationInput
+  }
+
+  export type Vector_layersWhereUniqueInput = Prisma.AtLeast<{
+    vector_layer_id?: string
+    AND?: Enumerable<Vector_layersWhereInput>
+    OR?: Enumerable<Vector_layersWhereInput>
+    NOT?: Enumerable<Vector_layersWhereInput>
+    account_id?: UuidNullableFilter<"Vector_layers"> | string | null
+    project_id?: UuidFilter<"Vector_layers"> | string
+    label?: StringNullableFilter<"Vector_layers"> | string | null
+    type?: Enumvector_layer_type_enumNullableFilter<"Vector_layers"> | vector_layer_type_enum | null
+    display_by_property_field?: StringNullableFilter<"Vector_layers"> | string | null
+    sort?: IntNullableFilter<"Vector_layers"> | number | null
+    active?: BoolNullableFilter<"Vector_layers"> | boolean | null
+    max_zoom?: IntNullableFilter<"Vector_layers"> | number | null
+    min_zoom?: IntNullableFilter<"Vector_layers"> | number | null
+    max_features?: IntNullableFilter<"Vector_layers"> | number | null
+    wfs_url?: StringNullableFilter<"Vector_layers"> | string | null
+    wfs_layer?: JsonNullableFilter<"Vector_layers">
+    wfs_version?: StringNullableFilter<"Vector_layers"> | string | null
+    wfs_output_format?: JsonNullableFilter<"Vector_layers">
+    feature_count?: IntNullableFilter<"Vector_layers"> | number | null
+    point_count?: IntNullableFilter<"Vector_layers"> | number | null
+    line_count?: IntNullableFilter<"Vector_layers"> | number | null
+    polygon_count?: IntNullableFilter<"Vector_layers"> | number | null
+    deleted?: BoolNullableFilter<"Vector_layers"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    projects?: XOR<ProjectsRelationFilter, ProjectsWhereInput>
+  }, "vector_layer_id">
+
+  export type Vector_layersOrderByWithAggregationInput = {
+    vector_layer_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    project_id?: SortOrder
+    label?: SortOrderInput | SortOrder
+    type?: SortOrderInput | SortOrder
+    display_by_property_field?: SortOrderInput | SortOrder
+    sort?: SortOrderInput | SortOrder
+    active?: SortOrderInput | SortOrder
+    max_zoom?: SortOrderInput | SortOrder
+    min_zoom?: SortOrderInput | SortOrder
+    max_features?: SortOrderInput | SortOrder
+    wfs_url?: SortOrderInput | SortOrder
+    wfs_layer?: SortOrderInput | SortOrder
+    wfs_version?: SortOrderInput | SortOrder
+    wfs_output_format?: SortOrderInput | SortOrder
+    feature_count?: SortOrderInput | SortOrder
+    point_count?: SortOrderInput | SortOrder
+    line_count?: SortOrderInput | SortOrder
+    polygon_count?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    _count?: Vector_layersCountOrderByAggregateInput
+    _avg?: Vector_layersAvgOrderByAggregateInput
+    _max?: Vector_layersMaxOrderByAggregateInput
+    _min?: Vector_layersMinOrderByAggregateInput
+    _sum?: Vector_layersSumOrderByAggregateInput
+  }
+
+  export type Vector_layersScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<Vector_layersScalarWhereWithAggregatesInput>
+    OR?: Enumerable<Vector_layersScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<Vector_layersScalarWhereWithAggregatesInput>
+    vector_layer_id?: UuidWithAggregatesFilter<"Vector_layers"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"Vector_layers"> | string | null
+    project_id?: UuidWithAggregatesFilter<"Vector_layers"> | string
+    label?: StringNullableWithAggregatesFilter<"Vector_layers"> | string | null
+    type?: Enumvector_layer_type_enumNullableWithAggregatesFilter<"Vector_layers"> | vector_layer_type_enum | null
+    display_by_property_field?: StringNullableWithAggregatesFilter<"Vector_layers"> | string | null
+    sort?: IntNullableWithAggregatesFilter<"Vector_layers"> | number | null
+    active?: BoolNullableWithAggregatesFilter<"Vector_layers"> | boolean | null
+    max_zoom?: IntNullableWithAggregatesFilter<"Vector_layers"> | number | null
+    min_zoom?: IntNullableWithAggregatesFilter<"Vector_layers"> | number | null
+    max_features?: IntNullableWithAggregatesFilter<"Vector_layers"> | number | null
+    wfs_url?: StringNullableWithAggregatesFilter<"Vector_layers"> | string | null
+    wfs_layer?: JsonNullableWithAggregatesFilter<"Vector_layers">
+    wfs_version?: StringNullableWithAggregatesFilter<"Vector_layers"> | string | null
+    wfs_output_format?: JsonNullableWithAggregatesFilter<"Vector_layers">
+    feature_count?: IntNullableWithAggregatesFilter<"Vector_layers"> | number | null
+    point_count?: IntNullableWithAggregatesFilter<"Vector_layers"> | number | null
+    line_count?: IntNullableWithAggregatesFilter<"Vector_layers"> | number | null
+    polygon_count?: IntNullableWithAggregatesFilter<"Vector_layers"> | number | null
+    deleted?: BoolNullableWithAggregatesFilter<"Vector_layers"> | boolean | null
+  }
+
   export type Widget_typesWhereInput = {
     AND?: Enumerable<Widget_typesWhereInput>
     OR?: Enumerable<Widget_typesWhereInput>
@@ -37658,6 +39190,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateInput = {
@@ -37690,6 +39223,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUpdateInput = {
@@ -37722,6 +39256,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateInput = {
@@ -37754,6 +39289,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsCreateManyInput = {
@@ -38897,6 +40433,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateInput = {
@@ -38937,6 +40474,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUpdateInput = {
@@ -38977,6 +40515,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateInput = {
@@ -39017,6 +40556,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsCreateManyInput = {
@@ -40098,6 +41638,165 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Vector_layersCreateInput = {
+    vector_layer_id: string
+    label?: string | null
+    type?: vector_layer_type_enum | null
+    display_by_property_field?: string | null
+    sort?: number | null
+    active?: boolean | null
+    max_zoom?: number | null
+    min_zoom?: number | null
+    max_features?: number | null
+    wfs_url?: string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: number | null
+    point_count?: number | null
+    line_count?: number | null
+    polygon_count?: number | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutVector_layersInput
+    projects: ProjectsCreateNestedOneWithoutVector_layersInput
+  }
+
+  export type Vector_layersUncheckedCreateInput = {
+    vector_layer_id: string
+    account_id?: string | null
+    project_id: string
+    label?: string | null
+    type?: vector_layer_type_enum | null
+    display_by_property_field?: string | null
+    sort?: number | null
+    active?: boolean | null
+    max_zoom?: number | null
+    min_zoom?: number | null
+    max_features?: number | null
+    wfs_url?: string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: number | null
+    point_count?: number | null
+    line_count?: number | null
+    polygon_count?: number | null
+    deleted?: boolean | null
+  }
+
+  export type Vector_layersUpdateInput = {
+    vector_layer_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumvector_layer_type_enumFieldUpdateOperationsInput | vector_layer_type_enum | null
+    display_by_property_field?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    max_features?: NullableIntFieldUpdateOperationsInput | number | null
+    wfs_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: NullableIntFieldUpdateOperationsInput | number | null
+    point_count?: NullableIntFieldUpdateOperationsInput | number | null
+    line_count?: NullableIntFieldUpdateOperationsInput | number | null
+    polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutVector_layersNestedInput
+    projects?: ProjectsUpdateOneRequiredWithoutVector_layersNestedInput
+  }
+
+  export type Vector_layersUncheckedUpdateInput = {
+    vector_layer_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumvector_layer_type_enumFieldUpdateOperationsInput | vector_layer_type_enum | null
+    display_by_property_field?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    max_features?: NullableIntFieldUpdateOperationsInput | number | null
+    wfs_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: NullableIntFieldUpdateOperationsInput | number | null
+    point_count?: NullableIntFieldUpdateOperationsInput | number | null
+    line_count?: NullableIntFieldUpdateOperationsInput | number | null
+    polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Vector_layersCreateManyInput = {
+    vector_layer_id: string
+    account_id?: string | null
+    project_id: string
+    label?: string | null
+    type?: vector_layer_type_enum | null
+    display_by_property_field?: string | null
+    sort?: number | null
+    active?: boolean | null
+    max_zoom?: number | null
+    min_zoom?: number | null
+    max_features?: number | null
+    wfs_url?: string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: number | null
+    point_count?: number | null
+    line_count?: number | null
+    polygon_count?: number | null
+    deleted?: boolean | null
+  }
+
+  export type Vector_layersUpdateManyMutationInput = {
+    vector_layer_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumvector_layer_type_enumFieldUpdateOperationsInput | vector_layer_type_enum | null
+    display_by_property_field?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    max_features?: NullableIntFieldUpdateOperationsInput | number | null
+    wfs_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: NullableIntFieldUpdateOperationsInput | number | null
+    point_count?: NullableIntFieldUpdateOperationsInput | number | null
+    line_count?: NullableIntFieldUpdateOperationsInput | number | null
+    polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Vector_layersUncheckedUpdateManyInput = {
+    vector_layer_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumvector_layer_type_enumFieldUpdateOperationsInput | vector_layer_type_enum | null
+    display_by_property_field?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    max_features?: NullableIntFieldUpdateOperationsInput | number | null
+    wfs_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: NullableIntFieldUpdateOperationsInput | number | null
+    point_count?: NullableIntFieldUpdateOperationsInput | number | null
+    line_count?: NullableIntFieldUpdateOperationsInput | number | null
+    polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type Widget_typesCreateInput = {
     widget_type_id: string
     name?: string | null
@@ -40413,6 +42112,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     none?: User_messagesWhereInput
   }
 
+  export type Vector_layersListRelationFilter = {
+    every?: Vector_layersWhereInput
+    some?: Vector_layersWhereInput
+    none?: Vector_layersWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -40503,6 +42208,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type User_messagesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type Vector_layersOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -41872,6 +43581,110 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: SortOrder
   }
 
+  export type Enumvector_layer_type_enumNullableFilter<$PrismaModel = never> = {
+    equals?: vector_layer_type_enum | Enumvector_layer_type_enumFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<vector_layer_type_enum> | ListEnumvector_layer_type_enumFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<vector_layer_type_enum> | ListEnumvector_layer_type_enumFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumvector_layer_type_enumNullableFilter<$PrismaModel> | vector_layer_type_enum | null
+  }
+
+  export type Vector_layersCountOrderByAggregateInput = {
+    vector_layer_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    label?: SortOrder
+    type?: SortOrder
+    display_by_property_field?: SortOrder
+    sort?: SortOrder
+    active?: SortOrder
+    max_zoom?: SortOrder
+    min_zoom?: SortOrder
+    max_features?: SortOrder
+    wfs_url?: SortOrder
+    wfs_layer?: SortOrder
+    wfs_version?: SortOrder
+    wfs_output_format?: SortOrder
+    feature_count?: SortOrder
+    point_count?: SortOrder
+    line_count?: SortOrder
+    polygon_count?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Vector_layersAvgOrderByAggregateInput = {
+    sort?: SortOrder
+    max_zoom?: SortOrder
+    min_zoom?: SortOrder
+    max_features?: SortOrder
+    feature_count?: SortOrder
+    point_count?: SortOrder
+    line_count?: SortOrder
+    polygon_count?: SortOrder
+  }
+
+  export type Vector_layersMaxOrderByAggregateInput = {
+    vector_layer_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    label?: SortOrder
+    type?: SortOrder
+    display_by_property_field?: SortOrder
+    sort?: SortOrder
+    active?: SortOrder
+    max_zoom?: SortOrder
+    min_zoom?: SortOrder
+    max_features?: SortOrder
+    wfs_url?: SortOrder
+    wfs_version?: SortOrder
+    feature_count?: SortOrder
+    point_count?: SortOrder
+    line_count?: SortOrder
+    polygon_count?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Vector_layersMinOrderByAggregateInput = {
+    vector_layer_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    label?: SortOrder
+    type?: SortOrder
+    display_by_property_field?: SortOrder
+    sort?: SortOrder
+    active?: SortOrder
+    max_zoom?: SortOrder
+    min_zoom?: SortOrder
+    max_features?: SortOrder
+    wfs_url?: SortOrder
+    wfs_version?: SortOrder
+    feature_count?: SortOrder
+    point_count?: SortOrder
+    line_count?: SortOrder
+    polygon_count?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Vector_layersSumOrderByAggregateInput = {
+    sort?: SortOrder
+    max_zoom?: SortOrder
+    min_zoom?: SortOrder
+    max_features?: SortOrder
+    feature_count?: SortOrder
+    point_count?: SortOrder
+    line_count?: SortOrder
+    polygon_count?: SortOrder
+  }
+
+  export type Enumvector_layer_type_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: vector_layer_type_enum | Enumvector_layer_type_enumFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<vector_layer_type_enum> | ListEnumvector_layer_type_enumFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<vector_layer_type_enum> | ListEnumvector_layer_type_enumFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumvector_layer_type_enumNullableWithAggregatesFilter<$PrismaModel> | vector_layer_type_enum | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumvector_layer_type_enumNullableFilter<$PrismaModel>
+    _max?: NestedEnumvector_layer_type_enumNullableFilter<$PrismaModel>
+  }
+
   export type Widget_typesCountOrderByAggregateInput = {
     widget_type_id?: SortOrder
     name?: SortOrder
@@ -42104,6 +43917,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<User_messagesWhereUniqueInput>
   }
 
+  export type Vector_layersCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Vector_layersCreateWithoutAccountsInput>, Enumerable<Vector_layersUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Vector_layersCreateOrConnectWithoutAccountsInput>
+    createMany?: Vector_layersCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Vector_layersWhereUniqueInput>
+  }
+
   export type Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<Gbif_occurrence_downloadsCreateWithoutAccountsInput>, Enumerable<Gbif_occurrence_downloadsUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<Gbif_occurrence_downloadsCreateOrConnectWithoutAccountsInput>
@@ -42256,6 +44076,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutAccountsInput>
     createMany?: User_messagesCreateManyAccountsInputEnvelope
     connect?: Enumerable<User_messagesWhereUniqueInput>
+  }
+
+  export type Vector_layersUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Vector_layersCreateWithoutAccountsInput>, Enumerable<Vector_layersUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Vector_layersCreateOrConnectWithoutAccountsInput>
+    createMany?: Vector_layersCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Vector_layersWhereUniqueInput>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -42588,6 +44415,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<User_messagesScalarWhereInput>
   }
 
+  export type Vector_layersUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Vector_layersCreateWithoutAccountsInput>, Enumerable<Vector_layersUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Vector_layersCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Vector_layersUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Vector_layersCreateManyAccountsInputEnvelope
+    set?: Enumerable<Vector_layersWhereUniqueInput>
+    disconnect?: Enumerable<Vector_layersWhereUniqueInput>
+    delete?: Enumerable<Vector_layersWhereUniqueInput>
+    connect?: Enumerable<Vector_layersWhereUniqueInput>
+    update?: Enumerable<Vector_layersUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Vector_layersUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Vector_layersScalarWhereInput>
+  }
+
   export type Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput = {
     create?: XOR<Enumerable<Gbif_occurrence_downloadsCreateWithoutAccountsInput>, Enumerable<Gbif_occurrence_downloadsUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<Gbif_occurrence_downloadsCreateOrConnectWithoutAccountsInput>
@@ -42894,6 +44735,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<User_messagesUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<User_messagesUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<User_messagesScalarWhereInput>
+  }
+
+  export type Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Vector_layersCreateWithoutAccountsInput>, Enumerable<Vector_layersUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Vector_layersCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Vector_layersUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Vector_layersCreateManyAccountsInputEnvelope
+    set?: Enumerable<Vector_layersWhereUniqueInput>
+    disconnect?: Enumerable<Vector_layersWhereUniqueInput>
+    delete?: Enumerable<Vector_layersWhereUniqueInput>
+    connect?: Enumerable<Vector_layersWhereUniqueInput>
+    update?: Enumerable<Vector_layersUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Vector_layersUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Vector_layersScalarWhereInput>
   }
 
   export type Widgets_for_fieldsCreateNestedManyWithoutField_typesInput = {
@@ -43710,6 +45565,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<UnitsWhereUniqueInput>
   }
 
+  export type Vector_layersCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<Vector_layersCreateWithoutProjectsInput>, Enumerable<Vector_layersUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Vector_layersCreateOrConnectWithoutProjectsInput>
+    createMany?: Vector_layersCreateManyProjectsInputEnvelope
+    connect?: Enumerable<Vector_layersWhereUniqueInput>
+  }
+
   export type Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput = {
     create?: XOR<Enumerable<Gbif_occurrence_downloadsCreateWithoutProjectsInput>, Enumerable<Gbif_occurrence_downloadsUncheckedCreateWithoutProjectsInput>>
     connectOrCreate?: Enumerable<Gbif_occurrence_downloadsCreateOrConnectWithoutProjectsInput>
@@ -43792,6 +45654,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<UnitsCreateOrConnectWithoutProjectsInput>
     createMany?: UnitsCreateManyProjectsInputEnvelope
     connect?: Enumerable<UnitsWhereUniqueInput>
+  }
+
+  export type Vector_layersUncheckedCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<Vector_layersCreateWithoutProjectsInput>, Enumerable<Vector_layersUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Vector_layersCreateOrConnectWithoutProjectsInput>
+    createMany?: Vector_layersCreateManyProjectsInputEnvelope
+    connect?: Enumerable<Vector_layersWhereUniqueInput>
   }
 
   export type NullableEnumproject_typeFieldUpdateOperationsInput = {
@@ -43976,6 +45845,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<UnitsScalarWhereInput>
   }
 
+  export type Vector_layersUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<Vector_layersCreateWithoutProjectsInput>, Enumerable<Vector_layersUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Vector_layersCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<Vector_layersUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: Vector_layersCreateManyProjectsInputEnvelope
+    set?: Enumerable<Vector_layersWhereUniqueInput>
+    disconnect?: Enumerable<Vector_layersWhereUniqueInput>
+    delete?: Enumerable<Vector_layersWhereUniqueInput>
+    connect?: Enumerable<Vector_layersWhereUniqueInput>
+    update?: Enumerable<Vector_layersUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<Vector_layersUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<Vector_layersScalarWhereInput>
+  }
+
   export type Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput = {
     create?: XOR<Enumerable<Gbif_occurrence_downloadsCreateWithoutProjectsInput>, Enumerable<Gbif_occurrence_downloadsUncheckedCreateWithoutProjectsInput>>
     connectOrCreate?: Enumerable<Gbif_occurrence_downloadsCreateOrConnectWithoutProjectsInput>
@@ -44142,6 +46025,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<UnitsUpdateWithWhereUniqueWithoutProjectsInput>
     updateMany?: Enumerable<UnitsUpdateManyWithWhereWithoutProjectsInput>
     deleteMany?: Enumerable<UnitsScalarWhereInput>
+  }
+
+  export type Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<Vector_layersCreateWithoutProjectsInput>, Enumerable<Vector_layersUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Vector_layersCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<Vector_layersUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: Vector_layersCreateManyProjectsInputEnvelope
+    set?: Enumerable<Vector_layersWhereUniqueInput>
+    disconnect?: Enumerable<Vector_layersWhereUniqueInput>
+    delete?: Enumerable<Vector_layersWhereUniqueInput>
+    connect?: Enumerable<Vector_layersWhereUniqueInput>
+    update?: Enumerable<Vector_layersUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<Vector_layersUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<Vector_layersScalarWhereInput>
   }
 
   export type AccountsCreateNestedOneWithoutSubproject_taxaInput = {
@@ -45040,6 +46937,40 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<User_messagesScalarWhereInput>
   }
 
+  export type AccountsCreateNestedOneWithoutVector_layersInput = {
+    create?: XOR<AccountsCreateWithoutVector_layersInput, AccountsUncheckedCreateWithoutVector_layersInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutVector_layersInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type ProjectsCreateNestedOneWithoutVector_layersInput = {
+    create?: XOR<ProjectsCreateWithoutVector_layersInput, ProjectsUncheckedCreateWithoutVector_layersInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutVector_layersInput
+    connect?: ProjectsWhereUniqueInput
+  }
+
+  export type NullableEnumvector_layer_type_enumFieldUpdateOperationsInput = {
+    set?: vector_layer_type_enum | null
+  }
+
+  export type AccountsUpdateOneWithoutVector_layersNestedInput = {
+    create?: XOR<AccountsCreateWithoutVector_layersInput, AccountsUncheckedCreateWithoutVector_layersInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutVector_layersInput
+    upsert?: AccountsUpsertWithoutVector_layersInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutVector_layersInput, AccountsUpdateWithoutVector_layersInput>, AccountsUncheckedUpdateWithoutVector_layersInput>
+  }
+
+  export type ProjectsUpdateOneRequiredWithoutVector_layersNestedInput = {
+    create?: XOR<ProjectsCreateWithoutVector_layersInput, ProjectsUncheckedCreateWithoutVector_layersInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutVector_layersInput
+    upsert?: ProjectsUpsertWithoutVector_layersInput
+    connect?: ProjectsWhereUniqueInput
+    update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutVector_layersInput, ProjectsUpdateWithoutVector_layersInput>, ProjectsUncheckedUpdateWithoutVector_layersInput>
+  }
+
   export type Widgets_for_fieldsCreateNestedManyWithoutWidget_typesInput = {
     create?: XOR<Enumerable<Widgets_for_fieldsCreateWithoutWidget_typesInput>, Enumerable<Widgets_for_fieldsUncheckedCreateWithoutWidget_typesInput>>
     connectOrCreate?: Enumerable<Widgets_for_fieldsCreateOrConnectWithoutWidget_typesInput>
@@ -45417,6 +47348,23 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumunit_typeNullableFilter<$PrismaModel>
     _max?: NestedEnumunit_typeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumvector_layer_type_enumNullableFilter<$PrismaModel = never> = {
+    equals?: vector_layer_type_enum | Enumvector_layer_type_enumFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<vector_layer_type_enum> | ListEnumvector_layer_type_enumFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<vector_layer_type_enum> | ListEnumvector_layer_type_enumFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumvector_layer_type_enumNullableFilter<$PrismaModel> | vector_layer_type_enum | null
+  }
+
+  export type NestedEnumvector_layer_type_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: vector_layer_type_enum | Enumvector_layer_type_enumFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<vector_layer_type_enum> | ListEnumvector_layer_type_enumFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<vector_layer_type_enum> | ListEnumvector_layer_type_enumFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumvector_layer_type_enumNullableWithAggregatesFilter<$PrismaModel> | vector_layer_type_enum | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumvector_layer_type_enumNullableFilter<$PrismaModel>
+    _max?: NestedEnumvector_layer_type_enumNullableFilter<$PrismaModel>
   }
 
   export type UsersCreateWithoutAccountsInput = {
@@ -45865,6 +47813,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutAccountsInput = {
@@ -45904,6 +47853,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutAccountsInput = {
@@ -46261,6 +48211,60 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type User_messagesCreateManyAccountsInputEnvelope = {
     data: Enumerable<User_messagesCreateManyAccountsInput>
+    skipDuplicates?: boolean
+  }
+
+  export type Vector_layersCreateWithoutAccountsInput = {
+    vector_layer_id: string
+    label?: string | null
+    type?: vector_layer_type_enum | null
+    display_by_property_field?: string | null
+    sort?: number | null
+    active?: boolean | null
+    max_zoom?: number | null
+    min_zoom?: number | null
+    max_features?: number | null
+    wfs_url?: string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: number | null
+    point_count?: number | null
+    line_count?: number | null
+    polygon_count?: number | null
+    deleted?: boolean | null
+    projects: ProjectsCreateNestedOneWithoutVector_layersInput
+  }
+
+  export type Vector_layersUncheckedCreateWithoutAccountsInput = {
+    vector_layer_id: string
+    project_id: string
+    label?: string | null
+    type?: vector_layer_type_enum | null
+    display_by_property_field?: string | null
+    sort?: number | null
+    active?: boolean | null
+    max_zoom?: number | null
+    min_zoom?: number | null
+    max_features?: number | null
+    wfs_url?: string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: number | null
+    point_count?: number | null
+    line_count?: number | null
+    polygon_count?: number | null
+    deleted?: boolean | null
+  }
+
+  export type Vector_layersCreateOrConnectWithoutAccountsInput = {
+    where: Vector_layersWhereUniqueInput
+    create: XOR<Vector_layersCreateWithoutAccountsInput, Vector_layersUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Vector_layersCreateManyAccountsInputEnvelope = {
+    data: Enumerable<Vector_layersCreateManyAccountsInput>
     skipDuplicates?: boolean
   }
 
@@ -47013,6 +49017,48 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     read?: BoolNullableFilter<"User_messages"> | boolean | null
   }
 
+  export type Vector_layersUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: Vector_layersWhereUniqueInput
+    update: XOR<Vector_layersUpdateWithoutAccountsInput, Vector_layersUncheckedUpdateWithoutAccountsInput>
+    create: XOR<Vector_layersCreateWithoutAccountsInput, Vector_layersUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Vector_layersUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: Vector_layersWhereUniqueInput
+    data: XOR<Vector_layersUpdateWithoutAccountsInput, Vector_layersUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type Vector_layersUpdateManyWithWhereWithoutAccountsInput = {
+    where: Vector_layersScalarWhereInput
+    data: XOR<Vector_layersUpdateManyMutationInput, Vector_layersUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type Vector_layersScalarWhereInput = {
+    AND?: Enumerable<Vector_layersScalarWhereInput>
+    OR?: Enumerable<Vector_layersScalarWhereInput>
+    NOT?: Enumerable<Vector_layersScalarWhereInput>
+    vector_layer_id?: UuidFilter<"Vector_layers"> | string
+    account_id?: UuidNullableFilter<"Vector_layers"> | string | null
+    project_id?: UuidFilter<"Vector_layers"> | string
+    label?: StringNullableFilter<"Vector_layers"> | string | null
+    type?: Enumvector_layer_type_enumNullableFilter<"Vector_layers"> | vector_layer_type_enum | null
+    display_by_property_field?: StringNullableFilter<"Vector_layers"> | string | null
+    sort?: IntNullableFilter<"Vector_layers"> | number | null
+    active?: BoolNullableFilter<"Vector_layers"> | boolean | null
+    max_zoom?: IntNullableFilter<"Vector_layers"> | number | null
+    min_zoom?: IntNullableFilter<"Vector_layers"> | number | null
+    max_features?: IntNullableFilter<"Vector_layers"> | number | null
+    wfs_url?: StringNullableFilter<"Vector_layers"> | string | null
+    wfs_layer?: JsonNullableFilter<"Vector_layers">
+    wfs_version?: StringNullableFilter<"Vector_layers"> | string | null
+    wfs_output_format?: JsonNullableFilter<"Vector_layers">
+    feature_count?: IntNullableFilter<"Vector_layers"> | number | null
+    point_count?: IntNullableFilter<"Vector_layers"> | number | null
+    line_count?: IntNullableFilter<"Vector_layers"> | number | null
+    polygon_count?: IntNullableFilter<"Vector_layers"> | number | null
+    deleted?: BoolNullableFilter<"Vector_layers"> | boolean | null
+  }
+
   export type Widgets_for_fieldsCreateWithoutField_typesInput = {
     widget_for_field_id: string
     label?: string | null
@@ -47093,6 +49139,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutGbif_occurrence_downloadsInput = {
@@ -47124,6 +49171,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutGbif_occurrence_downloadsInput = {
@@ -47168,6 +49216,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutGbif_occurrence_downloadsInput = {
@@ -47207,6 +49256,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutGbif_occurrence_downloadsInput = {
@@ -47291,6 +49341,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutGbif_occurrence_downloadsInput = {
@@ -47322,6 +49373,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type ProjectsUpsertWithoutGbif_occurrence_downloadsInput = {
@@ -47372,6 +49424,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutGbif_occurrence_downloadsInput = {
@@ -47411,6 +49464,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type SubprojectsUpsertWithoutGbif_occurrence_downloadsInput = {
@@ -47485,6 +49539,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutGbif_occurrencesInput = {
@@ -47516,6 +49571,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutGbif_occurrencesInput = {
@@ -47560,6 +49616,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutGbif_occurrencesInput = {
@@ -47599,6 +49656,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutGbif_occurrencesInput = {
@@ -47683,6 +49741,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutGbif_occurrencesInput = {
@@ -47714,6 +49773,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type ProjectsUpsertWithoutGbif_occurrencesInput = {
@@ -47764,6 +49824,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutGbif_occurrencesInput = {
@@ -47803,6 +49864,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type SubprojectsUpsertWithoutGbif_occurrencesInput = {
@@ -47877,6 +49939,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutGbif_taxaInput = {
@@ -47908,6 +49971,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutGbif_taxaInput = {
@@ -47952,6 +50016,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutGbif_taxaInput = {
@@ -47991,6 +50056,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutGbif_taxaInput = {
@@ -48038,6 +50104,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutGbif_taxaInput = {
@@ -48069,6 +50136,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type ProjectsUpsertWithoutGbif_taxaInput = {
@@ -48119,6 +50187,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutGbif_taxaInput = {
@@ -48158,6 +50227,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type AccountsCreateWithoutGoal_report_valuesInput = {
@@ -48189,6 +50259,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutGoal_report_valuesInput = {
@@ -48220,6 +50291,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutGoal_report_valuesInput = {
@@ -48335,6 +50407,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutGoal_report_valuesInput = {
@@ -48366,6 +50439,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type Goal_reportsUpsertWithoutGoal_report_valuesInput = {
@@ -48509,6 +50583,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutGoal_reportsInput = {
@@ -48540,6 +50615,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutGoal_reportsInput = {
@@ -48630,6 +50706,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutGoal_reportsInput = {
@@ -48661,6 +50738,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type GoalsUpsertWithoutGoal_reportsInput = {
@@ -48753,6 +50831,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutGoalsInput = {
@@ -48784,6 +50863,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutGoalsInput = {
@@ -48884,6 +50964,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutGoalsInput = {
@@ -48915,6 +50996,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type SubprojectsUpsertWithoutGoalsInput = {
@@ -48989,6 +51071,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutList_valuesInput = {
@@ -49020,6 +51103,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutList_valuesInput = {
@@ -49096,6 +51180,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutList_valuesInput = {
@@ -49127,6 +51212,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type ListsUpsertWithoutList_valuesInput = {
@@ -49221,6 +51307,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutListsInput = {
@@ -49252,6 +51339,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutListsInput = {
@@ -49296,6 +51384,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutListsInput = {
@@ -49335,6 +51424,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutListsInput = {
@@ -49448,6 +51538,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutListsInput = {
@@ -49479,6 +51570,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type ProjectsUpsertWithoutListsInput = {
@@ -49529,6 +51621,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutListsInput = {
@@ -49568,6 +51661,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type UnitsUpsertWithWhereUniqueWithoutListsInput = {
@@ -49657,6 +51751,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutObservation_sourcesInput = {
@@ -49688,6 +51783,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutObservation_sourcesInput = {
@@ -49732,6 +51828,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutObservation_sourcesInput = {
@@ -49771,6 +51868,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutObservation_sourcesInput = {
@@ -49818,6 +51916,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutObservation_sourcesInput = {
@@ -49849,6 +51948,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type ProjectsUpsertWithoutObservation_sourcesInput = {
@@ -49899,6 +51999,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutObservation_sourcesInput = {
@@ -49938,6 +52039,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type AccountsCreateWithoutPersonsInput = {
@@ -49969,6 +52071,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutPersonsInput = {
@@ -50000,6 +52103,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutPersonsInput = {
@@ -50044,6 +52148,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutPersonsInput = {
@@ -50083,6 +52188,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutPersonsInput = {
@@ -50130,6 +52236,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutPersonsInput = {
@@ -50161,6 +52268,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type ProjectsUpsertWithoutPersonsInput = {
@@ -50211,6 +52319,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutPersonsInput = {
@@ -50250,6 +52359,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type AccountsCreateWithoutPlace_levelsInput = {
@@ -50281,6 +52391,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutPlace_levelsInput = {
@@ -50312,6 +52423,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutPlace_levelsInput = {
@@ -50356,6 +52468,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutPlace_levelsInput = {
@@ -50395,6 +52508,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutPlace_levelsInput = {
@@ -50442,6 +52556,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutPlace_levelsInput = {
@@ -50473,6 +52588,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type ProjectsUpsertWithoutPlace_levelsInput = {
@@ -50523,6 +52639,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutPlace_levelsInput = {
@@ -50562,6 +52679,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type AccountsCreateWithoutProject_usersInput = {
@@ -50593,6 +52711,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutProject_usersInput = {
@@ -50624,6 +52743,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutProject_usersInput = {
@@ -50668,6 +52788,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutProject_usersInput = {
@@ -50707,6 +52828,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutProject_usersInput = {
@@ -50783,6 +52905,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutProject_usersInput = {
@@ -50814,6 +52937,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type ProjectsUpsertWithoutProject_usersInput = {
@@ -50864,6 +52988,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutProject_usersInput = {
@@ -50903,6 +53028,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type UsersUpsertWithoutProject_usersInput = {
@@ -51229,6 +53355,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutProjectsInput = {
@@ -51260,6 +53387,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutProjectsInput = {
@@ -51459,6 +53587,60 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     skipDuplicates?: boolean
   }
 
+  export type Vector_layersCreateWithoutProjectsInput = {
+    vector_layer_id: string
+    label?: string | null
+    type?: vector_layer_type_enum | null
+    display_by_property_field?: string | null
+    sort?: number | null
+    active?: boolean | null
+    max_zoom?: number | null
+    min_zoom?: number | null
+    max_features?: number | null
+    wfs_url?: string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: number | null
+    point_count?: number | null
+    line_count?: number | null
+    polygon_count?: number | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutVector_layersInput
+  }
+
+  export type Vector_layersUncheckedCreateWithoutProjectsInput = {
+    vector_layer_id: string
+    account_id?: string | null
+    label?: string | null
+    type?: vector_layer_type_enum | null
+    display_by_property_field?: string | null
+    sort?: number | null
+    active?: boolean | null
+    max_zoom?: number | null
+    min_zoom?: number | null
+    max_features?: number | null
+    wfs_url?: string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: number | null
+    point_count?: number | null
+    line_count?: number | null
+    polygon_count?: number | null
+    deleted?: boolean | null
+  }
+
+  export type Vector_layersCreateOrConnectWithoutProjectsInput = {
+    where: Vector_layersWhereUniqueInput
+    create: XOR<Vector_layersCreateWithoutProjectsInput, Vector_layersUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type Vector_layersCreateManyProjectsInputEnvelope = {
+    data: Enumerable<Vector_layersCreateManyProjectsInput>
+    skipDuplicates?: boolean
+  }
+
   export type Gbif_occurrence_downloadsUpsertWithWhereUniqueWithoutProjectsInput = {
     where: Gbif_occurrence_downloadsWhereUniqueInput
     update: XOR<Gbif_occurrence_downloadsUpdateWithoutProjectsInput, Gbif_occurrence_downloadsUncheckedUpdateWithoutProjectsInput>
@@ -51627,6 +53809,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutProjectsInput = {
@@ -51658,6 +53841,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type SubprojectsUpsertWithWhereUniqueWithoutProjectsInput = {
@@ -51724,6 +53908,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data: XOR<UnitsUpdateManyMutationInput, UnitsUncheckedUpdateManyWithoutProjectsInput>
   }
 
+  export type Vector_layersUpsertWithWhereUniqueWithoutProjectsInput = {
+    where: Vector_layersWhereUniqueInput
+    update: XOR<Vector_layersUpdateWithoutProjectsInput, Vector_layersUncheckedUpdateWithoutProjectsInput>
+    create: XOR<Vector_layersCreateWithoutProjectsInput, Vector_layersUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type Vector_layersUpdateWithWhereUniqueWithoutProjectsInput = {
+    where: Vector_layersWhereUniqueInput
+    data: XOR<Vector_layersUpdateWithoutProjectsInput, Vector_layersUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type Vector_layersUpdateManyWithWhereWithoutProjectsInput = {
+    where: Vector_layersScalarWhereInput
+    data: XOR<Vector_layersUpdateManyMutationInput, Vector_layersUncheckedUpdateManyWithoutProjectsInput>
+  }
+
   export type AccountsCreateWithoutSubproject_taxaInput = {
     account_id: string
     type?: string | null
@@ -51753,6 +53953,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutSubproject_taxaInput = {
@@ -51784,6 +53985,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutSubproject_taxaInput = {
@@ -51895,6 +54097,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutSubproject_taxaInput = {
@@ -51926,6 +54129,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type SubprojectsUpsertWithoutSubproject_taxaInput = {
@@ -52033,6 +54237,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutSubproject_usersInput = {
@@ -52064,6 +54269,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutSubproject_usersInput = {
@@ -52177,6 +54383,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutSubproject_usersInput = {
@@ -52208,6 +54415,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type SubprojectsUpsertWithoutSubproject_usersInput = {
@@ -52469,6 +54677,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutSubprojectsInput = {
@@ -52500,6 +54709,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutSubprojectsInput = {
@@ -52544,6 +54754,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutSubprojectsInput = {
@@ -52583,6 +54794,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutSubprojectsInput = {
@@ -52710,6 +54922,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutSubprojectsInput = {
@@ -52741,6 +54954,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type ProjectsUpsertWithoutSubprojectsInput = {
@@ -52791,6 +55005,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutSubprojectsInput = {
@@ -52830,6 +55045,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type Subproject_taxaCreateWithoutTaxaInput = {
@@ -52887,6 +55103,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutTaxaInput = {
@@ -52918,6 +55135,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutTaxaInput = {
@@ -53012,6 +55230,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutTaxaInput = {
@@ -53043,6 +55262,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type TaxonomiesUpsertWithoutTaxaInput = {
@@ -53143,6 +55363,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutTaxonomiesInput = {
@@ -53174,6 +55395,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutTaxonomiesInput = {
@@ -53218,6 +55440,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutTaxonomiesInput = {
@@ -53257,6 +55480,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutTaxonomiesInput = {
@@ -53320,6 +55544,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutTaxonomiesInput = {
@@ -53351,6 +55576,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type ProjectsUpsertWithoutTaxonomiesInput = {
@@ -53401,6 +55627,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutTaxonomiesInput = {
@@ -53440,6 +55667,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type AccountsCreateWithoutTile_layersInput = {
@@ -53471,6 +55699,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutTile_layersInput = {
@@ -53502,6 +55731,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutTile_layersInput = {
@@ -53546,6 +55776,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
     units?: UnitsCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutTile_layersInput = {
@@ -53585,6 +55816,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
     units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutTile_layersInput = {
@@ -53632,6 +55864,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutTile_layersInput = {
@@ -53663,6 +55896,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type ProjectsUpsertWithoutTile_layersInput = {
@@ -53713,6 +55947,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutTile_layersInput = {
@@ -53752,6 +55987,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type AccountsCreateWithoutUi_optionsInput = {
@@ -53783,6 +56019,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutUi_optionsInput = {
@@ -53814,6 +56051,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutUi_optionsInput = {
@@ -53890,6 +56128,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutUi_optionsInput = {
@@ -53921,6 +56160,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type UsersUpsertWithoutUi_optionsInput = {
@@ -54019,6 +56259,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutUnitsInput = {
@@ -54050,6 +56291,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutUnitsInput = {
@@ -54123,6 +56365,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutUnitsInput = {
@@ -54162,6 +56405,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
     tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutUnitsInput = {
@@ -54225,6 +56469,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutUnitsInput = {
@@ -54256,6 +56501,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type ListsUpsertWithoutUnitsInput = {
@@ -54341,6 +56587,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutUnitsInput = {
@@ -54380,6 +56627,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type AccountsCreateWithoutUser_messagesInput = {
@@ -54411,6 +56659,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutUser_messagesInput = {
@@ -54442,6 +56691,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutUser_messagesInput = {
@@ -54537,6 +56787,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutUser_messagesInput = {
@@ -54568,6 +56819,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type MessagesUpsertWithoutUser_messagesInput = {
@@ -54659,6 +56911,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutUsersInput = {
@@ -54690,6 +56943,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutUsersInput = {
@@ -54943,6 +57197,326 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type User_messagesUpdateManyWithWhereWithoutUsersInput = {
     where: User_messagesScalarWhereInput
     data: XOR<User_messagesUpdateManyMutationInput, User_messagesUncheckedUpdateManyWithoutUsersInput>
+  }
+
+  export type AccountsCreateWithoutVector_layersInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
+    goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesCreateNestedManyWithoutAccountsInput
+    lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutVector_layersInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutVector_layersInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutVector_layersInput, AccountsUncheckedCreateWithoutVector_layersInput>
+  }
+
+  export type ProjectsCreateWithoutVector_layersInput = {
+    project_id: string
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
+    lists?: ListsCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutProjectsInput
+    persons?: PersonsCreateNestedManyWithoutProjectsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
+    project_users?: Project_usersCreateNestedManyWithoutProjectsInput
+    accounts?: AccountsCreateNestedOneWithoutProjectsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
+    units?: UnitsCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectsUncheckedCreateWithoutVector_layersInput = {
+    project_id: string
+    account_id?: string | null
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectsCreateOrConnectWithoutVector_layersInput = {
+    where: ProjectsWhereUniqueInput
+    create: XOR<ProjectsCreateWithoutVector_layersInput, ProjectsUncheckedCreateWithoutVector_layersInput>
+  }
+
+  export type AccountsUpsertWithoutVector_layersInput = {
+    update: XOR<AccountsUpdateWithoutVector_layersInput, AccountsUncheckedUpdateWithoutVector_layersInput>
+    create: XOR<AccountsCreateWithoutVector_layersInput, AccountsUncheckedCreateWithoutVector_layersInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutVector_layersInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutVector_layersInput, AccountsUncheckedUpdateWithoutVector_layersInput>
+  }
+
+  export type AccountsUpdateWithoutVector_layersInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
+    goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutVector_layersInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type ProjectsUpsertWithoutVector_layersInput = {
+    update: XOR<ProjectsUpdateWithoutVector_layersInput, ProjectsUncheckedUpdateWithoutVector_layersInput>
+    create: XOR<ProjectsCreateWithoutVector_layersInput, ProjectsUncheckedCreateWithoutVector_layersInput>
+    where?: ProjectsWhereInput
+  }
+
+  export type ProjectsUpdateToOneWithWhereWithoutVector_layersInput = {
+    where?: ProjectsWhereInput
+    data: XOR<ProjectsUpdateWithoutVector_layersInput, ProjectsUncheckedUpdateWithoutVector_layersInput>
+  }
+
+  export type ProjectsUpdateWithoutVector_layersInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
+    lists?: ListsUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutProjectsNestedInput
+    persons?: PersonsUpdateManyWithoutProjectsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
+    project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
+    accounts?: AccountsUpdateOneWithoutProjectsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type ProjectsUncheckedUpdateWithoutVector_layersInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type Widgets_for_fieldsCreateWithoutWidget_typesInput = {
@@ -55365,6 +57939,28 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     message_id?: string | null
     label_replace_by_generated_column?: string | null
     read?: boolean | null
+  }
+
+  export type Vector_layersCreateManyAccountsInput = {
+    vector_layer_id: string
+    project_id: string
+    label?: string | null
+    type?: vector_layer_type_enum | null
+    display_by_property_field?: string | null
+    sort?: number | null
+    active?: boolean | null
+    max_zoom?: number | null
+    min_zoom?: number | null
+    max_features?: number | null
+    wfs_url?: string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: number | null
+    point_count?: number | null
+    line_count?: number | null
+    polygon_count?: number | null
+    deleted?: boolean | null
   }
 
   export type Gbif_occurrence_downloadsUpdateWithoutAccountsInput = {
@@ -55790,6 +58386,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
     units?: UnitsUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutAccountsInput = {
@@ -55829,6 +58426,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
     tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateManyWithoutAccountsInput = {
@@ -56237,6 +58835,72 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     read?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Vector_layersUpdateWithoutAccountsInput = {
+    vector_layer_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumvector_layer_type_enumFieldUpdateOperationsInput | vector_layer_type_enum | null
+    display_by_property_field?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    max_features?: NullableIntFieldUpdateOperationsInput | number | null
+    wfs_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: NullableIntFieldUpdateOperationsInput | number | null
+    point_count?: NullableIntFieldUpdateOperationsInput | number | null
+    line_count?: NullableIntFieldUpdateOperationsInput | number | null
+    polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    projects?: ProjectsUpdateOneRequiredWithoutVector_layersNestedInput
+  }
+
+  export type Vector_layersUncheckedUpdateWithoutAccountsInput = {
+    vector_layer_id?: StringFieldUpdateOperationsInput | string
+    project_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumvector_layer_type_enumFieldUpdateOperationsInput | vector_layer_type_enum | null
+    display_by_property_field?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    max_features?: NullableIntFieldUpdateOperationsInput | number | null
+    wfs_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: NullableIntFieldUpdateOperationsInput | number | null
+    point_count?: NullableIntFieldUpdateOperationsInput | number | null
+    line_count?: NullableIntFieldUpdateOperationsInput | number | null
+    polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Vector_layersUncheckedUpdateManyWithoutAccountsInput = {
+    vector_layer_id?: StringFieldUpdateOperationsInput | string
+    project_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumvector_layer_type_enumFieldUpdateOperationsInput | vector_layer_type_enum | null
+    display_by_property_field?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    max_features?: NullableIntFieldUpdateOperationsInput | number | null
+    wfs_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: NullableIntFieldUpdateOperationsInput | number | null
+    point_count?: NullableIntFieldUpdateOperationsInput | number | null
+    line_count?: NullableIntFieldUpdateOperationsInput | number | null
+    polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type Widgets_for_fieldsCreateManyField_typesInput = {
     widget_for_field_id: string
     widget_type_id?: string | null
@@ -56643,6 +59307,28 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: unit_type | null
     list_id?: string | null
     label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Vector_layersCreateManyProjectsInput = {
+    vector_layer_id: string
+    account_id?: string | null
+    label?: string | null
+    type?: vector_layer_type_enum | null
+    display_by_property_field?: string | null
+    sort?: number | null
+    active?: boolean | null
+    max_zoom?: number | null
+    min_zoom?: number | null
+    max_features?: number | null
+    wfs_url?: string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: number | null
+    point_count?: number | null
+    line_count?: number | null
+    polygon_count?: number | null
     deleted?: boolean | null
   }
 
@@ -57135,6 +59821,72 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Vector_layersUpdateWithoutProjectsInput = {
+    vector_layer_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumvector_layer_type_enumFieldUpdateOperationsInput | vector_layer_type_enum | null
+    display_by_property_field?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    max_features?: NullableIntFieldUpdateOperationsInput | number | null
+    wfs_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: NullableIntFieldUpdateOperationsInput | number | null
+    point_count?: NullableIntFieldUpdateOperationsInput | number | null
+    line_count?: NullableIntFieldUpdateOperationsInput | number | null
+    polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutVector_layersNestedInput
+  }
+
+  export type Vector_layersUncheckedUpdateWithoutProjectsInput = {
+    vector_layer_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumvector_layer_type_enumFieldUpdateOperationsInput | vector_layer_type_enum | null
+    display_by_property_field?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    max_features?: NullableIntFieldUpdateOperationsInput | number | null
+    wfs_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: NullableIntFieldUpdateOperationsInput | number | null
+    point_count?: NullableIntFieldUpdateOperationsInput | number | null
+    line_count?: NullableIntFieldUpdateOperationsInput | number | null
+    polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Vector_layersUncheckedUpdateManyWithoutProjectsInput = {
+    vector_layer_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumvector_layer_type_enumFieldUpdateOperationsInput | vector_layer_type_enum | null
+    display_by_property_field?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    max_features?: NullableIntFieldUpdateOperationsInput | number | null
+    wfs_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: NullableIntFieldUpdateOperationsInput | number | null
+    point_count?: NullableIntFieldUpdateOperationsInput | number | null
+    line_count?: NullableIntFieldUpdateOperationsInput | number | null
+    polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type Gbif_occurrence_downloadsCreateManySubprojectsInput = {
     gbif_occurrence_download_id: string
     account_id?: string | null
@@ -57519,6 +60271,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutUsersInput = {
@@ -57550,6 +60303,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateManyWithoutUsersInput = {
