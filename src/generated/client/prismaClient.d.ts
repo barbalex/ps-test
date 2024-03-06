@@ -216,6 +216,31 @@ export type Goals = {
 }
 
 /**
+ * Model Layer_options
+ * 
+ */
+export type Layer_options = {
+  layer_option_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  tile_layer_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  vector_layer_id: string | null
+  field: layer_options_field_enum | null
+  value: string | null
+  label: string | null
+  queryable: boolean | null
+  legend_url: string | null
+}
+
+/**
  * Model List_values
  * 
  */
@@ -848,6 +873,17 @@ export const gbif_table: {
 export type gbif_table = (typeof gbif_table)[keyof typeof gbif_table]
 
 
+export const layer_options_field_enum: {
+  wms_format: 'wms_format',
+  wms_layer: 'wms_layer',
+  wms_info_format: 'wms_info_format',
+  wfs_output_format: 'wfs_output_format',
+  wfs_layer: 'wfs_layer'
+};
+
+export type layer_options_field_enum = (typeof layer_options_field_enum)[keyof typeof layer_options_field_enum]
+
+
 export const project_type: {
   species: 'species',
   biotope: 'biotope'
@@ -1093,6 +1129,16 @@ export class PrismaClient<
     * ```
     */
   get goals(): Prisma.GoalsDelegate<GlobalReject>;
+
+  /**
+   * `prisma.layer_options`: Exposes CRUD operations for the **Layer_options** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Layer_options
+    * const layer_options = await prisma.layer_options.findMany()
+    * ```
+    */
+  get layer_options(): Prisma.Layer_optionsDelegate<GlobalReject>;
 
   /**
    * `prisma.list_values`: Exposes CRUD operations for the **List_values** model.
@@ -1795,6 +1841,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     Goal_report_values: 'Goal_report_values',
     Goal_reports: 'Goal_reports',
     Goals: 'Goals',
+    Layer_options: 'Layer_options',
     List_values: 'List_values',
     Lists: 'Lists',
     Messages: 'Messages',
@@ -1992,6 +2039,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values: number
     goal_reports: number
     goals: number
+    layer_options: number
     list_values: number
     lists: number
     observation_sources: number
@@ -2018,6 +2066,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: boolean | AccountsCountOutputTypeCountGoal_report_valuesArgs
     goal_reports?: boolean | AccountsCountOutputTypeCountGoal_reportsArgs
     goals?: boolean | AccountsCountOutputTypeCountGoalsArgs
+    layer_options?: boolean | AccountsCountOutputTypeCountLayer_optionsArgs
     list_values?: boolean | AccountsCountOutputTypeCountList_valuesArgs
     lists?: boolean | AccountsCountOutputTypeCountListsArgs
     observation_sources?: boolean | AccountsCountOutputTypeCountObservation_sourcesArgs
@@ -2112,6 +2161,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type AccountsCountOutputTypeCountGoalsArgs = {
     where?: GoalsWhereInput
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountLayer_optionsArgs = {
+    where?: Layer_optionsWhereInput
   }
 
 
@@ -2891,6 +2948,58 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Count Type Tile_layersCountOutputType
+   */
+
+
+  export type Tile_layersCountOutputType = {
+    layer_options: number
+  }
+
+  export type Tile_layersCountOutputTypeSelect = {
+    layer_options?: boolean | Tile_layersCountOutputTypeCountLayer_optionsArgs
+  }
+
+  export type Tile_layersCountOutputTypeGetPayload<S extends boolean | null | undefined | Tile_layersCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Tile_layersCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (Tile_layersCountOutputTypeArgs)
+    ? Tile_layersCountOutputType 
+    : S extends { select: any } & (Tile_layersCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof Tile_layersCountOutputType ? Tile_layersCountOutputType[P] : never
+  } 
+      : Tile_layersCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Tile_layersCountOutputType without action
+   */
+  export type Tile_layersCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the Tile_layersCountOutputType
+     * 
+    **/
+    select?: Tile_layersCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * Tile_layersCountOutputType without action
+   */
+  export type Tile_layersCountOutputTypeCountLayer_optionsArgs = {
+    where?: Layer_optionsWhereInput
+  }
+
+
+
+  /**
    * Count Type UnitsCountOutputType
    */
 
@@ -3020,6 +3129,58 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type UsersCountOutputTypeCountUser_messagesArgs = {
     where?: User_messagesWhereInput
+  }
+
+
+
+  /**
+   * Count Type Vector_layersCountOutputType
+   */
+
+
+  export type Vector_layersCountOutputType = {
+    layer_options: number
+  }
+
+  export type Vector_layersCountOutputTypeSelect = {
+    layer_options?: boolean | Vector_layersCountOutputTypeCountLayer_optionsArgs
+  }
+
+  export type Vector_layersCountOutputTypeGetPayload<S extends boolean | null | undefined | Vector_layersCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Vector_layersCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (Vector_layersCountOutputTypeArgs)
+    ? Vector_layersCountOutputType 
+    : S extends { select: any } & (Vector_layersCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof Vector_layersCountOutputType ? Vector_layersCountOutputType[P] : never
+  } 
+      : Vector_layersCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Vector_layersCountOutputType without action
+   */
+  export type Vector_layersCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layersCountOutputType
+     * 
+    **/
+    select?: Vector_layersCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * Vector_layersCountOutputType without action
+   */
+  export type Vector_layersCountOutputTypeCountLayer_optionsArgs = {
+    where?: Layer_optionsWhereInput
   }
 
 
@@ -3274,6 +3435,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: boolean | Accounts$goal_report_valuesArgs
     goal_reports?: boolean | Accounts$goal_reportsArgs
     goals?: boolean | Accounts$goalsArgs
+    layer_options?: boolean | Accounts$layer_optionsArgs
     list_values?: boolean | Accounts$list_valuesArgs
     lists?: boolean | Accounts$listsArgs
     observation_sources?: boolean | Accounts$observation_sourcesArgs
@@ -3303,6 +3465,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: boolean | Accounts$goal_report_valuesArgs
     goal_reports?: boolean | Accounts$goal_reportsArgs
     goals?: boolean | Accounts$goalsArgs
+    layer_options?: boolean | Accounts$layer_optionsArgs
     list_values?: boolean | Accounts$list_valuesArgs
     lists?: boolean | Accounts$listsArgs
     observation_sources?: boolean | Accounts$observation_sourcesArgs
@@ -3337,6 +3500,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'goal_report_values' ? Array < Goal_report_valuesGetPayload<S['include'][P]>>  :
         P extends 'goal_reports' ? Array < Goal_reportsGetPayload<S['include'][P]>>  :
         P extends 'goals' ? Array < GoalsGetPayload<S['include'][P]>>  :
+        P extends 'layer_options' ? Array < Layer_optionsGetPayload<S['include'][P]>>  :
         P extends 'list_values' ? Array < List_valuesGetPayload<S['include'][P]>>  :
         P extends 'lists' ? Array < ListsGetPayload<S['include'][P]>>  :
         P extends 'observation_sources' ? Array < Observation_sourcesGetPayload<S['include'][P]>>  :
@@ -3366,6 +3530,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'goal_report_values' ? Array < Goal_report_valuesGetPayload<S['select'][P]>>  :
         P extends 'goal_reports' ? Array < Goal_reportsGetPayload<S['select'][P]>>  :
         P extends 'goals' ? Array < GoalsGetPayload<S['select'][P]>>  :
+        P extends 'layer_options' ? Array < Layer_optionsGetPayload<S['select'][P]>>  :
         P extends 'list_values' ? Array < List_valuesGetPayload<S['select'][P]>>  :
         P extends 'lists' ? Array < ListsGetPayload<S['select'][P]>>  :
         P extends 'observation_sources' ? Array < Observation_sourcesGetPayload<S['select'][P]>>  :
@@ -3770,6 +3935,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_reports<T extends Accounts$goal_reportsArgs= {}>(args?: Subset<T, Accounts$goal_reportsArgs>): PrismaPromise<Array<Goal_reportsGetPayload<T>>| Null>;
 
     goals<T extends Accounts$goalsArgs= {}>(args?: Subset<T, Accounts$goalsArgs>): PrismaPromise<Array<GoalsGetPayload<T>>| Null>;
+
+    layer_options<T extends Accounts$layer_optionsArgs= {}>(args?: Subset<T, Accounts$layer_optionsArgs>): PrismaPromise<Array<Layer_optionsGetPayload<T>>| Null>;
 
     list_values<T extends Accounts$list_valuesArgs= {}>(args?: Subset<T, Accounts$list_valuesArgs>): PrismaPromise<Array<List_valuesGetPayload<T>>| Null>;
 
@@ -4361,6 +4528,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<GoalsScalarFieldEnum>
+  }
+
+
+  /**
+   * Accounts.layer_options
+   */
+  export type Accounts$layer_optionsArgs = {
+    /**
+     * Select specific fields to fetch from the Layer_options
+     * 
+    **/
+    select?: Layer_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Layer_optionsInclude | null
+    where?: Layer_optionsWhereInput
+    orderBy?: Enumerable<Layer_optionsOrderByWithRelationInput>
+    cursor?: Layer_optionsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Layer_optionsScalarFieldEnum>
   }
 
 
@@ -12366,6 +12556,1092 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     include?: GoalsInclude | null
+  }
+
+
+
+  /**
+   * Model Layer_options
+   */
+
+
+  export type AggregateLayer_options = {
+    _count: Layer_optionsCountAggregateOutputType | null
+    _min: Layer_optionsMinAggregateOutputType | null
+    _max: Layer_optionsMaxAggregateOutputType | null
+  }
+
+  export type Layer_optionsMinAggregateOutputType = {
+    layer_option_id: string | null
+    account_id: string | null
+    tile_layer_id: string | null
+    vector_layer_id: string | null
+    field: layer_options_field_enum | null
+    value: string | null
+    label: string | null
+    queryable: boolean | null
+    legend_url: string | null
+  }
+
+  export type Layer_optionsMaxAggregateOutputType = {
+    layer_option_id: string | null
+    account_id: string | null
+    tile_layer_id: string | null
+    vector_layer_id: string | null
+    field: layer_options_field_enum | null
+    value: string | null
+    label: string | null
+    queryable: boolean | null
+    legend_url: string | null
+  }
+
+  export type Layer_optionsCountAggregateOutputType = {
+    layer_option_id: number
+    account_id: number
+    tile_layer_id: number
+    vector_layer_id: number
+    field: number
+    value: number
+    label: number
+    queryable: number
+    legend_url: number
+    _all: number
+  }
+
+
+  export type Layer_optionsMinAggregateInputType = {
+    layer_option_id?: true
+    account_id?: true
+    tile_layer_id?: true
+    vector_layer_id?: true
+    field?: true
+    value?: true
+    label?: true
+    queryable?: true
+    legend_url?: true
+  }
+
+  export type Layer_optionsMaxAggregateInputType = {
+    layer_option_id?: true
+    account_id?: true
+    tile_layer_id?: true
+    vector_layer_id?: true
+    field?: true
+    value?: true
+    label?: true
+    queryable?: true
+    legend_url?: true
+  }
+
+  export type Layer_optionsCountAggregateInputType = {
+    layer_option_id?: true
+    account_id?: true
+    tile_layer_id?: true
+    vector_layer_id?: true
+    field?: true
+    value?: true
+    label?: true
+    queryable?: true
+    legend_url?: true
+    _all?: true
+  }
+
+  export type Layer_optionsAggregateArgs = {
+    /**
+     * Filter which Layer_options to aggregate.
+     * 
+    **/
+    where?: Layer_optionsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Layer_options to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Layer_optionsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: Layer_optionsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Layer_options from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Layer_options.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Layer_options
+    **/
+    _count?: true | Layer_optionsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Layer_optionsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Layer_optionsMaxAggregateInputType
+  }
+
+  export type GetLayer_optionsAggregateType<T extends Layer_optionsAggregateArgs> = {
+        [P in keyof T & keyof AggregateLayer_options]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLayer_options[P]>
+      : GetScalarType<T[P], AggregateLayer_options[P]>
+  }
+
+
+
+
+  export type Layer_optionsGroupByArgs = {
+    where?: Layer_optionsWhereInput
+    orderBy?: Enumerable<Layer_optionsOrderByWithAggregationInput>
+    by: Array<Layer_optionsScalarFieldEnum>
+    having?: Layer_optionsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Layer_optionsCountAggregateInputType | true
+    _min?: Layer_optionsMinAggregateInputType
+    _max?: Layer_optionsMaxAggregateInputType
+  }
+
+
+  export type Layer_optionsGroupByOutputType = {
+    layer_option_id: string
+    account_id: string | null
+    tile_layer_id: string | null
+    vector_layer_id: string | null
+    field: layer_options_field_enum | null
+    value: string | null
+    label: string | null
+    queryable: boolean | null
+    legend_url: string | null
+    _count: Layer_optionsCountAggregateOutputType | null
+    _min: Layer_optionsMinAggregateOutputType | null
+    _max: Layer_optionsMaxAggregateOutputType | null
+  }
+
+  type GetLayer_optionsGroupByPayload<T extends Layer_optionsGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Layer_optionsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Layer_optionsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Layer_optionsGroupByOutputType[P]>
+            : GetScalarType<T[P], Layer_optionsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Layer_optionsSelect = {
+    layer_option_id?: boolean
+    account_id?: boolean
+    tile_layer_id?: boolean
+    vector_layer_id?: boolean
+    field?: boolean
+    value?: boolean
+    label?: boolean
+    queryable?: boolean
+    legend_url?: boolean
+    accounts?: boolean | Layer_options$accountsArgs
+    tile_layers?: boolean | Layer_options$tile_layersArgs
+    vector_layers?: boolean | Layer_options$vector_layersArgs
+  }
+
+
+  export type Layer_optionsInclude = {
+    accounts?: boolean | Layer_options$accountsArgs
+    tile_layers?: boolean | Layer_options$tile_layersArgs
+    vector_layers?: boolean | Layer_options$vector_layersArgs
+  } 
+
+  export type Layer_optionsGetPayload<S extends boolean | null | undefined | Layer_optionsArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Layer_options :
+    S extends undefined ? never :
+    S extends { include: any } & (Layer_optionsArgs | Layer_optionsFindManyArgs)
+    ? Layer_options  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'tile_layers' ? Tile_layersGetPayload<S['include'][P]> | null :
+        P extends 'vector_layers' ? Vector_layersGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (Layer_optionsArgs | Layer_optionsFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'tile_layers' ? Tile_layersGetPayload<S['select'][P]> | null :
+        P extends 'vector_layers' ? Vector_layersGetPayload<S['select'][P]> | null :  P extends keyof Layer_options ? Layer_options[P] : never
+  } 
+      : Layer_options
+
+
+  type Layer_optionsCountArgs = Merge<
+    Omit<Layer_optionsFindManyArgs, 'select' | 'include'> & {
+      select?: Layer_optionsCountAggregateInputType | true
+    }
+  >
+
+  export interface Layer_optionsDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Layer_options that matches the filter.
+     * @param {Layer_optionsFindUniqueArgs} args - Arguments to find a Layer_options
+     * @example
+     * // Get one Layer_options
+     * const layer_options = await prisma.layer_options.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends Layer_optionsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Layer_optionsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Layer_options'> extends True ? Prisma__Layer_optionsClient<Layer_optionsGetPayload<T>> : Prisma__Layer_optionsClient<Layer_optionsGetPayload<T> | null, null>
+
+    /**
+     * Find one Layer_options that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {Layer_optionsFindUniqueOrThrowArgs} args - Arguments to find a Layer_options
+     * @example
+     * // Get one Layer_options
+     * const layer_options = await prisma.layer_options.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends Layer_optionsFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, Layer_optionsFindUniqueOrThrowArgs>
+    ): Prisma__Layer_optionsClient<Layer_optionsGetPayload<T>>
+
+    /**
+     * Find the first Layer_options that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Layer_optionsFindFirstArgs} args - Arguments to find a Layer_options
+     * @example
+     * // Get one Layer_options
+     * const layer_options = await prisma.layer_options.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends Layer_optionsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Layer_optionsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Layer_options'> extends True ? Prisma__Layer_optionsClient<Layer_optionsGetPayload<T>> : Prisma__Layer_optionsClient<Layer_optionsGetPayload<T> | null, null>
+
+    /**
+     * Find the first Layer_options that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Layer_optionsFindFirstOrThrowArgs} args - Arguments to find a Layer_options
+     * @example
+     * // Get one Layer_options
+     * const layer_options = await prisma.layer_options.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends Layer_optionsFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, Layer_optionsFindFirstOrThrowArgs>
+    ): Prisma__Layer_optionsClient<Layer_optionsGetPayload<T>>
+
+    /**
+     * Find zero or more Layer_options that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Layer_optionsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Layer_options
+     * const layer_options = await prisma.layer_options.findMany()
+     * 
+     * // Get first 10 Layer_options
+     * const layer_options = await prisma.layer_options.findMany({ take: 10 })
+     * 
+     * // Only select the `layer_option_id`
+     * const layer_optionsWithLayer_option_idOnly = await prisma.layer_options.findMany({ select: { layer_option_id: true } })
+     * 
+    **/
+    findMany<T extends Layer_optionsFindManyArgs>(
+      args?: SelectSubset<T, Layer_optionsFindManyArgs>
+    ): PrismaPromise<Array<Layer_optionsGetPayload<T>>>
+
+    /**
+     * Create a Layer_options.
+     * @param {Layer_optionsCreateArgs} args - Arguments to create a Layer_options.
+     * @example
+     * // Create one Layer_options
+     * const Layer_options = await prisma.layer_options.create({
+     *   data: {
+     *     // ... data to create a Layer_options
+     *   }
+     * })
+     * 
+    **/
+    create<T extends Layer_optionsCreateArgs>(
+      args: SelectSubset<T, Layer_optionsCreateArgs>
+    ): Prisma__Layer_optionsClient<Layer_optionsGetPayload<T>>
+
+    /**
+     * Create many Layer_options.
+     *     @param {Layer_optionsCreateManyArgs} args - Arguments to create many Layer_options.
+     *     @example
+     *     // Create many Layer_options
+     *     const layer_options = await prisma.layer_options.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends Layer_optionsCreateManyArgs>(
+      args?: SelectSubset<T, Layer_optionsCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Layer_options.
+     * @param {Layer_optionsDeleteArgs} args - Arguments to delete one Layer_options.
+     * @example
+     * // Delete one Layer_options
+     * const Layer_options = await prisma.layer_options.delete({
+     *   where: {
+     *     // ... filter to delete one Layer_options
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends Layer_optionsDeleteArgs>(
+      args: SelectSubset<T, Layer_optionsDeleteArgs>
+    ): Prisma__Layer_optionsClient<Layer_optionsGetPayload<T>>
+
+    /**
+     * Update one Layer_options.
+     * @param {Layer_optionsUpdateArgs} args - Arguments to update one Layer_options.
+     * @example
+     * // Update one Layer_options
+     * const layer_options = await prisma.layer_options.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends Layer_optionsUpdateArgs>(
+      args: SelectSubset<T, Layer_optionsUpdateArgs>
+    ): Prisma__Layer_optionsClient<Layer_optionsGetPayload<T>>
+
+    /**
+     * Delete zero or more Layer_options.
+     * @param {Layer_optionsDeleteManyArgs} args - Arguments to filter Layer_options to delete.
+     * @example
+     * // Delete a few Layer_options
+     * const { count } = await prisma.layer_options.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends Layer_optionsDeleteManyArgs>(
+      args?: SelectSubset<T, Layer_optionsDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Layer_options.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Layer_optionsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Layer_options
+     * const layer_options = await prisma.layer_options.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends Layer_optionsUpdateManyArgs>(
+      args: SelectSubset<T, Layer_optionsUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Layer_options.
+     * @param {Layer_optionsUpsertArgs} args - Arguments to update or create a Layer_options.
+     * @example
+     * // Update or create a Layer_options
+     * const layer_options = await prisma.layer_options.upsert({
+     *   create: {
+     *     // ... data to create a Layer_options
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Layer_options we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends Layer_optionsUpsertArgs>(
+      args: SelectSubset<T, Layer_optionsUpsertArgs>
+    ): Prisma__Layer_optionsClient<Layer_optionsGetPayload<T>>
+
+    /**
+     * Count the number of Layer_options.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Layer_optionsCountArgs} args - Arguments to filter Layer_options to count.
+     * @example
+     * // Count the number of Layer_options
+     * const count = await prisma.layer_options.count({
+     *   where: {
+     *     // ... the filter for the Layer_options we want to count
+     *   }
+     * })
+    **/
+    count<T extends Layer_optionsCountArgs>(
+      args?: Subset<T, Layer_optionsCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Layer_optionsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Layer_options.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Layer_optionsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Layer_optionsAggregateArgs>(args: Subset<T, Layer_optionsAggregateArgs>): PrismaPromise<GetLayer_optionsAggregateType<T>>
+
+    /**
+     * Group by Layer_options.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Layer_optionsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Layer_optionsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Layer_optionsGroupByArgs['orderBy'] }
+        : { orderBy?: Layer_optionsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Layer_optionsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLayer_optionsGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Layer_options.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__Layer_optionsClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Layer_options$accountsArgs= {}>(args?: Subset<T, Layer_options$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    tile_layers<T extends Layer_options$tile_layersArgs= {}>(args?: Subset<T, Layer_options$tile_layersArgs>): Prisma__Tile_layersClient<Tile_layersGetPayload<T> | Null>;
+
+    vector_layers<T extends Layer_options$vector_layersArgs= {}>(args?: Subset<T, Layer_options$vector_layersArgs>): Prisma__Vector_layersClient<Vector_layersGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Layer_options base type for findUnique actions
+   */
+  export type Layer_optionsFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Layer_options
+     * 
+    **/
+    select?: Layer_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Layer_optionsInclude | null
+    /**
+     * Filter, which Layer_options to fetch.
+     * 
+    **/
+    where: Layer_optionsWhereUniqueInput
+  }
+
+  /**
+   * Layer_options findUnique
+   */
+  export interface Layer_optionsFindUniqueArgs extends Layer_optionsFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Layer_options findUniqueOrThrow
+   */
+  export type Layer_optionsFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Layer_options
+     * 
+    **/
+    select?: Layer_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Layer_optionsInclude | null
+    /**
+     * Filter, which Layer_options to fetch.
+     * 
+    **/
+    where: Layer_optionsWhereUniqueInput
+  }
+
+
+  /**
+   * Layer_options base type for findFirst actions
+   */
+  export type Layer_optionsFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Layer_options
+     * 
+    **/
+    select?: Layer_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Layer_optionsInclude | null
+    /**
+     * Filter, which Layer_options to fetch.
+     * 
+    **/
+    where?: Layer_optionsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Layer_options to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Layer_optionsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Layer_options.
+     * 
+    **/
+    cursor?: Layer_optionsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Layer_options from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Layer_options.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Layer_options.
+     * 
+    **/
+    distinct?: Enumerable<Layer_optionsScalarFieldEnum>
+  }
+
+  /**
+   * Layer_options findFirst
+   */
+  export interface Layer_optionsFindFirstArgs extends Layer_optionsFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Layer_options findFirstOrThrow
+   */
+  export type Layer_optionsFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Layer_options
+     * 
+    **/
+    select?: Layer_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Layer_optionsInclude | null
+    /**
+     * Filter, which Layer_options to fetch.
+     * 
+    **/
+    where?: Layer_optionsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Layer_options to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Layer_optionsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Layer_options.
+     * 
+    **/
+    cursor?: Layer_optionsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Layer_options from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Layer_options.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Layer_options.
+     * 
+    **/
+    distinct?: Enumerable<Layer_optionsScalarFieldEnum>
+  }
+
+
+  /**
+   * Layer_options findMany
+   */
+  export type Layer_optionsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Layer_options
+     * 
+    **/
+    select?: Layer_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Layer_optionsInclude | null
+    /**
+     * Filter, which Layer_options to fetch.
+     * 
+    **/
+    where?: Layer_optionsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Layer_options to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Layer_optionsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Layer_options.
+     * 
+    **/
+    cursor?: Layer_optionsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Layer_options from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Layer_options.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Layer_optionsScalarFieldEnum>
+  }
+
+
+  /**
+   * Layer_options create
+   */
+  export type Layer_optionsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Layer_options
+     * 
+    **/
+    select?: Layer_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Layer_optionsInclude | null
+    /**
+     * The data needed to create a Layer_options.
+     * 
+    **/
+    data: XOR<Layer_optionsCreateInput, Layer_optionsUncheckedCreateInput>
+  }
+
+
+  /**
+   * Layer_options createMany
+   */
+  export type Layer_optionsCreateManyArgs = {
+    /**
+     * The data used to create many Layer_options.
+     * 
+    **/
+    data: Enumerable<Layer_optionsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Layer_options update
+   */
+  export type Layer_optionsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Layer_options
+     * 
+    **/
+    select?: Layer_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Layer_optionsInclude | null
+    /**
+     * The data needed to update a Layer_options.
+     * 
+    **/
+    data: XOR<Layer_optionsUpdateInput, Layer_optionsUncheckedUpdateInput>
+    /**
+     * Choose, which Layer_options to update.
+     * 
+    **/
+    where: Layer_optionsWhereUniqueInput
+  }
+
+
+  /**
+   * Layer_options updateMany
+   */
+  export type Layer_optionsUpdateManyArgs = {
+    /**
+     * The data used to update Layer_options.
+     * 
+    **/
+    data: XOR<Layer_optionsUpdateManyMutationInput, Layer_optionsUncheckedUpdateManyInput>
+    /**
+     * Filter which Layer_options to update
+     * 
+    **/
+    where?: Layer_optionsWhereInput
+  }
+
+
+  /**
+   * Layer_options upsert
+   */
+  export type Layer_optionsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Layer_options
+     * 
+    **/
+    select?: Layer_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Layer_optionsInclude | null
+    /**
+     * The filter to search for the Layer_options to update in case it exists.
+     * 
+    **/
+    where: Layer_optionsWhereUniqueInput
+    /**
+     * In case the Layer_options found by the `where` argument doesn't exist, create a new Layer_options with this data.
+     * 
+    **/
+    create: XOR<Layer_optionsCreateInput, Layer_optionsUncheckedCreateInput>
+    /**
+     * In case the Layer_options was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<Layer_optionsUpdateInput, Layer_optionsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Layer_options delete
+   */
+  export type Layer_optionsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Layer_options
+     * 
+    **/
+    select?: Layer_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Layer_optionsInclude | null
+    /**
+     * Filter which Layer_options to delete.
+     * 
+    **/
+    where: Layer_optionsWhereUniqueInput
+  }
+
+
+  /**
+   * Layer_options deleteMany
+   */
+  export type Layer_optionsDeleteManyArgs = {
+    /**
+     * Filter which Layer_options to delete
+     * 
+    **/
+    where?: Layer_optionsWhereInput
+  }
+
+
+  /**
+   * Layer_options.accounts
+   */
+  export type Layer_options$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Layer_options.tile_layers
+   */
+  export type Layer_options$tile_layersArgs = {
+    /**
+     * Select specific fields to fetch from the Tile_layers
+     * 
+    **/
+    select?: Tile_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Tile_layersInclude | null
+    where?: Tile_layersWhereInput
+  }
+
+
+  /**
+   * Layer_options.vector_layers
+   */
+  export type Layer_options$vector_layersArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layers
+     * 
+    **/
+    select?: Vector_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layersInclude | null
+    where?: Vector_layersWhereInput
+  }
+
+
+  /**
+   * Layer_options without action
+   */
+  export type Layer_optionsArgs = {
+    /**
+     * Select specific fields to fetch from the Layer_options
+     * 
+    **/
+    select?: Layer_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Layer_optionsInclude | null
   }
 
 
@@ -27316,14 +28592,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     local_data_size?: boolean
     local_data_bounds?: boolean
     deleted?: boolean
+    layer_options?: boolean | Tile_layers$layer_optionsArgs
     accounts?: boolean | Tile_layers$accountsArgs
     projects?: boolean | ProjectsArgs
+    _count?: boolean | Tile_layersCountOutputTypeArgs
   }
 
 
   export type Tile_layersInclude = {
+    layer_options?: boolean | Tile_layers$layer_optionsArgs
     accounts?: boolean | Tile_layers$accountsArgs
     projects?: boolean | ProjectsArgs
+    _count?: boolean | Tile_layersCountOutputTypeArgs
   } 
 
   export type Tile_layersGetPayload<S extends boolean | null | undefined | Tile_layersArgs> =
@@ -27333,14 +28613,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (Tile_layersArgs | Tile_layersFindManyArgs)
     ? Tile_layers  & {
     [P in TruthyKeys<S['include']>]:
+        P extends 'layer_options' ? Array < Layer_optionsGetPayload<S['include'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
-        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> :  never
+        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> :
+        P extends '_count' ? Tile_layersCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (Tile_layersArgs | Tile_layersFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
+        P extends 'layer_options' ? Array < Layer_optionsGetPayload<S['select'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
-        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> :  P extends keyof Tile_layers ? Tile_layers[P] : never
+        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> :
+        P extends '_count' ? Tile_layersCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Tile_layers ? Tile_layers[P] : never
   } 
       : Tile_layers
 
@@ -27713,6 +28997,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _requestPromise?;
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    layer_options<T extends Tile_layers$layer_optionsArgs= {}>(args?: Subset<T, Tile_layers$layer_optionsArgs>): PrismaPromise<Array<Layer_optionsGetPayload<T>>| Null>;
 
     accounts<T extends Tile_layers$accountsArgs= {}>(args?: Subset<T, Tile_layers$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
 
@@ -28118,6 +29404,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     where?: Tile_layersWhereInput
+  }
+
+
+  /**
+   * Tile_layers.layer_options
+   */
+  export type Tile_layers$layer_optionsArgs = {
+    /**
+     * Select specific fields to fetch from the Layer_options
+     * 
+    **/
+    select?: Layer_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Layer_optionsInclude | null
+    where?: Layer_optionsWhereInput
+    orderBy?: Enumerable<Layer_optionsOrderByWithRelationInput>
+    cursor?: Layer_optionsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Layer_optionsScalarFieldEnum>
   }
 
 
@@ -32987,14 +34296,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: boolean
     polygon_count?: boolean
     deleted?: boolean
+    layer_options?: boolean | Vector_layers$layer_optionsArgs
     accounts?: boolean | Vector_layers$accountsArgs
     projects?: boolean | ProjectsArgs
+    _count?: boolean | Vector_layersCountOutputTypeArgs
   }
 
 
   export type Vector_layersInclude = {
+    layer_options?: boolean | Vector_layers$layer_optionsArgs
     accounts?: boolean | Vector_layers$accountsArgs
     projects?: boolean | ProjectsArgs
+    _count?: boolean | Vector_layersCountOutputTypeArgs
   } 
 
   export type Vector_layersGetPayload<S extends boolean | null | undefined | Vector_layersArgs> =
@@ -33004,14 +34317,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (Vector_layersArgs | Vector_layersFindManyArgs)
     ? Vector_layers  & {
     [P in TruthyKeys<S['include']>]:
+        P extends 'layer_options' ? Array < Layer_optionsGetPayload<S['include'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
-        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> :  never
+        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> :
+        P extends '_count' ? Vector_layersCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (Vector_layersArgs | Vector_layersFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
+        P extends 'layer_options' ? Array < Layer_optionsGetPayload<S['select'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
-        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> :  P extends keyof Vector_layers ? Vector_layers[P] : never
+        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> :
+        P extends '_count' ? Vector_layersCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Vector_layers ? Vector_layers[P] : never
   } 
       : Vector_layers
 
@@ -33384,6 +34701,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _requestPromise?;
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    layer_options<T extends Vector_layers$layer_optionsArgs= {}>(args?: Subset<T, Vector_layers$layer_optionsArgs>): PrismaPromise<Array<Layer_optionsGetPayload<T>>| Null>;
 
     accounts<T extends Vector_layers$accountsArgs= {}>(args?: Subset<T, Vector_layers$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
 
@@ -33789,6 +35108,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     where?: Vector_layersWhereInput
+  }
+
+
+  /**
+   * Vector_layers.layer_options
+   */
+  export type Vector_layers$layer_optionsArgs = {
+    /**
+     * Select specific fields to fetch from the Layer_options
+     * 
+    **/
+    select?: Layer_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Layer_optionsInclude | null
+    where?: Layer_optionsWhereInput
+    orderBy?: Enumerable<Layer_optionsOrderByWithRelationInput>
+    cursor?: Layer_optionsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Layer_optionsScalarFieldEnum>
   }
 
 
@@ -36048,6 +37390,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type GoalsScalarFieldEnum = (typeof GoalsScalarFieldEnum)[keyof typeof GoalsScalarFieldEnum]
 
 
+  export const Layer_optionsScalarFieldEnum: {
+    layer_option_id: 'layer_option_id',
+    account_id: 'account_id',
+    tile_layer_id: 'tile_layer_id',
+    vector_layer_id: 'vector_layer_id',
+    field: 'field',
+    value: 'value',
+    label: 'label',
+    queryable: 'queryable',
+    legend_url: 'legend_url'
+  };
+
+  export type Layer_optionsScalarFieldEnum = (typeof Layer_optionsScalarFieldEnum)[keyof typeof Layer_optionsScalarFieldEnum]
+
+
   export const List_valuesScalarFieldEnum: {
     list_value_id: 'list_value_id',
     account_id: 'account_id',
@@ -36529,6 +37886,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Reference to a field of type 'layer_options_field_enum'
+   */
+  export type Enumlayer_options_field_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'layer_options_field_enum'>
+    
+
+
+  /**
+   * Reference to a field of type 'layer_options_field_enum[]'
+   */
+  export type ListEnumlayer_options_field_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'layer_options_field_enum[]'>
+    
+
+
+  /**
    * Reference to a field of type 'project_type'
    */
   export type Enumproject_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'project_type'>
@@ -36619,6 +37990,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesListRelationFilter
     goal_reports?: Goal_reportsListRelationFilter
     goals?: GoalsListRelationFilter
+    layer_options?: Layer_optionsListRelationFilter
     list_values?: List_valuesListRelationFilter
     lists?: ListsListRelationFilter
     observation_sources?: Observation_sourcesListRelationFilter
@@ -36653,6 +38025,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesOrderByRelationAggregateInput
     goal_reports?: Goal_reportsOrderByRelationAggregateInput
     goals?: GoalsOrderByRelationAggregateInput
+    layer_options?: Layer_optionsOrderByRelationAggregateInput
     list_values?: List_valuesOrderByRelationAggregateInput
     lists?: ListsOrderByRelationAggregateInput
     observation_sources?: Observation_sourcesOrderByRelationAggregateInput
@@ -36690,6 +38063,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesListRelationFilter
     goal_reports?: Goal_reportsListRelationFilter
     goals?: GoalsListRelationFilter
+    layer_options?: Layer_optionsListRelationFilter
     list_values?: List_valuesListRelationFilter
     lists?: ListsListRelationFilter
     observation_sources?: Observation_sourcesListRelationFilter
@@ -37249,6 +38623,87 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: JsonNullableWithAggregatesFilter<"Goals">
     label_replace_by_generated_column?: StringNullableWithAggregatesFilter<"Goals"> | string | null
     deleted?: BoolNullableWithAggregatesFilter<"Goals"> | boolean | null
+  }
+
+  export type Layer_optionsWhereInput = {
+    AND?: Enumerable<Layer_optionsWhereInput>
+    OR?: Enumerable<Layer_optionsWhereInput>
+    NOT?: Enumerable<Layer_optionsWhereInput>
+    layer_option_id?: StringFilter<"Layer_options"> | string
+    account_id?: UuidNullableFilter<"Layer_options"> | string | null
+    tile_layer_id?: UuidNullableFilter<"Layer_options"> | string | null
+    vector_layer_id?: UuidNullableFilter<"Layer_options"> | string | null
+    field?: Enumlayer_options_field_enumNullableFilter<"Layer_options"> | layer_options_field_enum | null
+    value?: StringNullableFilter<"Layer_options"> | string | null
+    label?: StringNullableFilter<"Layer_options"> | string | null
+    queryable?: BoolNullableFilter<"Layer_options"> | boolean | null
+    legend_url?: StringNullableFilter<"Layer_options"> | string | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    tile_layers?: XOR<Tile_layersNullableRelationFilter, Tile_layersWhereInput> | null
+    vector_layers?: XOR<Vector_layersNullableRelationFilter, Vector_layersWhereInput> | null
+  }
+
+  export type Layer_optionsOrderByWithRelationInput = {
+    layer_option_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    tile_layer_id?: SortOrderInput | SortOrder
+    vector_layer_id?: SortOrderInput | SortOrder
+    field?: SortOrderInput | SortOrder
+    value?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    queryable?: SortOrderInput | SortOrder
+    legend_url?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    tile_layers?: Tile_layersOrderByWithRelationInput
+    vector_layers?: Vector_layersOrderByWithRelationInput
+  }
+
+  export type Layer_optionsWhereUniqueInput = Prisma.AtLeast<{
+    layer_option_id?: string
+    AND?: Enumerable<Layer_optionsWhereInput>
+    OR?: Enumerable<Layer_optionsWhereInput>
+    NOT?: Enumerable<Layer_optionsWhereInput>
+    account_id?: UuidNullableFilter<"Layer_options"> | string | null
+    tile_layer_id?: UuidNullableFilter<"Layer_options"> | string | null
+    vector_layer_id?: UuidNullableFilter<"Layer_options"> | string | null
+    field?: Enumlayer_options_field_enumNullableFilter<"Layer_options"> | layer_options_field_enum | null
+    value?: StringNullableFilter<"Layer_options"> | string | null
+    label?: StringNullableFilter<"Layer_options"> | string | null
+    queryable?: BoolNullableFilter<"Layer_options"> | boolean | null
+    legend_url?: StringNullableFilter<"Layer_options"> | string | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    tile_layers?: XOR<Tile_layersNullableRelationFilter, Tile_layersWhereInput> | null
+    vector_layers?: XOR<Vector_layersNullableRelationFilter, Vector_layersWhereInput> | null
+  }, "layer_option_id">
+
+  export type Layer_optionsOrderByWithAggregationInput = {
+    layer_option_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    tile_layer_id?: SortOrderInput | SortOrder
+    vector_layer_id?: SortOrderInput | SortOrder
+    field?: SortOrderInput | SortOrder
+    value?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    queryable?: SortOrderInput | SortOrder
+    legend_url?: SortOrderInput | SortOrder
+    _count?: Layer_optionsCountOrderByAggregateInput
+    _max?: Layer_optionsMaxOrderByAggregateInput
+    _min?: Layer_optionsMinOrderByAggregateInput
+  }
+
+  export type Layer_optionsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<Layer_optionsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<Layer_optionsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<Layer_optionsScalarWhereWithAggregatesInput>
+    layer_option_id?: StringWithAggregatesFilter<"Layer_options"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"Layer_options"> | string | null
+    tile_layer_id?: UuidNullableWithAggregatesFilter<"Layer_options"> | string | null
+    vector_layer_id?: UuidNullableWithAggregatesFilter<"Layer_options"> | string | null
+    field?: Enumlayer_options_field_enumNullableWithAggregatesFilter<"Layer_options"> | layer_options_field_enum | null
+    value?: StringNullableWithAggregatesFilter<"Layer_options"> | string | null
+    label?: StringNullableWithAggregatesFilter<"Layer_options"> | string | null
+    queryable?: BoolNullableWithAggregatesFilter<"Layer_options"> | boolean | null
+    legend_url?: StringNullableWithAggregatesFilter<"Layer_options"> | string | null
   }
 
   export type List_valuesWhereInput = {
@@ -38402,6 +39857,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     local_data_size?: IntNullableFilter<"Tile_layers"> | number | null
     local_data_bounds?: JsonNullableFilter<"Tile_layers">
     deleted?: BoolNullableFilter<"Tile_layers"> | boolean | null
+    layer_options?: Layer_optionsListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     projects?: XOR<ProjectsRelationFilter, ProjectsWhereInput>
   }
@@ -38432,6 +39888,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     local_data_size?: SortOrderInput | SortOrder
     local_data_bounds?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    layer_options?: Layer_optionsOrderByRelationAggregateInput
     accounts?: AccountsOrderByWithRelationInput
     projects?: ProjectsOrderByWithRelationInput
   }
@@ -38465,6 +39922,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     local_data_size?: IntNullableFilter<"Tile_layers"> | number | null
     local_data_bounds?: JsonNullableFilter<"Tile_layers">
     deleted?: BoolNullableFilter<"Tile_layers"> | boolean | null
+    layer_options?: Layer_optionsListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     projects?: XOR<ProjectsRelationFilter, ProjectsWhereInput>
   }, "tile_layer_id">
@@ -38924,6 +40382,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: IntNullableFilter<"Vector_layers"> | number | null
     polygon_count?: IntNullableFilter<"Vector_layers"> | number | null
     deleted?: BoolNullableFilter<"Vector_layers"> | boolean | null
+    layer_options?: Layer_optionsListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     projects?: XOR<ProjectsRelationFilter, ProjectsWhereInput>
   }
@@ -38949,6 +40408,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: SortOrderInput | SortOrder
     polygon_count?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    layer_options?: Layer_optionsOrderByRelationAggregateInput
     accounts?: AccountsOrderByWithRelationInput
     projects?: ProjectsOrderByWithRelationInput
   }
@@ -38977,6 +40437,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: IntNullableFilter<"Vector_layers"> | number | null
     polygon_count?: IntNullableFilter<"Vector_layers"> | number | null
     deleted?: BoolNullableFilter<"Vector_layers"> | boolean | null
+    layer_options?: Layer_optionsListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     projects?: XOR<ProjectsRelationFilter, ProjectsWhereInput>
   }, "vector_layer_id">
@@ -39174,6 +40635,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -39207,6 +40669,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -39240,6 +40703,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -39273,6 +40737,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -39834,6 +41299,87 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Layer_optionsCreateInput = {
+    layer_option_id: string
+    field?: layer_options_field_enum | null
+    value?: string | null
+    label?: string | null
+    queryable?: boolean | null
+    legend_url?: string | null
+    accounts?: AccountsCreateNestedOneWithoutLayer_optionsInput
+    tile_layers?: Tile_layersCreateNestedOneWithoutLayer_optionsInput
+    vector_layers?: Vector_layersCreateNestedOneWithoutLayer_optionsInput
+  }
+
+  export type Layer_optionsUncheckedCreateInput = {
+    layer_option_id: string
+    account_id?: string | null
+    tile_layer_id?: string | null
+    vector_layer_id?: string | null
+    field?: layer_options_field_enum | null
+    value?: string | null
+    label?: string | null
+    queryable?: boolean | null
+    legend_url?: string | null
+  }
+
+  export type Layer_optionsUpdateInput = {
+    layer_option_id?: StringFieldUpdateOperationsInput | string
+    field?: NullableEnumlayer_options_field_enumFieldUpdateOperationsInput | layer_options_field_enum | null
+    value?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    queryable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    legend_url?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountsUpdateOneWithoutLayer_optionsNestedInput
+    tile_layers?: Tile_layersUpdateOneWithoutLayer_optionsNestedInput
+    vector_layers?: Vector_layersUpdateOneWithoutLayer_optionsNestedInput
+  }
+
+  export type Layer_optionsUncheckedUpdateInput = {
+    layer_option_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    tile_layer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    field?: NullableEnumlayer_options_field_enumFieldUpdateOperationsInput | layer_options_field_enum | null
+    value?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    queryable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    legend_url?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Layer_optionsCreateManyInput = {
+    layer_option_id: string
+    account_id?: string | null
+    tile_layer_id?: string | null
+    vector_layer_id?: string | null
+    field?: layer_options_field_enum | null
+    value?: string | null
+    label?: string | null
+    queryable?: boolean | null
+    legend_url?: string | null
+  }
+
+  export type Layer_optionsUpdateManyMutationInput = {
+    layer_option_id?: StringFieldUpdateOperationsInput | string
+    field?: NullableEnumlayer_options_field_enumFieldUpdateOperationsInput | layer_options_field_enum | null
+    value?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    queryable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    legend_url?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Layer_optionsUncheckedUpdateManyInput = {
+    layer_option_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    tile_layer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    field?: NullableEnumlayer_options_field_enumFieldUpdateOperationsInput | layer_options_field_enum | null
+    value?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    queryable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    legend_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type List_valuesCreateInput = {
@@ -41067,6 +42613,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     local_data_size?: number | null
     local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    layer_options?: Layer_optionsCreateNestedManyWithoutTile_layersInput
     accounts?: AccountsCreateNestedOneWithoutTile_layersInput
     projects: ProjectsCreateNestedOneWithoutTile_layersInput
   }
@@ -41097,6 +42644,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     local_data_size?: number | null
     local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutTile_layersInput
   }
 
   export type Tile_layersUpdateInput = {
@@ -41123,6 +42671,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
     local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    layer_options?: Layer_optionsUpdateManyWithoutTile_layersNestedInput
     accounts?: AccountsUpdateOneWithoutTile_layersNestedInput
     projects?: ProjectsUpdateOneRequiredWithoutTile_layersNestedInput
   }
@@ -41153,6 +42702,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
     local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutTile_layersNestedInput
   }
 
   export type Tile_layersCreateManyInput = {
@@ -41657,6 +43207,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: number | null
     polygon_count?: number | null
     deleted?: boolean | null
+    layer_options?: Layer_optionsCreateNestedManyWithoutVector_layersInput
     accounts?: AccountsCreateNestedOneWithoutVector_layersInput
     projects: ProjectsCreateNestedOneWithoutVector_layersInput
   }
@@ -41682,6 +43233,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: number | null
     polygon_count?: number | null
     deleted?: boolean | null
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInput
   }
 
   export type Vector_layersUpdateInput = {
@@ -41703,6 +43255,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: NullableIntFieldUpdateOperationsInput | number | null
     polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    layer_options?: Layer_optionsUpdateManyWithoutVector_layersNestedInput
     accounts?: AccountsUpdateOneWithoutVector_layersNestedInput
     projects?: ProjectsUpdateOneRequiredWithoutVector_layersNestedInput
   }
@@ -41728,6 +43281,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: NullableIntFieldUpdateOperationsInput | number | null
     polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInput
   }
 
   export type Vector_layersCreateManyInput = {
@@ -42016,6 +43570,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     none?: GoalsWhereInput
   }
 
+  export type Layer_optionsListRelationFilter = {
+    every?: Layer_optionsWhereInput
+    some?: Layer_optionsWhereInput
+    none?: Layer_optionsWhereInput
+  }
+
   export type List_valuesListRelationFilter = {
     every?: List_valuesWhereInput
     some?: List_valuesWhereInput
@@ -42144,6 +43704,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type GoalsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type Layer_optionsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -42722,6 +44286,102 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type GoalsSumOrderByAggregateInput = {
     year?: SortOrder
+  }
+
+  export type StringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
+    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type Enumlayer_options_field_enumNullableFilter<$PrismaModel = never> = {
+    equals?: layer_options_field_enum | Enumlayer_options_field_enumFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<layer_options_field_enum> | ListEnumlayer_options_field_enumFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<layer_options_field_enum> | ListEnumlayer_options_field_enumFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumlayer_options_field_enumNullableFilter<$PrismaModel> | layer_options_field_enum | null
+  }
+
+  export type Tile_layersNullableRelationFilter = {
+    is?: Tile_layersWhereInput | null
+    isNot?: Tile_layersWhereInput | null
+  }
+
+  export type Vector_layersNullableRelationFilter = {
+    is?: Vector_layersWhereInput | null
+    isNot?: Vector_layersWhereInput | null
+  }
+
+  export type Layer_optionsCountOrderByAggregateInput = {
+    layer_option_id?: SortOrder
+    account_id?: SortOrder
+    tile_layer_id?: SortOrder
+    vector_layer_id?: SortOrder
+    field?: SortOrder
+    value?: SortOrder
+    label?: SortOrder
+    queryable?: SortOrder
+    legend_url?: SortOrder
+  }
+
+  export type Layer_optionsMaxOrderByAggregateInput = {
+    layer_option_id?: SortOrder
+    account_id?: SortOrder
+    tile_layer_id?: SortOrder
+    vector_layer_id?: SortOrder
+    field?: SortOrder
+    value?: SortOrder
+    label?: SortOrder
+    queryable?: SortOrder
+    legend_url?: SortOrder
+  }
+
+  export type Layer_optionsMinOrderByAggregateInput = {
+    layer_option_id?: SortOrder
+    account_id?: SortOrder
+    tile_layer_id?: SortOrder
+    vector_layer_id?: SortOrder
+    field?: SortOrder
+    value?: SortOrder
+    label?: SortOrder
+    queryable?: SortOrder
+    legend_url?: SortOrder
+  }
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
+    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type Enumlayer_options_field_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: layer_options_field_enum | Enumlayer_options_field_enumFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<layer_options_field_enum> | ListEnumlayer_options_field_enumFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<layer_options_field_enum> | ListEnumlayer_options_field_enumFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumlayer_options_field_enumNullableWithAggregatesFilter<$PrismaModel> | layer_options_field_enum | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumlayer_options_field_enumNullableFilter<$PrismaModel>
+    _max?: NestedEnumlayer_options_field_enumNullableFilter<$PrismaModel>
   }
 
   export type ListsNullableRelationFilter = {
@@ -43805,6 +45465,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<GoalsWhereUniqueInput>
   }
 
+  export type Layer_optionsCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Layer_optionsCreateWithoutAccountsInput>, Enumerable<Layer_optionsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Layer_optionsCreateOrConnectWithoutAccountsInput>
+    createMany?: Layer_optionsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Layer_optionsWhereUniqueInput>
+  }
+
   export type List_valuesCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<List_valuesCreateWithoutAccountsInput>, Enumerable<List_valuesUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<List_valuesCreateOrConnectWithoutAccountsInput>
@@ -43964,6 +45631,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<GoalsCreateOrConnectWithoutAccountsInput>
     createMany?: GoalsCreateManyAccountsInputEnvelope
     connect?: Enumerable<GoalsWhereUniqueInput>
+  }
+
+  export type Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Layer_optionsCreateWithoutAccountsInput>, Enumerable<Layer_optionsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Layer_optionsCreateOrConnectWithoutAccountsInput>
+    createMany?: Layer_optionsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Layer_optionsWhereUniqueInput>
   }
 
   export type List_valuesUncheckedCreateNestedManyWithoutAccountsInput = {
@@ -44189,6 +45863,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<GoalsUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<GoalsUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<GoalsScalarWhereInput>
+  }
+
+  export type Layer_optionsUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Layer_optionsCreateWithoutAccountsInput>, Enumerable<Layer_optionsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Layer_optionsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Layer_optionsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Layer_optionsCreateManyAccountsInputEnvelope
+    set?: Enumerable<Layer_optionsWhereUniqueInput>
+    disconnect?: Enumerable<Layer_optionsWhereUniqueInput>
+    delete?: Enumerable<Layer_optionsWhereUniqueInput>
+    connect?: Enumerable<Layer_optionsWhereUniqueInput>
+    update?: Enumerable<Layer_optionsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Layer_optionsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Layer_optionsScalarWhereInput>
   }
 
   export type List_valuesUpdateManyWithoutAccountsNestedInput = {
@@ -44511,6 +46199,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<GoalsUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<GoalsUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<GoalsScalarWhereInput>
+  }
+
+  export type Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Layer_optionsCreateWithoutAccountsInput>, Enumerable<Layer_optionsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Layer_optionsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Layer_optionsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Layer_optionsCreateManyAccountsInputEnvelope
+    set?: Enumerable<Layer_optionsWhereUniqueInput>
+    disconnect?: Enumerable<Layer_optionsWhereUniqueInput>
+    delete?: Enumerable<Layer_optionsWhereUniqueInput>
+    connect?: Enumerable<Layer_optionsWhereUniqueInput>
+    update?: Enumerable<Layer_optionsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Layer_optionsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Layer_optionsScalarWhereInput>
   }
 
   export type List_valuesUncheckedUpdateManyWithoutAccountsNestedInput = {
@@ -45139,6 +46841,58 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<Goal_reportsUpdateWithWhereUniqueWithoutGoalsInput>
     updateMany?: Enumerable<Goal_reportsUpdateManyWithWhereWithoutGoalsInput>
     deleteMany?: Enumerable<Goal_reportsScalarWhereInput>
+  }
+
+  export type AccountsCreateNestedOneWithoutLayer_optionsInput = {
+    create?: XOR<AccountsCreateWithoutLayer_optionsInput, AccountsUncheckedCreateWithoutLayer_optionsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutLayer_optionsInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type Tile_layersCreateNestedOneWithoutLayer_optionsInput = {
+    create?: XOR<Tile_layersCreateWithoutLayer_optionsInput, Tile_layersUncheckedCreateWithoutLayer_optionsInput>
+    connectOrCreate?: Tile_layersCreateOrConnectWithoutLayer_optionsInput
+    connect?: Tile_layersWhereUniqueInput
+  }
+
+  export type Vector_layersCreateNestedOneWithoutLayer_optionsInput = {
+    create?: XOR<Vector_layersCreateWithoutLayer_optionsInput, Vector_layersUncheckedCreateWithoutLayer_optionsInput>
+    connectOrCreate?: Vector_layersCreateOrConnectWithoutLayer_optionsInput
+    connect?: Vector_layersWhereUniqueInput
+  }
+
+  export type NullableEnumlayer_options_field_enumFieldUpdateOperationsInput = {
+    set?: layer_options_field_enum | null
+  }
+
+  export type AccountsUpdateOneWithoutLayer_optionsNestedInput = {
+    create?: XOR<AccountsCreateWithoutLayer_optionsInput, AccountsUncheckedCreateWithoutLayer_optionsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutLayer_optionsInput
+    upsert?: AccountsUpsertWithoutLayer_optionsInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutLayer_optionsInput, AccountsUpdateWithoutLayer_optionsInput>, AccountsUncheckedUpdateWithoutLayer_optionsInput>
+  }
+
+  export type Tile_layersUpdateOneWithoutLayer_optionsNestedInput = {
+    create?: XOR<Tile_layersCreateWithoutLayer_optionsInput, Tile_layersUncheckedCreateWithoutLayer_optionsInput>
+    connectOrCreate?: Tile_layersCreateOrConnectWithoutLayer_optionsInput
+    upsert?: Tile_layersUpsertWithoutLayer_optionsInput
+    disconnect?: Tile_layersWhereInput | boolean
+    delete?: Tile_layersWhereInput | boolean
+    connect?: Tile_layersWhereUniqueInput
+    update?: XOR<XOR<Tile_layersUpdateToOneWithWhereWithoutLayer_optionsInput, Tile_layersUpdateWithoutLayer_optionsInput>, Tile_layersUncheckedUpdateWithoutLayer_optionsInput>
+  }
+
+  export type Vector_layersUpdateOneWithoutLayer_optionsNestedInput = {
+    create?: XOR<Vector_layersCreateWithoutLayer_optionsInput, Vector_layersUncheckedCreateWithoutLayer_optionsInput>
+    connectOrCreate?: Vector_layersCreateOrConnectWithoutLayer_optionsInput
+    upsert?: Vector_layersUpsertWithoutLayer_optionsInput
+    disconnect?: Vector_layersWhereInput | boolean
+    delete?: Vector_layersWhereInput | boolean
+    connect?: Vector_layersWhereUniqueInput
+    update?: XOR<XOR<Vector_layersUpdateToOneWithWhereWithoutLayer_optionsInput, Vector_layersUpdateWithoutLayer_optionsInput>, Vector_layersUncheckedUpdateWithoutLayer_optionsInput>
   }
 
   export type AccountsCreateNestedOneWithoutList_valuesInput = {
@@ -46531,6 +48285,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<TaxaScalarWhereInput>
   }
 
+  export type Layer_optionsCreateNestedManyWithoutTile_layersInput = {
+    create?: XOR<Enumerable<Layer_optionsCreateWithoutTile_layersInput>, Enumerable<Layer_optionsUncheckedCreateWithoutTile_layersInput>>
+    connectOrCreate?: Enumerable<Layer_optionsCreateOrConnectWithoutTile_layersInput>
+    createMany?: Layer_optionsCreateManyTile_layersInputEnvelope
+    connect?: Enumerable<Layer_optionsWhereUniqueInput>
+  }
+
   export type AccountsCreateNestedOneWithoutTile_layersInput = {
     create?: XOR<AccountsCreateWithoutTile_layersInput, AccountsUncheckedCreateWithoutTile_layersInput>
     connectOrCreate?: AccountsCreateOrConnectWithoutTile_layersInput
@@ -46543,8 +48304,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: ProjectsWhereUniqueInput
   }
 
+  export type Layer_optionsUncheckedCreateNestedManyWithoutTile_layersInput = {
+    create?: XOR<Enumerable<Layer_optionsCreateWithoutTile_layersInput>, Enumerable<Layer_optionsUncheckedCreateWithoutTile_layersInput>>
+    connectOrCreate?: Enumerable<Layer_optionsCreateOrConnectWithoutTile_layersInput>
+    createMany?: Layer_optionsCreateManyTile_layersInputEnvelope
+    connect?: Enumerable<Layer_optionsWhereUniqueInput>
+  }
+
   export type NullableEnumtile_layer_type_enumFieldUpdateOperationsInput = {
     set?: tile_layer_type_enum | null
+  }
+
+  export type Layer_optionsUpdateManyWithoutTile_layersNestedInput = {
+    create?: XOR<Enumerable<Layer_optionsCreateWithoutTile_layersInput>, Enumerable<Layer_optionsUncheckedCreateWithoutTile_layersInput>>
+    connectOrCreate?: Enumerable<Layer_optionsCreateOrConnectWithoutTile_layersInput>
+    upsert?: Enumerable<Layer_optionsUpsertWithWhereUniqueWithoutTile_layersInput>
+    createMany?: Layer_optionsCreateManyTile_layersInputEnvelope
+    set?: Enumerable<Layer_optionsWhereUniqueInput>
+    disconnect?: Enumerable<Layer_optionsWhereUniqueInput>
+    delete?: Enumerable<Layer_optionsWhereUniqueInput>
+    connect?: Enumerable<Layer_optionsWhereUniqueInput>
+    update?: Enumerable<Layer_optionsUpdateWithWhereUniqueWithoutTile_layersInput>
+    updateMany?: Enumerable<Layer_optionsUpdateManyWithWhereWithoutTile_layersInput>
+    deleteMany?: Enumerable<Layer_optionsScalarWhereInput>
   }
 
   export type AccountsUpdateOneWithoutTile_layersNestedInput = {
@@ -46563,6 +48345,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     upsert?: ProjectsUpsertWithoutTile_layersInput
     connect?: ProjectsWhereUniqueInput
     update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutTile_layersInput, ProjectsUpdateWithoutTile_layersInput>, ProjectsUncheckedUpdateWithoutTile_layersInput>
+  }
+
+  export type Layer_optionsUncheckedUpdateManyWithoutTile_layersNestedInput = {
+    create?: XOR<Enumerable<Layer_optionsCreateWithoutTile_layersInput>, Enumerable<Layer_optionsUncheckedCreateWithoutTile_layersInput>>
+    connectOrCreate?: Enumerable<Layer_optionsCreateOrConnectWithoutTile_layersInput>
+    upsert?: Enumerable<Layer_optionsUpsertWithWhereUniqueWithoutTile_layersInput>
+    createMany?: Layer_optionsCreateManyTile_layersInputEnvelope
+    set?: Enumerable<Layer_optionsWhereUniqueInput>
+    disconnect?: Enumerable<Layer_optionsWhereUniqueInput>
+    delete?: Enumerable<Layer_optionsWhereUniqueInput>
+    connect?: Enumerable<Layer_optionsWhereUniqueInput>
+    update?: Enumerable<Layer_optionsUpdateWithWhereUniqueWithoutTile_layersInput>
+    updateMany?: Enumerable<Layer_optionsUpdateManyWithWhereWithoutTile_layersInput>
+    deleteMany?: Enumerable<Layer_optionsScalarWhereInput>
   }
 
   export type AccountsCreateNestedOneWithoutUi_optionsInput = {
@@ -46937,6 +48733,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<User_messagesScalarWhereInput>
   }
 
+  export type Layer_optionsCreateNestedManyWithoutVector_layersInput = {
+    create?: XOR<Enumerable<Layer_optionsCreateWithoutVector_layersInput>, Enumerable<Layer_optionsUncheckedCreateWithoutVector_layersInput>>
+    connectOrCreate?: Enumerable<Layer_optionsCreateOrConnectWithoutVector_layersInput>
+    createMany?: Layer_optionsCreateManyVector_layersInputEnvelope
+    connect?: Enumerable<Layer_optionsWhereUniqueInput>
+  }
+
   export type AccountsCreateNestedOneWithoutVector_layersInput = {
     create?: XOR<AccountsCreateWithoutVector_layersInput, AccountsUncheckedCreateWithoutVector_layersInput>
     connectOrCreate?: AccountsCreateOrConnectWithoutVector_layersInput
@@ -46949,8 +48752,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: ProjectsWhereUniqueInput
   }
 
+  export type Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInput = {
+    create?: XOR<Enumerable<Layer_optionsCreateWithoutVector_layersInput>, Enumerable<Layer_optionsUncheckedCreateWithoutVector_layersInput>>
+    connectOrCreate?: Enumerable<Layer_optionsCreateOrConnectWithoutVector_layersInput>
+    createMany?: Layer_optionsCreateManyVector_layersInputEnvelope
+    connect?: Enumerable<Layer_optionsWhereUniqueInput>
+  }
+
   export type NullableEnumvector_layer_type_enumFieldUpdateOperationsInput = {
     set?: vector_layer_type_enum | null
+  }
+
+  export type Layer_optionsUpdateManyWithoutVector_layersNestedInput = {
+    create?: XOR<Enumerable<Layer_optionsCreateWithoutVector_layersInput>, Enumerable<Layer_optionsUncheckedCreateWithoutVector_layersInput>>
+    connectOrCreate?: Enumerable<Layer_optionsCreateOrConnectWithoutVector_layersInput>
+    upsert?: Enumerable<Layer_optionsUpsertWithWhereUniqueWithoutVector_layersInput>
+    createMany?: Layer_optionsCreateManyVector_layersInputEnvelope
+    set?: Enumerable<Layer_optionsWhereUniqueInput>
+    disconnect?: Enumerable<Layer_optionsWhereUniqueInput>
+    delete?: Enumerable<Layer_optionsWhereUniqueInput>
+    connect?: Enumerable<Layer_optionsWhereUniqueInput>
+    update?: Enumerable<Layer_optionsUpdateWithWhereUniqueWithoutVector_layersInput>
+    updateMany?: Enumerable<Layer_optionsUpdateManyWithWhereWithoutVector_layersInput>
+    deleteMany?: Enumerable<Layer_optionsScalarWhereInput>
   }
 
   export type AccountsUpdateOneWithoutVector_layersNestedInput = {
@@ -46969,6 +48793,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     upsert?: ProjectsUpsertWithoutVector_layersInput
     connect?: ProjectsWhereUniqueInput
     update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutVector_layersInput, ProjectsUpdateWithoutVector_layersInput>, ProjectsUncheckedUpdateWithoutVector_layersInput>
+  }
+
+  export type Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInput = {
+    create?: XOR<Enumerable<Layer_optionsCreateWithoutVector_layersInput>, Enumerable<Layer_optionsUncheckedCreateWithoutVector_layersInput>>
+    connectOrCreate?: Enumerable<Layer_optionsCreateOrConnectWithoutVector_layersInput>
+    upsert?: Enumerable<Layer_optionsUpsertWithWhereUniqueWithoutVector_layersInput>
+    createMany?: Layer_optionsCreateManyVector_layersInputEnvelope
+    set?: Enumerable<Layer_optionsWhereUniqueInput>
+    disconnect?: Enumerable<Layer_optionsWhereUniqueInput>
+    delete?: Enumerable<Layer_optionsWhereUniqueInput>
+    connect?: Enumerable<Layer_optionsWhereUniqueInput>
+    update?: Enumerable<Layer_optionsUpdateWithWhereUniqueWithoutVector_layersInput>
+    updateMany?: Enumerable<Layer_optionsUpdateManyWithWhereWithoutVector_layersInput>
+    deleteMany?: Enumerable<Layer_optionsScalarWhereInput>
   }
 
   export type Widgets_for_fieldsCreateNestedManyWithoutWidget_typesInput = {
@@ -47282,6 +49120,40 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumlayer_options_field_enumNullableFilter<$PrismaModel = never> = {
+    equals?: layer_options_field_enum | Enumlayer_options_field_enumFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<layer_options_field_enum> | ListEnumlayer_options_field_enumFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<layer_options_field_enum> | ListEnumlayer_options_field_enumFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumlayer_options_field_enumNullableFilter<$PrismaModel> | layer_options_field_enum | null
+  }
+
+  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
+    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedEnumlayer_options_field_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: layer_options_field_enum | Enumlayer_options_field_enumFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<layer_options_field_enum> | ListEnumlayer_options_field_enumFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<layer_options_field_enum> | ListEnumlayer_options_field_enumFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumlayer_options_field_enumNullableWithAggregatesFilter<$PrismaModel> | layer_options_field_enum | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumlayer_options_field_enumNullableFilter<$PrismaModel>
+    _max?: NestedEnumlayer_options_field_enumNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumproject_typeNullableFilter<$PrismaModel = never> = {
     equals?: project_type | Enumproject_typeFieldRefInput<$PrismaModel> | null
     in?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
@@ -47575,6 +49447,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type GoalsCreateManyAccountsInputEnvelope = {
     data: Enumerable<GoalsCreateManyAccountsInput>
+    skipDuplicates?: boolean
+  }
+
+  export type Layer_optionsCreateWithoutAccountsInput = {
+    layer_option_id: string
+    field?: layer_options_field_enum | null
+    value?: string | null
+    label?: string | null
+    queryable?: boolean | null
+    legend_url?: string | null
+    tile_layers?: Tile_layersCreateNestedOneWithoutLayer_optionsInput
+    vector_layers?: Vector_layersCreateNestedOneWithoutLayer_optionsInput
+  }
+
+  export type Layer_optionsUncheckedCreateWithoutAccountsInput = {
+    layer_option_id: string
+    tile_layer_id?: string | null
+    vector_layer_id?: string | null
+    field?: layer_options_field_enum | null
+    value?: string | null
+    label?: string | null
+    queryable?: boolean | null
+    legend_url?: string | null
+  }
+
+  export type Layer_optionsCreateOrConnectWithoutAccountsInput = {
+    where: Layer_optionsWhereUniqueInput
+    create: XOR<Layer_optionsCreateWithoutAccountsInput, Layer_optionsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Layer_optionsCreateManyAccountsInputEnvelope = {
+    data: Enumerable<Layer_optionsCreateManyAccountsInput>
     skipDuplicates?: boolean
   }
 
@@ -48054,6 +49958,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     local_data_size?: number | null
     local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    layer_options?: Layer_optionsCreateNestedManyWithoutTile_layersInput
     projects: ProjectsCreateNestedOneWithoutTile_layersInput
   }
 
@@ -48082,6 +49987,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     local_data_size?: number | null
     local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutTile_layersInput
   }
 
   export type Tile_layersCreateOrConnectWithoutAccountsInput = {
@@ -48233,6 +50139,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: number | null
     polygon_count?: number | null
     deleted?: boolean | null
+    layer_options?: Layer_optionsCreateNestedManyWithoutVector_layersInput
     projects: ProjectsCreateNestedOneWithoutVector_layersInput
   }
 
@@ -48256,6 +50163,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: number | null
     polygon_count?: number | null
     deleted?: boolean | null
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInput
   }
 
   export type Vector_layersCreateOrConnectWithoutAccountsInput = {
@@ -48480,6 +50388,37 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: JsonNullableFilter<"Goals">
     label_replace_by_generated_column?: StringNullableFilter<"Goals"> | string | null
     deleted?: BoolNullableFilter<"Goals"> | boolean | null
+  }
+
+  export type Layer_optionsUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: Layer_optionsWhereUniqueInput
+    update: XOR<Layer_optionsUpdateWithoutAccountsInput, Layer_optionsUncheckedUpdateWithoutAccountsInput>
+    create: XOR<Layer_optionsCreateWithoutAccountsInput, Layer_optionsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Layer_optionsUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: Layer_optionsWhereUniqueInput
+    data: XOR<Layer_optionsUpdateWithoutAccountsInput, Layer_optionsUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type Layer_optionsUpdateManyWithWhereWithoutAccountsInput = {
+    where: Layer_optionsScalarWhereInput
+    data: XOR<Layer_optionsUpdateManyMutationInput, Layer_optionsUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type Layer_optionsScalarWhereInput = {
+    AND?: Enumerable<Layer_optionsScalarWhereInput>
+    OR?: Enumerable<Layer_optionsScalarWhereInput>
+    NOT?: Enumerable<Layer_optionsScalarWhereInput>
+    layer_option_id?: StringFilter<"Layer_options"> | string
+    account_id?: UuidNullableFilter<"Layer_options"> | string | null
+    tile_layer_id?: UuidNullableFilter<"Layer_options"> | string | null
+    vector_layer_id?: UuidNullableFilter<"Layer_options"> | string | null
+    field?: Enumlayer_options_field_enumNullableFilter<"Layer_options"> | layer_options_field_enum | null
+    value?: StringNullableFilter<"Layer_options"> | string | null
+    label?: StringNullableFilter<"Layer_options"> | string | null
+    queryable?: BoolNullableFilter<"Layer_options"> | boolean | null
+    legend_url?: StringNullableFilter<"Layer_options"> | string | null
   }
 
   export type List_valuesUpsertWithWhereUniqueWithoutAccountsInput = {
@@ -49123,6 +51062,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -49155,6 +51095,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -49325,6 +51266,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -49357,6 +51299,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -49523,6 +51466,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -49555,6 +51499,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -49725,6 +51670,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -49757,6 +51703,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -49923,6 +51870,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -49955,6 +51903,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -50088,6 +52037,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -50120,6 +52070,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -50243,6 +52194,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -50275,6 +52227,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -50391,6 +52344,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -50423,6 +52377,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -50567,6 +52522,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -50599,6 +52555,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -50690,6 +52647,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -50722,6 +52680,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -50815,6 +52774,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -50847,6 +52807,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -50948,6 +52909,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -50980,6 +52942,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -51042,6 +53005,390 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subproject_users?: Subproject_usersUncheckedUpdateManyWithoutSubprojectsNestedInput
   }
 
+  export type AccountsCreateWithoutLayer_optionsInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
+    goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesCreateNestedManyWithoutAccountsInput
+    lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutLayer_optionsInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutLayer_optionsInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutLayer_optionsInput, AccountsUncheckedCreateWithoutLayer_optionsInput>
+  }
+
+  export type Tile_layersCreateWithoutLayer_optionsInput = {
+    tile_layer_id: string
+    label?: string | null
+    sort?: number | null
+    active?: boolean | null
+    type?: tile_layer_type_enum | null
+    wmts_url_template?: string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: boolean | null
+    wms_version?: string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: number | null
+    min_zoom?: number | null
+    opacity_percent?: number | null
+    grayscale?: boolean | null
+    local_data_size?: number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutTile_layersInput
+    projects: ProjectsCreateNestedOneWithoutTile_layersInput
+  }
+
+  export type Tile_layersUncheckedCreateWithoutLayer_optionsInput = {
+    tile_layer_id: string
+    account_id?: string | null
+    project_id: string
+    label?: string | null
+    sort?: number | null
+    active?: boolean | null
+    type?: tile_layer_type_enum | null
+    wmts_url_template?: string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: boolean | null
+    wms_version?: string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: number | null
+    min_zoom?: number | null
+    opacity_percent?: number | null
+    grayscale?: boolean | null
+    local_data_size?: number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+  }
+
+  export type Tile_layersCreateOrConnectWithoutLayer_optionsInput = {
+    where: Tile_layersWhereUniqueInput
+    create: XOR<Tile_layersCreateWithoutLayer_optionsInput, Tile_layersUncheckedCreateWithoutLayer_optionsInput>
+  }
+
+  export type Vector_layersCreateWithoutLayer_optionsInput = {
+    vector_layer_id: string
+    label?: string | null
+    type?: vector_layer_type_enum | null
+    display_by_property_field?: string | null
+    sort?: number | null
+    active?: boolean | null
+    max_zoom?: number | null
+    min_zoom?: number | null
+    max_features?: number | null
+    wfs_url?: string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: number | null
+    point_count?: number | null
+    line_count?: number | null
+    polygon_count?: number | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutVector_layersInput
+    projects: ProjectsCreateNestedOneWithoutVector_layersInput
+  }
+
+  export type Vector_layersUncheckedCreateWithoutLayer_optionsInput = {
+    vector_layer_id: string
+    account_id?: string | null
+    project_id: string
+    label?: string | null
+    type?: vector_layer_type_enum | null
+    display_by_property_field?: string | null
+    sort?: number | null
+    active?: boolean | null
+    max_zoom?: number | null
+    min_zoom?: number | null
+    max_features?: number | null
+    wfs_url?: string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: number | null
+    point_count?: number | null
+    line_count?: number | null
+    polygon_count?: number | null
+    deleted?: boolean | null
+  }
+
+  export type Vector_layersCreateOrConnectWithoutLayer_optionsInput = {
+    where: Vector_layersWhereUniqueInput
+    create: XOR<Vector_layersCreateWithoutLayer_optionsInput, Vector_layersUncheckedCreateWithoutLayer_optionsInput>
+  }
+
+  export type AccountsUpsertWithoutLayer_optionsInput = {
+    update: XOR<AccountsUpdateWithoutLayer_optionsInput, AccountsUncheckedUpdateWithoutLayer_optionsInput>
+    create: XOR<AccountsCreateWithoutLayer_optionsInput, AccountsUncheckedCreateWithoutLayer_optionsInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutLayer_optionsInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutLayer_optionsInput, AccountsUncheckedUpdateWithoutLayer_optionsInput>
+  }
+
+  export type AccountsUpdateWithoutLayer_optionsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
+    goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutLayer_optionsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type Tile_layersUpsertWithoutLayer_optionsInput = {
+    update: XOR<Tile_layersUpdateWithoutLayer_optionsInput, Tile_layersUncheckedUpdateWithoutLayer_optionsInput>
+    create: XOR<Tile_layersCreateWithoutLayer_optionsInput, Tile_layersUncheckedCreateWithoutLayer_optionsInput>
+    where?: Tile_layersWhereInput
+  }
+
+  export type Tile_layersUpdateToOneWithWhereWithoutLayer_optionsInput = {
+    where?: Tile_layersWhereInput
+    data: XOR<Tile_layersUpdateWithoutLayer_optionsInput, Tile_layersUncheckedUpdateWithoutLayer_optionsInput>
+  }
+
+  export type Tile_layersUpdateWithoutLayer_optionsInput = {
+    tile_layer_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    type?: NullableEnumtile_layer_type_enumFieldUpdateOperationsInput | tile_layer_type_enum | null
+    wmts_url_template?: NullableStringFieldUpdateOperationsInput | string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    wms_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    opacity_percent?: NullableIntFieldUpdateOperationsInput | number | null
+    grayscale?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutTile_layersNestedInput
+    projects?: ProjectsUpdateOneRequiredWithoutTile_layersNestedInput
+  }
+
+  export type Tile_layersUncheckedUpdateWithoutLayer_optionsInput = {
+    tile_layer_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    type?: NullableEnumtile_layer_type_enumFieldUpdateOperationsInput | tile_layer_type_enum | null
+    wmts_url_template?: NullableStringFieldUpdateOperationsInput | string | null
+    wmts_subdomains?: NullableJsonNullValueInput | InputJsonValue
+    wms_base_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_layer?: NullableJsonNullValueInput | InputJsonValue
+    wms_parameters?: NullableJsonNullValueInput | InputJsonValue
+    wms_styles?: NullableJsonNullValueInput | InputJsonValue
+    wms_transparent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    wms_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wms_info_format?: NullableJsonNullValueInput | InputJsonValue
+    wms_legend?: NullableJsonNullValueInput | InputJsonValue
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    opacity_percent?: NullableIntFieldUpdateOperationsInput | number | null
+    grayscale?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
+    local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Vector_layersUpsertWithoutLayer_optionsInput = {
+    update: XOR<Vector_layersUpdateWithoutLayer_optionsInput, Vector_layersUncheckedUpdateWithoutLayer_optionsInput>
+    create: XOR<Vector_layersCreateWithoutLayer_optionsInput, Vector_layersUncheckedCreateWithoutLayer_optionsInput>
+    where?: Vector_layersWhereInput
+  }
+
+  export type Vector_layersUpdateToOneWithWhereWithoutLayer_optionsInput = {
+    where?: Vector_layersWhereInput
+    data: XOR<Vector_layersUpdateWithoutLayer_optionsInput, Vector_layersUncheckedUpdateWithoutLayer_optionsInput>
+  }
+
+  export type Vector_layersUpdateWithoutLayer_optionsInput = {
+    vector_layer_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumvector_layer_type_enumFieldUpdateOperationsInput | vector_layer_type_enum | null
+    display_by_property_field?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    max_features?: NullableIntFieldUpdateOperationsInput | number | null
+    wfs_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: NullableIntFieldUpdateOperationsInput | number | null
+    point_count?: NullableIntFieldUpdateOperationsInput | number | null
+    line_count?: NullableIntFieldUpdateOperationsInput | number | null
+    polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutVector_layersNestedInput
+    projects?: ProjectsUpdateOneRequiredWithoutVector_layersNestedInput
+  }
+
+  export type Vector_layersUncheckedUpdateWithoutLayer_optionsInput = {
+    vector_layer_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumvector_layer_type_enumFieldUpdateOperationsInput | vector_layer_type_enum | null
+    display_by_property_field?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    max_features?: NullableIntFieldUpdateOperationsInput | number | null
+    wfs_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: NullableIntFieldUpdateOperationsInput | number | null
+    point_count?: NullableIntFieldUpdateOperationsInput | number | null
+    line_count?: NullableIntFieldUpdateOperationsInput | number | null
+    polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type AccountsCreateWithoutList_valuesInput = {
     account_id: string
     type?: string | null
@@ -51056,6 +53403,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -51088,6 +53436,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -51165,6 +53514,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -51197,6 +53547,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -51292,6 +53643,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -51324,6 +53676,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -51523,6 +53876,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -51555,6 +53909,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -51736,6 +54091,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -51768,6 +54124,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -51901,6 +54258,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -51933,6 +54291,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -52056,6 +54415,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -52088,6 +54448,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -52221,6 +54582,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -52253,6 +54615,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -52376,6 +54739,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -52408,6 +54772,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -52541,6 +54906,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -52573,6 +54939,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -52696,6 +55063,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -52728,6 +55096,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -52890,6 +55259,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -52922,6 +55292,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -53340,6 +55711,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -53372,6 +55744,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -53497,6 +55870,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     local_data_size?: number | null
     local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    layer_options?: Layer_optionsCreateNestedManyWithoutTile_layersInput
     accounts?: AccountsCreateNestedOneWithoutTile_layersInput
   }
 
@@ -53525,6 +55899,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     local_data_size?: number | null
     local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutTile_layersInput
   }
 
   export type Tile_layersCreateOrConnectWithoutProjectsInput = {
@@ -53606,6 +55981,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: number | null
     polygon_count?: number | null
     deleted?: boolean | null
+    layer_options?: Layer_optionsCreateNestedManyWithoutVector_layersInput
     accounts?: AccountsCreateNestedOneWithoutVector_layersInput
   }
 
@@ -53629,6 +56005,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: number | null
     polygon_count?: number | null
     deleted?: boolean | null
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInput
   }
 
   export type Vector_layersCreateOrConnectWithoutProjectsInput = {
@@ -53794,6 +56171,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -53826,6 +56204,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -53938,6 +56317,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -53970,6 +56350,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -54082,6 +56463,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -54114,6 +56496,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -54222,6 +56605,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -54254,6 +56638,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -54368,6 +56753,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -54400,6 +56786,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -54662,6 +57049,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -54694,6 +57082,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -54907,6 +57296,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -54939,6 +57329,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -55088,6 +57479,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -55120,6 +57512,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -55215,6 +57608,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -55247,6 +57641,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -55348,6 +57743,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -55380,6 +57776,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -55529,6 +57926,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -55561,6 +57959,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -55670,6 +58069,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
+  export type Layer_optionsCreateWithoutTile_layersInput = {
+    layer_option_id: string
+    field?: layer_options_field_enum | null
+    value?: string | null
+    label?: string | null
+    queryable?: boolean | null
+    legend_url?: string | null
+    accounts?: AccountsCreateNestedOneWithoutLayer_optionsInput
+    vector_layers?: Vector_layersCreateNestedOneWithoutLayer_optionsInput
+  }
+
+  export type Layer_optionsUncheckedCreateWithoutTile_layersInput = {
+    layer_option_id: string
+    account_id?: string | null
+    vector_layer_id?: string | null
+    field?: layer_options_field_enum | null
+    value?: string | null
+    label?: string | null
+    queryable?: boolean | null
+    legend_url?: string | null
+  }
+
+  export type Layer_optionsCreateOrConnectWithoutTile_layersInput = {
+    where: Layer_optionsWhereUniqueInput
+    create: XOR<Layer_optionsCreateWithoutTile_layersInput, Layer_optionsUncheckedCreateWithoutTile_layersInput>
+  }
+
+  export type Layer_optionsCreateManyTile_layersInputEnvelope = {
+    data: Enumerable<Layer_optionsCreateManyTile_layersInput>
+    skipDuplicates?: boolean
+  }
+
   export type AccountsCreateWithoutTile_layersInput = {
     account_id: string
     type?: string | null
@@ -55684,6 +58115,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -55716,6 +58148,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -55824,6 +58257,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     create: XOR<ProjectsCreateWithoutTile_layersInput, ProjectsUncheckedCreateWithoutTile_layersInput>
   }
 
+  export type Layer_optionsUpsertWithWhereUniqueWithoutTile_layersInput = {
+    where: Layer_optionsWhereUniqueInput
+    update: XOR<Layer_optionsUpdateWithoutTile_layersInput, Layer_optionsUncheckedUpdateWithoutTile_layersInput>
+    create: XOR<Layer_optionsCreateWithoutTile_layersInput, Layer_optionsUncheckedCreateWithoutTile_layersInput>
+  }
+
+  export type Layer_optionsUpdateWithWhereUniqueWithoutTile_layersInput = {
+    where: Layer_optionsWhereUniqueInput
+    data: XOR<Layer_optionsUpdateWithoutTile_layersInput, Layer_optionsUncheckedUpdateWithoutTile_layersInput>
+  }
+
+  export type Layer_optionsUpdateManyWithWhereWithoutTile_layersInput = {
+    where: Layer_optionsScalarWhereInput
+    data: XOR<Layer_optionsUpdateManyMutationInput, Layer_optionsUncheckedUpdateManyWithoutTile_layersInput>
+  }
+
   export type AccountsUpsertWithoutTile_layersInput = {
     update: XOR<AccountsUpdateWithoutTile_layersInput, AccountsUncheckedUpdateWithoutTile_layersInput>
     create: XOR<AccountsCreateWithoutTile_layersInput, AccountsUncheckedCreateWithoutTile_layersInput>
@@ -55849,6 +58298,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -55881,6 +58331,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -56004,6 +58455,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -56036,6 +58488,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -56113,6 +58566,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -56145,6 +58599,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -56244,6 +58699,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -56276,6 +58732,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -56454,6 +58911,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -56486,6 +58944,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -56644,6 +59103,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -56676,6 +59136,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -56772,6 +59233,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -56804,6 +59266,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -56895,6 +59358,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -56927,6 +59391,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -57199,6 +59664,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data: XOR<User_messagesUpdateManyMutationInput, User_messagesUncheckedUpdateManyWithoutUsersInput>
   }
 
+  export type Layer_optionsCreateWithoutVector_layersInput = {
+    layer_option_id: string
+    field?: layer_options_field_enum | null
+    value?: string | null
+    label?: string | null
+    queryable?: boolean | null
+    legend_url?: string | null
+    accounts?: AccountsCreateNestedOneWithoutLayer_optionsInput
+    tile_layers?: Tile_layersCreateNestedOneWithoutLayer_optionsInput
+  }
+
+  export type Layer_optionsUncheckedCreateWithoutVector_layersInput = {
+    layer_option_id: string
+    account_id?: string | null
+    tile_layer_id?: string | null
+    field?: layer_options_field_enum | null
+    value?: string | null
+    label?: string | null
+    queryable?: boolean | null
+    legend_url?: string | null
+  }
+
+  export type Layer_optionsCreateOrConnectWithoutVector_layersInput = {
+    where: Layer_optionsWhereUniqueInput
+    create: XOR<Layer_optionsCreateWithoutVector_layersInput, Layer_optionsUncheckedCreateWithoutVector_layersInput>
+  }
+
+  export type Layer_optionsCreateManyVector_layersInputEnvelope = {
+    data: Enumerable<Layer_optionsCreateManyVector_layersInput>
+    skipDuplicates?: boolean
+  }
+
   export type AccountsCreateWithoutVector_layersInput = {
     account_id: string
     type?: string | null
@@ -57213,6 +59710,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
@@ -57245,6 +59743,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
@@ -57353,6 +59852,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     create: XOR<ProjectsCreateWithoutVector_layersInput, ProjectsUncheckedCreateWithoutVector_layersInput>
   }
 
+  export type Layer_optionsUpsertWithWhereUniqueWithoutVector_layersInput = {
+    where: Layer_optionsWhereUniqueInput
+    update: XOR<Layer_optionsUpdateWithoutVector_layersInput, Layer_optionsUncheckedUpdateWithoutVector_layersInput>
+    create: XOR<Layer_optionsCreateWithoutVector_layersInput, Layer_optionsUncheckedCreateWithoutVector_layersInput>
+  }
+
+  export type Layer_optionsUpdateWithWhereUniqueWithoutVector_layersInput = {
+    where: Layer_optionsWhereUniqueInput
+    data: XOR<Layer_optionsUpdateWithoutVector_layersInput, Layer_optionsUncheckedUpdateWithoutVector_layersInput>
+  }
+
+  export type Layer_optionsUpdateManyWithWhereWithoutVector_layersInput = {
+    where: Layer_optionsScalarWhereInput
+    data: XOR<Layer_optionsUpdateManyMutationInput, Layer_optionsUncheckedUpdateManyWithoutVector_layersInput>
+  }
+
   export type AccountsUpsertWithoutVector_layersInput = {
     update: XOR<AccountsUpdateWithoutVector_layersInput, AccountsUncheckedUpdateWithoutVector_layersInput>
     create: XOR<AccountsCreateWithoutVector_layersInput, AccountsUncheckedCreateWithoutVector_layersInput>
@@ -57378,6 +59893,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -57410,6 +59926,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -57724,6 +60241,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+  }
+
+  export type Layer_optionsCreateManyAccountsInput = {
+    layer_option_id: string
+    tile_layer_id?: string | null
+    vector_layer_id?: string | null
+    field?: layer_options_field_enum | null
+    value?: string | null
+    label?: string | null
+    queryable?: boolean | null
+    legend_url?: string | null
   }
 
   export type List_valuesCreateManyAccountsInput = {
@@ -58142,6 +60670,39 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Layer_optionsUpdateWithoutAccountsInput = {
+    layer_option_id?: StringFieldUpdateOperationsInput | string
+    field?: NullableEnumlayer_options_field_enumFieldUpdateOperationsInput | layer_options_field_enum | null
+    value?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    queryable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    legend_url?: NullableStringFieldUpdateOperationsInput | string | null
+    tile_layers?: Tile_layersUpdateOneWithoutLayer_optionsNestedInput
+    vector_layers?: Vector_layersUpdateOneWithoutLayer_optionsNestedInput
+  }
+
+  export type Layer_optionsUncheckedUpdateWithoutAccountsInput = {
+    layer_option_id?: StringFieldUpdateOperationsInput | string
+    tile_layer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    field?: NullableEnumlayer_options_field_enumFieldUpdateOperationsInput | layer_options_field_enum | null
+    value?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    queryable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    legend_url?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Layer_optionsUncheckedUpdateManyWithoutAccountsInput = {
+    layer_option_id?: StringFieldUpdateOperationsInput | string
+    tile_layer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    field?: NullableEnumlayer_options_field_enumFieldUpdateOperationsInput | layer_options_field_enum | null
+    value?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    queryable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    legend_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type List_valuesUpdateWithoutAccountsInput = {
@@ -58644,6 +61205,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
     local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    layer_options?: Layer_optionsUpdateManyWithoutTile_layersNestedInput
     projects?: ProjectsUpdateOneRequiredWithoutTile_layersNestedInput
   }
 
@@ -58672,6 +61234,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
     local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutTile_layersNestedInput
   }
 
   export type Tile_layersUncheckedUpdateManyWithoutAccountsInput = {
@@ -58854,6 +61417,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: NullableIntFieldUpdateOperationsInput | number | null
     polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    layer_options?: Layer_optionsUpdateManyWithoutVector_layersNestedInput
     projects?: ProjectsUpdateOneRequiredWithoutVector_layersNestedInput
   }
 
@@ -58877,6 +61441,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: NullableIntFieldUpdateOperationsInput | number | null
     polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInput
   }
 
   export type Vector_layersUncheckedUpdateManyWithoutAccountsInput = {
@@ -59705,6 +62270,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
     local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    layer_options?: Layer_optionsUpdateManyWithoutTile_layersNestedInput
     accounts?: AccountsUpdateOneWithoutTile_layersNestedInput
   }
 
@@ -59733,6 +62299,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     local_data_size?: NullableIntFieldUpdateOperationsInput | number | null
     local_data_bounds?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutTile_layersNestedInput
   }
 
   export type Tile_layersUncheckedUpdateManyWithoutProjectsInput = {
@@ -59840,6 +62407,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: NullableIntFieldUpdateOperationsInput | number | null
     polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    layer_options?: Layer_optionsUpdateManyWithoutVector_layersNestedInput
     accounts?: AccountsUpdateOneWithoutVector_layersNestedInput
   }
 
@@ -59863,6 +62431,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: NullableIntFieldUpdateOperationsInput | number | null
     polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInput
   }
 
   export type Vector_layersUncheckedUpdateManyWithoutProjectsInput = {
@@ -60163,6 +62732,50 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Layer_optionsCreateManyTile_layersInput = {
+    layer_option_id: string
+    account_id?: string | null
+    vector_layer_id?: string | null
+    field?: layer_options_field_enum | null
+    value?: string | null
+    label?: string | null
+    queryable?: boolean | null
+    legend_url?: string | null
+  }
+
+  export type Layer_optionsUpdateWithoutTile_layersInput = {
+    layer_option_id?: StringFieldUpdateOperationsInput | string
+    field?: NullableEnumlayer_options_field_enumFieldUpdateOperationsInput | layer_options_field_enum | null
+    value?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    queryable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    legend_url?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountsUpdateOneWithoutLayer_optionsNestedInput
+    vector_layers?: Vector_layersUpdateOneWithoutLayer_optionsNestedInput
+  }
+
+  export type Layer_optionsUncheckedUpdateWithoutTile_layersInput = {
+    layer_option_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    field?: NullableEnumlayer_options_field_enumFieldUpdateOperationsInput | layer_options_field_enum | null
+    value?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    queryable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    legend_url?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Layer_optionsUncheckedUpdateManyWithoutTile_layersInput = {
+    layer_option_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    field?: NullableEnumlayer_options_field_enumFieldUpdateOperationsInput | layer_options_field_enum | null
+    value?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    queryable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    legend_url?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type Goal_report_valuesCreateManyUnitsInput = {
     goal_report_value_id: string
     account_id?: string | null
@@ -60255,6 +62868,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
@@ -60287,6 +62901,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -60391,6 +63006,50 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     message_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     read?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Layer_optionsCreateManyVector_layersInput = {
+    layer_option_id: string
+    account_id?: string | null
+    tile_layer_id?: string | null
+    field?: layer_options_field_enum | null
+    value?: string | null
+    label?: string | null
+    queryable?: boolean | null
+    legend_url?: string | null
+  }
+
+  export type Layer_optionsUpdateWithoutVector_layersInput = {
+    layer_option_id?: StringFieldUpdateOperationsInput | string
+    field?: NullableEnumlayer_options_field_enumFieldUpdateOperationsInput | layer_options_field_enum | null
+    value?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    queryable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    legend_url?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountsUpdateOneWithoutLayer_optionsNestedInput
+    tile_layers?: Tile_layersUpdateOneWithoutLayer_optionsNestedInput
+  }
+
+  export type Layer_optionsUncheckedUpdateWithoutVector_layersInput = {
+    layer_option_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    tile_layer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    field?: NullableEnumlayer_options_field_enumFieldUpdateOperationsInput | layer_options_field_enum | null
+    value?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    queryable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    legend_url?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Layer_optionsUncheckedUpdateManyWithoutVector_layersInput = {
+    layer_option_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    tile_layer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    field?: NullableEnumlayer_options_field_enumFieldUpdateOperationsInput | layer_options_field_enum | null
+    value?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    queryable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    legend_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type Widgets_for_fieldsCreateManyWidget_typesInput = {
