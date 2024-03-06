@@ -65,8 +65,13 @@ const ExampleComponent = () => {
       const userShape = await db.users.sync({
         include: {
           accounts: {
-            include: { users: true, projects: { include: { accounts: true } } },
+            include: {
+              users: true,
+              projects: { include: { accounts: true } },
+              ui_options: true,
+            },
           },
+          ui_options: true,
         },
       })
       const messagesShape = await db.messages.sync({

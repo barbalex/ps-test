@@ -63,6 +63,8 @@ export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
 
+export const Ui_optionsScalarFieldEnumSchema = z.enum(['user_id','account_id','designing','breadcrumbs_overflowing','navs_overflowing','tabs','show_map','map_bounds','local_map_show','tile_layer_sorter','vector_layer_sorter','editing_place_geometry','editing_check_geometry','editing_action_geometry','label']);
+
 export const User_messagesScalarFieldEnumSchema = z.enum(['user_message_id','account_id','user_id','message_id','label_replace_by_generated_column','read']);
 
 export const UsersScalarFieldEnumSchema = z.enum(['user_id','email','auth_id','label_replace_by_generated_column','deleted']);
@@ -158,6 +160,30 @@ export const ProjectsSchema = z.object({
 export type Projects = z.infer<typeof ProjectsSchema>
 
 /////////////////////////////////////////
+// UI OPTIONS SCHEMA
+/////////////////////////////////////////
+
+export const Ui_optionsSchema = z.object({
+  user_id: z.string().uuid(),
+  account_id: z.string().uuid().nullable(),
+  designing: z.boolean().nullable(),
+  breadcrumbs_overflowing: z.boolean().nullable(),
+  navs_overflowing: z.boolean().nullable(),
+  tabs: NullableJsonValue.optional(),
+  show_map: z.boolean().nullable(),
+  map_bounds: NullableJsonValue.optional(),
+  local_map_show: NullableJsonValue.optional(),
+  tile_layer_sorter: z.string().nullable(),
+  vector_layer_sorter: z.string().nullable(),
+  editing_place_geometry: z.string().uuid().nullable(),
+  editing_check_geometry: z.string().uuid().nullable(),
+  editing_action_geometry: z.string().uuid().nullable(),
+  label: z.string().nullable(),
+})
+
+export type Ui_options = z.infer<typeof Ui_optionsSchema>
+
+/////////////////////////////////////////
 // USER MESSAGES SCHEMA
 /////////////////////////////////////////
 
@@ -226,6 +252,7 @@ export type Widgets_for_fields = z.infer<typeof Widgets_for_fieldsSchema>
 export const AccountsIncludeSchema: z.ZodType<Prisma.AccountsInclude> = z.object({
   users: z.union([z.boolean(),z.lazy(() => UsersArgsSchema)]).optional(),
   projects: z.union([z.boolean(),z.lazy(() => ProjectsFindManyArgsSchema)]).optional(),
+  ui_options: z.union([z.boolean(),z.lazy(() => Ui_optionsFindManyArgsSchema)]).optional(),
   user_messages: z.union([z.boolean(),z.lazy(() => User_messagesFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => AccountsCountOutputTypeArgsSchema)]).optional(),
 }).strict()
@@ -241,6 +268,7 @@ export const AccountsCountOutputTypeArgsSchema: z.ZodType<Prisma.AccountsCountOu
 
 export const AccountsCountOutputTypeSelectSchema: z.ZodType<Prisma.AccountsCountOutputTypeSelect> = z.object({
   projects: z.boolean().optional(),
+  ui_options: z.boolean().optional(),
   user_messages: z.boolean().optional(),
 }).strict();
 
@@ -254,6 +282,7 @@ export const AccountsSelectSchema: z.ZodType<Prisma.AccountsSelect> = z.object({
   label: z.boolean().optional(),
   users: z.union([z.boolean(),z.lazy(() => UsersArgsSchema)]).optional(),
   projects: z.union([z.boolean(),z.lazy(() => ProjectsFindManyArgsSchema)]).optional(),
+  ui_options: z.union([z.boolean(),z.lazy(() => Ui_optionsFindManyArgsSchema)]).optional(),
   user_messages: z.union([z.boolean(),z.lazy(() => User_messagesFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => AccountsCountOutputTypeArgsSchema)]).optional(),
 }).strict()
@@ -361,6 +390,39 @@ export const ProjectsSelectSchema: z.ZodType<Prisma.ProjectsSelect> = z.object({
   accounts: z.union([z.boolean(),z.lazy(() => AccountsArgsSchema)]).optional(),
 }).strict()
 
+// UI OPTIONS
+//------------------------------------------------------
+
+export const Ui_optionsIncludeSchema: z.ZodType<Prisma.Ui_optionsInclude> = z.object({
+  accounts: z.union([z.boolean(),z.lazy(() => AccountsArgsSchema)]).optional(),
+  users: z.union([z.boolean(),z.lazy(() => UsersArgsSchema)]).optional(),
+}).strict()
+
+export const Ui_optionsArgsSchema: z.ZodType<Prisma.Ui_optionsArgs> = z.object({
+  select: z.lazy(() => Ui_optionsSelectSchema).optional(),
+  include: z.lazy(() => Ui_optionsIncludeSchema).optional(),
+}).strict();
+
+export const Ui_optionsSelectSchema: z.ZodType<Prisma.Ui_optionsSelect> = z.object({
+  user_id: z.boolean().optional(),
+  account_id: z.boolean().optional(),
+  designing: z.boolean().optional(),
+  breadcrumbs_overflowing: z.boolean().optional(),
+  navs_overflowing: z.boolean().optional(),
+  tabs: z.boolean().optional(),
+  show_map: z.boolean().optional(),
+  map_bounds: z.boolean().optional(),
+  local_map_show: z.boolean().optional(),
+  tile_layer_sorter: z.boolean().optional(),
+  vector_layer_sorter: z.boolean().optional(),
+  editing_place_geometry: z.boolean().optional(),
+  editing_check_geometry: z.boolean().optional(),
+  editing_action_geometry: z.boolean().optional(),
+  label: z.boolean().optional(),
+  accounts: z.union([z.boolean(),z.lazy(() => AccountsArgsSchema)]).optional(),
+  users: z.union([z.boolean(),z.lazy(() => UsersArgsSchema)]).optional(),
+}).strict()
+
 // USER MESSAGES
 //------------------------------------------------------
 
@@ -392,6 +454,7 @@ export const User_messagesSelectSchema: z.ZodType<Prisma.User_messagesSelect> = 
 
 export const UsersIncludeSchema: z.ZodType<Prisma.UsersInclude> = z.object({
   accounts: z.union([z.boolean(),z.lazy(() => AccountsFindManyArgsSchema)]).optional(),
+  ui_options: z.union([z.boolean(),z.lazy(() => Ui_optionsArgsSchema)]).optional(),
   user_messages: z.union([z.boolean(),z.lazy(() => User_messagesFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => UsersCountOutputTypeArgsSchema)]).optional(),
 }).strict()
@@ -417,6 +480,7 @@ export const UsersSelectSchema: z.ZodType<Prisma.UsersSelect> = z.object({
   label_replace_by_generated_column: z.boolean().optional(),
   deleted: z.boolean().optional(),
   accounts: z.union([z.boolean(),z.lazy(() => AccountsFindManyArgsSchema)]).optional(),
+  ui_options: z.union([z.boolean(),z.lazy(() => Ui_optionsArgsSchema)]).optional(),
   user_messages: z.union([z.boolean(),z.lazy(() => User_messagesFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => UsersCountOutputTypeArgsSchema)]).optional(),
 }).strict()
@@ -495,6 +559,7 @@ export const AccountsWhereInputSchema: z.ZodType<Prisma.AccountsWhereInput> = z.
   label: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   users: z.union([ z.lazy(() => UsersRelationFilterSchema),z.lazy(() => UsersWhereInputSchema) ]).optional().nullable(),
   projects: z.lazy(() => ProjectsListRelationFilterSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsListRelationFilterSchema).optional(),
   user_messages: z.lazy(() => User_messagesListRelationFilterSchema).optional()
 }).strict();
 
@@ -508,6 +573,7 @@ export const AccountsOrderByWithRelationInputSchema: z.ZodType<Prisma.AccountsOr
   label: z.lazy(() => SortOrderSchema).optional(),
   users: z.lazy(() => UsersOrderByWithRelationInputSchema).optional(),
   projects: z.lazy(() => ProjectsOrderByRelationAggregateInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsOrderByRelationAggregateInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesOrderByRelationAggregateInputSchema).optional()
 }).strict();
 
@@ -764,6 +830,95 @@ export const ProjectsScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Proj
   deleted: z.union([ z.lazy(() => BoolNullableWithAggregatesFilterSchema),z.boolean() ]).optional().nullable(),
 }).strict();
 
+export const Ui_optionsWhereInputSchema: z.ZodType<Prisma.Ui_optionsWhereInput> = z.object({
+  AND: z.union([ z.lazy(() => Ui_optionsWhereInputSchema),z.lazy(() => Ui_optionsWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => Ui_optionsWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => Ui_optionsWhereInputSchema),z.lazy(() => Ui_optionsWhereInputSchema).array() ]).optional(),
+  user_id: z.union([ z.lazy(() => UuidFilterSchema),z.string() ]).optional(),
+  account_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  designing: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+  breadcrumbs_overflowing: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+  navs_overflowing: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+  tabs: z.lazy(() => JsonNullableFilterSchema).optional(),
+  show_map: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+  map_bounds: z.lazy(() => JsonNullableFilterSchema).optional(),
+  local_map_show: z.lazy(() => JsonNullableFilterSchema).optional(),
+  tile_layer_sorter: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  vector_layer_sorter: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  editing_place_geometry: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  editing_check_geometry: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  editing_action_geometry: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  label: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  accounts: z.union([ z.lazy(() => AccountsRelationFilterSchema),z.lazy(() => AccountsWhereInputSchema) ]).optional().nullable(),
+  users: z.union([ z.lazy(() => UsersRelationFilterSchema),z.lazy(() => UsersWhereInputSchema) ]).optional(),
+}).strict();
+
+export const Ui_optionsOrderByWithRelationInputSchema: z.ZodType<Prisma.Ui_optionsOrderByWithRelationInput> = z.object({
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  designing: z.lazy(() => SortOrderSchema).optional(),
+  breadcrumbs_overflowing: z.lazy(() => SortOrderSchema).optional(),
+  navs_overflowing: z.lazy(() => SortOrderSchema).optional(),
+  tabs: z.lazy(() => SortOrderSchema).optional(),
+  show_map: z.lazy(() => SortOrderSchema).optional(),
+  map_bounds: z.lazy(() => SortOrderSchema).optional(),
+  local_map_show: z.lazy(() => SortOrderSchema).optional(),
+  tile_layer_sorter: z.lazy(() => SortOrderSchema).optional(),
+  vector_layer_sorter: z.lazy(() => SortOrderSchema).optional(),
+  editing_place_geometry: z.lazy(() => SortOrderSchema).optional(),
+  editing_check_geometry: z.lazy(() => SortOrderSchema).optional(),
+  editing_action_geometry: z.lazy(() => SortOrderSchema).optional(),
+  label: z.lazy(() => SortOrderSchema).optional(),
+  accounts: z.lazy(() => AccountsOrderByWithRelationInputSchema).optional(),
+  users: z.lazy(() => UsersOrderByWithRelationInputSchema).optional()
+}).strict();
+
+export const Ui_optionsWhereUniqueInputSchema: z.ZodType<Prisma.Ui_optionsWhereUniqueInput> = z.object({
+  user_id: z.string().uuid().optional()
+}).strict();
+
+export const Ui_optionsOrderByWithAggregationInputSchema: z.ZodType<Prisma.Ui_optionsOrderByWithAggregationInput> = z.object({
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  designing: z.lazy(() => SortOrderSchema).optional(),
+  breadcrumbs_overflowing: z.lazy(() => SortOrderSchema).optional(),
+  navs_overflowing: z.lazy(() => SortOrderSchema).optional(),
+  tabs: z.lazy(() => SortOrderSchema).optional(),
+  show_map: z.lazy(() => SortOrderSchema).optional(),
+  map_bounds: z.lazy(() => SortOrderSchema).optional(),
+  local_map_show: z.lazy(() => SortOrderSchema).optional(),
+  tile_layer_sorter: z.lazy(() => SortOrderSchema).optional(),
+  vector_layer_sorter: z.lazy(() => SortOrderSchema).optional(),
+  editing_place_geometry: z.lazy(() => SortOrderSchema).optional(),
+  editing_check_geometry: z.lazy(() => SortOrderSchema).optional(),
+  editing_action_geometry: z.lazy(() => SortOrderSchema).optional(),
+  label: z.lazy(() => SortOrderSchema).optional(),
+  _count: z.lazy(() => Ui_optionsCountOrderByAggregateInputSchema).optional(),
+  _max: z.lazy(() => Ui_optionsMaxOrderByAggregateInputSchema).optional(),
+  _min: z.lazy(() => Ui_optionsMinOrderByAggregateInputSchema).optional()
+}).strict();
+
+export const Ui_optionsScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Ui_optionsScalarWhereWithAggregatesInput> = z.object({
+  AND: z.union([ z.lazy(() => Ui_optionsScalarWhereWithAggregatesInputSchema),z.lazy(() => Ui_optionsScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  OR: z.lazy(() => Ui_optionsScalarWhereWithAggregatesInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => Ui_optionsScalarWhereWithAggregatesInputSchema),z.lazy(() => Ui_optionsScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  user_id: z.union([ z.lazy(() => UuidWithAggregatesFilterSchema),z.string() ]).optional(),
+  account_id: z.union([ z.lazy(() => UuidNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  designing: z.union([ z.lazy(() => BoolNullableWithAggregatesFilterSchema),z.boolean() ]).optional().nullable(),
+  breadcrumbs_overflowing: z.union([ z.lazy(() => BoolNullableWithAggregatesFilterSchema),z.boolean() ]).optional().nullable(),
+  navs_overflowing: z.union([ z.lazy(() => BoolNullableWithAggregatesFilterSchema),z.boolean() ]).optional().nullable(),
+  tabs: z.lazy(() => JsonNullableWithAggregatesFilterSchema).optional(),
+  show_map: z.union([ z.lazy(() => BoolNullableWithAggregatesFilterSchema),z.boolean() ]).optional().nullable(),
+  map_bounds: z.lazy(() => JsonNullableWithAggregatesFilterSchema).optional(),
+  local_map_show: z.lazy(() => JsonNullableWithAggregatesFilterSchema).optional(),
+  tile_layer_sorter: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  vector_layer_sorter: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  editing_place_geometry: z.union([ z.lazy(() => UuidNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  editing_check_geometry: z.union([ z.lazy(() => UuidNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  editing_action_geometry: z.union([ z.lazy(() => UuidNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  label: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+}).strict();
+
 export const User_messagesWhereInputSchema: z.ZodType<Prisma.User_messagesWhereInput> = z.object({
   AND: z.union([ z.lazy(() => User_messagesWhereInputSchema),z.lazy(() => User_messagesWhereInputSchema).array() ]).optional(),
   OR: z.lazy(() => User_messagesWhereInputSchema).array().optional(),
@@ -829,6 +984,7 @@ export const UsersWhereInputSchema: z.ZodType<Prisma.UsersWhereInput> = z.object
   label_replace_by_generated_column: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   deleted: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
   accounts: z.lazy(() => AccountsListRelationFilterSchema).optional(),
+  ui_options: z.union([ z.lazy(() => Ui_optionsRelationFilterSchema),z.lazy(() => Ui_optionsWhereInputSchema) ]).optional().nullable(),
   user_messages: z.lazy(() => User_messagesListRelationFilterSchema).optional()
 }).strict();
 
@@ -839,6 +995,7 @@ export const UsersOrderByWithRelationInputSchema: z.ZodType<Prisma.UsersOrderByW
   label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
   deleted: z.lazy(() => SortOrderSchema).optional(),
   accounts: z.lazy(() => AccountsOrderByRelationAggregateInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsOrderByWithRelationInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesOrderByRelationAggregateInputSchema).optional()
 }).strict();
 
@@ -983,6 +1140,7 @@ export const AccountsCreateInputSchema: z.ZodType<Prisma.AccountsCreateInput> = 
   label: z.string().optional().nullable(),
   users: z.lazy(() => UsersCreateNestedOneWithoutAccountsInputSchema).optional(),
   projects: z.lazy(() => ProjectsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -995,6 +1153,7 @@ export const AccountsUncheckedCreateInputSchema: z.ZodType<Prisma.AccountsUnchec
   projects_label_by: z.string().optional().nullable(),
   label: z.string().optional().nullable(),
   projects: z.lazy(() => ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -1007,6 +1166,7 @@ export const AccountsUpdateInputSchema: z.ZodType<Prisma.AccountsUpdateInput> = 
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   users: z.lazy(() => UsersUpdateOneWithoutAccountsNestedInputSchema).optional(),
   projects: z.lazy(() => ProjectsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -1019,6 +1179,7 @@ export const AccountsUncheckedUpdateInputSchema: z.ZodType<Prisma.AccountsUnchec
   projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   projects: z.lazy(() => ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -1366,6 +1527,130 @@ export const ProjectsUncheckedUpdateManyInputSchema: z.ZodType<Prisma.ProjectsUn
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
+export const Ui_optionsCreateInputSchema: z.ZodType<Prisma.Ui_optionsCreateInput> = z.object({
+  designing: z.boolean().optional().nullable(),
+  breadcrumbs_overflowing: z.boolean().optional().nullable(),
+  navs_overflowing: z.boolean().optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.boolean().optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.string().optional().nullable(),
+  vector_layer_sorter: z.string().optional().nullable(),
+  editing_place_geometry: z.string().uuid().optional().nullable(),
+  editing_check_geometry: z.string().uuid().optional().nullable(),
+  editing_action_geometry: z.string().uuid().optional().nullable(),
+  label: z.string().optional().nullable(),
+  accounts: z.lazy(() => AccountsCreateNestedOneWithoutUi_optionsInputSchema).optional(),
+  users: z.lazy(() => UsersCreateNestedOneWithoutUi_optionsInputSchema)
+}).strict();
+
+export const Ui_optionsUncheckedCreateInputSchema: z.ZodType<Prisma.Ui_optionsUncheckedCreateInput> = z.object({
+  user_id: z.string().uuid(),
+  account_id: z.string().uuid().optional().nullable(),
+  designing: z.boolean().optional().nullable(),
+  breadcrumbs_overflowing: z.boolean().optional().nullable(),
+  navs_overflowing: z.boolean().optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.boolean().optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.string().optional().nullable(),
+  vector_layer_sorter: z.string().optional().nullable(),
+  editing_place_geometry: z.string().uuid().optional().nullable(),
+  editing_check_geometry: z.string().uuid().optional().nullable(),
+  editing_action_geometry: z.string().uuid().optional().nullable(),
+  label: z.string().optional().nullable()
+}).strict();
+
+export const Ui_optionsUpdateInputSchema: z.ZodType<Prisma.Ui_optionsUpdateInput> = z.object({
+  designing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  breadcrumbs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  navs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  vector_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_place_geometry: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_check_geometry: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_action_geometry: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  accounts: z.lazy(() => AccountsUpdateOneWithoutUi_optionsNestedInputSchema).optional(),
+  users: z.lazy(() => UsersUpdateOneRequiredWithoutUi_optionsNestedInputSchema).optional()
+}).strict();
+
+export const Ui_optionsUncheckedUpdateInputSchema: z.ZodType<Prisma.Ui_optionsUncheckedUpdateInput> = z.object({
+  user_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  account_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  designing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  breadcrumbs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  navs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  vector_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_place_geometry: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_check_geometry: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_action_geometry: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const Ui_optionsCreateManyInputSchema: z.ZodType<Prisma.Ui_optionsCreateManyInput> = z.object({
+  user_id: z.string().uuid(),
+  account_id: z.string().uuid().optional().nullable(),
+  designing: z.boolean().optional().nullable(),
+  breadcrumbs_overflowing: z.boolean().optional().nullable(),
+  navs_overflowing: z.boolean().optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.boolean().optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.string().optional().nullable(),
+  vector_layer_sorter: z.string().optional().nullable(),
+  editing_place_geometry: z.string().uuid().optional().nullable(),
+  editing_check_geometry: z.string().uuid().optional().nullable(),
+  editing_action_geometry: z.string().uuid().optional().nullable(),
+  label: z.string().optional().nullable()
+}).strict();
+
+export const Ui_optionsUpdateManyMutationInputSchema: z.ZodType<Prisma.Ui_optionsUpdateManyMutationInput> = z.object({
+  designing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  breadcrumbs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  navs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  vector_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_place_geometry: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_check_geometry: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_action_geometry: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const Ui_optionsUncheckedUpdateManyInputSchema: z.ZodType<Prisma.Ui_optionsUncheckedUpdateManyInput> = z.object({
+  user_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  account_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  designing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  breadcrumbs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  navs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  vector_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_place_geometry: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_check_geometry: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_action_geometry: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
 export const User_messagesCreateInputSchema: z.ZodType<Prisma.User_messagesCreateInput> = z.object({
   user_message_id: z.string().uuid(),
   label_replace_by_generated_column: z.string().optional().nullable(),
@@ -1433,6 +1718,7 @@ export const UsersCreateInputSchema: z.ZodType<Prisma.UsersCreateInput> = z.obje
   label_replace_by_generated_column: z.string().optional().nullable(),
   deleted: z.boolean().optional().nullable(),
   accounts: z.lazy(() => AccountsCreateNestedManyWithoutUsersInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsCreateNestedOneWithoutUsersInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutUsersInputSchema).optional()
 }).strict();
 
@@ -1443,6 +1729,7 @@ export const UsersUncheckedCreateInputSchema: z.ZodType<Prisma.UsersUncheckedCre
   label_replace_by_generated_column: z.string().optional().nullable(),
   deleted: z.boolean().optional().nullable(),
   accounts: z.lazy(() => AccountsUncheckedCreateNestedManyWithoutUsersInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedOneWithoutUsersInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutUsersInputSchema).optional()
 }).strict();
 
@@ -1453,6 +1740,7 @@ export const UsersUpdateInputSchema: z.ZodType<Prisma.UsersUpdateInput> = z.obje
   label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   accounts: z.lazy(() => AccountsUpdateManyWithoutUsersNestedInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUpdateOneWithoutUsersNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutUsersNestedInputSchema).optional()
 }).strict();
 
@@ -1463,6 +1751,7 @@ export const UsersUncheckedUpdateInputSchema: z.ZodType<Prisma.UsersUncheckedUpd
   label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   accounts: z.lazy(() => AccountsUncheckedUpdateManyWithoutUsersNestedInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedUpdateOneWithoutUsersNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutUsersNestedInputSchema).optional()
 }).strict();
 
@@ -1669,14 +1958,20 @@ export const DateTimeNullableFilterSchema: z.ZodType<Prisma.DateTimeNullableFilt
 }).strict();
 
 export const UsersRelationFilterSchema: z.ZodType<Prisma.UsersRelationFilter> = z.object({
-  is: z.lazy(() => UsersWhereInputSchema).optional().nullable(),
-  isNot: z.lazy(() => UsersWhereInputSchema).optional().nullable()
+  is: z.lazy(() => UsersWhereInputSchema).optional(),
+  isNot: z.lazy(() => UsersWhereInputSchema).optional()
 }).strict();
 
 export const ProjectsListRelationFilterSchema: z.ZodType<Prisma.ProjectsListRelationFilter> = z.object({
   every: z.lazy(() => ProjectsWhereInputSchema).optional(),
   some: z.lazy(() => ProjectsWhereInputSchema).optional(),
   none: z.lazy(() => ProjectsWhereInputSchema).optional()
+}).strict();
+
+export const Ui_optionsListRelationFilterSchema: z.ZodType<Prisma.Ui_optionsListRelationFilter> = z.object({
+  every: z.lazy(() => Ui_optionsWhereInputSchema).optional(),
+  some: z.lazy(() => Ui_optionsWhereInputSchema).optional(),
+  none: z.lazy(() => Ui_optionsWhereInputSchema).optional()
 }).strict();
 
 export const User_messagesListRelationFilterSchema: z.ZodType<Prisma.User_messagesListRelationFilter> = z.object({
@@ -1686,6 +1981,10 @@ export const User_messagesListRelationFilterSchema: z.ZodType<Prisma.User_messag
 }).strict();
 
 export const ProjectsOrderByRelationAggregateInputSchema: z.ZodType<Prisma.ProjectsOrderByRelationAggregateInput> = z.object({
+  _count: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const Ui_optionsOrderByRelationAggregateInputSchema: z.ZodType<Prisma.Ui_optionsOrderByRelationAggregateInput> = z.object({
   _count: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
@@ -2028,6 +2327,54 @@ export const JsonNullableWithAggregatesFilterSchema: z.ZodType<Prisma.JsonNullab
   _max: z.lazy(() => NestedJsonNullableFilterSchema).optional()
 }).strict();
 
+export const Ui_optionsCountOrderByAggregateInputSchema: z.ZodType<Prisma.Ui_optionsCountOrderByAggregateInput> = z.object({
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  designing: z.lazy(() => SortOrderSchema).optional(),
+  breadcrumbs_overflowing: z.lazy(() => SortOrderSchema).optional(),
+  navs_overflowing: z.lazy(() => SortOrderSchema).optional(),
+  tabs: z.lazy(() => SortOrderSchema).optional(),
+  show_map: z.lazy(() => SortOrderSchema).optional(),
+  map_bounds: z.lazy(() => SortOrderSchema).optional(),
+  local_map_show: z.lazy(() => SortOrderSchema).optional(),
+  tile_layer_sorter: z.lazy(() => SortOrderSchema).optional(),
+  vector_layer_sorter: z.lazy(() => SortOrderSchema).optional(),
+  editing_place_geometry: z.lazy(() => SortOrderSchema).optional(),
+  editing_check_geometry: z.lazy(() => SortOrderSchema).optional(),
+  editing_action_geometry: z.lazy(() => SortOrderSchema).optional(),
+  label: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const Ui_optionsMaxOrderByAggregateInputSchema: z.ZodType<Prisma.Ui_optionsMaxOrderByAggregateInput> = z.object({
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  designing: z.lazy(() => SortOrderSchema).optional(),
+  breadcrumbs_overflowing: z.lazy(() => SortOrderSchema).optional(),
+  navs_overflowing: z.lazy(() => SortOrderSchema).optional(),
+  show_map: z.lazy(() => SortOrderSchema).optional(),
+  tile_layer_sorter: z.lazy(() => SortOrderSchema).optional(),
+  vector_layer_sorter: z.lazy(() => SortOrderSchema).optional(),
+  editing_place_geometry: z.lazy(() => SortOrderSchema).optional(),
+  editing_check_geometry: z.lazy(() => SortOrderSchema).optional(),
+  editing_action_geometry: z.lazy(() => SortOrderSchema).optional(),
+  label: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const Ui_optionsMinOrderByAggregateInputSchema: z.ZodType<Prisma.Ui_optionsMinOrderByAggregateInput> = z.object({
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  designing: z.lazy(() => SortOrderSchema).optional(),
+  breadcrumbs_overflowing: z.lazy(() => SortOrderSchema).optional(),
+  navs_overflowing: z.lazy(() => SortOrderSchema).optional(),
+  show_map: z.lazy(() => SortOrderSchema).optional(),
+  tile_layer_sorter: z.lazy(() => SortOrderSchema).optional(),
+  vector_layer_sorter: z.lazy(() => SortOrderSchema).optional(),
+  editing_place_geometry: z.lazy(() => SortOrderSchema).optional(),
+  editing_check_geometry: z.lazy(() => SortOrderSchema).optional(),
+  editing_action_geometry: z.lazy(() => SortOrderSchema).optional(),
+  label: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
 export const MessagesRelationFilterSchema: z.ZodType<Prisma.MessagesRelationFilter> = z.object({
   is: z.lazy(() => MessagesWhereInputSchema).optional().nullable(),
   isNot: z.lazy(() => MessagesWhereInputSchema).optional().nullable()
@@ -2064,6 +2411,11 @@ export const AccountsListRelationFilterSchema: z.ZodType<Prisma.AccountsListRela
   every: z.lazy(() => AccountsWhereInputSchema).optional(),
   some: z.lazy(() => AccountsWhereInputSchema).optional(),
   none: z.lazy(() => AccountsWhereInputSchema).optional()
+}).strict();
+
+export const Ui_optionsRelationFilterSchema: z.ZodType<Prisma.Ui_optionsRelationFilter> = z.object({
+  is: z.lazy(() => Ui_optionsWhereInputSchema).optional().nullable(),
+  isNot: z.lazy(() => Ui_optionsWhereInputSchema).optional().nullable()
 }).strict();
 
 export const AccountsOrderByRelationAggregateInputSchema: z.ZodType<Prisma.AccountsOrderByRelationAggregateInput> = z.object({
@@ -2179,6 +2531,13 @@ export const ProjectsCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prism
   connect: z.union([ z.lazy(() => ProjectsWhereUniqueInputSchema),z.lazy(() => ProjectsWhereUniqueInputSchema).array() ]).optional(),
 }).strict();
 
+export const Ui_optionsCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prisma.Ui_optionsCreateNestedManyWithoutAccountsInput> = z.object({
+  create: z.union([ z.lazy(() => Ui_optionsCreateWithoutAccountsInputSchema),z.lazy(() => Ui_optionsCreateWithoutAccountsInputSchema).array(),z.lazy(() => Ui_optionsUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => Ui_optionsUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Ui_optionsCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => Ui_optionsCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Ui_optionsCreateManyAccountsInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => Ui_optionsWhereUniqueInputSchema),z.lazy(() => Ui_optionsWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
 export const User_messagesCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prisma.User_messagesCreateNestedManyWithoutAccountsInput> = z.object({
   create: z.union([ z.lazy(() => User_messagesCreateWithoutAccountsInputSchema),z.lazy(() => User_messagesCreateWithoutAccountsInputSchema).array(),z.lazy(() => User_messagesUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => User_messagesCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => User_messagesCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
@@ -2191,6 +2550,13 @@ export const ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema: z.ZodT
   connectOrCreate: z.union([ z.lazy(() => ProjectsCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => ProjectsCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
   createMany: z.lazy(() => ProjectsCreateManyAccountsInputEnvelopeSchema).optional(),
   connect: z.union([ z.lazy(() => ProjectsWhereUniqueInputSchema),z.lazy(() => ProjectsWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
+export const Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prisma.Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput> = z.object({
+  create: z.union([ z.lazy(() => Ui_optionsCreateWithoutAccountsInputSchema),z.lazy(() => Ui_optionsCreateWithoutAccountsInputSchema).array(),z.lazy(() => Ui_optionsUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => Ui_optionsUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Ui_optionsCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => Ui_optionsCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Ui_optionsCreateManyAccountsInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => Ui_optionsWhereUniqueInputSchema),z.lazy(() => Ui_optionsWhereUniqueInputSchema).array() ]).optional(),
 }).strict();
 
 export const User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prisma.User_messagesUncheckedCreateNestedManyWithoutAccountsInput> = z.object({
@@ -2236,6 +2602,20 @@ export const ProjectsUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prism
   deleteMany: z.union([ z.lazy(() => ProjectsScalarWhereInputSchema),z.lazy(() => ProjectsScalarWhereInputSchema).array() ]).optional(),
 }).strict();
 
+export const Ui_optionsUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prisma.Ui_optionsUpdateManyWithoutAccountsNestedInput> = z.object({
+  create: z.union([ z.lazy(() => Ui_optionsCreateWithoutAccountsInputSchema),z.lazy(() => Ui_optionsCreateWithoutAccountsInputSchema).array(),z.lazy(() => Ui_optionsUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => Ui_optionsUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Ui_optionsCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => Ui_optionsCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => Ui_optionsUpsertWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => Ui_optionsUpsertWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Ui_optionsCreateManyAccountsInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => Ui_optionsWhereUniqueInputSchema),z.lazy(() => Ui_optionsWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => Ui_optionsWhereUniqueInputSchema),z.lazy(() => Ui_optionsWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => Ui_optionsWhereUniqueInputSchema),z.lazy(() => Ui_optionsWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => Ui_optionsWhereUniqueInputSchema),z.lazy(() => Ui_optionsWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => Ui_optionsUpdateWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => Ui_optionsUpdateWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => Ui_optionsUpdateManyWithWhereWithoutAccountsInputSchema),z.lazy(() => Ui_optionsUpdateManyWithWhereWithoutAccountsInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => Ui_optionsScalarWhereInputSchema),z.lazy(() => Ui_optionsScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
 export const User_messagesUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prisma.User_messagesUpdateManyWithoutAccountsNestedInput> = z.object({
   create: z.union([ z.lazy(() => User_messagesCreateWithoutAccountsInputSchema),z.lazy(() => User_messagesCreateWithoutAccountsInputSchema).array(),z.lazy(() => User_messagesUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => User_messagesCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => User_messagesCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
@@ -2262,6 +2642,20 @@ export const ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema: z.ZodT
   update: z.union([ z.lazy(() => ProjectsUpdateWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => ProjectsUpdateWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
   updateMany: z.union([ z.lazy(() => ProjectsUpdateManyWithWhereWithoutAccountsInputSchema),z.lazy(() => ProjectsUpdateManyWithWhereWithoutAccountsInputSchema).array() ]).optional(),
   deleteMany: z.union([ z.lazy(() => ProjectsScalarWhereInputSchema),z.lazy(() => ProjectsScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
+export const Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prisma.Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput> = z.object({
+  create: z.union([ z.lazy(() => Ui_optionsCreateWithoutAccountsInputSchema),z.lazy(() => Ui_optionsCreateWithoutAccountsInputSchema).array(),z.lazy(() => Ui_optionsUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => Ui_optionsUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Ui_optionsCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => Ui_optionsCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => Ui_optionsUpsertWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => Ui_optionsUpsertWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Ui_optionsCreateManyAccountsInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => Ui_optionsWhereUniqueInputSchema),z.lazy(() => Ui_optionsWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => Ui_optionsWhereUniqueInputSchema),z.lazy(() => Ui_optionsWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => Ui_optionsWhereUniqueInputSchema),z.lazy(() => Ui_optionsWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => Ui_optionsWhereUniqueInputSchema),z.lazy(() => Ui_optionsWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => Ui_optionsUpdateWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => Ui_optionsUpdateWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => Ui_optionsUpdateManyWithWhereWithoutAccountsInputSchema),z.lazy(() => Ui_optionsUpdateManyWithWhereWithoutAccountsInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => Ui_optionsScalarWhereInputSchema),z.lazy(() => Ui_optionsScalarWhereInputSchema).array() ]).optional(),
 }).strict();
 
 export const User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prisma.User_messagesUncheckedUpdateManyWithoutAccountsNestedInput> = z.object({
@@ -2394,6 +2788,36 @@ export const AccountsUpdateOneWithoutProjectsNestedInputSchema: z.ZodType<Prisma
   update: z.union([ z.lazy(() => AccountsUpdateWithoutProjectsInputSchema),z.lazy(() => AccountsUncheckedUpdateWithoutProjectsInputSchema) ]).optional(),
 }).strict();
 
+export const AccountsCreateNestedOneWithoutUi_optionsInputSchema: z.ZodType<Prisma.AccountsCreateNestedOneWithoutUi_optionsInput> = z.object({
+  create: z.union([ z.lazy(() => AccountsCreateWithoutUi_optionsInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutUi_optionsInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => AccountsCreateOrConnectWithoutUi_optionsInputSchema).optional(),
+  connect: z.lazy(() => AccountsWhereUniqueInputSchema).optional()
+}).strict();
+
+export const UsersCreateNestedOneWithoutUi_optionsInputSchema: z.ZodType<Prisma.UsersCreateNestedOneWithoutUi_optionsInput> = z.object({
+  create: z.union([ z.lazy(() => UsersCreateWithoutUi_optionsInputSchema),z.lazy(() => UsersUncheckedCreateWithoutUi_optionsInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => UsersCreateOrConnectWithoutUi_optionsInputSchema).optional(),
+  connect: z.lazy(() => UsersWhereUniqueInputSchema).optional()
+}).strict();
+
+export const AccountsUpdateOneWithoutUi_optionsNestedInputSchema: z.ZodType<Prisma.AccountsUpdateOneWithoutUi_optionsNestedInput> = z.object({
+  create: z.union([ z.lazy(() => AccountsCreateWithoutUi_optionsInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutUi_optionsInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => AccountsCreateOrConnectWithoutUi_optionsInputSchema).optional(),
+  upsert: z.lazy(() => AccountsUpsertWithoutUi_optionsInputSchema).optional(),
+  disconnect: z.boolean().optional(),
+  delete: z.boolean().optional(),
+  connect: z.lazy(() => AccountsWhereUniqueInputSchema).optional(),
+  update: z.union([ z.lazy(() => AccountsUpdateWithoutUi_optionsInputSchema),z.lazy(() => AccountsUncheckedUpdateWithoutUi_optionsInputSchema) ]).optional(),
+}).strict();
+
+export const UsersUpdateOneRequiredWithoutUi_optionsNestedInputSchema: z.ZodType<Prisma.UsersUpdateOneRequiredWithoutUi_optionsNestedInput> = z.object({
+  create: z.union([ z.lazy(() => UsersCreateWithoutUi_optionsInputSchema),z.lazy(() => UsersUncheckedCreateWithoutUi_optionsInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => UsersCreateOrConnectWithoutUi_optionsInputSchema).optional(),
+  upsert: z.lazy(() => UsersUpsertWithoutUi_optionsInputSchema).optional(),
+  connect: z.lazy(() => UsersWhereUniqueInputSchema).optional(),
+  update: z.union([ z.lazy(() => UsersUpdateWithoutUi_optionsInputSchema),z.lazy(() => UsersUncheckedUpdateWithoutUi_optionsInputSchema) ]).optional(),
+}).strict();
+
 export const AccountsCreateNestedOneWithoutUser_messagesInputSchema: z.ZodType<Prisma.AccountsCreateNestedOneWithoutUser_messagesInput> = z.object({
   create: z.union([ z.lazy(() => AccountsCreateWithoutUser_messagesInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutUser_messagesInputSchema) ]).optional(),
   connectOrCreate: z.lazy(() => AccountsCreateOrConnectWithoutUser_messagesInputSchema).optional(),
@@ -2449,6 +2873,12 @@ export const AccountsCreateNestedManyWithoutUsersInputSchema: z.ZodType<Prisma.A
   connect: z.union([ z.lazy(() => AccountsWhereUniqueInputSchema),z.lazy(() => AccountsWhereUniqueInputSchema).array() ]).optional(),
 }).strict();
 
+export const Ui_optionsCreateNestedOneWithoutUsersInputSchema: z.ZodType<Prisma.Ui_optionsCreateNestedOneWithoutUsersInput> = z.object({
+  create: z.union([ z.lazy(() => Ui_optionsCreateWithoutUsersInputSchema),z.lazy(() => Ui_optionsUncheckedCreateWithoutUsersInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => Ui_optionsCreateOrConnectWithoutUsersInputSchema).optional(),
+  connect: z.lazy(() => Ui_optionsWhereUniqueInputSchema).optional()
+}).strict();
+
 export const User_messagesCreateNestedManyWithoutUsersInputSchema: z.ZodType<Prisma.User_messagesCreateNestedManyWithoutUsersInput> = z.object({
   create: z.union([ z.lazy(() => User_messagesCreateWithoutUsersInputSchema),z.lazy(() => User_messagesCreateWithoutUsersInputSchema).array(),z.lazy(() => User_messagesUncheckedCreateWithoutUsersInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutUsersInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => User_messagesCreateOrConnectWithoutUsersInputSchema),z.lazy(() => User_messagesCreateOrConnectWithoutUsersInputSchema).array() ]).optional(),
@@ -2461,6 +2891,12 @@ export const AccountsUncheckedCreateNestedManyWithoutUsersInputSchema: z.ZodType
   connectOrCreate: z.union([ z.lazy(() => AccountsCreateOrConnectWithoutUsersInputSchema),z.lazy(() => AccountsCreateOrConnectWithoutUsersInputSchema).array() ]).optional(),
   createMany: z.lazy(() => AccountsCreateManyUsersInputEnvelopeSchema).optional(),
   connect: z.union([ z.lazy(() => AccountsWhereUniqueInputSchema),z.lazy(() => AccountsWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
+export const Ui_optionsUncheckedCreateNestedOneWithoutUsersInputSchema: z.ZodType<Prisma.Ui_optionsUncheckedCreateNestedOneWithoutUsersInput> = z.object({
+  create: z.union([ z.lazy(() => Ui_optionsCreateWithoutUsersInputSchema),z.lazy(() => Ui_optionsUncheckedCreateWithoutUsersInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => Ui_optionsCreateOrConnectWithoutUsersInputSchema).optional(),
+  connect: z.lazy(() => Ui_optionsWhereUniqueInputSchema).optional()
 }).strict();
 
 export const User_messagesUncheckedCreateNestedManyWithoutUsersInputSchema: z.ZodType<Prisma.User_messagesUncheckedCreateNestedManyWithoutUsersInput> = z.object({
@@ -2482,6 +2918,16 @@ export const AccountsUpdateManyWithoutUsersNestedInputSchema: z.ZodType<Prisma.A
   update: z.union([ z.lazy(() => AccountsUpdateWithWhereUniqueWithoutUsersInputSchema),z.lazy(() => AccountsUpdateWithWhereUniqueWithoutUsersInputSchema).array() ]).optional(),
   updateMany: z.union([ z.lazy(() => AccountsUpdateManyWithWhereWithoutUsersInputSchema),z.lazy(() => AccountsUpdateManyWithWhereWithoutUsersInputSchema).array() ]).optional(),
   deleteMany: z.union([ z.lazy(() => AccountsScalarWhereInputSchema),z.lazy(() => AccountsScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
+export const Ui_optionsUpdateOneWithoutUsersNestedInputSchema: z.ZodType<Prisma.Ui_optionsUpdateOneWithoutUsersNestedInput> = z.object({
+  create: z.union([ z.lazy(() => Ui_optionsCreateWithoutUsersInputSchema),z.lazy(() => Ui_optionsUncheckedCreateWithoutUsersInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => Ui_optionsCreateOrConnectWithoutUsersInputSchema).optional(),
+  upsert: z.lazy(() => Ui_optionsUpsertWithoutUsersInputSchema).optional(),
+  disconnect: z.boolean().optional(),
+  delete: z.boolean().optional(),
+  connect: z.lazy(() => Ui_optionsWhereUniqueInputSchema).optional(),
+  update: z.union([ z.lazy(() => Ui_optionsUpdateWithoutUsersInputSchema),z.lazy(() => Ui_optionsUncheckedUpdateWithoutUsersInputSchema) ]).optional(),
 }).strict();
 
 export const User_messagesUpdateManyWithoutUsersNestedInputSchema: z.ZodType<Prisma.User_messagesUpdateManyWithoutUsersNestedInput> = z.object({
@@ -2510,6 +2956,16 @@ export const AccountsUncheckedUpdateManyWithoutUsersNestedInputSchema: z.ZodType
   update: z.union([ z.lazy(() => AccountsUpdateWithWhereUniqueWithoutUsersInputSchema),z.lazy(() => AccountsUpdateWithWhereUniqueWithoutUsersInputSchema).array() ]).optional(),
   updateMany: z.union([ z.lazy(() => AccountsUpdateManyWithWhereWithoutUsersInputSchema),z.lazy(() => AccountsUpdateManyWithWhereWithoutUsersInputSchema).array() ]).optional(),
   deleteMany: z.union([ z.lazy(() => AccountsScalarWhereInputSchema),z.lazy(() => AccountsScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
+export const Ui_optionsUncheckedUpdateOneWithoutUsersNestedInputSchema: z.ZodType<Prisma.Ui_optionsUncheckedUpdateOneWithoutUsersNestedInput> = z.object({
+  create: z.union([ z.lazy(() => Ui_optionsCreateWithoutUsersInputSchema),z.lazy(() => Ui_optionsUncheckedCreateWithoutUsersInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => Ui_optionsCreateOrConnectWithoutUsersInputSchema).optional(),
+  upsert: z.lazy(() => Ui_optionsUpsertWithoutUsersInputSchema).optional(),
+  disconnect: z.boolean().optional(),
+  delete: z.boolean().optional(),
+  connect: z.lazy(() => Ui_optionsWhereUniqueInputSchema).optional(),
+  update: z.union([ z.lazy(() => Ui_optionsUpdateWithoutUsersInputSchema),z.lazy(() => Ui_optionsUncheckedUpdateWithoutUsersInputSchema) ]).optional(),
 }).strict();
 
 export const User_messagesUncheckedUpdateManyWithoutUsersNestedInputSchema: z.ZodType<Prisma.User_messagesUncheckedUpdateManyWithoutUsersNestedInput> = z.object({
@@ -2821,6 +3277,7 @@ export const UsersCreateWithoutAccountsInputSchema: z.ZodType<Prisma.UsersCreate
   auth_id: z.string().optional().nullable(),
   label_replace_by_generated_column: z.string().optional().nullable(),
   deleted: z.boolean().optional().nullable(),
+  ui_options: z.lazy(() => Ui_optionsCreateNestedOneWithoutUsersInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutUsersInputSchema).optional()
 }).strict();
 
@@ -2830,6 +3287,7 @@ export const UsersUncheckedCreateWithoutAccountsInputSchema: z.ZodType<Prisma.Us
   auth_id: z.string().optional().nullable(),
   label_replace_by_generated_column: z.string().optional().nullable(),
   deleted: z.boolean().optional().nullable(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedOneWithoutUsersInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutUsersInputSchema).optional()
 }).strict();
 
@@ -2902,6 +3360,50 @@ export const ProjectsCreateManyAccountsInputEnvelopeSchema: z.ZodType<Prisma.Pro
   skipDuplicates: z.boolean().optional()
 }).strict();
 
+export const Ui_optionsCreateWithoutAccountsInputSchema: z.ZodType<Prisma.Ui_optionsCreateWithoutAccountsInput> = z.object({
+  designing: z.boolean().optional().nullable(),
+  breadcrumbs_overflowing: z.boolean().optional().nullable(),
+  navs_overflowing: z.boolean().optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.boolean().optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.string().optional().nullable(),
+  vector_layer_sorter: z.string().optional().nullable(),
+  editing_place_geometry: z.string().optional().nullable(),
+  editing_check_geometry: z.string().optional().nullable(),
+  editing_action_geometry: z.string().optional().nullable(),
+  label: z.string().optional().nullable(),
+  users: z.lazy(() => UsersCreateNestedOneWithoutUi_optionsInputSchema)
+}).strict();
+
+export const Ui_optionsUncheckedCreateWithoutAccountsInputSchema: z.ZodType<Prisma.Ui_optionsUncheckedCreateWithoutAccountsInput> = z.object({
+  user_id: z.string(),
+  designing: z.boolean().optional().nullable(),
+  breadcrumbs_overflowing: z.boolean().optional().nullable(),
+  navs_overflowing: z.boolean().optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.boolean().optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.string().optional().nullable(),
+  vector_layer_sorter: z.string().optional().nullable(),
+  editing_place_geometry: z.string().optional().nullable(),
+  editing_check_geometry: z.string().optional().nullable(),
+  editing_action_geometry: z.string().optional().nullable(),
+  label: z.string().optional().nullable()
+}).strict();
+
+export const Ui_optionsCreateOrConnectWithoutAccountsInputSchema: z.ZodType<Prisma.Ui_optionsCreateOrConnectWithoutAccountsInput> = z.object({
+  where: z.lazy(() => Ui_optionsWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => Ui_optionsCreateWithoutAccountsInputSchema),z.lazy(() => Ui_optionsUncheckedCreateWithoutAccountsInputSchema) ]),
+}).strict();
+
+export const Ui_optionsCreateManyAccountsInputEnvelopeSchema: z.ZodType<Prisma.Ui_optionsCreateManyAccountsInputEnvelope> = z.object({
+  data: z.lazy(() => Ui_optionsCreateManyAccountsInputSchema).array(),
+  skipDuplicates: z.boolean().optional()
+}).strict();
+
 export const User_messagesCreateWithoutAccountsInputSchema: z.ZodType<Prisma.User_messagesCreateWithoutAccountsInput> = z.object({
   user_message_id: z.string(),
   label_replace_by_generated_column: z.string().optional().nullable(),
@@ -2939,6 +3441,7 @@ export const UsersUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.UsersUpdate
   auth_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  ui_options: z.lazy(() => Ui_optionsUpdateOneWithoutUsersNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutUsersNestedInputSchema).optional()
 }).strict();
 
@@ -2948,6 +3451,7 @@ export const UsersUncheckedUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.Us
   auth_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedUpdateOneWithoutUsersNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutUsersNestedInputSchema).optional()
 }).strict();
 
@@ -2996,6 +3500,43 @@ export const ProjectsScalarWhereInputSchema: z.ZodType<Prisma.ProjectsScalarWher
   files_active_actions: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
   files_active_checks: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
   deleted: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+}).strict();
+
+export const Ui_optionsUpsertWithWhereUniqueWithoutAccountsInputSchema: z.ZodType<Prisma.Ui_optionsUpsertWithWhereUniqueWithoutAccountsInput> = z.object({
+  where: z.lazy(() => Ui_optionsWhereUniqueInputSchema),
+  update: z.union([ z.lazy(() => Ui_optionsUpdateWithoutAccountsInputSchema),z.lazy(() => Ui_optionsUncheckedUpdateWithoutAccountsInputSchema) ]),
+  create: z.union([ z.lazy(() => Ui_optionsCreateWithoutAccountsInputSchema),z.lazy(() => Ui_optionsUncheckedCreateWithoutAccountsInputSchema) ]),
+}).strict();
+
+export const Ui_optionsUpdateWithWhereUniqueWithoutAccountsInputSchema: z.ZodType<Prisma.Ui_optionsUpdateWithWhereUniqueWithoutAccountsInput> = z.object({
+  where: z.lazy(() => Ui_optionsWhereUniqueInputSchema),
+  data: z.union([ z.lazy(() => Ui_optionsUpdateWithoutAccountsInputSchema),z.lazy(() => Ui_optionsUncheckedUpdateWithoutAccountsInputSchema) ]),
+}).strict();
+
+export const Ui_optionsUpdateManyWithWhereWithoutAccountsInputSchema: z.ZodType<Prisma.Ui_optionsUpdateManyWithWhereWithoutAccountsInput> = z.object({
+  where: z.lazy(() => Ui_optionsScalarWhereInputSchema),
+  data: z.union([ z.lazy(() => Ui_optionsUpdateManyMutationInputSchema),z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutUi_optionsInputSchema) ]),
+}).strict();
+
+export const Ui_optionsScalarWhereInputSchema: z.ZodType<Prisma.Ui_optionsScalarWhereInput> = z.object({
+  AND: z.union([ z.lazy(() => Ui_optionsScalarWhereInputSchema),z.lazy(() => Ui_optionsScalarWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => Ui_optionsScalarWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => Ui_optionsScalarWhereInputSchema),z.lazy(() => Ui_optionsScalarWhereInputSchema).array() ]).optional(),
+  user_id: z.union([ z.lazy(() => UuidFilterSchema),z.string() ]).optional(),
+  account_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  designing: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+  breadcrumbs_overflowing: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+  navs_overflowing: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+  tabs: z.lazy(() => JsonNullableFilterSchema).optional(),
+  show_map: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+  map_bounds: z.lazy(() => JsonNullableFilterSchema).optional(),
+  local_map_show: z.lazy(() => JsonNullableFilterSchema).optional(),
+  tile_layer_sorter: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  vector_layer_sorter: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  editing_place_geometry: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  editing_check_geometry: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  editing_action_geometry: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  label: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
 }).strict();
 
 export const User_messagesUpsertWithWhereUniqueWithoutAccountsInputSchema: z.ZodType<Prisma.User_messagesUpsertWithWhereUniqueWithoutAccountsInput> = z.object({
@@ -3127,6 +3668,7 @@ export const AccountsCreateWithoutProjectsInputSchema: z.ZodType<Prisma.Accounts
   projects_label_by: z.string().optional().nullable(),
   label: z.string().optional().nullable(),
   users: z.lazy(() => UsersCreateNestedOneWithoutAccountsInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -3138,6 +3680,7 @@ export const AccountsUncheckedCreateWithoutProjectsInputSchema: z.ZodType<Prisma
   period_end: z.coerce.date().optional().nullable(),
   projects_label_by: z.string().optional().nullable(),
   label: z.string().optional().nullable(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -3159,6 +3702,7 @@ export const AccountsUpdateWithoutProjectsInputSchema: z.ZodType<Prisma.Accounts
   projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   users: z.lazy(() => UsersUpdateOneWithoutAccountsNestedInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -3170,7 +3714,116 @@ export const AccountsUncheckedUpdateWithoutProjectsInputSchema: z.ZodType<Prisma
   period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
+}).strict();
+
+export const AccountsCreateWithoutUi_optionsInputSchema: z.ZodType<Prisma.AccountsCreateWithoutUi_optionsInput> = z.object({
+  account_id: z.string(),
+  type: z.string().optional().nullable(),
+  period_start: z.coerce.date().optional().nullable(),
+  period_end: z.coerce.date().optional().nullable(),
+  projects_label_by: z.string().optional().nullable(),
+  label: z.string().optional().nullable(),
+  users: z.lazy(() => UsersCreateNestedOneWithoutAccountsInputSchema).optional(),
+  projects: z.lazy(() => ProjectsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional()
+}).strict();
+
+export const AccountsUncheckedCreateWithoutUi_optionsInputSchema: z.ZodType<Prisma.AccountsUncheckedCreateWithoutUi_optionsInput> = z.object({
+  account_id: z.string(),
+  user_id: z.string().optional().nullable(),
+  type: z.string().optional().nullable(),
+  period_start: z.coerce.date().optional().nullable(),
+  period_end: z.coerce.date().optional().nullable(),
+  projects_label_by: z.string().optional().nullable(),
+  label: z.string().optional().nullable(),
+  projects: z.lazy(() => ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
+}).strict();
+
+export const AccountsCreateOrConnectWithoutUi_optionsInputSchema: z.ZodType<Prisma.AccountsCreateOrConnectWithoutUi_optionsInput> = z.object({
+  where: z.lazy(() => AccountsWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => AccountsCreateWithoutUi_optionsInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutUi_optionsInputSchema) ]),
+}).strict();
+
+export const UsersCreateWithoutUi_optionsInputSchema: z.ZodType<Prisma.UsersCreateWithoutUi_optionsInput> = z.object({
+  user_id: z.string(),
+  email: z.string().optional().nullable(),
+  auth_id: z.string().optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable(),
+  accounts: z.lazy(() => AccountsCreateNestedManyWithoutUsersInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutUsersInputSchema).optional()
+}).strict();
+
+export const UsersUncheckedCreateWithoutUi_optionsInputSchema: z.ZodType<Prisma.UsersUncheckedCreateWithoutUi_optionsInput> = z.object({
+  user_id: z.string(),
+  email: z.string().optional().nullable(),
+  auth_id: z.string().optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable(),
+  accounts: z.lazy(() => AccountsUncheckedCreateNestedManyWithoutUsersInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutUsersInputSchema).optional()
+}).strict();
+
+export const UsersCreateOrConnectWithoutUi_optionsInputSchema: z.ZodType<Prisma.UsersCreateOrConnectWithoutUi_optionsInput> = z.object({
+  where: z.lazy(() => UsersWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => UsersCreateWithoutUi_optionsInputSchema),z.lazy(() => UsersUncheckedCreateWithoutUi_optionsInputSchema) ]),
+}).strict();
+
+export const AccountsUpsertWithoutUi_optionsInputSchema: z.ZodType<Prisma.AccountsUpsertWithoutUi_optionsInput> = z.object({
+  update: z.union([ z.lazy(() => AccountsUpdateWithoutUi_optionsInputSchema),z.lazy(() => AccountsUncheckedUpdateWithoutUi_optionsInputSchema) ]),
+  create: z.union([ z.lazy(() => AccountsCreateWithoutUi_optionsInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutUi_optionsInputSchema) ]),
+}).strict();
+
+export const AccountsUpdateWithoutUi_optionsInputSchema: z.ZodType<Prisma.AccountsUpdateWithoutUi_optionsInput> = z.object({
+  account_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  type: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  period_start: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  users: z.lazy(() => UsersUpdateOneWithoutAccountsNestedInputSchema).optional(),
+  projects: z.lazy(() => ProjectsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional()
+}).strict();
+
+export const AccountsUncheckedUpdateWithoutUi_optionsInputSchema: z.ZodType<Prisma.AccountsUncheckedUpdateWithoutUi_optionsInput> = z.object({
+  account_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  user_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  type: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  period_start: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  projects: z.lazy(() => ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
+}).strict();
+
+export const UsersUpsertWithoutUi_optionsInputSchema: z.ZodType<Prisma.UsersUpsertWithoutUi_optionsInput> = z.object({
+  update: z.union([ z.lazy(() => UsersUpdateWithoutUi_optionsInputSchema),z.lazy(() => UsersUncheckedUpdateWithoutUi_optionsInputSchema) ]),
+  create: z.union([ z.lazy(() => UsersCreateWithoutUi_optionsInputSchema),z.lazy(() => UsersUncheckedCreateWithoutUi_optionsInputSchema) ]),
+}).strict();
+
+export const UsersUpdateWithoutUi_optionsInputSchema: z.ZodType<Prisma.UsersUpdateWithoutUi_optionsInput> = z.object({
+  user_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  email: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  auth_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  accounts: z.lazy(() => AccountsUpdateManyWithoutUsersNestedInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUpdateManyWithoutUsersNestedInputSchema).optional()
+}).strict();
+
+export const UsersUncheckedUpdateWithoutUi_optionsInputSchema: z.ZodType<Prisma.UsersUncheckedUpdateWithoutUi_optionsInput> = z.object({
+  user_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  email: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  auth_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  accounts: z.lazy(() => AccountsUncheckedUpdateManyWithoutUsersNestedInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutUsersNestedInputSchema).optional()
 }).strict();
 
 export const AccountsCreateWithoutUser_messagesInputSchema: z.ZodType<Prisma.AccountsCreateWithoutUser_messagesInput> = z.object({
@@ -3181,7 +3834,8 @@ export const AccountsCreateWithoutUser_messagesInputSchema: z.ZodType<Prisma.Acc
   projects_label_by: z.string().optional().nullable(),
   label: z.string().optional().nullable(),
   users: z.lazy(() => UsersCreateNestedOneWithoutAccountsInputSchema).optional(),
-  projects: z.lazy(() => ProjectsCreateNestedManyWithoutAccountsInputSchema).optional()
+  projects: z.lazy(() => ProjectsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
 export const AccountsUncheckedCreateWithoutUser_messagesInputSchema: z.ZodType<Prisma.AccountsUncheckedCreateWithoutUser_messagesInput> = z.object({
@@ -3192,7 +3846,8 @@ export const AccountsUncheckedCreateWithoutUser_messagesInputSchema: z.ZodType<P
   period_end: z.coerce.date().optional().nullable(),
   projects_label_by: z.string().optional().nullable(),
   label: z.string().optional().nullable(),
-  projects: z.lazy(() => ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
+  projects: z.lazy(() => ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
 export const AccountsCreateOrConnectWithoutUser_messagesInputSchema: z.ZodType<Prisma.AccountsCreateOrConnectWithoutUser_messagesInput> = z.object({
@@ -3225,7 +3880,8 @@ export const UsersCreateWithoutUser_messagesInputSchema: z.ZodType<Prisma.UsersC
   auth_id: z.string().optional().nullable(),
   label_replace_by_generated_column: z.string().optional().nullable(),
   deleted: z.boolean().optional().nullable(),
-  accounts: z.lazy(() => AccountsCreateNestedManyWithoutUsersInputSchema).optional()
+  accounts: z.lazy(() => AccountsCreateNestedManyWithoutUsersInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsCreateNestedOneWithoutUsersInputSchema).optional()
 }).strict();
 
 export const UsersUncheckedCreateWithoutUser_messagesInputSchema: z.ZodType<Prisma.UsersUncheckedCreateWithoutUser_messagesInput> = z.object({
@@ -3234,7 +3890,8 @@ export const UsersUncheckedCreateWithoutUser_messagesInputSchema: z.ZodType<Pris
   auth_id: z.string().optional().nullable(),
   label_replace_by_generated_column: z.string().optional().nullable(),
   deleted: z.boolean().optional().nullable(),
-  accounts: z.lazy(() => AccountsUncheckedCreateNestedManyWithoutUsersInputSchema).optional()
+  accounts: z.lazy(() => AccountsUncheckedCreateNestedManyWithoutUsersInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedOneWithoutUsersInputSchema).optional()
 }).strict();
 
 export const UsersCreateOrConnectWithoutUser_messagesInputSchema: z.ZodType<Prisma.UsersCreateOrConnectWithoutUser_messagesInput> = z.object({
@@ -3255,7 +3912,8 @@ export const AccountsUpdateWithoutUser_messagesInputSchema: z.ZodType<Prisma.Acc
   projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   users: z.lazy(() => UsersUpdateOneWithoutAccountsNestedInputSchema).optional(),
-  projects: z.lazy(() => ProjectsUpdateManyWithoutAccountsNestedInputSchema).optional()
+  projects: z.lazy(() => ProjectsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
 export const AccountsUncheckedUpdateWithoutUser_messagesInputSchema: z.ZodType<Prisma.AccountsUncheckedUpdateWithoutUser_messagesInput> = z.object({
@@ -3266,7 +3924,8 @@ export const AccountsUncheckedUpdateWithoutUser_messagesInputSchema: z.ZodType<P
   period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  projects: z.lazy(() => ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
+  projects: z.lazy(() => ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
 export const MessagesUpsertWithoutUser_messagesInputSchema: z.ZodType<Prisma.MessagesUpsertWithoutUser_messagesInput> = z.object({
@@ -3299,7 +3958,8 @@ export const UsersUpdateWithoutUser_messagesInputSchema: z.ZodType<Prisma.UsersU
   auth_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  accounts: z.lazy(() => AccountsUpdateManyWithoutUsersNestedInputSchema).optional()
+  accounts: z.lazy(() => AccountsUpdateManyWithoutUsersNestedInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUpdateOneWithoutUsersNestedInputSchema).optional()
 }).strict();
 
 export const UsersUncheckedUpdateWithoutUser_messagesInputSchema: z.ZodType<Prisma.UsersUncheckedUpdateWithoutUser_messagesInput> = z.object({
@@ -3308,7 +3968,8 @@ export const UsersUncheckedUpdateWithoutUser_messagesInputSchema: z.ZodType<Pris
   auth_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  accounts: z.lazy(() => AccountsUncheckedUpdateManyWithoutUsersNestedInputSchema).optional()
+  accounts: z.lazy(() => AccountsUncheckedUpdateManyWithoutUsersNestedInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedUpdateOneWithoutUsersNestedInputSchema).optional()
 }).strict();
 
 export const AccountsCreateWithoutUsersInputSchema: z.ZodType<Prisma.AccountsCreateWithoutUsersInput> = z.object({
@@ -3319,6 +3980,7 @@ export const AccountsCreateWithoutUsersInputSchema: z.ZodType<Prisma.AccountsCre
   projects_label_by: z.string().optional().nullable(),
   label: z.string().optional().nullable(),
   projects: z.lazy(() => ProjectsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -3330,6 +3992,7 @@ export const AccountsUncheckedCreateWithoutUsersInputSchema: z.ZodType<Prisma.Ac
   projects_label_by: z.string().optional().nullable(),
   label: z.string().optional().nullable(),
   projects: z.lazy(() => ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -3341,6 +4004,45 @@ export const AccountsCreateOrConnectWithoutUsersInputSchema: z.ZodType<Prisma.Ac
 export const AccountsCreateManyUsersInputEnvelopeSchema: z.ZodType<Prisma.AccountsCreateManyUsersInputEnvelope> = z.object({
   data: z.lazy(() => AccountsCreateManyUsersInputSchema).array(),
   skipDuplicates: z.boolean().optional()
+}).strict();
+
+export const Ui_optionsCreateWithoutUsersInputSchema: z.ZodType<Prisma.Ui_optionsCreateWithoutUsersInput> = z.object({
+  designing: z.boolean().optional().nullable(),
+  breadcrumbs_overflowing: z.boolean().optional().nullable(),
+  navs_overflowing: z.boolean().optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.boolean().optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.string().optional().nullable(),
+  vector_layer_sorter: z.string().optional().nullable(),
+  editing_place_geometry: z.string().optional().nullable(),
+  editing_check_geometry: z.string().optional().nullable(),
+  editing_action_geometry: z.string().optional().nullable(),
+  label: z.string().optional().nullable(),
+  accounts: z.lazy(() => AccountsCreateNestedOneWithoutUi_optionsInputSchema).optional()
+}).strict();
+
+export const Ui_optionsUncheckedCreateWithoutUsersInputSchema: z.ZodType<Prisma.Ui_optionsUncheckedCreateWithoutUsersInput> = z.object({
+  account_id: z.string().optional().nullable(),
+  designing: z.boolean().optional().nullable(),
+  breadcrumbs_overflowing: z.boolean().optional().nullable(),
+  navs_overflowing: z.boolean().optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.boolean().optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.string().optional().nullable(),
+  vector_layer_sorter: z.string().optional().nullable(),
+  editing_place_geometry: z.string().optional().nullable(),
+  editing_check_geometry: z.string().optional().nullable(),
+  editing_action_geometry: z.string().optional().nullable(),
+  label: z.string().optional().nullable()
+}).strict();
+
+export const Ui_optionsCreateOrConnectWithoutUsersInputSchema: z.ZodType<Prisma.Ui_optionsCreateOrConnectWithoutUsersInput> = z.object({
+  where: z.lazy(() => Ui_optionsWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => Ui_optionsCreateWithoutUsersInputSchema),z.lazy(() => Ui_optionsUncheckedCreateWithoutUsersInputSchema) ]),
 }).strict();
 
 export const User_messagesCreateWithoutUsersInputSchema: z.ZodType<Prisma.User_messagesCreateWithoutUsersInput> = z.object({
@@ -3396,6 +4098,45 @@ export const AccountsScalarWhereInputSchema: z.ZodType<Prisma.AccountsScalarWher
   period_end: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
   projects_label_by: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   label: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+}).strict();
+
+export const Ui_optionsUpsertWithoutUsersInputSchema: z.ZodType<Prisma.Ui_optionsUpsertWithoutUsersInput> = z.object({
+  update: z.union([ z.lazy(() => Ui_optionsUpdateWithoutUsersInputSchema),z.lazy(() => Ui_optionsUncheckedUpdateWithoutUsersInputSchema) ]),
+  create: z.union([ z.lazy(() => Ui_optionsCreateWithoutUsersInputSchema),z.lazy(() => Ui_optionsUncheckedCreateWithoutUsersInputSchema) ]),
+}).strict();
+
+export const Ui_optionsUpdateWithoutUsersInputSchema: z.ZodType<Prisma.Ui_optionsUpdateWithoutUsersInput> = z.object({
+  designing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  breadcrumbs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  navs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  vector_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_place_geometry: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_check_geometry: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_action_geometry: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  accounts: z.lazy(() => AccountsUpdateOneWithoutUi_optionsNestedInputSchema).optional()
+}).strict();
+
+export const Ui_optionsUncheckedUpdateWithoutUsersInputSchema: z.ZodType<Prisma.Ui_optionsUncheckedUpdateWithoutUsersInput> = z.object({
+  account_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  designing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  breadcrumbs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  navs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  vector_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_place_geometry: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_check_geometry: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_action_geometry: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
 export const User_messagesUpsertWithWhereUniqueWithoutUsersInputSchema: z.ZodType<Prisma.User_messagesUpsertWithWhereUniqueWithoutUsersInput> = z.object({
@@ -3577,6 +4318,23 @@ export const ProjectsCreateManyAccountsInputSchema: z.ZodType<Prisma.ProjectsCre
   deleted: z.boolean().optional().nullable()
 }).strict();
 
+export const Ui_optionsCreateManyAccountsInputSchema: z.ZodType<Prisma.Ui_optionsCreateManyAccountsInput> = z.object({
+  user_id: z.string().uuid(),
+  designing: z.boolean().optional().nullable(),
+  breadcrumbs_overflowing: z.boolean().optional().nullable(),
+  navs_overflowing: z.boolean().optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.boolean().optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.string().optional().nullable(),
+  vector_layer_sorter: z.string().optional().nullable(),
+  editing_place_geometry: z.string().uuid().optional().nullable(),
+  editing_check_geometry: z.string().uuid().optional().nullable(),
+  editing_action_geometry: z.string().uuid().optional().nullable(),
+  label: z.string().optional().nullable()
+}).strict();
+
 export const User_messagesCreateManyAccountsInputSchema: z.ZodType<Prisma.User_messagesCreateManyAccountsInput> = z.object({
   user_message_id: z.string().uuid(),
   user_id: z.string().uuid().optional().nullable(),
@@ -3664,6 +4422,57 @@ export const ProjectsUncheckedUpdateManyWithoutProjectsInputSchema: z.ZodType<Pr
   files_active_actions: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   files_active_checks: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const Ui_optionsUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.Ui_optionsUpdateWithoutAccountsInput> = z.object({
+  designing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  breadcrumbs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  navs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  vector_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_place_geometry: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_check_geometry: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_action_geometry: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  users: z.lazy(() => UsersUpdateOneRequiredWithoutUi_optionsNestedInputSchema).optional()
+}).strict();
+
+export const Ui_optionsUncheckedUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.Ui_optionsUncheckedUpdateWithoutAccountsInput> = z.object({
+  user_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  designing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  breadcrumbs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  navs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  vector_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_place_geometry: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_check_geometry: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_action_geometry: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const Ui_optionsUncheckedUpdateManyWithoutUi_optionsInputSchema: z.ZodType<Prisma.Ui_optionsUncheckedUpdateManyWithoutUi_optionsInput> = z.object({
+  user_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  designing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  breadcrumbs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  navs_overflowing: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  tabs: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  show_map: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  map_bounds: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  local_map_show: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  tile_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  vector_layer_sorter: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_place_geometry: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_check_geometry: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  editing_action_geometry: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
 export const User_messagesUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.User_messagesUpdateWithoutAccountsInput> = z.object({
@@ -3767,6 +4576,7 @@ export const AccountsUpdateWithoutUsersInputSchema: z.ZodType<Prisma.AccountsUpd
   projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   projects: z.lazy(() => ProjectsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -3778,6 +4588,7 @@ export const AccountsUncheckedUpdateWithoutUsersInputSchema: z.ZodType<Prisma.Ac
   projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   projects: z.lazy(() => ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -4078,6 +4889,68 @@ export const ProjectsFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.ProjectsFindU
   include: ProjectsIncludeSchema.optional(),
   where: ProjectsWhereUniqueInputSchema,
 }).strict() as z.ZodType<Prisma.ProjectsFindUniqueOrThrowArgs>
+
+export const Ui_optionsFindFirstArgsSchema: z.ZodType<Prisma.Ui_optionsFindFirstArgs> = z.object({
+  select: Ui_optionsSelectSchema.optional(),
+  include: Ui_optionsIncludeSchema.optional(),
+  where: Ui_optionsWhereInputSchema.optional(),
+  orderBy: z.union([ Ui_optionsOrderByWithRelationInputSchema.array(),Ui_optionsOrderByWithRelationInputSchema ]).optional(),
+  cursor: Ui_optionsWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: Ui_optionsScalarFieldEnumSchema.array().optional(),
+}).strict() as z.ZodType<Prisma.Ui_optionsFindFirstArgs>
+
+export const Ui_optionsFindFirstOrThrowArgsSchema: z.ZodType<Prisma.Ui_optionsFindFirstOrThrowArgs> = z.object({
+  select: Ui_optionsSelectSchema.optional(),
+  include: Ui_optionsIncludeSchema.optional(),
+  where: Ui_optionsWhereInputSchema.optional(),
+  orderBy: z.union([ Ui_optionsOrderByWithRelationInputSchema.array(),Ui_optionsOrderByWithRelationInputSchema ]).optional(),
+  cursor: Ui_optionsWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: Ui_optionsScalarFieldEnumSchema.array().optional(),
+}).strict() as z.ZodType<Prisma.Ui_optionsFindFirstOrThrowArgs>
+
+export const Ui_optionsFindManyArgsSchema: z.ZodType<Prisma.Ui_optionsFindManyArgs> = z.object({
+  select: Ui_optionsSelectSchema.optional(),
+  include: Ui_optionsIncludeSchema.optional(),
+  where: Ui_optionsWhereInputSchema.optional(),
+  orderBy: z.union([ Ui_optionsOrderByWithRelationInputSchema.array(),Ui_optionsOrderByWithRelationInputSchema ]).optional(),
+  cursor: Ui_optionsWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: Ui_optionsScalarFieldEnumSchema.array().optional(),
+}).strict() as z.ZodType<Prisma.Ui_optionsFindManyArgs>
+
+export const Ui_optionsAggregateArgsSchema: z.ZodType<Prisma.Ui_optionsAggregateArgs> = z.object({
+  where: Ui_optionsWhereInputSchema.optional(),
+  orderBy: z.union([ Ui_optionsOrderByWithRelationInputSchema.array(),Ui_optionsOrderByWithRelationInputSchema ]).optional(),
+  cursor: Ui_optionsWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() as z.ZodType<Prisma.Ui_optionsAggregateArgs>
+
+export const Ui_optionsGroupByArgsSchema: z.ZodType<Prisma.Ui_optionsGroupByArgs> = z.object({
+  where: Ui_optionsWhereInputSchema.optional(),
+  orderBy: z.union([ Ui_optionsOrderByWithAggregationInputSchema.array(),Ui_optionsOrderByWithAggregationInputSchema ]).optional(),
+  by: Ui_optionsScalarFieldEnumSchema.array(),
+  having: Ui_optionsScalarWhereWithAggregatesInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() as z.ZodType<Prisma.Ui_optionsGroupByArgs>
+
+export const Ui_optionsFindUniqueArgsSchema: z.ZodType<Prisma.Ui_optionsFindUniqueArgs> = z.object({
+  select: Ui_optionsSelectSchema.optional(),
+  include: Ui_optionsIncludeSchema.optional(),
+  where: Ui_optionsWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.Ui_optionsFindUniqueArgs>
+
+export const Ui_optionsFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.Ui_optionsFindUniqueOrThrowArgs> = z.object({
+  select: Ui_optionsSelectSchema.optional(),
+  include: Ui_optionsIncludeSchema.optional(),
+  where: Ui_optionsWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.Ui_optionsFindUniqueOrThrowArgs>
 
 export const User_messagesFindFirstArgsSchema: z.ZodType<Prisma.User_messagesFindFirstArgs> = z.object({
   select: User_messagesSelectSchema.optional(),
@@ -4491,6 +5364,47 @@ export const ProjectsDeleteManyArgsSchema: z.ZodType<Prisma.ProjectsDeleteManyAr
   where: ProjectsWhereInputSchema.optional(),
 }).strict() as z.ZodType<Prisma.ProjectsDeleteManyArgs>
 
+export const Ui_optionsCreateArgsSchema: z.ZodType<Prisma.Ui_optionsCreateArgs> = z.object({
+  select: Ui_optionsSelectSchema.optional(),
+  include: Ui_optionsIncludeSchema.optional(),
+  data: z.union([ Ui_optionsCreateInputSchema,Ui_optionsUncheckedCreateInputSchema ]),
+}).strict() as z.ZodType<Prisma.Ui_optionsCreateArgs>
+
+export const Ui_optionsUpsertArgsSchema: z.ZodType<Prisma.Ui_optionsUpsertArgs> = z.object({
+  select: Ui_optionsSelectSchema.optional(),
+  include: Ui_optionsIncludeSchema.optional(),
+  where: Ui_optionsWhereUniqueInputSchema,
+  create: z.union([ Ui_optionsCreateInputSchema,Ui_optionsUncheckedCreateInputSchema ]),
+  update: z.union([ Ui_optionsUpdateInputSchema,Ui_optionsUncheckedUpdateInputSchema ]),
+}).strict() as z.ZodType<Prisma.Ui_optionsUpsertArgs>
+
+export const Ui_optionsCreateManyArgsSchema: z.ZodType<Prisma.Ui_optionsCreateManyArgs> = z.object({
+  data: Ui_optionsCreateManyInputSchema.array(),
+  skipDuplicates: z.boolean().optional(),
+}).strict() as z.ZodType<Prisma.Ui_optionsCreateManyArgs>
+
+export const Ui_optionsDeleteArgsSchema: z.ZodType<Prisma.Ui_optionsDeleteArgs> = z.object({
+  select: Ui_optionsSelectSchema.optional(),
+  include: Ui_optionsIncludeSchema.optional(),
+  where: Ui_optionsWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.Ui_optionsDeleteArgs>
+
+export const Ui_optionsUpdateArgsSchema: z.ZodType<Prisma.Ui_optionsUpdateArgs> = z.object({
+  select: Ui_optionsSelectSchema.optional(),
+  include: Ui_optionsIncludeSchema.optional(),
+  data: z.union([ Ui_optionsUpdateInputSchema,Ui_optionsUncheckedUpdateInputSchema ]),
+  where: Ui_optionsWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.Ui_optionsUpdateArgs>
+
+export const Ui_optionsUpdateManyArgsSchema: z.ZodType<Prisma.Ui_optionsUpdateManyArgs> = z.object({
+  data: z.union([ Ui_optionsUpdateManyMutationInputSchema,Ui_optionsUncheckedUpdateManyInputSchema ]),
+  where: Ui_optionsWhereInputSchema.optional(),
+}).strict() as z.ZodType<Prisma.Ui_optionsUpdateManyArgs>
+
+export const Ui_optionsDeleteManyArgsSchema: z.ZodType<Prisma.Ui_optionsDeleteManyArgs> = z.object({
+  where: Ui_optionsWhereInputSchema.optional(),
+}).strict() as z.ZodType<Prisma.Ui_optionsDeleteManyArgs>
+
 export const User_messagesCreateArgsSchema: z.ZodType<Prisma.User_messagesCreateArgs> = z.object({
   select: User_messagesSelectSchema.optional(),
   include: User_messagesIncludeSchema.optional(),
@@ -4675,6 +5589,11 @@ interface ProjectsGetPayload extends HKT {
   readonly type: Prisma.ProjectsGetPayload<this['_A']>
 }
 
+interface Ui_optionsGetPayload extends HKT {
+  readonly _A?: boolean | null | undefined | Prisma.Ui_optionsArgs
+  readonly type: Prisma.Ui_optionsGetPayload<this['_A']>
+}
+
 interface User_messagesGetPayload extends HKT {
   readonly _A?: boolean | null | undefined | Prisma.User_messagesArgs
   readonly type: Prisma.User_messagesGetPayload<this['_A']>
@@ -4730,6 +5649,7 @@ export const tableSchemas = {
     relations: [
       new Relation("users", "user_id", "user_id", "users", "AccountsToUsers", "one"),
       new Relation("projects", "", "", "projects", "AccountsToProjects", "many"),
+      new Relation("ui_options", "", "", "ui_options", "AccountsToUi_options", "many"),
       new Relation("user_messages", "", "", "user_messages", "AccountsToUser_messages", "many"),
     ],
     modelSchema: (AccountsCreateInputSchema as any)
@@ -4986,6 +5906,97 @@ export const tableSchemas = {
     Prisma.ProjectsScalarFieldEnum,
     ProjectsGetPayload
   >,
+  ui_options: {
+    fields: new Map([
+      [
+        "user_id",
+        "UUID"
+      ],
+      [
+        "account_id",
+        "UUID"
+      ],
+      [
+        "designing",
+        "BOOL"
+      ],
+      [
+        "breadcrumbs_overflowing",
+        "BOOL"
+      ],
+      [
+        "navs_overflowing",
+        "BOOL"
+      ],
+      [
+        "tabs",
+        "JSONB"
+      ],
+      [
+        "show_map",
+        "BOOL"
+      ],
+      [
+        "map_bounds",
+        "JSONB"
+      ],
+      [
+        "local_map_show",
+        "JSONB"
+      ],
+      [
+        "tile_layer_sorter",
+        "TEXT"
+      ],
+      [
+        "vector_layer_sorter",
+        "TEXT"
+      ],
+      [
+        "editing_place_geometry",
+        "UUID"
+      ],
+      [
+        "editing_check_geometry",
+        "UUID"
+      ],
+      [
+        "editing_action_geometry",
+        "UUID"
+      ],
+      [
+        "label",
+        "TEXT"
+      ]
+    ]),
+    relations: [
+      new Relation("accounts", "account_id", "account_id", "accounts", "AccountsToUi_options", "one"),
+      new Relation("users", "user_id", "user_id", "users", "Ui_optionsToUsers", "one"),
+    ],
+    modelSchema: (Ui_optionsCreateInputSchema as any)
+      .partial()
+      .or((Ui_optionsUncheckedCreateInputSchema as any).partial()),
+    createSchema: Ui_optionsCreateArgsSchema,
+    createManySchema: Ui_optionsCreateManyArgsSchema,
+    findUniqueSchema: Ui_optionsFindUniqueArgsSchema,
+    findSchema: Ui_optionsFindFirstArgsSchema,
+    updateSchema: Ui_optionsUpdateArgsSchema,
+    updateManySchema: Ui_optionsUpdateManyArgsSchema,
+    upsertSchema: Ui_optionsUpsertArgsSchema,
+    deleteSchema: Ui_optionsDeleteArgsSchema,
+    deleteManySchema: Ui_optionsDeleteManyArgsSchema
+  } as TableSchema<
+    z.infer<typeof Ui_optionsCreateInputSchema>,
+    Prisma.Ui_optionsCreateArgs['data'],
+    Prisma.Ui_optionsUpdateArgs['data'],
+    Prisma.Ui_optionsFindFirstArgs['select'],
+    Prisma.Ui_optionsFindFirstArgs['where'],
+    Prisma.Ui_optionsFindUniqueArgs['where'],
+    Omit<Prisma.Ui_optionsInclude, '_count'>,
+    Prisma.Ui_optionsFindFirstArgs['orderBy'],
+    Prisma.Ui_optionsScalarFieldEnum,
+    Ui_optionsGetPayload
+  >,
   user_messages: {
     fields: new Map([
       [
@@ -5067,6 +6078,7 @@ export const tableSchemas = {
     ]),
     relations: [
       new Relation("accounts", "", "", "accounts", "AccountsToUsers", "many"),
+      new Relation("ui_options", "", "", "ui_options", "Ui_optionsToUsers", "one"),
       new Relation("user_messages", "", "", "user_messages", "User_messagesToUsers", "many"),
     ],
     modelSchema: (UsersCreateInputSchema as any)

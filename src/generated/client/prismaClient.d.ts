@@ -104,6 +104,43 @@ export type Projects = {
 }
 
 /**
+ * Model Ui_options
+ * 
+ */
+export type Ui_options = {
+  /**
+   * @zod.string.uuid()
+   */
+  user_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  designing: boolean | null
+  breadcrumbs_overflowing: boolean | null
+  navs_overflowing: boolean | null
+  tabs: Prisma.JsonValue | null
+  show_map: boolean | null
+  map_bounds: Prisma.JsonValue | null
+  local_map_show: Prisma.JsonValue | null
+  tile_layer_sorter: string | null
+  vector_layer_sorter: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  editing_place_geometry: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  editing_check_geometry: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  editing_action_geometry: string | null
+  label: string | null
+}
+
+/**
  * Model User_messages
  * 
  */
@@ -359,6 +396,16 @@ export class PrismaClient<
     * ```
     */
   get projects(): Prisma.ProjectsDelegate<GlobalReject>;
+
+  /**
+   * `prisma.ui_options`: Exposes CRUD operations for the **Ui_options** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Ui_options
+    * const ui_options = await prisma.ui_options.findMany()
+    * ```
+    */
+  get ui_options(): Prisma.Ui_optionsDelegate<GlobalReject>;
 
   /**
    * `prisma.user_messages`: Exposes CRUD operations for the **User_messages** model.
@@ -887,6 +934,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     Field_types: 'Field_types',
     Messages: 'Messages',
     Projects: 'Projects',
+    Ui_options: 'Ui_options',
     User_messages: 'User_messages',
     Users: 'Users',
     Widget_types: 'Widget_types',
@@ -1062,11 +1110,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type AccountsCountOutputType = {
     projects: number
+    ui_options: number
     user_messages: number
   }
 
   export type AccountsCountOutputTypeSelect = {
     projects?: boolean | AccountsCountOutputTypeCountProjectsArgs
+    ui_options?: boolean | AccountsCountOutputTypeCountUi_optionsArgs
     user_messages?: boolean | AccountsCountOutputTypeCountUser_messagesArgs
   }
 
@@ -1105,6 +1155,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type AccountsCountOutputTypeCountProjectsArgs = {
     where?: ProjectsWhereInput
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountUi_optionsArgs = {
+    where?: Ui_optionsWhereInput
   }
 
 
@@ -1528,6 +1586,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: boolean
     users?: boolean | Accounts$usersArgs
     projects?: boolean | Accounts$projectsArgs
+    ui_options?: boolean | Accounts$ui_optionsArgs
     user_messages?: boolean | Accounts$user_messagesArgs
     _count?: boolean | AccountsCountOutputTypeArgs
   }
@@ -1536,6 +1595,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type AccountsInclude = {
     users?: boolean | Accounts$usersArgs
     projects?: boolean | Accounts$projectsArgs
+    ui_options?: boolean | Accounts$ui_optionsArgs
     user_messages?: boolean | Accounts$user_messagesArgs
     _count?: boolean | AccountsCountOutputTypeArgs
   } 
@@ -1549,6 +1609,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     [P in TruthyKeys<S['include']>]:
         P extends 'users' ? UsersGetPayload<S['include'][P]> | null :
         P extends 'projects' ? Array < ProjectsGetPayload<S['include'][P]>>  :
+        P extends 'ui_options' ? Array < Ui_optionsGetPayload<S['include'][P]>>  :
         P extends 'user_messages' ? Array < User_messagesGetPayload<S['include'][P]>>  :
         P extends '_count' ? AccountsCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
@@ -1557,6 +1618,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     [P in TruthyKeys<S['select']>]:
         P extends 'users' ? UsersGetPayload<S['select'][P]> | null :
         P extends 'projects' ? Array < ProjectsGetPayload<S['select'][P]>>  :
+        P extends 'ui_options' ? Array < Ui_optionsGetPayload<S['select'][P]>>  :
         P extends 'user_messages' ? Array < User_messagesGetPayload<S['select'][P]>>  :
         P extends '_count' ? AccountsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Accounts ? Accounts[P] : never
   } 
@@ -1935,6 +1997,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     users<T extends Accounts$usersArgs= {}>(args?: Subset<T, Accounts$usersArgs>): Prisma__UsersClient<UsersGetPayload<T> | Null>;
 
     projects<T extends Accounts$projectsArgs= {}>(args?: Subset<T, Accounts$projectsArgs>): PrismaPromise<Array<ProjectsGetPayload<T>>| Null>;
+
+    ui_options<T extends Accounts$ui_optionsArgs= {}>(args?: Subset<T, Accounts$ui_optionsArgs>): PrismaPromise<Array<Ui_optionsGetPayload<T>>| Null>;
 
     user_messages<T extends Accounts$user_messagesArgs= {}>(args?: Subset<T, Accounts$user_messagesArgs>): PrismaPromise<Array<User_messagesGetPayload<T>>| Null>;
 
@@ -2379,6 +2443,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<ProjectsScalarFieldEnum>
+  }
+
+
+  /**
+   * Accounts.ui_options
+   */
+  export type Accounts$ui_optionsArgs = {
+    /**
+     * Select specific fields to fetch from the Ui_options
+     * 
+    **/
+    select?: Ui_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Ui_optionsInclude | null
+    where?: Ui_optionsWhereInput
+    orderBy?: Enumerable<Ui_optionsOrderByWithRelationInput>
+    cursor?: Ui_optionsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Ui_optionsScalarFieldEnum>
   }
 
 
@@ -5646,6 +5733,1086 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Model Ui_options
+   */
+
+
+  export type AggregateUi_options = {
+    _count: Ui_optionsCountAggregateOutputType | null
+    _min: Ui_optionsMinAggregateOutputType | null
+    _max: Ui_optionsMaxAggregateOutputType | null
+  }
+
+  export type Ui_optionsMinAggregateOutputType = {
+    user_id: string | null
+    account_id: string | null
+    designing: boolean | null
+    breadcrumbs_overflowing: boolean | null
+    navs_overflowing: boolean | null
+    show_map: boolean | null
+    tile_layer_sorter: string | null
+    vector_layer_sorter: string | null
+    editing_place_geometry: string | null
+    editing_check_geometry: string | null
+    editing_action_geometry: string | null
+    label: string | null
+  }
+
+  export type Ui_optionsMaxAggregateOutputType = {
+    user_id: string | null
+    account_id: string | null
+    designing: boolean | null
+    breadcrumbs_overflowing: boolean | null
+    navs_overflowing: boolean | null
+    show_map: boolean | null
+    tile_layer_sorter: string | null
+    vector_layer_sorter: string | null
+    editing_place_geometry: string | null
+    editing_check_geometry: string | null
+    editing_action_geometry: string | null
+    label: string | null
+  }
+
+  export type Ui_optionsCountAggregateOutputType = {
+    user_id: number
+    account_id: number
+    designing: number
+    breadcrumbs_overflowing: number
+    navs_overflowing: number
+    tabs: number
+    show_map: number
+    map_bounds: number
+    local_map_show: number
+    tile_layer_sorter: number
+    vector_layer_sorter: number
+    editing_place_geometry: number
+    editing_check_geometry: number
+    editing_action_geometry: number
+    label: number
+    _all: number
+  }
+
+
+  export type Ui_optionsMinAggregateInputType = {
+    user_id?: true
+    account_id?: true
+    designing?: true
+    breadcrumbs_overflowing?: true
+    navs_overflowing?: true
+    show_map?: true
+    tile_layer_sorter?: true
+    vector_layer_sorter?: true
+    editing_place_geometry?: true
+    editing_check_geometry?: true
+    editing_action_geometry?: true
+    label?: true
+  }
+
+  export type Ui_optionsMaxAggregateInputType = {
+    user_id?: true
+    account_id?: true
+    designing?: true
+    breadcrumbs_overflowing?: true
+    navs_overflowing?: true
+    show_map?: true
+    tile_layer_sorter?: true
+    vector_layer_sorter?: true
+    editing_place_geometry?: true
+    editing_check_geometry?: true
+    editing_action_geometry?: true
+    label?: true
+  }
+
+  export type Ui_optionsCountAggregateInputType = {
+    user_id?: true
+    account_id?: true
+    designing?: true
+    breadcrumbs_overflowing?: true
+    navs_overflowing?: true
+    tabs?: true
+    show_map?: true
+    map_bounds?: true
+    local_map_show?: true
+    tile_layer_sorter?: true
+    vector_layer_sorter?: true
+    editing_place_geometry?: true
+    editing_check_geometry?: true
+    editing_action_geometry?: true
+    label?: true
+    _all?: true
+  }
+
+  export type Ui_optionsAggregateArgs = {
+    /**
+     * Filter which Ui_options to aggregate.
+     * 
+    **/
+    where?: Ui_optionsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ui_options to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Ui_optionsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: Ui_optionsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ui_options from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ui_options.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Ui_options
+    **/
+    _count?: true | Ui_optionsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Ui_optionsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Ui_optionsMaxAggregateInputType
+  }
+
+  export type GetUi_optionsAggregateType<T extends Ui_optionsAggregateArgs> = {
+        [P in keyof T & keyof AggregateUi_options]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUi_options[P]>
+      : GetScalarType<T[P], AggregateUi_options[P]>
+  }
+
+
+
+
+  export type Ui_optionsGroupByArgs = {
+    where?: Ui_optionsWhereInput
+    orderBy?: Enumerable<Ui_optionsOrderByWithAggregationInput>
+    by: Array<Ui_optionsScalarFieldEnum>
+    having?: Ui_optionsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Ui_optionsCountAggregateInputType | true
+    _min?: Ui_optionsMinAggregateInputType
+    _max?: Ui_optionsMaxAggregateInputType
+  }
+
+
+  export type Ui_optionsGroupByOutputType = {
+    user_id: string
+    account_id: string | null
+    designing: boolean | null
+    breadcrumbs_overflowing: boolean | null
+    navs_overflowing: boolean | null
+    tabs: JsonValue | null
+    show_map: boolean | null
+    map_bounds: JsonValue | null
+    local_map_show: JsonValue | null
+    tile_layer_sorter: string | null
+    vector_layer_sorter: string | null
+    editing_place_geometry: string | null
+    editing_check_geometry: string | null
+    editing_action_geometry: string | null
+    label: string | null
+    _count: Ui_optionsCountAggregateOutputType | null
+    _min: Ui_optionsMinAggregateOutputType | null
+    _max: Ui_optionsMaxAggregateOutputType | null
+  }
+
+  type GetUi_optionsGroupByPayload<T extends Ui_optionsGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Ui_optionsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Ui_optionsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Ui_optionsGroupByOutputType[P]>
+            : GetScalarType<T[P], Ui_optionsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Ui_optionsSelect = {
+    user_id?: boolean
+    account_id?: boolean
+    designing?: boolean
+    breadcrumbs_overflowing?: boolean
+    navs_overflowing?: boolean
+    tabs?: boolean
+    show_map?: boolean
+    map_bounds?: boolean
+    local_map_show?: boolean
+    tile_layer_sorter?: boolean
+    vector_layer_sorter?: boolean
+    editing_place_geometry?: boolean
+    editing_check_geometry?: boolean
+    editing_action_geometry?: boolean
+    label?: boolean
+    accounts?: boolean | Ui_options$accountsArgs
+    users?: boolean | UsersArgs
+  }
+
+
+  export type Ui_optionsInclude = {
+    accounts?: boolean | Ui_options$accountsArgs
+    users?: boolean | UsersArgs
+  } 
+
+  export type Ui_optionsGetPayload<S extends boolean | null | undefined | Ui_optionsArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Ui_options :
+    S extends undefined ? never :
+    S extends { include: any } & (Ui_optionsArgs | Ui_optionsFindManyArgs)
+    ? Ui_options  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'users' ? UsersGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (Ui_optionsArgs | Ui_optionsFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'users' ? UsersGetPayload<S['select'][P]> :  P extends keyof Ui_options ? Ui_options[P] : never
+  } 
+      : Ui_options
+
+
+  type Ui_optionsCountArgs = Merge<
+    Omit<Ui_optionsFindManyArgs, 'select' | 'include'> & {
+      select?: Ui_optionsCountAggregateInputType | true
+    }
+  >
+
+  export interface Ui_optionsDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Ui_options that matches the filter.
+     * @param {Ui_optionsFindUniqueArgs} args - Arguments to find a Ui_options
+     * @example
+     * // Get one Ui_options
+     * const ui_options = await prisma.ui_options.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends Ui_optionsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Ui_optionsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Ui_options'> extends True ? Prisma__Ui_optionsClient<Ui_optionsGetPayload<T>> : Prisma__Ui_optionsClient<Ui_optionsGetPayload<T> | null, null>
+
+    /**
+     * Find one Ui_options that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {Ui_optionsFindUniqueOrThrowArgs} args - Arguments to find a Ui_options
+     * @example
+     * // Get one Ui_options
+     * const ui_options = await prisma.ui_options.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends Ui_optionsFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, Ui_optionsFindUniqueOrThrowArgs>
+    ): Prisma__Ui_optionsClient<Ui_optionsGetPayload<T>>
+
+    /**
+     * Find the first Ui_options that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Ui_optionsFindFirstArgs} args - Arguments to find a Ui_options
+     * @example
+     * // Get one Ui_options
+     * const ui_options = await prisma.ui_options.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends Ui_optionsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Ui_optionsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Ui_options'> extends True ? Prisma__Ui_optionsClient<Ui_optionsGetPayload<T>> : Prisma__Ui_optionsClient<Ui_optionsGetPayload<T> | null, null>
+
+    /**
+     * Find the first Ui_options that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Ui_optionsFindFirstOrThrowArgs} args - Arguments to find a Ui_options
+     * @example
+     * // Get one Ui_options
+     * const ui_options = await prisma.ui_options.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends Ui_optionsFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, Ui_optionsFindFirstOrThrowArgs>
+    ): Prisma__Ui_optionsClient<Ui_optionsGetPayload<T>>
+
+    /**
+     * Find zero or more Ui_options that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Ui_optionsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Ui_options
+     * const ui_options = await prisma.ui_options.findMany()
+     * 
+     * // Get first 10 Ui_options
+     * const ui_options = await prisma.ui_options.findMany({ take: 10 })
+     * 
+     * // Only select the `user_id`
+     * const ui_optionsWithUser_idOnly = await prisma.ui_options.findMany({ select: { user_id: true } })
+     * 
+    **/
+    findMany<T extends Ui_optionsFindManyArgs>(
+      args?: SelectSubset<T, Ui_optionsFindManyArgs>
+    ): PrismaPromise<Array<Ui_optionsGetPayload<T>>>
+
+    /**
+     * Create a Ui_options.
+     * @param {Ui_optionsCreateArgs} args - Arguments to create a Ui_options.
+     * @example
+     * // Create one Ui_options
+     * const Ui_options = await prisma.ui_options.create({
+     *   data: {
+     *     // ... data to create a Ui_options
+     *   }
+     * })
+     * 
+    **/
+    create<T extends Ui_optionsCreateArgs>(
+      args: SelectSubset<T, Ui_optionsCreateArgs>
+    ): Prisma__Ui_optionsClient<Ui_optionsGetPayload<T>>
+
+    /**
+     * Create many Ui_options.
+     *     @param {Ui_optionsCreateManyArgs} args - Arguments to create many Ui_options.
+     *     @example
+     *     // Create many Ui_options
+     *     const ui_options = await prisma.ui_options.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends Ui_optionsCreateManyArgs>(
+      args?: SelectSubset<T, Ui_optionsCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Ui_options.
+     * @param {Ui_optionsDeleteArgs} args - Arguments to delete one Ui_options.
+     * @example
+     * // Delete one Ui_options
+     * const Ui_options = await prisma.ui_options.delete({
+     *   where: {
+     *     // ... filter to delete one Ui_options
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends Ui_optionsDeleteArgs>(
+      args: SelectSubset<T, Ui_optionsDeleteArgs>
+    ): Prisma__Ui_optionsClient<Ui_optionsGetPayload<T>>
+
+    /**
+     * Update one Ui_options.
+     * @param {Ui_optionsUpdateArgs} args - Arguments to update one Ui_options.
+     * @example
+     * // Update one Ui_options
+     * const ui_options = await prisma.ui_options.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends Ui_optionsUpdateArgs>(
+      args: SelectSubset<T, Ui_optionsUpdateArgs>
+    ): Prisma__Ui_optionsClient<Ui_optionsGetPayload<T>>
+
+    /**
+     * Delete zero or more Ui_options.
+     * @param {Ui_optionsDeleteManyArgs} args - Arguments to filter Ui_options to delete.
+     * @example
+     * // Delete a few Ui_options
+     * const { count } = await prisma.ui_options.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends Ui_optionsDeleteManyArgs>(
+      args?: SelectSubset<T, Ui_optionsDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Ui_options.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Ui_optionsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Ui_options
+     * const ui_options = await prisma.ui_options.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends Ui_optionsUpdateManyArgs>(
+      args: SelectSubset<T, Ui_optionsUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Ui_options.
+     * @param {Ui_optionsUpsertArgs} args - Arguments to update or create a Ui_options.
+     * @example
+     * // Update or create a Ui_options
+     * const ui_options = await prisma.ui_options.upsert({
+     *   create: {
+     *     // ... data to create a Ui_options
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Ui_options we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends Ui_optionsUpsertArgs>(
+      args: SelectSubset<T, Ui_optionsUpsertArgs>
+    ): Prisma__Ui_optionsClient<Ui_optionsGetPayload<T>>
+
+    /**
+     * Count the number of Ui_options.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Ui_optionsCountArgs} args - Arguments to filter Ui_options to count.
+     * @example
+     * // Count the number of Ui_options
+     * const count = await prisma.ui_options.count({
+     *   where: {
+     *     // ... the filter for the Ui_options we want to count
+     *   }
+     * })
+    **/
+    count<T extends Ui_optionsCountArgs>(
+      args?: Subset<T, Ui_optionsCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Ui_optionsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Ui_options.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Ui_optionsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Ui_optionsAggregateArgs>(args: Subset<T, Ui_optionsAggregateArgs>): PrismaPromise<GetUi_optionsAggregateType<T>>
+
+    /**
+     * Group by Ui_options.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Ui_optionsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Ui_optionsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Ui_optionsGroupByArgs['orderBy'] }
+        : { orderBy?: Ui_optionsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Ui_optionsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUi_optionsGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Ui_options.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__Ui_optionsClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Ui_options$accountsArgs= {}>(args?: Subset<T, Ui_options$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    users<T extends UsersArgs= {}>(args?: Subset<T, UsersArgs>): Prisma__UsersClient<UsersGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Ui_options base type for findUnique actions
+   */
+  export type Ui_optionsFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Ui_options
+     * 
+    **/
+    select?: Ui_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Ui_optionsInclude | null
+    /**
+     * Filter, which Ui_options to fetch.
+     * 
+    **/
+    where: Ui_optionsWhereUniqueInput
+  }
+
+  /**
+   * Ui_options findUnique
+   */
+  export interface Ui_optionsFindUniqueArgs extends Ui_optionsFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Ui_options findUniqueOrThrow
+   */
+  export type Ui_optionsFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Ui_options
+     * 
+    **/
+    select?: Ui_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Ui_optionsInclude | null
+    /**
+     * Filter, which Ui_options to fetch.
+     * 
+    **/
+    where: Ui_optionsWhereUniqueInput
+  }
+
+
+  /**
+   * Ui_options base type for findFirst actions
+   */
+  export type Ui_optionsFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Ui_options
+     * 
+    **/
+    select?: Ui_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Ui_optionsInclude | null
+    /**
+     * Filter, which Ui_options to fetch.
+     * 
+    **/
+    where?: Ui_optionsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ui_options to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Ui_optionsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Ui_options.
+     * 
+    **/
+    cursor?: Ui_optionsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ui_options from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ui_options.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Ui_options.
+     * 
+    **/
+    distinct?: Enumerable<Ui_optionsScalarFieldEnum>
+  }
+
+  /**
+   * Ui_options findFirst
+   */
+  export interface Ui_optionsFindFirstArgs extends Ui_optionsFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Ui_options findFirstOrThrow
+   */
+  export type Ui_optionsFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Ui_options
+     * 
+    **/
+    select?: Ui_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Ui_optionsInclude | null
+    /**
+     * Filter, which Ui_options to fetch.
+     * 
+    **/
+    where?: Ui_optionsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ui_options to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Ui_optionsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Ui_options.
+     * 
+    **/
+    cursor?: Ui_optionsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ui_options from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ui_options.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Ui_options.
+     * 
+    **/
+    distinct?: Enumerable<Ui_optionsScalarFieldEnum>
+  }
+
+
+  /**
+   * Ui_options findMany
+   */
+  export type Ui_optionsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Ui_options
+     * 
+    **/
+    select?: Ui_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Ui_optionsInclude | null
+    /**
+     * Filter, which Ui_options to fetch.
+     * 
+    **/
+    where?: Ui_optionsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ui_options to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Ui_optionsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Ui_options.
+     * 
+    **/
+    cursor?: Ui_optionsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ui_options from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ui_options.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Ui_optionsScalarFieldEnum>
+  }
+
+
+  /**
+   * Ui_options create
+   */
+  export type Ui_optionsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Ui_options
+     * 
+    **/
+    select?: Ui_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Ui_optionsInclude | null
+    /**
+     * The data needed to create a Ui_options.
+     * 
+    **/
+    data: XOR<Ui_optionsCreateInput, Ui_optionsUncheckedCreateInput>
+  }
+
+
+  /**
+   * Ui_options createMany
+   */
+  export type Ui_optionsCreateManyArgs = {
+    /**
+     * The data used to create many Ui_options.
+     * 
+    **/
+    data: Enumerable<Ui_optionsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Ui_options update
+   */
+  export type Ui_optionsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Ui_options
+     * 
+    **/
+    select?: Ui_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Ui_optionsInclude | null
+    /**
+     * The data needed to update a Ui_options.
+     * 
+    **/
+    data: XOR<Ui_optionsUpdateInput, Ui_optionsUncheckedUpdateInput>
+    /**
+     * Choose, which Ui_options to update.
+     * 
+    **/
+    where: Ui_optionsWhereUniqueInput
+  }
+
+
+  /**
+   * Ui_options updateMany
+   */
+  export type Ui_optionsUpdateManyArgs = {
+    /**
+     * The data used to update Ui_options.
+     * 
+    **/
+    data: XOR<Ui_optionsUpdateManyMutationInput, Ui_optionsUncheckedUpdateManyInput>
+    /**
+     * Filter which Ui_options to update
+     * 
+    **/
+    where?: Ui_optionsWhereInput
+  }
+
+
+  /**
+   * Ui_options upsert
+   */
+  export type Ui_optionsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Ui_options
+     * 
+    **/
+    select?: Ui_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Ui_optionsInclude | null
+    /**
+     * The filter to search for the Ui_options to update in case it exists.
+     * 
+    **/
+    where: Ui_optionsWhereUniqueInput
+    /**
+     * In case the Ui_options found by the `where` argument doesn't exist, create a new Ui_options with this data.
+     * 
+    **/
+    create: XOR<Ui_optionsCreateInput, Ui_optionsUncheckedCreateInput>
+    /**
+     * In case the Ui_options was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<Ui_optionsUpdateInput, Ui_optionsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Ui_options delete
+   */
+  export type Ui_optionsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Ui_options
+     * 
+    **/
+    select?: Ui_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Ui_optionsInclude | null
+    /**
+     * Filter which Ui_options to delete.
+     * 
+    **/
+    where: Ui_optionsWhereUniqueInput
+  }
+
+
+  /**
+   * Ui_options deleteMany
+   */
+  export type Ui_optionsDeleteManyArgs = {
+    /**
+     * Filter which Ui_options to delete
+     * 
+    **/
+    where?: Ui_optionsWhereInput
+  }
+
+
+  /**
+   * Ui_options.accounts
+   */
+  export type Ui_options$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Ui_options without action
+   */
+  export type Ui_optionsArgs = {
+    /**
+     * Select specific fields to fetch from the Ui_options
+     * 
+    **/
+    select?: Ui_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Ui_optionsInclude | null
+  }
+
+
+
+  /**
    * Model User_messages
    */
 
@@ -6879,6 +8046,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: boolean
     deleted?: boolean
     accounts?: boolean | Users$accountsArgs
+    ui_options?: boolean | Users$ui_optionsArgs
     user_messages?: boolean | Users$user_messagesArgs
     _count?: boolean | UsersCountOutputTypeArgs
   }
@@ -6886,6 +8054,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type UsersInclude = {
     accounts?: boolean | Users$accountsArgs
+    ui_options?: boolean | Users$ui_optionsArgs
     user_messages?: boolean | Users$user_messagesArgs
     _count?: boolean | UsersCountOutputTypeArgs
   } 
@@ -6898,6 +8067,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ? Users  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'accounts' ? Array < AccountsGetPayload<S['include'][P]>>  :
+        P extends 'ui_options' ? Ui_optionsGetPayload<S['include'][P]> | null :
         P extends 'user_messages' ? Array < User_messagesGetPayload<S['include'][P]>>  :
         P extends '_count' ? UsersCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
@@ -6905,6 +8075,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'accounts' ? Array < AccountsGetPayload<S['select'][P]>>  :
+        P extends 'ui_options' ? Ui_optionsGetPayload<S['select'][P]> | null :
         P extends 'user_messages' ? Array < User_messagesGetPayload<S['select'][P]>>  :
         P extends '_count' ? UsersCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Users ? Users[P] : never
   } 
@@ -7281,6 +8452,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
     accounts<T extends Users$accountsArgs= {}>(args?: Subset<T, Users$accountsArgs>): PrismaPromise<Array<AccountsGetPayload<T>>| Null>;
+
+    ui_options<T extends Users$ui_optionsArgs= {}>(args?: Subset<T, Users$ui_optionsArgs>): Prisma__Ui_optionsClient<Ui_optionsGetPayload<T> | Null>;
 
     user_messages<T extends Users$user_messagesArgs= {}>(args?: Subset<T, Users$user_messagesArgs>): PrismaPromise<Array<User_messagesGetPayload<T>>| Null>;
 
@@ -7707,6 +8880,24 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<AccountsScalarFieldEnum>
+  }
+
+
+  /**
+   * Users.ui_options
+   */
+  export type Users$ui_optionsArgs = {
+    /**
+     * Select specific fields to fetch from the Ui_options
+     * 
+    **/
+    select?: Ui_optionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Ui_optionsInclude | null
+    where?: Ui_optionsWhereInput
   }
 
 
@@ -9929,6 +11120,27 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type ProjectsScalarFieldEnum = (typeof ProjectsScalarFieldEnum)[keyof typeof ProjectsScalarFieldEnum]
 
 
+  export const Ui_optionsScalarFieldEnum: {
+    user_id: 'user_id',
+    account_id: 'account_id',
+    designing: 'designing',
+    breadcrumbs_overflowing: 'breadcrumbs_overflowing',
+    navs_overflowing: 'navs_overflowing',
+    tabs: 'tabs',
+    show_map: 'show_map',
+    map_bounds: 'map_bounds',
+    local_map_show: 'local_map_show',
+    tile_layer_sorter: 'tile_layer_sorter',
+    vector_layer_sorter: 'vector_layer_sorter',
+    editing_place_geometry: 'editing_place_geometry',
+    editing_check_geometry: 'editing_check_geometry',
+    editing_action_geometry: 'editing_action_geometry',
+    label: 'label'
+  };
+
+  export type Ui_optionsScalarFieldEnum = (typeof Ui_optionsScalarFieldEnum)[keyof typeof Ui_optionsScalarFieldEnum]
+
+
   export const User_messagesScalarFieldEnum: {
     user_message_id: 'user_message_id',
     account_id: 'account_id',
@@ -10122,6 +11334,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: StringNullableFilter<"Accounts"> | string | null
     users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
     projects?: ProjectsListRelationFilter
+    ui_options?: Ui_optionsListRelationFilter
     user_messages?: User_messagesListRelationFilter
   }
 
@@ -10135,6 +11348,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: SortOrderInput | SortOrder
     users?: UsersOrderByWithRelationInput
     projects?: ProjectsOrderByRelationAggregateInput
+    ui_options?: Ui_optionsOrderByRelationAggregateInput
     user_messages?: User_messagesOrderByRelationAggregateInput
   }
 
@@ -10151,6 +11365,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: StringNullableFilter<"Accounts"> | string | null
     users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
     projects?: ProjectsListRelationFilter
+    ui_options?: Ui_optionsListRelationFilter
     user_messages?: User_messagesListRelationFilter
   }, "account_id">
 
@@ -10447,6 +11662,114 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableWithAggregatesFilter<"Projects"> | boolean | null
   }
 
+  export type Ui_optionsWhereInput = {
+    AND?: Enumerable<Ui_optionsWhereInput>
+    OR?: Enumerable<Ui_optionsWhereInput>
+    NOT?: Enumerable<Ui_optionsWhereInput>
+    user_id?: UuidFilter<"Ui_options"> | string
+    account_id?: UuidNullableFilter<"Ui_options"> | string | null
+    designing?: BoolNullableFilter<"Ui_options"> | boolean | null
+    breadcrumbs_overflowing?: BoolNullableFilter<"Ui_options"> | boolean | null
+    navs_overflowing?: BoolNullableFilter<"Ui_options"> | boolean | null
+    tabs?: JsonNullableFilter<"Ui_options">
+    show_map?: BoolNullableFilter<"Ui_options"> | boolean | null
+    map_bounds?: JsonNullableFilter<"Ui_options">
+    local_map_show?: JsonNullableFilter<"Ui_options">
+    tile_layer_sorter?: StringNullableFilter<"Ui_options"> | string | null
+    vector_layer_sorter?: StringNullableFilter<"Ui_options"> | string | null
+    editing_place_geometry?: UuidNullableFilter<"Ui_options"> | string | null
+    editing_check_geometry?: UuidNullableFilter<"Ui_options"> | string | null
+    editing_action_geometry?: UuidNullableFilter<"Ui_options"> | string | null
+    label?: StringNullableFilter<"Ui_options"> | string | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    users?: XOR<UsersRelationFilter, UsersWhereInput>
+  }
+
+  export type Ui_optionsOrderByWithRelationInput = {
+    user_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    designing?: SortOrderInput | SortOrder
+    breadcrumbs_overflowing?: SortOrderInput | SortOrder
+    navs_overflowing?: SortOrderInput | SortOrder
+    tabs?: SortOrderInput | SortOrder
+    show_map?: SortOrderInput | SortOrder
+    map_bounds?: SortOrderInput | SortOrder
+    local_map_show?: SortOrderInput | SortOrder
+    tile_layer_sorter?: SortOrderInput | SortOrder
+    vector_layer_sorter?: SortOrderInput | SortOrder
+    editing_place_geometry?: SortOrderInput | SortOrder
+    editing_check_geometry?: SortOrderInput | SortOrder
+    editing_action_geometry?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    users?: UsersOrderByWithRelationInput
+  }
+
+  export type Ui_optionsWhereUniqueInput = Prisma.AtLeast<{
+    user_id?: string
+    AND?: Enumerable<Ui_optionsWhereInput>
+    OR?: Enumerable<Ui_optionsWhereInput>
+    NOT?: Enumerable<Ui_optionsWhereInput>
+    account_id?: UuidNullableFilter<"Ui_options"> | string | null
+    designing?: BoolNullableFilter<"Ui_options"> | boolean | null
+    breadcrumbs_overflowing?: BoolNullableFilter<"Ui_options"> | boolean | null
+    navs_overflowing?: BoolNullableFilter<"Ui_options"> | boolean | null
+    tabs?: JsonNullableFilter<"Ui_options">
+    show_map?: BoolNullableFilter<"Ui_options"> | boolean | null
+    map_bounds?: JsonNullableFilter<"Ui_options">
+    local_map_show?: JsonNullableFilter<"Ui_options">
+    tile_layer_sorter?: StringNullableFilter<"Ui_options"> | string | null
+    vector_layer_sorter?: StringNullableFilter<"Ui_options"> | string | null
+    editing_place_geometry?: UuidNullableFilter<"Ui_options"> | string | null
+    editing_check_geometry?: UuidNullableFilter<"Ui_options"> | string | null
+    editing_action_geometry?: UuidNullableFilter<"Ui_options"> | string | null
+    label?: StringNullableFilter<"Ui_options"> | string | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    users?: XOR<UsersRelationFilter, UsersWhereInput>
+  }, "user_id">
+
+  export type Ui_optionsOrderByWithAggregationInput = {
+    user_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    designing?: SortOrderInput | SortOrder
+    breadcrumbs_overflowing?: SortOrderInput | SortOrder
+    navs_overflowing?: SortOrderInput | SortOrder
+    tabs?: SortOrderInput | SortOrder
+    show_map?: SortOrderInput | SortOrder
+    map_bounds?: SortOrderInput | SortOrder
+    local_map_show?: SortOrderInput | SortOrder
+    tile_layer_sorter?: SortOrderInput | SortOrder
+    vector_layer_sorter?: SortOrderInput | SortOrder
+    editing_place_geometry?: SortOrderInput | SortOrder
+    editing_check_geometry?: SortOrderInput | SortOrder
+    editing_action_geometry?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    _count?: Ui_optionsCountOrderByAggregateInput
+    _max?: Ui_optionsMaxOrderByAggregateInput
+    _min?: Ui_optionsMinOrderByAggregateInput
+  }
+
+  export type Ui_optionsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<Ui_optionsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<Ui_optionsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<Ui_optionsScalarWhereWithAggregatesInput>
+    user_id?: UuidWithAggregatesFilter<"Ui_options"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"Ui_options"> | string | null
+    designing?: BoolNullableWithAggregatesFilter<"Ui_options"> | boolean | null
+    breadcrumbs_overflowing?: BoolNullableWithAggregatesFilter<"Ui_options"> | boolean | null
+    navs_overflowing?: BoolNullableWithAggregatesFilter<"Ui_options"> | boolean | null
+    tabs?: JsonNullableWithAggregatesFilter<"Ui_options">
+    show_map?: BoolNullableWithAggregatesFilter<"Ui_options"> | boolean | null
+    map_bounds?: JsonNullableWithAggregatesFilter<"Ui_options">
+    local_map_show?: JsonNullableWithAggregatesFilter<"Ui_options">
+    tile_layer_sorter?: StringNullableWithAggregatesFilter<"Ui_options"> | string | null
+    vector_layer_sorter?: StringNullableWithAggregatesFilter<"Ui_options"> | string | null
+    editing_place_geometry?: UuidNullableWithAggregatesFilter<"Ui_options"> | string | null
+    editing_check_geometry?: UuidNullableWithAggregatesFilter<"Ui_options"> | string | null
+    editing_action_geometry?: UuidNullableWithAggregatesFilter<"Ui_options"> | string | null
+    label?: StringNullableWithAggregatesFilter<"Ui_options"> | string | null
+  }
+
   export type User_messagesWhereInput = {
     AND?: Enumerable<User_messagesWhereInput>
     OR?: Enumerable<User_messagesWhereInput>
@@ -10523,6 +11846,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: StringNullableFilter<"Users"> | string | null
     deleted?: BoolNullableFilter<"Users"> | boolean | null
     accounts?: AccountsListRelationFilter
+    ui_options?: XOR<Ui_optionsNullableRelationFilter, Ui_optionsWhereInput> | null
     user_messages?: User_messagesListRelationFilter
   }
 
@@ -10533,6 +11857,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
     accounts?: AccountsOrderByRelationAggregateInput
+    ui_options?: Ui_optionsOrderByWithRelationInput
     user_messages?: User_messagesOrderByRelationAggregateInput
   }
 
@@ -10546,6 +11871,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: StringNullableFilter<"Users"> | string | null
     deleted?: BoolNullableFilter<"Users"> | boolean | null
     accounts?: AccountsListRelationFilter
+    ui_options?: XOR<Ui_optionsNullableRelationFilter, Ui_optionsWhereInput> | null
     user_messages?: User_messagesListRelationFilter
   }, "user_id">
 
@@ -10705,6 +12031,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -10717,6 +12044,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -10729,6 +12057,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -10741,6 +12070,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -11088,6 +12418,130 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Ui_optionsCreateInput = {
+    designing?: boolean | null
+    breadcrumbs_overflowing?: boolean | null
+    navs_overflowing?: boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: string | null
+    vector_layer_sorter?: string | null
+    editing_place_geometry?: string | null
+    editing_check_geometry?: string | null
+    editing_action_geometry?: string | null
+    label?: string | null
+    accounts?: AccountsCreateNestedOneWithoutUi_optionsInput
+    users: UsersCreateNestedOneWithoutUi_optionsInput
+  }
+
+  export type Ui_optionsUncheckedCreateInput = {
+    user_id: string
+    account_id?: string | null
+    designing?: boolean | null
+    breadcrumbs_overflowing?: boolean | null
+    navs_overflowing?: boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: string | null
+    vector_layer_sorter?: string | null
+    editing_place_geometry?: string | null
+    editing_check_geometry?: string | null
+    editing_action_geometry?: string | null
+    label?: string | null
+  }
+
+  export type Ui_optionsUpdateInput = {
+    designing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    breadcrumbs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    navs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_place_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_check_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_action_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountsUpdateOneWithoutUi_optionsNestedInput
+    users?: UsersUpdateOneRequiredWithoutUi_optionsNestedInput
+  }
+
+  export type Ui_optionsUncheckedUpdateInput = {
+    user_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    designing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    breadcrumbs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    navs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_place_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_check_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_action_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Ui_optionsCreateManyInput = {
+    user_id: string
+    account_id?: string | null
+    designing?: boolean | null
+    breadcrumbs_overflowing?: boolean | null
+    navs_overflowing?: boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: string | null
+    vector_layer_sorter?: string | null
+    editing_place_geometry?: string | null
+    editing_check_geometry?: string | null
+    editing_action_geometry?: string | null
+    label?: string | null
+  }
+
+  export type Ui_optionsUpdateManyMutationInput = {
+    designing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    breadcrumbs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    navs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_place_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_check_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_action_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Ui_optionsUncheckedUpdateManyInput = {
+    user_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    designing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    breadcrumbs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    navs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_place_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_check_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_action_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type User_messagesCreateInput = {
     user_message_id: string
     label_replace_by_generated_column?: string | null
@@ -11155,6 +12609,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
     accounts?: AccountsCreateNestedManyWithoutUsersInput
+    ui_options?: Ui_optionsCreateNestedOneWithoutUsersInput
     user_messages?: User_messagesCreateNestedManyWithoutUsersInput
   }
 
@@ -11165,6 +12620,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
     accounts?: AccountsUncheckedCreateNestedManyWithoutUsersInput
+    ui_options?: Ui_optionsUncheckedCreateNestedOneWithoutUsersInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutUsersInput
   }
 
@@ -11175,6 +12631,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     accounts?: AccountsUpdateManyWithoutUsersNestedInput
+    ui_options?: Ui_optionsUpdateOneWithoutUsersNestedInput
     user_messages?: User_messagesUpdateManyWithoutUsersNestedInput
   }
 
@@ -11185,6 +12642,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     accounts?: AccountsUncheckedUpdateManyWithoutUsersNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateOneWithoutUsersNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
   }
 
@@ -11401,6 +12859,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     none?: ProjectsWhereInput
   }
 
+  export type Ui_optionsListRelationFilter = {
+    every?: Ui_optionsWhereInput
+    some?: Ui_optionsWhereInput
+    none?: Ui_optionsWhereInput
+  }
+
   export type User_messagesListRelationFilter = {
     every?: User_messagesWhereInput
     some?: User_messagesWhereInput
@@ -11413,6 +12877,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type ProjectsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type Ui_optionsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11767,6 +13235,59 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
+  export type UsersRelationFilter = {
+    is?: UsersWhereInput
+    isNot?: UsersWhereInput
+  }
+
+  export type Ui_optionsCountOrderByAggregateInput = {
+    user_id?: SortOrder
+    account_id?: SortOrder
+    designing?: SortOrder
+    breadcrumbs_overflowing?: SortOrder
+    navs_overflowing?: SortOrder
+    tabs?: SortOrder
+    show_map?: SortOrder
+    map_bounds?: SortOrder
+    local_map_show?: SortOrder
+    tile_layer_sorter?: SortOrder
+    vector_layer_sorter?: SortOrder
+    editing_place_geometry?: SortOrder
+    editing_check_geometry?: SortOrder
+    editing_action_geometry?: SortOrder
+    label?: SortOrder
+  }
+
+  export type Ui_optionsMaxOrderByAggregateInput = {
+    user_id?: SortOrder
+    account_id?: SortOrder
+    designing?: SortOrder
+    breadcrumbs_overflowing?: SortOrder
+    navs_overflowing?: SortOrder
+    show_map?: SortOrder
+    tile_layer_sorter?: SortOrder
+    vector_layer_sorter?: SortOrder
+    editing_place_geometry?: SortOrder
+    editing_check_geometry?: SortOrder
+    editing_action_geometry?: SortOrder
+    label?: SortOrder
+  }
+
+  export type Ui_optionsMinOrderByAggregateInput = {
+    user_id?: SortOrder
+    account_id?: SortOrder
+    designing?: SortOrder
+    breadcrumbs_overflowing?: SortOrder
+    navs_overflowing?: SortOrder
+    show_map?: SortOrder
+    tile_layer_sorter?: SortOrder
+    vector_layer_sorter?: SortOrder
+    editing_place_geometry?: SortOrder
+    editing_check_geometry?: SortOrder
+    editing_action_geometry?: SortOrder
+    label?: SortOrder
+  }
+
   export type MessagesNullableRelationFilter = {
     is?: MessagesWhereInput | null
     isNot?: MessagesWhereInput | null
@@ -11803,6 +13324,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     every?: AccountsWhereInput
     some?: AccountsWhereInput
     none?: AccountsWhereInput
+  }
+
+  export type Ui_optionsNullableRelationFilter = {
+    is?: Ui_optionsWhereInput | null
+    isNot?: Ui_optionsWhereInput | null
   }
 
   export type AccountsOrderByRelationAggregateInput = {
@@ -11918,6 +13444,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<ProjectsWhereUniqueInput>
   }
 
+  export type Ui_optionsCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Ui_optionsCreateWithoutAccountsInput>, Enumerable<Ui_optionsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Ui_optionsCreateOrConnectWithoutAccountsInput>
+    createMany?: Ui_optionsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Ui_optionsWhereUniqueInput>
+  }
+
   export type User_messagesCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<User_messagesCreateWithoutAccountsInput>, Enumerable<User_messagesUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutAccountsInput>
@@ -11930,6 +13463,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<ProjectsCreateOrConnectWithoutAccountsInput>
     createMany?: ProjectsCreateManyAccountsInputEnvelope
     connect?: Enumerable<ProjectsWhereUniqueInput>
+  }
+
+  export type Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Ui_optionsCreateWithoutAccountsInput>, Enumerable<Ui_optionsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Ui_optionsCreateOrConnectWithoutAccountsInput>
+    createMany?: Ui_optionsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Ui_optionsWhereUniqueInput>
   }
 
   export type User_messagesUncheckedCreateNestedManyWithoutAccountsInput = {
@@ -11975,6 +13515,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<ProjectsScalarWhereInput>
   }
 
+  export type Ui_optionsUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Ui_optionsCreateWithoutAccountsInput>, Enumerable<Ui_optionsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Ui_optionsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Ui_optionsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Ui_optionsCreateManyAccountsInputEnvelope
+    set?: Enumerable<Ui_optionsWhereUniqueInput>
+    disconnect?: Enumerable<Ui_optionsWhereUniqueInput>
+    delete?: Enumerable<Ui_optionsWhereUniqueInput>
+    connect?: Enumerable<Ui_optionsWhereUniqueInput>
+    update?: Enumerable<Ui_optionsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Ui_optionsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Ui_optionsScalarWhereInput>
+  }
+
   export type User_messagesUpdateManyWithoutAccountsNestedInput = {
     create?: XOR<Enumerable<User_messagesCreateWithoutAccountsInput>, Enumerable<User_messagesUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutAccountsInput>
@@ -12001,6 +13555,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<ProjectsUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<ProjectsUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<ProjectsScalarWhereInput>
+  }
+
+  export type Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Ui_optionsCreateWithoutAccountsInput>, Enumerable<Ui_optionsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Ui_optionsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Ui_optionsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Ui_optionsCreateManyAccountsInputEnvelope
+    set?: Enumerable<Ui_optionsWhereUniqueInput>
+    disconnect?: Enumerable<Ui_optionsWhereUniqueInput>
+    delete?: Enumerable<Ui_optionsWhereUniqueInput>
+    connect?: Enumerable<Ui_optionsWhereUniqueInput>
+    update?: Enumerable<Ui_optionsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Ui_optionsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Ui_optionsScalarWhereInput>
   }
 
   export type User_messagesUncheckedUpdateManyWithoutAccountsNestedInput = {
@@ -12133,6 +13701,36 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutProjectsInput, AccountsUpdateWithoutProjectsInput>, AccountsUncheckedUpdateWithoutProjectsInput>
   }
 
+  export type AccountsCreateNestedOneWithoutUi_optionsInput = {
+    create?: XOR<AccountsCreateWithoutUi_optionsInput, AccountsUncheckedCreateWithoutUi_optionsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutUi_optionsInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type UsersCreateNestedOneWithoutUi_optionsInput = {
+    create?: XOR<UsersCreateWithoutUi_optionsInput, UsersUncheckedCreateWithoutUi_optionsInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutUi_optionsInput
+    connect?: UsersWhereUniqueInput
+  }
+
+  export type AccountsUpdateOneWithoutUi_optionsNestedInput = {
+    create?: XOR<AccountsCreateWithoutUi_optionsInput, AccountsUncheckedCreateWithoutUi_optionsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutUi_optionsInput
+    upsert?: AccountsUpsertWithoutUi_optionsInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutUi_optionsInput, AccountsUpdateWithoutUi_optionsInput>, AccountsUncheckedUpdateWithoutUi_optionsInput>
+  }
+
+  export type UsersUpdateOneRequiredWithoutUi_optionsNestedInput = {
+    create?: XOR<UsersCreateWithoutUi_optionsInput, UsersUncheckedCreateWithoutUi_optionsInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutUi_optionsInput
+    upsert?: UsersUpsertWithoutUi_optionsInput
+    connect?: UsersWhereUniqueInput
+    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutUi_optionsInput, UsersUpdateWithoutUi_optionsInput>, UsersUncheckedUpdateWithoutUi_optionsInput>
+  }
+
   export type AccountsCreateNestedOneWithoutUser_messagesInput = {
     create?: XOR<AccountsCreateWithoutUser_messagesInput, AccountsUncheckedCreateWithoutUser_messagesInput>
     connectOrCreate?: AccountsCreateOrConnectWithoutUser_messagesInput
@@ -12188,6 +13786,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<AccountsWhereUniqueInput>
   }
 
+  export type Ui_optionsCreateNestedOneWithoutUsersInput = {
+    create?: XOR<Ui_optionsCreateWithoutUsersInput, Ui_optionsUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: Ui_optionsCreateOrConnectWithoutUsersInput
+    connect?: Ui_optionsWhereUniqueInput
+  }
+
   export type User_messagesCreateNestedManyWithoutUsersInput = {
     create?: XOR<Enumerable<User_messagesCreateWithoutUsersInput>, Enumerable<User_messagesUncheckedCreateWithoutUsersInput>>
     connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutUsersInput>
@@ -12200,6 +13804,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<AccountsCreateOrConnectWithoutUsersInput>
     createMany?: AccountsCreateManyUsersInputEnvelope
     connect?: Enumerable<AccountsWhereUniqueInput>
+  }
+
+  export type Ui_optionsUncheckedCreateNestedOneWithoutUsersInput = {
+    create?: XOR<Ui_optionsCreateWithoutUsersInput, Ui_optionsUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: Ui_optionsCreateOrConnectWithoutUsersInput
+    connect?: Ui_optionsWhereUniqueInput
   }
 
   export type User_messagesUncheckedCreateNestedManyWithoutUsersInput = {
@@ -12221,6 +13831,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<AccountsUpdateWithWhereUniqueWithoutUsersInput>
     updateMany?: Enumerable<AccountsUpdateManyWithWhereWithoutUsersInput>
     deleteMany?: Enumerable<AccountsScalarWhereInput>
+  }
+
+  export type Ui_optionsUpdateOneWithoutUsersNestedInput = {
+    create?: XOR<Ui_optionsCreateWithoutUsersInput, Ui_optionsUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: Ui_optionsCreateOrConnectWithoutUsersInput
+    upsert?: Ui_optionsUpsertWithoutUsersInput
+    disconnect?: Ui_optionsWhereInput | boolean
+    delete?: Ui_optionsWhereInput | boolean
+    connect?: Ui_optionsWhereUniqueInput
+    update?: XOR<XOR<Ui_optionsUpdateToOneWithWhereWithoutUsersInput, Ui_optionsUpdateWithoutUsersInput>, Ui_optionsUncheckedUpdateWithoutUsersInput>
   }
 
   export type User_messagesUpdateManyWithoutUsersNestedInput = {
@@ -12249,6 +13869,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<AccountsUpdateWithWhereUniqueWithoutUsersInput>
     updateMany?: Enumerable<AccountsUpdateManyWithWhereWithoutUsersInput>
     deleteMany?: Enumerable<AccountsScalarWhereInput>
+  }
+
+  export type Ui_optionsUncheckedUpdateOneWithoutUsersNestedInput = {
+    create?: XOR<Ui_optionsCreateWithoutUsersInput, Ui_optionsUncheckedCreateWithoutUsersInput>
+    connectOrCreate?: Ui_optionsCreateOrConnectWithoutUsersInput
+    upsert?: Ui_optionsUpsertWithoutUsersInput
+    disconnect?: Ui_optionsWhereInput | boolean
+    delete?: Ui_optionsWhereInput | boolean
+    connect?: Ui_optionsWhereUniqueInput
+    update?: XOR<XOR<Ui_optionsUpdateToOneWithWhereWithoutUsersInput, Ui_optionsUpdateWithoutUsersInput>, Ui_optionsUncheckedUpdateWithoutUsersInput>
   }
 
   export type User_messagesUncheckedUpdateManyWithoutUsersNestedInput = {
@@ -12566,6 +14196,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     auth_id?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    ui_options?: Ui_optionsCreateNestedOneWithoutUsersInput
     user_messages?: User_messagesCreateNestedManyWithoutUsersInput
   }
 
@@ -12575,6 +14206,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     auth_id?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    ui_options?: Ui_optionsUncheckedCreateNestedOneWithoutUsersInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutUsersInput
   }
 
@@ -12647,6 +14279,50 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     skipDuplicates?: boolean
   }
 
+  export type Ui_optionsCreateWithoutAccountsInput = {
+    designing?: boolean | null
+    breadcrumbs_overflowing?: boolean | null
+    navs_overflowing?: boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: string | null
+    vector_layer_sorter?: string | null
+    editing_place_geometry?: string | null
+    editing_check_geometry?: string | null
+    editing_action_geometry?: string | null
+    label?: string | null
+    users: UsersCreateNestedOneWithoutUi_optionsInput
+  }
+
+  export type Ui_optionsUncheckedCreateWithoutAccountsInput = {
+    user_id: string
+    designing?: boolean | null
+    breadcrumbs_overflowing?: boolean | null
+    navs_overflowing?: boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: string | null
+    vector_layer_sorter?: string | null
+    editing_place_geometry?: string | null
+    editing_check_geometry?: string | null
+    editing_action_geometry?: string | null
+    label?: string | null
+  }
+
+  export type Ui_optionsCreateOrConnectWithoutAccountsInput = {
+    where: Ui_optionsWhereUniqueInput
+    create: XOR<Ui_optionsCreateWithoutAccountsInput, Ui_optionsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Ui_optionsCreateManyAccountsInputEnvelope = {
+    data: Enumerable<Ui_optionsCreateManyAccountsInput>
+    skipDuplicates?: boolean
+  }
+
   export type User_messagesCreateWithoutAccountsInput = {
     user_message_id: string
     label_replace_by_generated_column?: string | null
@@ -12690,6 +14366,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     auth_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    ui_options?: Ui_optionsUpdateOneWithoutUsersNestedInput
     user_messages?: User_messagesUpdateManyWithoutUsersNestedInput
   }
 
@@ -12699,6 +14376,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     auth_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    ui_options?: Ui_optionsUncheckedUpdateOneWithoutUsersNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
   }
 
@@ -12747,6 +14425,43 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: BoolNullableFilter<"Projects"> | boolean | null
     files_active_checks?: BoolNullableFilter<"Projects"> | boolean | null
     deleted?: BoolNullableFilter<"Projects"> | boolean | null
+  }
+
+  export type Ui_optionsUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: Ui_optionsWhereUniqueInput
+    update: XOR<Ui_optionsUpdateWithoutAccountsInput, Ui_optionsUncheckedUpdateWithoutAccountsInput>
+    create: XOR<Ui_optionsCreateWithoutAccountsInput, Ui_optionsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Ui_optionsUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: Ui_optionsWhereUniqueInput
+    data: XOR<Ui_optionsUpdateWithoutAccountsInput, Ui_optionsUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type Ui_optionsUpdateManyWithWhereWithoutAccountsInput = {
+    where: Ui_optionsScalarWhereInput
+    data: XOR<Ui_optionsUpdateManyMutationInput, Ui_optionsUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type Ui_optionsScalarWhereInput = {
+    AND?: Enumerable<Ui_optionsScalarWhereInput>
+    OR?: Enumerable<Ui_optionsScalarWhereInput>
+    NOT?: Enumerable<Ui_optionsScalarWhereInput>
+    user_id?: UuidFilter<"Ui_options"> | string
+    account_id?: UuidNullableFilter<"Ui_options"> | string | null
+    designing?: BoolNullableFilter<"Ui_options"> | boolean | null
+    breadcrumbs_overflowing?: BoolNullableFilter<"Ui_options"> | boolean | null
+    navs_overflowing?: BoolNullableFilter<"Ui_options"> | boolean | null
+    tabs?: JsonNullableFilter<"Ui_options">
+    show_map?: BoolNullableFilter<"Ui_options"> | boolean | null
+    map_bounds?: JsonNullableFilter<"Ui_options">
+    local_map_show?: JsonNullableFilter<"Ui_options">
+    tile_layer_sorter?: StringNullableFilter<"Ui_options"> | string | null
+    vector_layer_sorter?: StringNullableFilter<"Ui_options"> | string | null
+    editing_place_geometry?: UuidNullableFilter<"Ui_options"> | string | null
+    editing_check_geometry?: UuidNullableFilter<"Ui_options"> | string | null
+    editing_action_geometry?: UuidNullableFilter<"Ui_options"> | string | null
+    label?: StringNullableFilter<"Ui_options"> | string | null
   }
 
   export type User_messagesUpsertWithWhereUniqueWithoutAccountsInput = {
@@ -12878,6 +14593,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -12889,6 +14605,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -12916,6 +14633,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -12927,7 +14645,128 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsCreateWithoutUi_optionsInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutUi_optionsInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutUi_optionsInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutUi_optionsInput, AccountsUncheckedCreateWithoutUi_optionsInput>
+  }
+
+  export type UsersCreateWithoutUi_optionsInput = {
+    user_id: string
+    email?: string | null
+    auth_id?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedManyWithoutUsersInput
+    user_messages?: User_messagesCreateNestedManyWithoutUsersInput
+  }
+
+  export type UsersUncheckedCreateWithoutUi_optionsInput = {
+    user_id: string
+    email?: string | null
+    auth_id?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsUncheckedCreateNestedManyWithoutUsersInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutUsersInput
+  }
+
+  export type UsersCreateOrConnectWithoutUi_optionsInput = {
+    where: UsersWhereUniqueInput
+    create: XOR<UsersCreateWithoutUi_optionsInput, UsersUncheckedCreateWithoutUi_optionsInput>
+  }
+
+  export type AccountsUpsertWithoutUi_optionsInput = {
+    update: XOR<AccountsUpdateWithoutUi_optionsInput, AccountsUncheckedUpdateWithoutUi_optionsInput>
+    create: XOR<AccountsCreateWithoutUi_optionsInput, AccountsUncheckedCreateWithoutUi_optionsInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutUi_optionsInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutUi_optionsInput, AccountsUncheckedUpdateWithoutUi_optionsInput>
+  }
+
+  export type AccountsUpdateWithoutUi_optionsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutUi_optionsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type UsersUpsertWithoutUi_optionsInput = {
+    update: XOR<UsersUpdateWithoutUi_optionsInput, UsersUncheckedUpdateWithoutUi_optionsInput>
+    create: XOR<UsersCreateWithoutUi_optionsInput, UsersUncheckedCreateWithoutUi_optionsInput>
+    where?: UsersWhereInput
+  }
+
+  export type UsersUpdateToOneWithWhereWithoutUi_optionsInput = {
+    where?: UsersWhereInput
+    data: XOR<UsersUpdateWithoutUi_optionsInput, UsersUncheckedUpdateWithoutUi_optionsInput>
+  }
+
+  export type UsersUpdateWithoutUi_optionsInput = {
+    user_id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateManyWithoutUsersNestedInput
+    user_messages?: User_messagesUpdateManyWithoutUsersNestedInput
+  }
+
+  export type UsersUncheckedUpdateWithoutUi_optionsInput = {
+    user_id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUncheckedUpdateManyWithoutUsersNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type AccountsCreateWithoutUser_messagesInput = {
@@ -12939,6 +14778,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutUser_messagesInput = {
@@ -12950,6 +14790,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutUser_messagesInput = {
@@ -12983,6 +14824,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
     accounts?: AccountsCreateNestedManyWithoutUsersInput
+    ui_options?: Ui_optionsCreateNestedOneWithoutUsersInput
   }
 
   export type UsersUncheckedCreateWithoutUser_messagesInput = {
@@ -12992,6 +14834,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
     accounts?: AccountsUncheckedCreateNestedManyWithoutUsersInput
+    ui_options?: Ui_optionsUncheckedCreateNestedOneWithoutUsersInput
   }
 
   export type UsersCreateOrConnectWithoutUser_messagesInput = {
@@ -13019,6 +14862,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutUser_messagesInput = {
@@ -13030,6 +14874,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type MessagesUpsertWithoutUser_messagesInput = {
@@ -13075,6 +14920,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     accounts?: AccountsUpdateManyWithoutUsersNestedInput
+    ui_options?: Ui_optionsUpdateOneWithoutUsersNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutUser_messagesInput = {
@@ -13084,6 +14930,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     accounts?: AccountsUncheckedUpdateManyWithoutUsersNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateOneWithoutUsersNestedInput
   }
 
   export type AccountsCreateWithoutUsersInput = {
@@ -13094,6 +14941,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -13105,6 +14953,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -13116,6 +14965,45 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type AccountsCreateManyUsersInputEnvelope = {
     data: Enumerable<AccountsCreateManyUsersInput>
     skipDuplicates?: boolean
+  }
+
+  export type Ui_optionsCreateWithoutUsersInput = {
+    designing?: boolean | null
+    breadcrumbs_overflowing?: boolean | null
+    navs_overflowing?: boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: string | null
+    vector_layer_sorter?: string | null
+    editing_place_geometry?: string | null
+    editing_check_geometry?: string | null
+    editing_action_geometry?: string | null
+    label?: string | null
+    accounts?: AccountsCreateNestedOneWithoutUi_optionsInput
+  }
+
+  export type Ui_optionsUncheckedCreateWithoutUsersInput = {
+    account_id?: string | null
+    designing?: boolean | null
+    breadcrumbs_overflowing?: boolean | null
+    navs_overflowing?: boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: string | null
+    vector_layer_sorter?: string | null
+    editing_place_geometry?: string | null
+    editing_check_geometry?: string | null
+    editing_action_geometry?: string | null
+    label?: string | null
+  }
+
+  export type Ui_optionsCreateOrConnectWithoutUsersInput = {
+    where: Ui_optionsWhereUniqueInput
+    create: XOR<Ui_optionsCreateWithoutUsersInput, Ui_optionsUncheckedCreateWithoutUsersInput>
   }
 
   export type User_messagesCreateWithoutUsersInput = {
@@ -13171,6 +15059,51 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: DateTimeNullableFilter<"Accounts"> | Date | string | null
     projects_label_by?: StringNullableFilter<"Accounts"> | string | null
     label?: StringNullableFilter<"Accounts"> | string | null
+  }
+
+  export type Ui_optionsUpsertWithoutUsersInput = {
+    update: XOR<Ui_optionsUpdateWithoutUsersInput, Ui_optionsUncheckedUpdateWithoutUsersInput>
+    create: XOR<Ui_optionsCreateWithoutUsersInput, Ui_optionsUncheckedCreateWithoutUsersInput>
+    where?: Ui_optionsWhereInput
+  }
+
+  export type Ui_optionsUpdateToOneWithWhereWithoutUsersInput = {
+    where?: Ui_optionsWhereInput
+    data: XOR<Ui_optionsUpdateWithoutUsersInput, Ui_optionsUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type Ui_optionsUpdateWithoutUsersInput = {
+    designing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    breadcrumbs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    navs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_place_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_check_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_action_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountsUpdateOneWithoutUi_optionsNestedInput
+  }
+
+  export type Ui_optionsUncheckedUpdateWithoutUsersInput = {
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    designing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    breadcrumbs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    navs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_place_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_check_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_action_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type User_messagesUpsertWithWhereUniqueWithoutUsersInput = {
@@ -13364,6 +15297,23 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
   }
 
+  export type Ui_optionsCreateManyAccountsInput = {
+    user_id: string
+    designing?: boolean | null
+    breadcrumbs_overflowing?: boolean | null
+    navs_overflowing?: boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: string | null
+    vector_layer_sorter?: string | null
+    editing_place_geometry?: string | null
+    editing_check_geometry?: string | null
+    editing_action_geometry?: string | null
+    label?: string | null
+  }
+
   export type User_messagesCreateManyAccountsInput = {
     user_message_id: string
     user_id?: string | null
@@ -13451,6 +15401,57 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Ui_optionsUpdateWithoutAccountsInput = {
+    designing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    breadcrumbs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    navs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_place_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_check_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_action_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneRequiredWithoutUi_optionsNestedInput
+  }
+
+  export type Ui_optionsUncheckedUpdateWithoutAccountsInput = {
+    user_id?: StringFieldUpdateOperationsInput | string
+    designing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    breadcrumbs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    navs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_place_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_check_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_action_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Ui_optionsUncheckedUpdateManyWithoutAccountsInput = {
+    user_id?: StringFieldUpdateOperationsInput | string
+    designing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    breadcrumbs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    navs_overflowing?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tabs?: NullableJsonNullValueInput | InputJsonValue
+    show_map?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    map_bounds?: NullableJsonNullValueInput | InputJsonValue
+    local_map_show?: NullableJsonNullValueInput | InputJsonValue
+    tile_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_sorter?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_place_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_check_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    editing_action_geometry?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type User_messagesUpdateWithoutAccountsInput = {
@@ -13562,6 +15563,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -13573,6 +15575,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
