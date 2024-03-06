@@ -74,8 +74,20 @@ const ExampleComponent = () => {
           user_messages: { include: { accounts: true, users: true } },
         },
       })
-      const fieldTypesShape = await db.field_types.sync()
-      const widgetTypesShape = await db.widget_types.sync()
+      const fieldTypesShape = await db.field_types.sync({
+        include: {
+          widgets_for_fields: {
+            include: { widget_types: true },
+          },
+        },
+      })
+      const widgetTypesShape = await db.widget_types.sync({
+        include: {
+          widgets_for_fields: {
+            include: { field_types: true },
+          },
+        },
+      })
 
       // Resolves when the data has been synced into the local database.
       await userShape.synced

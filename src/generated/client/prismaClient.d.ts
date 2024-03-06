@@ -166,6 +166,27 @@ export type Widget_types = {
   deleted: boolean | null
 }
 
+/**
+ * Model Widgets_for_fields
+ * 
+ */
+export type Widgets_for_fields = {
+  /**
+   * @zod.string.uuid()
+   */
+  widget_for_field_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  field_type_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  widget_type_id: string | null
+  label: string | null
+  deleted: boolean | null
+}
+
 
 /**
  * Enums
@@ -368,6 +389,16 @@ export class PrismaClient<
     * ```
     */
   get widget_types(): Prisma.Widget_typesDelegate<GlobalReject>;
+
+  /**
+   * `prisma.widgets_for_fields`: Exposes CRUD operations for the **Widgets_for_fields** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Widgets_for_fields
+    * const widgets_for_fields = await prisma.widgets_for_fields.findMany()
+    * ```
+    */
+  get widgets_for_fields(): Prisma.Widgets_for_fieldsDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -858,7 +889,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     Projects: 'Projects',
     User_messages: 'User_messages',
     Users: 'Users',
-    Widget_types: 'Widget_types'
+    Widget_types: 'Widget_types',
+    Widgets_for_fields: 'Widgets_for_fields'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1086,6 +1118,58 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Count Type Field_typesCountOutputType
+   */
+
+
+  export type Field_typesCountOutputType = {
+    widgets_for_fields: number
+  }
+
+  export type Field_typesCountOutputTypeSelect = {
+    widgets_for_fields?: boolean | Field_typesCountOutputTypeCountWidgets_for_fieldsArgs
+  }
+
+  export type Field_typesCountOutputTypeGetPayload<S extends boolean | null | undefined | Field_typesCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Field_typesCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (Field_typesCountOutputTypeArgs)
+    ? Field_typesCountOutputType 
+    : S extends { select: any } & (Field_typesCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof Field_typesCountOutputType ? Field_typesCountOutputType[P] : never
+  } 
+      : Field_typesCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Field_typesCountOutputType without action
+   */
+  export type Field_typesCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the Field_typesCountOutputType
+     * 
+    **/
+    select?: Field_typesCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * Field_typesCountOutputType without action
+   */
+  export type Field_typesCountOutputTypeCountWidgets_for_fieldsArgs = {
+    where?: Widgets_for_fieldsWhereInput
+  }
+
+
+
+  /**
    * Count Type MessagesCountOutputType
    */
 
@@ -1195,6 +1279,58 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type UsersCountOutputTypeCountUser_messagesArgs = {
     where?: User_messagesWhereInput
+  }
+
+
+
+  /**
+   * Count Type Widget_typesCountOutputType
+   */
+
+
+  export type Widget_typesCountOutputType = {
+    widgets_for_fields: number
+  }
+
+  export type Widget_typesCountOutputTypeSelect = {
+    widgets_for_fields?: boolean | Widget_typesCountOutputTypeCountWidgets_for_fieldsArgs
+  }
+
+  export type Widget_typesCountOutputTypeGetPayload<S extends boolean | null | undefined | Widget_typesCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Widget_typesCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (Widget_typesCountOutputTypeArgs)
+    ? Widget_typesCountOutputType 
+    : S extends { select: any } & (Widget_typesCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof Widget_typesCountOutputType ? Widget_typesCountOutputType[P] : never
+  } 
+      : Widget_typesCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Widget_typesCountOutputType without action
+   */
+  export type Widget_typesCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the Widget_typesCountOutputType
+     * 
+    **/
+    select?: Widget_typesCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * Widget_typesCountOutputType without action
+   */
+  export type Widget_typesCountOutputTypeCountWidgets_for_fieldsArgs = {
+    where?: Widgets_for_fieldsWhereInput
   }
 
 
@@ -2500,19 +2636,31 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: boolean
     label_replace_by_generated_column?: boolean
     deleted?: boolean
+    widgets_for_fields?: boolean | Field_types$widgets_for_fieldsArgs
+    _count?: boolean | Field_typesCountOutputTypeArgs
   }
 
+
+  export type Field_typesInclude = {
+    widgets_for_fields?: boolean | Field_types$widgets_for_fieldsArgs
+    _count?: boolean | Field_typesCountOutputTypeArgs
+  } 
 
   export type Field_typesGetPayload<S extends boolean | null | undefined | Field_typesArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
     S extends true ? Field_types :
     S extends undefined ? never :
     S extends { include: any } & (Field_typesArgs | Field_typesFindManyArgs)
-    ? Field_types 
+    ? Field_types  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'widgets_for_fields' ? Array < Widgets_for_fieldsGetPayload<S['include'][P]>>  :
+        P extends '_count' ? Field_typesCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
     : S extends { select: any } & (Field_typesArgs | Field_typesFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof Field_types ? Field_types[P] : never
+        P extends 'widgets_for_fields' ? Array < Widgets_for_fieldsGetPayload<S['select'][P]>>  :
+        P extends '_count' ? Field_typesCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Field_types ? Field_types[P] : never
   } 
       : Field_types
 
@@ -2886,6 +3034,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
+    widgets_for_fields<T extends Field_types$widgets_for_fieldsArgs= {}>(args?: Subset<T, Field_types$widgets_for_fieldsArgs>): PrismaPromise<Array<Widgets_for_fieldsGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -2924,6 +3073,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: Field_typesSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Field_typesInclude | null
+    /**
      * Filter, which Field_types to fetch.
      * 
     **/
@@ -2952,6 +3106,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: Field_typesSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Field_typesInclude | null
+    /**
      * Filter, which Field_types to fetch.
      * 
     **/
@@ -2968,6 +3127,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: Field_typesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Field_typesInclude | null
     /**
      * Filter, which Field_types to fetch.
      * 
@@ -3032,6 +3196,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: Field_typesSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Field_typesInclude | null
+    /**
      * Filter, which Field_types to fetch.
      * 
     **/
@@ -3084,6 +3253,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: Field_typesSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Field_typesInclude | null
+    /**
      * Filter, which Field_types to fetch.
      * 
     **/
@@ -3130,6 +3304,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: Field_typesSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Field_typesInclude | null
+    /**
      * The data needed to create a Field_types.
      * 
     **/
@@ -3159,6 +3338,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: Field_typesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Field_typesInclude | null
     /**
      * The data needed to update a Field_types.
      * 
@@ -3199,6 +3383,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: Field_typesSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Field_typesInclude | null
+    /**
      * The filter to search for the Field_types to update in case it exists.
      * 
     **/
@@ -3226,6 +3415,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: Field_typesSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Field_typesInclude | null
+    /**
      * Filter which Field_types to delete.
      * 
     **/
@@ -3246,6 +3440,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Field_types.widgets_for_fields
+   */
+  export type Field_types$widgets_for_fieldsArgs = {
+    /**
+     * Select specific fields to fetch from the Widgets_for_fields
+     * 
+    **/
+    select?: Widgets_for_fieldsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widgets_for_fieldsInclude | null
+    where?: Widgets_for_fieldsWhereInput
+    orderBy?: Enumerable<Widgets_for_fieldsOrderByWithRelationInput>
+    cursor?: Widgets_for_fieldsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Widgets_for_fieldsScalarFieldEnum>
+  }
+
+
+  /**
    * Field_types without action
    */
   export type Field_typesArgs = {
@@ -3254,6 +3471,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: Field_typesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Field_typesInclude | null
   }
 
 
@@ -7750,19 +7972,31 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: boolean
     label_replace_by_generated_column?: boolean
     deleted?: boolean
+    widgets_for_fields?: boolean | Widget_types$widgets_for_fieldsArgs
+    _count?: boolean | Widget_typesCountOutputTypeArgs
   }
 
+
+  export type Widget_typesInclude = {
+    widgets_for_fields?: boolean | Widget_types$widgets_for_fieldsArgs
+    _count?: boolean | Widget_typesCountOutputTypeArgs
+  } 
 
   export type Widget_typesGetPayload<S extends boolean | null | undefined | Widget_typesArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
     S extends true ? Widget_types :
     S extends undefined ? never :
     S extends { include: any } & (Widget_typesArgs | Widget_typesFindManyArgs)
-    ? Widget_types 
+    ? Widget_types  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'widgets_for_fields' ? Array < Widgets_for_fieldsGetPayload<S['include'][P]>>  :
+        P extends '_count' ? Widget_typesCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
     : S extends { select: any } & (Widget_typesArgs | Widget_typesFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof Widget_types ? Widget_types[P] : never
+        P extends 'widgets_for_fields' ? Array < Widgets_for_fieldsGetPayload<S['select'][P]>>  :
+        P extends '_count' ? Widget_typesCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Widget_types ? Widget_types[P] : never
   } 
       : Widget_types
 
@@ -8136,6 +8370,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
+    widgets_for_fields<T extends Widget_types$widgets_for_fieldsArgs= {}>(args?: Subset<T, Widget_types$widgets_for_fieldsArgs>): PrismaPromise<Array<Widgets_for_fieldsGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -8174,6 +8409,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: Widget_typesSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widget_typesInclude | null
+    /**
      * Filter, which Widget_types to fetch.
      * 
     **/
@@ -8202,6 +8442,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: Widget_typesSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widget_typesInclude | null
+    /**
      * Filter, which Widget_types to fetch.
      * 
     **/
@@ -8218,6 +8463,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: Widget_typesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widget_typesInclude | null
     /**
      * Filter, which Widget_types to fetch.
      * 
@@ -8282,6 +8532,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: Widget_typesSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widget_typesInclude | null
+    /**
      * Filter, which Widget_types to fetch.
      * 
     **/
@@ -8334,6 +8589,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: Widget_typesSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widget_typesInclude | null
+    /**
      * Filter, which Widget_types to fetch.
      * 
     **/
@@ -8380,6 +8640,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: Widget_typesSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widget_typesInclude | null
+    /**
      * The data needed to create a Widget_types.
      * 
     **/
@@ -8409,6 +8674,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: Widget_typesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widget_typesInclude | null
     /**
      * The data needed to update a Widget_types.
      * 
@@ -8449,6 +8719,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: Widget_typesSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widget_typesInclude | null
+    /**
      * The filter to search for the Widget_types to update in case it exists.
      * 
     **/
@@ -8476,6 +8751,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: Widget_typesSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widget_typesInclude | null
+    /**
      * Filter which Widget_types to delete.
      * 
     **/
@@ -8496,6 +8776,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Widget_types.widgets_for_fields
+   */
+  export type Widget_types$widgets_for_fieldsArgs = {
+    /**
+     * Select specific fields to fetch from the Widgets_for_fields
+     * 
+    **/
+    select?: Widgets_for_fieldsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widgets_for_fieldsInclude | null
+    where?: Widgets_for_fieldsWhereInput
+    orderBy?: Enumerable<Widgets_for_fieldsOrderByWithRelationInput>
+    cursor?: Widgets_for_fieldsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Widgets_for_fieldsScalarFieldEnum>
+  }
+
+
+  /**
    * Widget_types without action
    */
   export type Widget_typesArgs = {
@@ -8504,6 +8807,1041 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: Widget_typesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widget_typesInclude | null
+  }
+
+
+
+  /**
+   * Model Widgets_for_fields
+   */
+
+
+  export type AggregateWidgets_for_fields = {
+    _count: Widgets_for_fieldsCountAggregateOutputType | null
+    _min: Widgets_for_fieldsMinAggregateOutputType | null
+    _max: Widgets_for_fieldsMaxAggregateOutputType | null
+  }
+
+  export type Widgets_for_fieldsMinAggregateOutputType = {
+    widget_for_field_id: string | null
+    field_type_id: string | null
+    widget_type_id: string | null
+    label: string | null
+    deleted: boolean | null
+  }
+
+  export type Widgets_for_fieldsMaxAggregateOutputType = {
+    widget_for_field_id: string | null
+    field_type_id: string | null
+    widget_type_id: string | null
+    label: string | null
+    deleted: boolean | null
+  }
+
+  export type Widgets_for_fieldsCountAggregateOutputType = {
+    widget_for_field_id: number
+    field_type_id: number
+    widget_type_id: number
+    label: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type Widgets_for_fieldsMinAggregateInputType = {
+    widget_for_field_id?: true
+    field_type_id?: true
+    widget_type_id?: true
+    label?: true
+    deleted?: true
+  }
+
+  export type Widgets_for_fieldsMaxAggregateInputType = {
+    widget_for_field_id?: true
+    field_type_id?: true
+    widget_type_id?: true
+    label?: true
+    deleted?: true
+  }
+
+  export type Widgets_for_fieldsCountAggregateInputType = {
+    widget_for_field_id?: true
+    field_type_id?: true
+    widget_type_id?: true
+    label?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type Widgets_for_fieldsAggregateArgs = {
+    /**
+     * Filter which Widgets_for_fields to aggregate.
+     * 
+    **/
+    where?: Widgets_for_fieldsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Widgets_for_fields to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Widgets_for_fieldsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: Widgets_for_fieldsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Widgets_for_fields from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Widgets_for_fields.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Widgets_for_fields
+    **/
+    _count?: true | Widgets_for_fieldsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Widgets_for_fieldsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Widgets_for_fieldsMaxAggregateInputType
+  }
+
+  export type GetWidgets_for_fieldsAggregateType<T extends Widgets_for_fieldsAggregateArgs> = {
+        [P in keyof T & keyof AggregateWidgets_for_fields]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWidgets_for_fields[P]>
+      : GetScalarType<T[P], AggregateWidgets_for_fields[P]>
+  }
+
+
+
+
+  export type Widgets_for_fieldsGroupByArgs = {
+    where?: Widgets_for_fieldsWhereInput
+    orderBy?: Enumerable<Widgets_for_fieldsOrderByWithAggregationInput>
+    by: Array<Widgets_for_fieldsScalarFieldEnum>
+    having?: Widgets_for_fieldsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Widgets_for_fieldsCountAggregateInputType | true
+    _min?: Widgets_for_fieldsMinAggregateInputType
+    _max?: Widgets_for_fieldsMaxAggregateInputType
+  }
+
+
+  export type Widgets_for_fieldsGroupByOutputType = {
+    widget_for_field_id: string
+    field_type_id: string | null
+    widget_type_id: string | null
+    label: string | null
+    deleted: boolean | null
+    _count: Widgets_for_fieldsCountAggregateOutputType | null
+    _min: Widgets_for_fieldsMinAggregateOutputType | null
+    _max: Widgets_for_fieldsMaxAggregateOutputType | null
+  }
+
+  type GetWidgets_for_fieldsGroupByPayload<T extends Widgets_for_fieldsGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Widgets_for_fieldsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Widgets_for_fieldsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Widgets_for_fieldsGroupByOutputType[P]>
+            : GetScalarType<T[P], Widgets_for_fieldsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Widgets_for_fieldsSelect = {
+    widget_for_field_id?: boolean
+    field_type_id?: boolean
+    widget_type_id?: boolean
+    label?: boolean
+    deleted?: boolean
+    field_types?: boolean | Widgets_for_fields$field_typesArgs
+    widget_types?: boolean | Widgets_for_fields$widget_typesArgs
+  }
+
+
+  export type Widgets_for_fieldsInclude = {
+    field_types?: boolean | Widgets_for_fields$field_typesArgs
+    widget_types?: boolean | Widgets_for_fields$widget_typesArgs
+  } 
+
+  export type Widgets_for_fieldsGetPayload<S extends boolean | null | undefined | Widgets_for_fieldsArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Widgets_for_fields :
+    S extends undefined ? never :
+    S extends { include: any } & (Widgets_for_fieldsArgs | Widgets_for_fieldsFindManyArgs)
+    ? Widgets_for_fields  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'field_types' ? Field_typesGetPayload<S['include'][P]> | null :
+        P extends 'widget_types' ? Widget_typesGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (Widgets_for_fieldsArgs | Widgets_for_fieldsFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'field_types' ? Field_typesGetPayload<S['select'][P]> | null :
+        P extends 'widget_types' ? Widget_typesGetPayload<S['select'][P]> | null :  P extends keyof Widgets_for_fields ? Widgets_for_fields[P] : never
+  } 
+      : Widgets_for_fields
+
+
+  type Widgets_for_fieldsCountArgs = Merge<
+    Omit<Widgets_for_fieldsFindManyArgs, 'select' | 'include'> & {
+      select?: Widgets_for_fieldsCountAggregateInputType | true
+    }
+  >
+
+  export interface Widgets_for_fieldsDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Widgets_for_fields that matches the filter.
+     * @param {Widgets_for_fieldsFindUniqueArgs} args - Arguments to find a Widgets_for_fields
+     * @example
+     * // Get one Widgets_for_fields
+     * const widgets_for_fields = await prisma.widgets_for_fields.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends Widgets_for_fieldsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Widgets_for_fieldsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Widgets_for_fields'> extends True ? Prisma__Widgets_for_fieldsClient<Widgets_for_fieldsGetPayload<T>> : Prisma__Widgets_for_fieldsClient<Widgets_for_fieldsGetPayload<T> | null, null>
+
+    /**
+     * Find one Widgets_for_fields that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {Widgets_for_fieldsFindUniqueOrThrowArgs} args - Arguments to find a Widgets_for_fields
+     * @example
+     * // Get one Widgets_for_fields
+     * const widgets_for_fields = await prisma.widgets_for_fields.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends Widgets_for_fieldsFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, Widgets_for_fieldsFindUniqueOrThrowArgs>
+    ): Prisma__Widgets_for_fieldsClient<Widgets_for_fieldsGetPayload<T>>
+
+    /**
+     * Find the first Widgets_for_fields that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Widgets_for_fieldsFindFirstArgs} args - Arguments to find a Widgets_for_fields
+     * @example
+     * // Get one Widgets_for_fields
+     * const widgets_for_fields = await prisma.widgets_for_fields.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends Widgets_for_fieldsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Widgets_for_fieldsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Widgets_for_fields'> extends True ? Prisma__Widgets_for_fieldsClient<Widgets_for_fieldsGetPayload<T>> : Prisma__Widgets_for_fieldsClient<Widgets_for_fieldsGetPayload<T> | null, null>
+
+    /**
+     * Find the first Widgets_for_fields that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Widgets_for_fieldsFindFirstOrThrowArgs} args - Arguments to find a Widgets_for_fields
+     * @example
+     * // Get one Widgets_for_fields
+     * const widgets_for_fields = await prisma.widgets_for_fields.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends Widgets_for_fieldsFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, Widgets_for_fieldsFindFirstOrThrowArgs>
+    ): Prisma__Widgets_for_fieldsClient<Widgets_for_fieldsGetPayload<T>>
+
+    /**
+     * Find zero or more Widgets_for_fields that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Widgets_for_fieldsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Widgets_for_fields
+     * const widgets_for_fields = await prisma.widgets_for_fields.findMany()
+     * 
+     * // Get first 10 Widgets_for_fields
+     * const widgets_for_fields = await prisma.widgets_for_fields.findMany({ take: 10 })
+     * 
+     * // Only select the `widget_for_field_id`
+     * const widgets_for_fieldsWithWidget_for_field_idOnly = await prisma.widgets_for_fields.findMany({ select: { widget_for_field_id: true } })
+     * 
+    **/
+    findMany<T extends Widgets_for_fieldsFindManyArgs>(
+      args?: SelectSubset<T, Widgets_for_fieldsFindManyArgs>
+    ): PrismaPromise<Array<Widgets_for_fieldsGetPayload<T>>>
+
+    /**
+     * Create a Widgets_for_fields.
+     * @param {Widgets_for_fieldsCreateArgs} args - Arguments to create a Widgets_for_fields.
+     * @example
+     * // Create one Widgets_for_fields
+     * const Widgets_for_fields = await prisma.widgets_for_fields.create({
+     *   data: {
+     *     // ... data to create a Widgets_for_fields
+     *   }
+     * })
+     * 
+    **/
+    create<T extends Widgets_for_fieldsCreateArgs>(
+      args: SelectSubset<T, Widgets_for_fieldsCreateArgs>
+    ): Prisma__Widgets_for_fieldsClient<Widgets_for_fieldsGetPayload<T>>
+
+    /**
+     * Create many Widgets_for_fields.
+     *     @param {Widgets_for_fieldsCreateManyArgs} args - Arguments to create many Widgets_for_fields.
+     *     @example
+     *     // Create many Widgets_for_fields
+     *     const widgets_for_fields = await prisma.widgets_for_fields.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends Widgets_for_fieldsCreateManyArgs>(
+      args?: SelectSubset<T, Widgets_for_fieldsCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Widgets_for_fields.
+     * @param {Widgets_for_fieldsDeleteArgs} args - Arguments to delete one Widgets_for_fields.
+     * @example
+     * // Delete one Widgets_for_fields
+     * const Widgets_for_fields = await prisma.widgets_for_fields.delete({
+     *   where: {
+     *     // ... filter to delete one Widgets_for_fields
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends Widgets_for_fieldsDeleteArgs>(
+      args: SelectSubset<T, Widgets_for_fieldsDeleteArgs>
+    ): Prisma__Widgets_for_fieldsClient<Widgets_for_fieldsGetPayload<T>>
+
+    /**
+     * Update one Widgets_for_fields.
+     * @param {Widgets_for_fieldsUpdateArgs} args - Arguments to update one Widgets_for_fields.
+     * @example
+     * // Update one Widgets_for_fields
+     * const widgets_for_fields = await prisma.widgets_for_fields.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends Widgets_for_fieldsUpdateArgs>(
+      args: SelectSubset<T, Widgets_for_fieldsUpdateArgs>
+    ): Prisma__Widgets_for_fieldsClient<Widgets_for_fieldsGetPayload<T>>
+
+    /**
+     * Delete zero or more Widgets_for_fields.
+     * @param {Widgets_for_fieldsDeleteManyArgs} args - Arguments to filter Widgets_for_fields to delete.
+     * @example
+     * // Delete a few Widgets_for_fields
+     * const { count } = await prisma.widgets_for_fields.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends Widgets_for_fieldsDeleteManyArgs>(
+      args?: SelectSubset<T, Widgets_for_fieldsDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Widgets_for_fields.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Widgets_for_fieldsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Widgets_for_fields
+     * const widgets_for_fields = await prisma.widgets_for_fields.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends Widgets_for_fieldsUpdateManyArgs>(
+      args: SelectSubset<T, Widgets_for_fieldsUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Widgets_for_fields.
+     * @param {Widgets_for_fieldsUpsertArgs} args - Arguments to update or create a Widgets_for_fields.
+     * @example
+     * // Update or create a Widgets_for_fields
+     * const widgets_for_fields = await prisma.widgets_for_fields.upsert({
+     *   create: {
+     *     // ... data to create a Widgets_for_fields
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Widgets_for_fields we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends Widgets_for_fieldsUpsertArgs>(
+      args: SelectSubset<T, Widgets_for_fieldsUpsertArgs>
+    ): Prisma__Widgets_for_fieldsClient<Widgets_for_fieldsGetPayload<T>>
+
+    /**
+     * Count the number of Widgets_for_fields.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Widgets_for_fieldsCountArgs} args - Arguments to filter Widgets_for_fields to count.
+     * @example
+     * // Count the number of Widgets_for_fields
+     * const count = await prisma.widgets_for_fields.count({
+     *   where: {
+     *     // ... the filter for the Widgets_for_fields we want to count
+     *   }
+     * })
+    **/
+    count<T extends Widgets_for_fieldsCountArgs>(
+      args?: Subset<T, Widgets_for_fieldsCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Widgets_for_fieldsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Widgets_for_fields.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Widgets_for_fieldsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Widgets_for_fieldsAggregateArgs>(args: Subset<T, Widgets_for_fieldsAggregateArgs>): PrismaPromise<GetWidgets_for_fieldsAggregateType<T>>
+
+    /**
+     * Group by Widgets_for_fields.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Widgets_for_fieldsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Widgets_for_fieldsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Widgets_for_fieldsGroupByArgs['orderBy'] }
+        : { orderBy?: Widgets_for_fieldsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Widgets_for_fieldsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWidgets_for_fieldsGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Widgets_for_fields.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__Widgets_for_fieldsClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    field_types<T extends Widgets_for_fields$field_typesArgs= {}>(args?: Subset<T, Widgets_for_fields$field_typesArgs>): Prisma__Field_typesClient<Field_typesGetPayload<T> | Null>;
+
+    widget_types<T extends Widgets_for_fields$widget_typesArgs= {}>(args?: Subset<T, Widgets_for_fields$widget_typesArgs>): Prisma__Widget_typesClient<Widget_typesGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Widgets_for_fields base type for findUnique actions
+   */
+  export type Widgets_for_fieldsFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Widgets_for_fields
+     * 
+    **/
+    select?: Widgets_for_fieldsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widgets_for_fieldsInclude | null
+    /**
+     * Filter, which Widgets_for_fields to fetch.
+     * 
+    **/
+    where: Widgets_for_fieldsWhereUniqueInput
+  }
+
+  /**
+   * Widgets_for_fields findUnique
+   */
+  export interface Widgets_for_fieldsFindUniqueArgs extends Widgets_for_fieldsFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Widgets_for_fields findUniqueOrThrow
+   */
+  export type Widgets_for_fieldsFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Widgets_for_fields
+     * 
+    **/
+    select?: Widgets_for_fieldsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widgets_for_fieldsInclude | null
+    /**
+     * Filter, which Widgets_for_fields to fetch.
+     * 
+    **/
+    where: Widgets_for_fieldsWhereUniqueInput
+  }
+
+
+  /**
+   * Widgets_for_fields base type for findFirst actions
+   */
+  export type Widgets_for_fieldsFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Widgets_for_fields
+     * 
+    **/
+    select?: Widgets_for_fieldsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widgets_for_fieldsInclude | null
+    /**
+     * Filter, which Widgets_for_fields to fetch.
+     * 
+    **/
+    where?: Widgets_for_fieldsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Widgets_for_fields to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Widgets_for_fieldsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Widgets_for_fields.
+     * 
+    **/
+    cursor?: Widgets_for_fieldsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Widgets_for_fields from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Widgets_for_fields.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Widgets_for_fields.
+     * 
+    **/
+    distinct?: Enumerable<Widgets_for_fieldsScalarFieldEnum>
+  }
+
+  /**
+   * Widgets_for_fields findFirst
+   */
+  export interface Widgets_for_fieldsFindFirstArgs extends Widgets_for_fieldsFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Widgets_for_fields findFirstOrThrow
+   */
+  export type Widgets_for_fieldsFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Widgets_for_fields
+     * 
+    **/
+    select?: Widgets_for_fieldsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widgets_for_fieldsInclude | null
+    /**
+     * Filter, which Widgets_for_fields to fetch.
+     * 
+    **/
+    where?: Widgets_for_fieldsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Widgets_for_fields to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Widgets_for_fieldsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Widgets_for_fields.
+     * 
+    **/
+    cursor?: Widgets_for_fieldsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Widgets_for_fields from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Widgets_for_fields.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Widgets_for_fields.
+     * 
+    **/
+    distinct?: Enumerable<Widgets_for_fieldsScalarFieldEnum>
+  }
+
+
+  /**
+   * Widgets_for_fields findMany
+   */
+  export type Widgets_for_fieldsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Widgets_for_fields
+     * 
+    **/
+    select?: Widgets_for_fieldsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widgets_for_fieldsInclude | null
+    /**
+     * Filter, which Widgets_for_fields to fetch.
+     * 
+    **/
+    where?: Widgets_for_fieldsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Widgets_for_fields to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Widgets_for_fieldsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Widgets_for_fields.
+     * 
+    **/
+    cursor?: Widgets_for_fieldsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Widgets_for_fields from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Widgets_for_fields.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Widgets_for_fieldsScalarFieldEnum>
+  }
+
+
+  /**
+   * Widgets_for_fields create
+   */
+  export type Widgets_for_fieldsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Widgets_for_fields
+     * 
+    **/
+    select?: Widgets_for_fieldsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widgets_for_fieldsInclude | null
+    /**
+     * The data needed to create a Widgets_for_fields.
+     * 
+    **/
+    data: XOR<Widgets_for_fieldsCreateInput, Widgets_for_fieldsUncheckedCreateInput>
+  }
+
+
+  /**
+   * Widgets_for_fields createMany
+   */
+  export type Widgets_for_fieldsCreateManyArgs = {
+    /**
+     * The data used to create many Widgets_for_fields.
+     * 
+    **/
+    data: Enumerable<Widgets_for_fieldsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Widgets_for_fields update
+   */
+  export type Widgets_for_fieldsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Widgets_for_fields
+     * 
+    **/
+    select?: Widgets_for_fieldsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widgets_for_fieldsInclude | null
+    /**
+     * The data needed to update a Widgets_for_fields.
+     * 
+    **/
+    data: XOR<Widgets_for_fieldsUpdateInput, Widgets_for_fieldsUncheckedUpdateInput>
+    /**
+     * Choose, which Widgets_for_fields to update.
+     * 
+    **/
+    where: Widgets_for_fieldsWhereUniqueInput
+  }
+
+
+  /**
+   * Widgets_for_fields updateMany
+   */
+  export type Widgets_for_fieldsUpdateManyArgs = {
+    /**
+     * The data used to update Widgets_for_fields.
+     * 
+    **/
+    data: XOR<Widgets_for_fieldsUpdateManyMutationInput, Widgets_for_fieldsUncheckedUpdateManyInput>
+    /**
+     * Filter which Widgets_for_fields to update
+     * 
+    **/
+    where?: Widgets_for_fieldsWhereInput
+  }
+
+
+  /**
+   * Widgets_for_fields upsert
+   */
+  export type Widgets_for_fieldsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Widgets_for_fields
+     * 
+    **/
+    select?: Widgets_for_fieldsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widgets_for_fieldsInclude | null
+    /**
+     * The filter to search for the Widgets_for_fields to update in case it exists.
+     * 
+    **/
+    where: Widgets_for_fieldsWhereUniqueInput
+    /**
+     * In case the Widgets_for_fields found by the `where` argument doesn't exist, create a new Widgets_for_fields with this data.
+     * 
+    **/
+    create: XOR<Widgets_for_fieldsCreateInput, Widgets_for_fieldsUncheckedCreateInput>
+    /**
+     * In case the Widgets_for_fields was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<Widgets_for_fieldsUpdateInput, Widgets_for_fieldsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Widgets_for_fields delete
+   */
+  export type Widgets_for_fieldsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Widgets_for_fields
+     * 
+    **/
+    select?: Widgets_for_fieldsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widgets_for_fieldsInclude | null
+    /**
+     * Filter which Widgets_for_fields to delete.
+     * 
+    **/
+    where: Widgets_for_fieldsWhereUniqueInput
+  }
+
+
+  /**
+   * Widgets_for_fields deleteMany
+   */
+  export type Widgets_for_fieldsDeleteManyArgs = {
+    /**
+     * Filter which Widgets_for_fields to delete
+     * 
+    **/
+    where?: Widgets_for_fieldsWhereInput
+  }
+
+
+  /**
+   * Widgets_for_fields.field_types
+   */
+  export type Widgets_for_fields$field_typesArgs = {
+    /**
+     * Select specific fields to fetch from the Field_types
+     * 
+    **/
+    select?: Field_typesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Field_typesInclude | null
+    where?: Field_typesWhereInput
+  }
+
+
+  /**
+   * Widgets_for_fields.widget_types
+   */
+  export type Widgets_for_fields$widget_typesArgs = {
+    /**
+     * Select specific fields to fetch from the Widget_types
+     * 
+    **/
+    select?: Widget_typesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widget_typesInclude | null
+    where?: Widget_typesWhereInput
+  }
+
+
+  /**
+   * Widgets_for_fields without action
+   */
+  export type Widgets_for_fieldsArgs = {
+    /**
+     * Select specific fields to fetch from the Widgets_for_fields
+     * 
+    **/
+    select?: Widgets_for_fieldsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Widgets_for_fieldsInclude | null
   }
 
 
@@ -8625,6 +9963,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   };
 
   export type Widget_typesScalarFieldEnum = (typeof Widget_typesScalarFieldEnum)[keyof typeof Widget_typesScalarFieldEnum]
+
+
+  export const Widgets_for_fieldsScalarFieldEnum: {
+    widget_for_field_id: 'widget_for_field_id',
+    field_type_id: 'field_type_id',
+    widget_type_id: 'widget_type_id',
+    label: 'label',
+    deleted: 'deleted'
+  };
+
+  export type Widgets_for_fieldsScalarFieldEnum = (typeof Widgets_for_fieldsScalarFieldEnum)[keyof typeof Widgets_for_fieldsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -8841,6 +10190,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: StringNullableFilter<"Field_types"> | string | null
     label_replace_by_generated_column?: StringNullableFilter<"Field_types"> | string | null
     deleted?: BoolNullableFilter<"Field_types"> | boolean | null
+    widgets_for_fields?: Widgets_for_fieldsListRelationFilter
   }
 
   export type Field_typesOrderByWithRelationInput = {
@@ -8850,6 +10200,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: SortOrderInput | SortOrder
     label_replace_by_generated_column?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    widgets_for_fields?: Widgets_for_fieldsOrderByRelationAggregateInput
   }
 
   export type Field_typesWhereUniqueInput = Prisma.AtLeast<{
@@ -8862,6 +10213,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: StringNullableFilter<"Field_types"> | string | null
     label_replace_by_generated_column?: StringNullableFilter<"Field_types"> | string | null
     deleted?: BoolNullableFilter<"Field_types"> | boolean | null
+    widgets_for_fields?: Widgets_for_fieldsListRelationFilter
   }, "field_type_id">
 
   export type Field_typesOrderByWithAggregationInput = {
@@ -9230,6 +10582,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: StringNullableFilter<"Widget_types"> | string | null
     label_replace_by_generated_column?: StringNullableFilter<"Widget_types"> | string | null
     deleted?: BoolNullableFilter<"Widget_types"> | boolean | null
+    widgets_for_fields?: Widgets_for_fieldsListRelationFilter
   }
 
   export type Widget_typesOrderByWithRelationInput = {
@@ -9240,6 +10593,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: SortOrderInput | SortOrder
     label_replace_by_generated_column?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    widgets_for_fields?: Widgets_for_fieldsOrderByRelationAggregateInput
   }
 
   export type Widget_typesWhereUniqueInput = Prisma.AtLeast<{
@@ -9253,6 +10607,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: StringNullableFilter<"Widget_types"> | string | null
     label_replace_by_generated_column?: StringNullableFilter<"Widget_types"> | string | null
     deleted?: BoolNullableFilter<"Widget_types"> | boolean | null
+    widgets_for_fields?: Widgets_for_fieldsListRelationFilter
   }, "widget_type_id">
 
   export type Widget_typesOrderByWithAggregationInput = {
@@ -9281,6 +10636,64 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: StringNullableWithAggregatesFilter<"Widget_types"> | string | null
     label_replace_by_generated_column?: StringNullableWithAggregatesFilter<"Widget_types"> | string | null
     deleted?: BoolNullableWithAggregatesFilter<"Widget_types"> | boolean | null
+  }
+
+  export type Widgets_for_fieldsWhereInput = {
+    AND?: Enumerable<Widgets_for_fieldsWhereInput>
+    OR?: Enumerable<Widgets_for_fieldsWhereInput>
+    NOT?: Enumerable<Widgets_for_fieldsWhereInput>
+    widget_for_field_id?: UuidFilter<"Widgets_for_fields"> | string
+    field_type_id?: UuidNullableFilter<"Widgets_for_fields"> | string | null
+    widget_type_id?: UuidNullableFilter<"Widgets_for_fields"> | string | null
+    label?: StringNullableFilter<"Widgets_for_fields"> | string | null
+    deleted?: BoolNullableFilter<"Widgets_for_fields"> | boolean | null
+    field_types?: XOR<Field_typesNullableRelationFilter, Field_typesWhereInput> | null
+    widget_types?: XOR<Widget_typesNullableRelationFilter, Widget_typesWhereInput> | null
+  }
+
+  export type Widgets_for_fieldsOrderByWithRelationInput = {
+    widget_for_field_id?: SortOrder
+    field_type_id?: SortOrderInput | SortOrder
+    widget_type_id?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    field_types?: Field_typesOrderByWithRelationInput
+    widget_types?: Widget_typesOrderByWithRelationInput
+  }
+
+  export type Widgets_for_fieldsWhereUniqueInput = Prisma.AtLeast<{
+    widget_for_field_id?: string
+    AND?: Enumerable<Widgets_for_fieldsWhereInput>
+    OR?: Enumerable<Widgets_for_fieldsWhereInput>
+    NOT?: Enumerable<Widgets_for_fieldsWhereInput>
+    field_type_id?: UuidNullableFilter<"Widgets_for_fields"> | string | null
+    widget_type_id?: UuidNullableFilter<"Widgets_for_fields"> | string | null
+    label?: StringNullableFilter<"Widgets_for_fields"> | string | null
+    deleted?: BoolNullableFilter<"Widgets_for_fields"> | boolean | null
+    field_types?: XOR<Field_typesNullableRelationFilter, Field_typesWhereInput> | null
+    widget_types?: XOR<Widget_typesNullableRelationFilter, Widget_typesWhereInput> | null
+  }, "widget_for_field_id">
+
+  export type Widgets_for_fieldsOrderByWithAggregationInput = {
+    widget_for_field_id?: SortOrder
+    field_type_id?: SortOrderInput | SortOrder
+    widget_type_id?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    _count?: Widgets_for_fieldsCountOrderByAggregateInput
+    _max?: Widgets_for_fieldsMaxOrderByAggregateInput
+    _min?: Widgets_for_fieldsMinOrderByAggregateInput
+  }
+
+  export type Widgets_for_fieldsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<Widgets_for_fieldsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<Widgets_for_fieldsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<Widgets_for_fieldsScalarWhereWithAggregatesInput>
+    widget_for_field_id?: UuidWithAggregatesFilter<"Widgets_for_fields"> | string
+    field_type_id?: UuidNullableWithAggregatesFilter<"Widgets_for_fields"> | string | null
+    widget_type_id?: UuidNullableWithAggregatesFilter<"Widgets_for_fields"> | string | null
+    label?: StringNullableWithAggregatesFilter<"Widgets_for_fields"> | string | null
+    deleted?: BoolNullableWithAggregatesFilter<"Widgets_for_fields"> | boolean | null
   }
 
   export type AccountsCreateInput = {
@@ -9367,6 +10780,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    widgets_for_fields?: Widgets_for_fieldsCreateNestedManyWithoutField_typesInput
   }
 
   export type Field_typesUncheckedCreateInput = {
@@ -9376,6 +10790,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    widgets_for_fields?: Widgets_for_fieldsUncheckedCreateNestedManyWithoutField_typesInput
   }
 
   export type Field_typesUpdateInput = {
@@ -9385,6 +10800,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    widgets_for_fields?: Widgets_for_fieldsUpdateManyWithoutField_typesNestedInput
   }
 
   export type Field_typesUncheckedUpdateInput = {
@@ -9394,6 +10810,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    widgets_for_fields?: Widgets_for_fieldsUncheckedUpdateManyWithoutField_typesNestedInput
   }
 
   export type Field_typesCreateManyInput = {
@@ -9803,6 +11220,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    widgets_for_fields?: Widgets_for_fieldsCreateNestedManyWithoutWidget_typesInput
   }
 
   export type Widget_typesUncheckedCreateInput = {
@@ -9813,6 +11231,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    widgets_for_fields?: Widgets_for_fieldsUncheckedCreateNestedManyWithoutWidget_typesInput
   }
 
   export type Widget_typesUpdateInput = {
@@ -9823,6 +11242,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    widgets_for_fields?: Widgets_for_fieldsUpdateManyWithoutWidget_typesNestedInput
   }
 
   export type Widget_typesUncheckedUpdateInput = {
@@ -9833,6 +11253,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    widgets_for_fields?: Widgets_for_fieldsUncheckedUpdateManyWithoutWidget_typesNestedInput
   }
 
   export type Widget_typesCreateManyInput = {
@@ -9862,6 +11283,60 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     sort?: NullableIntFieldUpdateOperationsInput | number | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Widgets_for_fieldsCreateInput = {
+    widget_for_field_id: string
+    label?: string | null
+    deleted?: boolean | null
+    field_types?: Field_typesCreateNestedOneWithoutWidgets_for_fieldsInput
+    widget_types?: Widget_typesCreateNestedOneWithoutWidgets_for_fieldsInput
+  }
+
+  export type Widgets_for_fieldsUncheckedCreateInput = {
+    widget_for_field_id: string
+    field_type_id?: string | null
+    widget_type_id?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Widgets_for_fieldsUpdateInput = {
+    widget_for_field_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    field_types?: Field_typesUpdateOneWithoutWidgets_for_fieldsNestedInput
+    widget_types?: Widget_typesUpdateOneWithoutWidgets_for_fieldsNestedInput
+  }
+
+  export type Widgets_for_fieldsUncheckedUpdateInput = {
+    widget_for_field_id?: StringFieldUpdateOperationsInput | string
+    field_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    widget_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Widgets_for_fieldsCreateManyInput = {
+    widget_for_field_id: string
+    field_type_id?: string | null
+    widget_type_id?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Widgets_for_fieldsUpdateManyMutationInput = {
+    widget_for_field_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Widgets_for_fieldsUncheckedUpdateManyInput = {
+    widget_for_field_id?: StringFieldUpdateOperationsInput | string
+    field_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    widget_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
@@ -10051,6 +11526,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type BoolNullableFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type Widgets_for_fieldsListRelationFilter = {
+    every?: Widgets_for_fieldsWhereInput
+    some?: Widgets_for_fieldsWhereInput
+    none?: Widgets_for_fieldsWhereInput
+  }
+
+  export type Widgets_for_fieldsOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type Field_typesCountOrderByAggregateInput = {
@@ -10386,6 +11871,40 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     sort?: SortOrder
   }
 
+  export type Field_typesNullableRelationFilter = {
+    is?: Field_typesWhereInput | null
+    isNot?: Field_typesWhereInput | null
+  }
+
+  export type Widget_typesNullableRelationFilter = {
+    is?: Widget_typesWhereInput | null
+    isNot?: Widget_typesWhereInput | null
+  }
+
+  export type Widgets_for_fieldsCountOrderByAggregateInput = {
+    widget_for_field_id?: SortOrder
+    field_type_id?: SortOrder
+    widget_type_id?: SortOrder
+    label?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Widgets_for_fieldsMaxOrderByAggregateInput = {
+    widget_for_field_id?: SortOrder
+    field_type_id?: SortOrder
+    widget_type_id?: SortOrder
+    label?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Widgets_for_fieldsMinOrderByAggregateInput = {
+    widget_for_field_id?: SortOrder
+    field_type_id?: SortOrder
+    widget_type_id?: SortOrder
+    label?: SortOrder
+    deleted?: SortOrder
+  }
+
   export type UsersCreateNestedOneWithoutAccountsInput = {
     create?: XOR<UsersCreateWithoutAccountsInput, UsersUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UsersCreateOrConnectWithoutAccountsInput
@@ -10498,6 +12017,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<User_messagesScalarWhereInput>
   }
 
+  export type Widgets_for_fieldsCreateNestedManyWithoutField_typesInput = {
+    create?: XOR<Enumerable<Widgets_for_fieldsCreateWithoutField_typesInput>, Enumerable<Widgets_for_fieldsUncheckedCreateWithoutField_typesInput>>
+    connectOrCreate?: Enumerable<Widgets_for_fieldsCreateOrConnectWithoutField_typesInput>
+    createMany?: Widgets_for_fieldsCreateManyField_typesInputEnvelope
+    connect?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+  }
+
+  export type Widgets_for_fieldsUncheckedCreateNestedManyWithoutField_typesInput = {
+    create?: XOR<Enumerable<Widgets_for_fieldsCreateWithoutField_typesInput>, Enumerable<Widgets_for_fieldsUncheckedCreateWithoutField_typesInput>>
+    connectOrCreate?: Enumerable<Widgets_for_fieldsCreateOrConnectWithoutField_typesInput>
+    createMany?: Widgets_for_fieldsCreateManyField_typesInputEnvelope
+    connect?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+  }
+
   export type NullableIntFieldUpdateOperationsInput = {
     set?: number | null
     increment?: number
@@ -10508,6 +12041,34 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type NullableBoolFieldUpdateOperationsInput = {
     set?: boolean | null
+  }
+
+  export type Widgets_for_fieldsUpdateManyWithoutField_typesNestedInput = {
+    create?: XOR<Enumerable<Widgets_for_fieldsCreateWithoutField_typesInput>, Enumerable<Widgets_for_fieldsUncheckedCreateWithoutField_typesInput>>
+    connectOrCreate?: Enumerable<Widgets_for_fieldsCreateOrConnectWithoutField_typesInput>
+    upsert?: Enumerable<Widgets_for_fieldsUpsertWithWhereUniqueWithoutField_typesInput>
+    createMany?: Widgets_for_fieldsCreateManyField_typesInputEnvelope
+    set?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+    disconnect?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+    delete?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+    connect?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+    update?: Enumerable<Widgets_for_fieldsUpdateWithWhereUniqueWithoutField_typesInput>
+    updateMany?: Enumerable<Widgets_for_fieldsUpdateManyWithWhereWithoutField_typesInput>
+    deleteMany?: Enumerable<Widgets_for_fieldsScalarWhereInput>
+  }
+
+  export type Widgets_for_fieldsUncheckedUpdateManyWithoutField_typesNestedInput = {
+    create?: XOR<Enumerable<Widgets_for_fieldsCreateWithoutField_typesInput>, Enumerable<Widgets_for_fieldsUncheckedCreateWithoutField_typesInput>>
+    connectOrCreate?: Enumerable<Widgets_for_fieldsCreateOrConnectWithoutField_typesInput>
+    upsert?: Enumerable<Widgets_for_fieldsUpsertWithWhereUniqueWithoutField_typesInput>
+    createMany?: Widgets_for_fieldsCreateManyField_typesInputEnvelope
+    set?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+    disconnect?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+    delete?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+    connect?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+    update?: Enumerable<Widgets_for_fieldsUpdateWithWhereUniqueWithoutField_typesInput>
+    updateMany?: Enumerable<Widgets_for_fieldsUpdateManyWithWhereWithoutField_typesInput>
+    deleteMany?: Enumerable<Widgets_for_fieldsScalarWhereInput>
   }
 
   export type User_messagesCreateNestedManyWithoutMessagesInput = {
@@ -10702,6 +12263,80 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<User_messagesUpdateWithWhereUniqueWithoutUsersInput>
     updateMany?: Enumerable<User_messagesUpdateManyWithWhereWithoutUsersInput>
     deleteMany?: Enumerable<User_messagesScalarWhereInput>
+  }
+
+  export type Widgets_for_fieldsCreateNestedManyWithoutWidget_typesInput = {
+    create?: XOR<Enumerable<Widgets_for_fieldsCreateWithoutWidget_typesInput>, Enumerable<Widgets_for_fieldsUncheckedCreateWithoutWidget_typesInput>>
+    connectOrCreate?: Enumerable<Widgets_for_fieldsCreateOrConnectWithoutWidget_typesInput>
+    createMany?: Widgets_for_fieldsCreateManyWidget_typesInputEnvelope
+    connect?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+  }
+
+  export type Widgets_for_fieldsUncheckedCreateNestedManyWithoutWidget_typesInput = {
+    create?: XOR<Enumerable<Widgets_for_fieldsCreateWithoutWidget_typesInput>, Enumerable<Widgets_for_fieldsUncheckedCreateWithoutWidget_typesInput>>
+    connectOrCreate?: Enumerable<Widgets_for_fieldsCreateOrConnectWithoutWidget_typesInput>
+    createMany?: Widgets_for_fieldsCreateManyWidget_typesInputEnvelope
+    connect?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+  }
+
+  export type Widgets_for_fieldsUpdateManyWithoutWidget_typesNestedInput = {
+    create?: XOR<Enumerable<Widgets_for_fieldsCreateWithoutWidget_typesInput>, Enumerable<Widgets_for_fieldsUncheckedCreateWithoutWidget_typesInput>>
+    connectOrCreate?: Enumerable<Widgets_for_fieldsCreateOrConnectWithoutWidget_typesInput>
+    upsert?: Enumerable<Widgets_for_fieldsUpsertWithWhereUniqueWithoutWidget_typesInput>
+    createMany?: Widgets_for_fieldsCreateManyWidget_typesInputEnvelope
+    set?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+    disconnect?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+    delete?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+    connect?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+    update?: Enumerable<Widgets_for_fieldsUpdateWithWhereUniqueWithoutWidget_typesInput>
+    updateMany?: Enumerable<Widgets_for_fieldsUpdateManyWithWhereWithoutWidget_typesInput>
+    deleteMany?: Enumerable<Widgets_for_fieldsScalarWhereInput>
+  }
+
+  export type Widgets_for_fieldsUncheckedUpdateManyWithoutWidget_typesNestedInput = {
+    create?: XOR<Enumerable<Widgets_for_fieldsCreateWithoutWidget_typesInput>, Enumerable<Widgets_for_fieldsUncheckedCreateWithoutWidget_typesInput>>
+    connectOrCreate?: Enumerable<Widgets_for_fieldsCreateOrConnectWithoutWidget_typesInput>
+    upsert?: Enumerable<Widgets_for_fieldsUpsertWithWhereUniqueWithoutWidget_typesInput>
+    createMany?: Widgets_for_fieldsCreateManyWidget_typesInputEnvelope
+    set?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+    disconnect?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+    delete?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+    connect?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
+    update?: Enumerable<Widgets_for_fieldsUpdateWithWhereUniqueWithoutWidget_typesInput>
+    updateMany?: Enumerable<Widgets_for_fieldsUpdateManyWithWhereWithoutWidget_typesInput>
+    deleteMany?: Enumerable<Widgets_for_fieldsScalarWhereInput>
+  }
+
+  export type Field_typesCreateNestedOneWithoutWidgets_for_fieldsInput = {
+    create?: XOR<Field_typesCreateWithoutWidgets_for_fieldsInput, Field_typesUncheckedCreateWithoutWidgets_for_fieldsInput>
+    connectOrCreate?: Field_typesCreateOrConnectWithoutWidgets_for_fieldsInput
+    connect?: Field_typesWhereUniqueInput
+  }
+
+  export type Widget_typesCreateNestedOneWithoutWidgets_for_fieldsInput = {
+    create?: XOR<Widget_typesCreateWithoutWidgets_for_fieldsInput, Widget_typesUncheckedCreateWithoutWidgets_for_fieldsInput>
+    connectOrCreate?: Widget_typesCreateOrConnectWithoutWidgets_for_fieldsInput
+    connect?: Widget_typesWhereUniqueInput
+  }
+
+  export type Field_typesUpdateOneWithoutWidgets_for_fieldsNestedInput = {
+    create?: XOR<Field_typesCreateWithoutWidgets_for_fieldsInput, Field_typesUncheckedCreateWithoutWidgets_for_fieldsInput>
+    connectOrCreate?: Field_typesCreateOrConnectWithoutWidgets_for_fieldsInput
+    upsert?: Field_typesUpsertWithoutWidgets_for_fieldsInput
+    disconnect?: Field_typesWhereInput | boolean
+    delete?: Field_typesWhereInput | boolean
+    connect?: Field_typesWhereUniqueInput
+    update?: XOR<XOR<Field_typesUpdateToOneWithWhereWithoutWidgets_for_fieldsInput, Field_typesUpdateWithoutWidgets_for_fieldsInput>, Field_typesUncheckedUpdateWithoutWidgets_for_fieldsInput>
+  }
+
+  export type Widget_typesUpdateOneWithoutWidgets_for_fieldsNestedInput = {
+    create?: XOR<Widget_typesCreateWithoutWidgets_for_fieldsInput, Widget_typesUncheckedCreateWithoutWidgets_for_fieldsInput>
+    connectOrCreate?: Widget_typesCreateOrConnectWithoutWidgets_for_fieldsInput
+    upsert?: Widget_typesUpsertWithoutWidgets_for_fieldsInput
+    disconnect?: Widget_typesWhereInput | boolean
+    delete?: Widget_typesWhereInput | boolean
+    connect?: Widget_typesWhereUniqueInput
+    update?: XOR<XOR<Widget_typesUpdateToOneWithWhereWithoutWidgets_for_fieldsInput, Widget_typesUpdateWithoutWidgets_for_fieldsInput>, Widget_typesUncheckedUpdateWithoutWidgets_for_fieldsInput>
   }
 
   export type NestedUuidFilter<$PrismaModel = never> = {
@@ -11142,6 +12777,57 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     read?: BoolNullableFilter<"User_messages"> | boolean | null
   }
 
+  export type Widgets_for_fieldsCreateWithoutField_typesInput = {
+    widget_for_field_id: string
+    label?: string | null
+    deleted?: boolean | null
+    widget_types?: Widget_typesCreateNestedOneWithoutWidgets_for_fieldsInput
+  }
+
+  export type Widgets_for_fieldsUncheckedCreateWithoutField_typesInput = {
+    widget_for_field_id: string
+    widget_type_id?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Widgets_for_fieldsCreateOrConnectWithoutField_typesInput = {
+    where: Widgets_for_fieldsWhereUniqueInput
+    create: XOR<Widgets_for_fieldsCreateWithoutField_typesInput, Widgets_for_fieldsUncheckedCreateWithoutField_typesInput>
+  }
+
+  export type Widgets_for_fieldsCreateManyField_typesInputEnvelope = {
+    data: Enumerable<Widgets_for_fieldsCreateManyField_typesInput>
+    skipDuplicates?: boolean
+  }
+
+  export type Widgets_for_fieldsUpsertWithWhereUniqueWithoutField_typesInput = {
+    where: Widgets_for_fieldsWhereUniqueInput
+    update: XOR<Widgets_for_fieldsUpdateWithoutField_typesInput, Widgets_for_fieldsUncheckedUpdateWithoutField_typesInput>
+    create: XOR<Widgets_for_fieldsCreateWithoutField_typesInput, Widgets_for_fieldsUncheckedCreateWithoutField_typesInput>
+  }
+
+  export type Widgets_for_fieldsUpdateWithWhereUniqueWithoutField_typesInput = {
+    where: Widgets_for_fieldsWhereUniqueInput
+    data: XOR<Widgets_for_fieldsUpdateWithoutField_typesInput, Widgets_for_fieldsUncheckedUpdateWithoutField_typesInput>
+  }
+
+  export type Widgets_for_fieldsUpdateManyWithWhereWithoutField_typesInput = {
+    where: Widgets_for_fieldsScalarWhereInput
+    data: XOR<Widgets_for_fieldsUpdateManyMutationInput, Widgets_for_fieldsUncheckedUpdateManyWithoutField_typesInput>
+  }
+
+  export type Widgets_for_fieldsScalarWhereInput = {
+    AND?: Enumerable<Widgets_for_fieldsScalarWhereInput>
+    OR?: Enumerable<Widgets_for_fieldsScalarWhereInput>
+    NOT?: Enumerable<Widgets_for_fieldsScalarWhereInput>
+    widget_for_field_id?: UuidFilter<"Widgets_for_fields"> | string
+    field_type_id?: UuidNullableFilter<"Widgets_for_fields"> | string | null
+    widget_type_id?: UuidNullableFilter<"Widgets_for_fields"> | string | null
+    label?: StringNullableFilter<"Widgets_for_fields"> | string | null
+    deleted?: BoolNullableFilter<"Widgets_for_fields"> | boolean | null
+  }
+
   export type User_messagesCreateWithoutMessagesInput = {
     user_message_id: string
     label_replace_by_generated_column?: string | null
@@ -11503,6 +13189,154 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data: XOR<User_messagesUpdateManyMutationInput, User_messagesUncheckedUpdateManyWithoutUsersInput>
   }
 
+  export type Widgets_for_fieldsCreateWithoutWidget_typesInput = {
+    widget_for_field_id: string
+    label?: string | null
+    deleted?: boolean | null
+    field_types?: Field_typesCreateNestedOneWithoutWidgets_for_fieldsInput
+  }
+
+  export type Widgets_for_fieldsUncheckedCreateWithoutWidget_typesInput = {
+    widget_for_field_id: string
+    field_type_id?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Widgets_for_fieldsCreateOrConnectWithoutWidget_typesInput = {
+    where: Widgets_for_fieldsWhereUniqueInput
+    create: XOR<Widgets_for_fieldsCreateWithoutWidget_typesInput, Widgets_for_fieldsUncheckedCreateWithoutWidget_typesInput>
+  }
+
+  export type Widgets_for_fieldsCreateManyWidget_typesInputEnvelope = {
+    data: Enumerable<Widgets_for_fieldsCreateManyWidget_typesInput>
+    skipDuplicates?: boolean
+  }
+
+  export type Widgets_for_fieldsUpsertWithWhereUniqueWithoutWidget_typesInput = {
+    where: Widgets_for_fieldsWhereUniqueInput
+    update: XOR<Widgets_for_fieldsUpdateWithoutWidget_typesInput, Widgets_for_fieldsUncheckedUpdateWithoutWidget_typesInput>
+    create: XOR<Widgets_for_fieldsCreateWithoutWidget_typesInput, Widgets_for_fieldsUncheckedCreateWithoutWidget_typesInput>
+  }
+
+  export type Widgets_for_fieldsUpdateWithWhereUniqueWithoutWidget_typesInput = {
+    where: Widgets_for_fieldsWhereUniqueInput
+    data: XOR<Widgets_for_fieldsUpdateWithoutWidget_typesInput, Widgets_for_fieldsUncheckedUpdateWithoutWidget_typesInput>
+  }
+
+  export type Widgets_for_fieldsUpdateManyWithWhereWithoutWidget_typesInput = {
+    where: Widgets_for_fieldsScalarWhereInput
+    data: XOR<Widgets_for_fieldsUpdateManyMutationInput, Widgets_for_fieldsUncheckedUpdateManyWithoutWidget_typesInput>
+  }
+
+  export type Field_typesCreateWithoutWidgets_for_fieldsInput = {
+    field_type_id: string
+    name?: string | null
+    sort?: number | null
+    comment?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Field_typesUncheckedCreateWithoutWidgets_for_fieldsInput = {
+    field_type_id: string
+    name?: string | null
+    sort?: number | null
+    comment?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Field_typesCreateOrConnectWithoutWidgets_for_fieldsInput = {
+    where: Field_typesWhereUniqueInput
+    create: XOR<Field_typesCreateWithoutWidgets_for_fieldsInput, Field_typesUncheckedCreateWithoutWidgets_for_fieldsInput>
+  }
+
+  export type Widget_typesCreateWithoutWidgets_for_fieldsInput = {
+    widget_type_id: string
+    name?: string | null
+    needs_list?: boolean | null
+    sort?: number | null
+    comment?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Widget_typesUncheckedCreateWithoutWidgets_for_fieldsInput = {
+    widget_type_id: string
+    name?: string | null
+    needs_list?: boolean | null
+    sort?: number | null
+    comment?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Widget_typesCreateOrConnectWithoutWidgets_for_fieldsInput = {
+    where: Widget_typesWhereUniqueInput
+    create: XOR<Widget_typesCreateWithoutWidgets_for_fieldsInput, Widget_typesUncheckedCreateWithoutWidgets_for_fieldsInput>
+  }
+
+  export type Field_typesUpsertWithoutWidgets_for_fieldsInput = {
+    update: XOR<Field_typesUpdateWithoutWidgets_for_fieldsInput, Field_typesUncheckedUpdateWithoutWidgets_for_fieldsInput>
+    create: XOR<Field_typesCreateWithoutWidgets_for_fieldsInput, Field_typesUncheckedCreateWithoutWidgets_for_fieldsInput>
+    where?: Field_typesWhereInput
+  }
+
+  export type Field_typesUpdateToOneWithWhereWithoutWidgets_for_fieldsInput = {
+    where?: Field_typesWhereInput
+    data: XOR<Field_typesUpdateWithoutWidgets_for_fieldsInput, Field_typesUncheckedUpdateWithoutWidgets_for_fieldsInput>
+  }
+
+  export type Field_typesUpdateWithoutWidgets_for_fieldsInput = {
+    field_type_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Field_typesUncheckedUpdateWithoutWidgets_for_fieldsInput = {
+    field_type_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Widget_typesUpsertWithoutWidgets_for_fieldsInput = {
+    update: XOR<Widget_typesUpdateWithoutWidgets_for_fieldsInput, Widget_typesUncheckedUpdateWithoutWidgets_for_fieldsInput>
+    create: XOR<Widget_typesCreateWithoutWidgets_for_fieldsInput, Widget_typesUncheckedCreateWithoutWidgets_for_fieldsInput>
+    where?: Widget_typesWhereInput
+  }
+
+  export type Widget_typesUpdateToOneWithWhereWithoutWidgets_for_fieldsInput = {
+    where?: Widget_typesWhereInput
+    data: XOR<Widget_typesUpdateWithoutWidgets_for_fieldsInput, Widget_typesUncheckedUpdateWithoutWidgets_for_fieldsInput>
+  }
+
+  export type Widget_typesUpdateWithoutWidgets_for_fieldsInput = {
+    widget_type_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    needs_list?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Widget_typesUncheckedUpdateWithoutWidgets_for_fieldsInput = {
+    widget_type_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    needs_list?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type ProjectsCreateManyAccountsInput = {
     project_id: string
     name?: string | null
@@ -11643,6 +13477,34 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     read?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Widgets_for_fieldsCreateManyField_typesInput = {
+    widget_for_field_id: string
+    widget_type_id?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Widgets_for_fieldsUpdateWithoutField_typesInput = {
+    widget_for_field_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    widget_types?: Widget_typesUpdateOneWithoutWidgets_for_fieldsNestedInput
+  }
+
+  export type Widgets_for_fieldsUncheckedUpdateWithoutField_typesInput = {
+    widget_for_field_id?: StringFieldUpdateOperationsInput | string
+    widget_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Widgets_for_fieldsUncheckedUpdateManyWithoutField_typesInput = {
+    widget_for_field_id?: StringFieldUpdateOperationsInput | string
+    widget_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type User_messagesCreateManyMessagesInput = {
     user_message_id: string
     account_id?: string | null
@@ -11745,6 +13607,34 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     message_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     read?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Widgets_for_fieldsCreateManyWidget_typesInput = {
+    widget_for_field_id: string
+    field_type_id?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Widgets_for_fieldsUpdateWithoutWidget_typesInput = {
+    widget_for_field_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    field_types?: Field_typesUpdateOneWithoutWidgets_for_fieldsNestedInput
+  }
+
+  export type Widgets_for_fieldsUncheckedUpdateWithoutWidget_typesInput = {
+    widget_for_field_id?: StringFieldUpdateOperationsInput | string
+    field_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Widgets_for_fieldsUncheckedUpdateManyWithoutWidget_typesInput = {
+    widget_for_field_id?: StringFieldUpdateOperationsInput | string
+    field_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
 
