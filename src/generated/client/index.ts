@@ -69,6 +69,8 @@ export const MessagesScalarFieldEnumSchema = z.enum(['message_id','label_replace
 
 export const NullableJsonNullValueInputSchema = z.enum(['DbNull','JsonNull',])
 
+export const Observation_sourcesScalarFieldEnumSchema = z.enum(['observation_source_id','account_id','project_id','name','url','data','label_replace_by_generated_column','deleted']);
+
 export const PersonsScalarFieldEnumSchema = z.enum(['person_id','project_id','account_id','email','data','label_replace_by_generated_column','deleted']);
 
 export const Place_levelsScalarFieldEnumSchema = z.enum(['place_level_id','account_id','project_id','level','name_singular','name_plural','name_short','reports','report_values','actions','action_values','action_reports','checks','check_values','check_taxa','observations','label_replace_by_generated_column','deleted']);
@@ -284,6 +286,23 @@ export const MessagesSchema = z.object({
 })
 
 export type Messages = z.infer<typeof MessagesSchema>
+
+/////////////////////////////////////////
+// OBSERVATION SOURCES SCHEMA
+/////////////////////////////////////////
+
+export const Observation_sourcesSchema = z.object({
+  observation_source_id: z.string().uuid(),
+  account_id: z.string().uuid().nullable(),
+  project_id: z.string().uuid().nullable(),
+  name: z.string().nullable(),
+  url: z.string().nullable(),
+  data: NullableJsonValue.optional(),
+  label_replace_by_generated_column: z.string().nullable(),
+  deleted: z.boolean().nullable(),
+})
+
+export type Observation_sources = z.infer<typeof Observation_sourcesSchema>
 
 /////////////////////////////////////////
 // PERSONS SCHEMA
@@ -588,6 +607,7 @@ export const AccountsIncludeSchema: z.ZodType<Prisma.AccountsInclude> = z.object
   goals: z.union([z.boolean(),z.lazy(() => GoalsFindManyArgsSchema)]).optional(),
   list_values: z.union([z.boolean(),z.lazy(() => List_valuesFindManyArgsSchema)]).optional(),
   lists: z.union([z.boolean(),z.lazy(() => ListsFindManyArgsSchema)]).optional(),
+  observation_sources: z.union([z.boolean(),z.lazy(() => Observation_sourcesFindManyArgsSchema)]).optional(),
   persons: z.union([z.boolean(),z.lazy(() => PersonsFindManyArgsSchema)]).optional(),
   place_levels: z.union([z.boolean(),z.lazy(() => Place_levelsFindManyArgsSchema)]).optional(),
   project_users: z.union([z.boolean(),z.lazy(() => Project_usersFindManyArgsSchema)]).optional(),
@@ -620,6 +640,7 @@ export const AccountsCountOutputTypeSelectSchema: z.ZodType<Prisma.AccountsCount
   goals: z.boolean().optional(),
   list_values: z.boolean().optional(),
   lists: z.boolean().optional(),
+  observation_sources: z.boolean().optional(),
   persons: z.boolean().optional(),
   place_levels: z.boolean().optional(),
   project_users: z.boolean().optional(),
@@ -650,6 +671,7 @@ export const AccountsSelectSchema: z.ZodType<Prisma.AccountsSelect> = z.object({
   goals: z.union([z.boolean(),z.lazy(() => GoalsFindManyArgsSchema)]).optional(),
   list_values: z.union([z.boolean(),z.lazy(() => List_valuesFindManyArgsSchema)]).optional(),
   lists: z.union([z.boolean(),z.lazy(() => ListsFindManyArgsSchema)]).optional(),
+  observation_sources: z.union([z.boolean(),z.lazy(() => Observation_sourcesFindManyArgsSchema)]).optional(),
   persons: z.union([z.boolean(),z.lazy(() => PersonsFindManyArgsSchema)]).optional(),
   place_levels: z.union([z.boolean(),z.lazy(() => Place_levelsFindManyArgsSchema)]).optional(),
   project_users: z.union([z.boolean(),z.lazy(() => Project_usersFindManyArgsSchema)]).optional(),
@@ -937,6 +959,32 @@ export const MessagesSelectSchema: z.ZodType<Prisma.MessagesSelect> = z.object({
   _count: z.union([z.boolean(),z.lazy(() => MessagesCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
+// OBSERVATION SOURCES
+//------------------------------------------------------
+
+export const Observation_sourcesIncludeSchema: z.ZodType<Prisma.Observation_sourcesInclude> = z.object({
+  accounts: z.union([z.boolean(),z.lazy(() => AccountsArgsSchema)]).optional(),
+  projects: z.union([z.boolean(),z.lazy(() => ProjectsArgsSchema)]).optional(),
+}).strict()
+
+export const Observation_sourcesArgsSchema: z.ZodType<Prisma.Observation_sourcesArgs> = z.object({
+  select: z.lazy(() => Observation_sourcesSelectSchema).optional(),
+  include: z.lazy(() => Observation_sourcesIncludeSchema).optional(),
+}).strict();
+
+export const Observation_sourcesSelectSchema: z.ZodType<Prisma.Observation_sourcesSelect> = z.object({
+  observation_source_id: z.boolean().optional(),
+  account_id: z.boolean().optional(),
+  project_id: z.boolean().optional(),
+  name: z.boolean().optional(),
+  url: z.boolean().optional(),
+  data: z.boolean().optional(),
+  label_replace_by_generated_column: z.boolean().optional(),
+  deleted: z.boolean().optional(),
+  accounts: z.union([z.boolean(),z.lazy(() => AccountsArgsSchema)]).optional(),
+  projects: z.union([z.boolean(),z.lazy(() => ProjectsArgsSchema)]).optional(),
+}).strict()
+
 // PERSONS
 //------------------------------------------------------
 
@@ -1033,6 +1081,7 @@ export const ProjectsIncludeSchema: z.ZodType<Prisma.ProjectsInclude> = z.object
   gbif_occurrences: z.union([z.boolean(),z.lazy(() => Gbif_occurrencesFindManyArgsSchema)]).optional(),
   gbif_taxa: z.union([z.boolean(),z.lazy(() => Gbif_taxaFindManyArgsSchema)]).optional(),
   lists: z.union([z.boolean(),z.lazy(() => ListsFindManyArgsSchema)]).optional(),
+  observation_sources: z.union([z.boolean(),z.lazy(() => Observation_sourcesFindManyArgsSchema)]).optional(),
   persons: z.union([z.boolean(),z.lazy(() => PersonsFindManyArgsSchema)]).optional(),
   place_levels: z.union([z.boolean(),z.lazy(() => Place_levelsFindManyArgsSchema)]).optional(),
   project_users: z.union([z.boolean(),z.lazy(() => Project_usersFindManyArgsSchema)]).optional(),
@@ -1057,6 +1106,7 @@ export const ProjectsCountOutputTypeSelectSchema: z.ZodType<Prisma.ProjectsCount
   gbif_occurrences: z.boolean().optional(),
   gbif_taxa: z.boolean().optional(),
   lists: z.boolean().optional(),
+  observation_sources: z.boolean().optional(),
   persons: z.boolean().optional(),
   place_levels: z.boolean().optional(),
   project_users: z.boolean().optional(),
@@ -1095,6 +1145,7 @@ export const ProjectsSelectSchema: z.ZodType<Prisma.ProjectsSelect> = z.object({
   gbif_occurrences: z.union([z.boolean(),z.lazy(() => Gbif_occurrencesFindManyArgsSchema)]).optional(),
   gbif_taxa: z.union([z.boolean(),z.lazy(() => Gbif_taxaFindManyArgsSchema)]).optional(),
   lists: z.union([z.boolean(),z.lazy(() => ListsFindManyArgsSchema)]).optional(),
+  observation_sources: z.union([z.boolean(),z.lazy(() => Observation_sourcesFindManyArgsSchema)]).optional(),
   persons: z.union([z.boolean(),z.lazy(() => PersonsFindManyArgsSchema)]).optional(),
   place_levels: z.union([z.boolean(),z.lazy(() => Place_levelsFindManyArgsSchema)]).optional(),
   project_users: z.union([z.boolean(),z.lazy(() => Project_usersFindManyArgsSchema)]).optional(),
@@ -1505,6 +1556,7 @@ export const AccountsWhereInputSchema: z.ZodType<Prisma.AccountsWhereInput> = z.
   goals: z.lazy(() => GoalsListRelationFilterSchema).optional(),
   list_values: z.lazy(() => List_valuesListRelationFilterSchema).optional(),
   lists: z.lazy(() => ListsListRelationFilterSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesListRelationFilterSchema).optional(),
   persons: z.lazy(() => PersonsListRelationFilterSchema).optional(),
   place_levels: z.lazy(() => Place_levelsListRelationFilterSchema).optional(),
   project_users: z.lazy(() => Project_usersListRelationFilterSchema).optional(),
@@ -1535,6 +1587,7 @@ export const AccountsOrderByWithRelationInputSchema: z.ZodType<Prisma.AccountsOr
   goals: z.lazy(() => GoalsOrderByRelationAggregateInputSchema).optional(),
   list_values: z.lazy(() => List_valuesOrderByRelationAggregateInputSchema).optional(),
   lists: z.lazy(() => ListsOrderByRelationAggregateInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesOrderByRelationAggregateInputSchema).optional(),
   persons: z.lazy(() => PersonsOrderByRelationAggregateInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsOrderByRelationAggregateInputSchema).optional(),
   project_users: z.lazy(() => Project_usersOrderByRelationAggregateInputSchema).optional(),
@@ -2104,6 +2157,67 @@ export const MessagesScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Mess
   message: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
 }).strict();
 
+export const Observation_sourcesWhereInputSchema: z.ZodType<Prisma.Observation_sourcesWhereInput> = z.object({
+  AND: z.union([ z.lazy(() => Observation_sourcesWhereInputSchema),z.lazy(() => Observation_sourcesWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => Observation_sourcesWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => Observation_sourcesWhereInputSchema),z.lazy(() => Observation_sourcesWhereInputSchema).array() ]).optional(),
+  observation_source_id: z.union([ z.lazy(() => UuidFilterSchema),z.string() ]).optional(),
+  account_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  project_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  name: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  url: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  data: z.lazy(() => JsonNullableFilterSchema).optional(),
+  label_replace_by_generated_column: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  deleted: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+  accounts: z.union([ z.lazy(() => AccountsRelationFilterSchema),z.lazy(() => AccountsWhereInputSchema) ]).optional().nullable(),
+  projects: z.union([ z.lazy(() => ProjectsRelationFilterSchema),z.lazy(() => ProjectsWhereInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const Observation_sourcesOrderByWithRelationInputSchema: z.ZodType<Prisma.Observation_sourcesOrderByWithRelationInput> = z.object({
+  observation_source_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  project_id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  url: z.lazy(() => SortOrderSchema).optional(),
+  data: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  deleted: z.lazy(() => SortOrderSchema).optional(),
+  accounts: z.lazy(() => AccountsOrderByWithRelationInputSchema).optional(),
+  projects: z.lazy(() => ProjectsOrderByWithRelationInputSchema).optional()
+}).strict();
+
+export const Observation_sourcesWhereUniqueInputSchema: z.ZodType<Prisma.Observation_sourcesWhereUniqueInput> = z.object({
+  observation_source_id: z.string().uuid().optional()
+}).strict();
+
+export const Observation_sourcesOrderByWithAggregationInputSchema: z.ZodType<Prisma.Observation_sourcesOrderByWithAggregationInput> = z.object({
+  observation_source_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  project_id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  url: z.lazy(() => SortOrderSchema).optional(),
+  data: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  deleted: z.lazy(() => SortOrderSchema).optional(),
+  _count: z.lazy(() => Observation_sourcesCountOrderByAggregateInputSchema).optional(),
+  _max: z.lazy(() => Observation_sourcesMaxOrderByAggregateInputSchema).optional(),
+  _min: z.lazy(() => Observation_sourcesMinOrderByAggregateInputSchema).optional()
+}).strict();
+
+export const Observation_sourcesScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Observation_sourcesScalarWhereWithAggregatesInput> = z.object({
+  AND: z.union([ z.lazy(() => Observation_sourcesScalarWhereWithAggregatesInputSchema),z.lazy(() => Observation_sourcesScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  OR: z.lazy(() => Observation_sourcesScalarWhereWithAggregatesInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => Observation_sourcesScalarWhereWithAggregatesInputSchema),z.lazy(() => Observation_sourcesScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  observation_source_id: z.union([ z.lazy(() => UuidWithAggregatesFilterSchema),z.string() ]).optional(),
+  account_id: z.union([ z.lazy(() => UuidNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  project_id: z.union([ z.lazy(() => UuidNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  name: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  url: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  data: z.lazy(() => JsonNullableWithAggregatesFilterSchema).optional(),
+  label_replace_by_generated_column: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  deleted: z.union([ z.lazy(() => BoolNullableWithAggregatesFilterSchema),z.boolean() ]).optional().nullable(),
+}).strict();
+
 export const PersonsWhereInputSchema: z.ZodType<Prisma.PersonsWhereInput> = z.object({
   AND: z.union([ z.lazy(() => PersonsWhereInputSchema),z.lazy(() => PersonsWhereInputSchema).array() ]).optional(),
   OR: z.lazy(() => PersonsWhereInputSchema).array().optional(),
@@ -2356,6 +2470,7 @@ export const ProjectsWhereInputSchema: z.ZodType<Prisma.ProjectsWhereInput> = z.
   gbif_occurrences: z.lazy(() => Gbif_occurrencesListRelationFilterSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaListRelationFilterSchema).optional(),
   lists: z.lazy(() => ListsListRelationFilterSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesListRelationFilterSchema).optional(),
   persons: z.lazy(() => PersonsListRelationFilterSchema).optional(),
   place_levels: z.lazy(() => Place_levelsListRelationFilterSchema).optional(),
   project_users: z.lazy(() => Project_usersListRelationFilterSchema).optional(),
@@ -2395,6 +2510,7 @@ export const ProjectsOrderByWithRelationInputSchema: z.ZodType<Prisma.ProjectsOr
   gbif_occurrences: z.lazy(() => Gbif_occurrencesOrderByRelationAggregateInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaOrderByRelationAggregateInputSchema).optional(),
   lists: z.lazy(() => ListsOrderByRelationAggregateInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesOrderByRelationAggregateInputSchema).optional(),
   persons: z.lazy(() => PersonsOrderByRelationAggregateInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsOrderByRelationAggregateInputSchema).optional(),
   project_users: z.lazy(() => Project_usersOrderByRelationAggregateInputSchema).optional(),
@@ -3216,6 +3332,7 @@ export const AccountsCreateInputSchema: z.ZodType<Prisma.AccountsCreateInput> = 
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -3245,6 +3362,7 @@ export const AccountsUncheckedCreateInputSchema: z.ZodType<Prisma.AccountsUnchec
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -3274,6 +3392,7 @@ export const AccountsUpdateInputSchema: z.ZodType<Prisma.AccountsUpdateInput> = 
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -3303,6 +3422,7 @@ export const AccountsUncheckedUpdateInputSchema: z.ZodType<Prisma.AccountsUnchec
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -3980,6 +4100,81 @@ export const MessagesUncheckedUpdateManyInputSchema: z.ZodType<Prisma.MessagesUn
   message: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
+export const Observation_sourcesCreateInputSchema: z.ZodType<Prisma.Observation_sourcesCreateInput> = z.object({
+  observation_source_id: z.string().uuid(),
+  name: z.string().optional().nullable(),
+  url: z.string().optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable(),
+  accounts: z.lazy(() => AccountsCreateNestedOneWithoutObservation_sourcesInputSchema).optional(),
+  projects: z.lazy(() => ProjectsCreateNestedOneWithoutObservation_sourcesInputSchema).optional()
+}).strict();
+
+export const Observation_sourcesUncheckedCreateInputSchema: z.ZodType<Prisma.Observation_sourcesUncheckedCreateInput> = z.object({
+  observation_source_id: z.string().uuid(),
+  account_id: z.string().uuid().optional().nullable(),
+  project_id: z.string().uuid().optional().nullable(),
+  name: z.string().optional().nullable(),
+  url: z.string().optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable()
+}).strict();
+
+export const Observation_sourcesUpdateInputSchema: z.ZodType<Prisma.Observation_sourcesUpdateInput> = z.object({
+  observation_source_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  url: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  accounts: z.lazy(() => AccountsUpdateOneWithoutObservation_sourcesNestedInputSchema).optional(),
+  projects: z.lazy(() => ProjectsUpdateOneWithoutObservation_sourcesNestedInputSchema).optional()
+}).strict();
+
+export const Observation_sourcesUncheckedUpdateInputSchema: z.ZodType<Prisma.Observation_sourcesUncheckedUpdateInput> = z.object({
+  observation_source_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  account_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  project_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  name: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  url: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const Observation_sourcesCreateManyInputSchema: z.ZodType<Prisma.Observation_sourcesCreateManyInput> = z.object({
+  observation_source_id: z.string().uuid(),
+  account_id: z.string().uuid().optional().nullable(),
+  project_id: z.string().uuid().optional().nullable(),
+  name: z.string().optional().nullable(),
+  url: z.string().optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable()
+}).strict();
+
+export const Observation_sourcesUpdateManyMutationInputSchema: z.ZodType<Prisma.Observation_sourcesUpdateManyMutationInput> = z.object({
+  observation_source_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  url: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const Observation_sourcesUncheckedUpdateManyInputSchema: z.ZodType<Prisma.Observation_sourcesUncheckedUpdateManyInput> = z.object({
+  observation_source_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  account_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  project_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  name: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  url: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
 export const PersonsCreateInputSchema: z.ZodType<Prisma.PersonsCreateInput> = z.object({
   person_id: z.string().uuid(),
   email: z.string().optional().nullable(),
@@ -4289,6 +4484,7 @@ export const ProjectsCreateInputSchema: z.ZodType<Prisma.ProjectsCreateInput> = 
   gbif_occurrences: z.lazy(() => Gbif_occurrencesCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -4328,6 +4524,7 @@ export const ProjectsUncheckedCreateInputSchema: z.ZodType<Prisma.ProjectsUnchec
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -4365,6 +4562,7 @@ export const ProjectsUpdateInputSchema: z.ZodType<Prisma.ProjectsUpdateInput> = 
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -4404,6 +4602,7 @@ export const ProjectsUncheckedUpdateInputSchema: z.ZodType<Prisma.ProjectsUnchec
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -5518,6 +5717,12 @@ export const ListsListRelationFilterSchema: z.ZodType<Prisma.ListsListRelationFi
   none: z.lazy(() => ListsWhereInputSchema).optional()
 }).strict();
 
+export const Observation_sourcesListRelationFilterSchema: z.ZodType<Prisma.Observation_sourcesListRelationFilter> = z.object({
+  every: z.lazy(() => Observation_sourcesWhereInputSchema).optional(),
+  some: z.lazy(() => Observation_sourcesWhereInputSchema).optional(),
+  none: z.lazy(() => Observation_sourcesWhereInputSchema).optional()
+}).strict();
+
 export const PersonsListRelationFilterSchema: z.ZodType<Prisma.PersonsListRelationFilter> = z.object({
   every: z.lazy(() => PersonsWhereInputSchema).optional(),
   some: z.lazy(() => PersonsWhereInputSchema).optional(),
@@ -5615,6 +5820,10 @@ export const List_valuesOrderByRelationAggregateInputSchema: z.ZodType<Prisma.Li
 }).strict();
 
 export const ListsOrderByRelationAggregateInputSchema: z.ZodType<Prisma.ListsOrderByRelationAggregateInput> = z.object({
+  _count: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const Observation_sourcesOrderByRelationAggregateInputSchema: z.ZodType<Prisma.Observation_sourcesOrderByRelationAggregateInput> = z.object({
   _count: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
@@ -6165,6 +6374,37 @@ export const MessagesMinOrderByAggregateInputSchema: z.ZodType<Prisma.MessagesMi
   label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
   date: z.lazy(() => SortOrderSchema).optional(),
   message: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const Observation_sourcesCountOrderByAggregateInputSchema: z.ZodType<Prisma.Observation_sourcesCountOrderByAggregateInput> = z.object({
+  observation_source_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  project_id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  url: z.lazy(() => SortOrderSchema).optional(),
+  data: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  deleted: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const Observation_sourcesMaxOrderByAggregateInputSchema: z.ZodType<Prisma.Observation_sourcesMaxOrderByAggregateInput> = z.object({
+  observation_source_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  project_id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  url: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  deleted: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const Observation_sourcesMinOrderByAggregateInputSchema: z.ZodType<Prisma.Observation_sourcesMinOrderByAggregateInput> = z.object({
+  observation_source_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  project_id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  url: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  deleted: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const PersonsCountOrderByAggregateInputSchema: z.ZodType<Prisma.PersonsCountOrderByAggregateInput> = z.object({
@@ -6922,6 +7162,13 @@ export const ListsCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prisma.L
   connect: z.union([ z.lazy(() => ListsWhereUniqueInputSchema),z.lazy(() => ListsWhereUniqueInputSchema).array() ]).optional(),
 }).strict();
 
+export const Observation_sourcesCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prisma.Observation_sourcesCreateNestedManyWithoutAccountsInput> = z.object({
+  create: z.union([ z.lazy(() => Observation_sourcesCreateWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesCreateWithoutAccountsInputSchema).array(),z.lazy(() => Observation_sourcesUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Observation_sourcesCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Observation_sourcesCreateManyAccountsInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
 export const PersonsCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prisma.PersonsCreateNestedManyWithoutAccountsInput> = z.object({
   create: z.union([ z.lazy(() => PersonsCreateWithoutAccountsInputSchema),z.lazy(() => PersonsCreateWithoutAccountsInputSchema).array(),z.lazy(() => PersonsUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => PersonsUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => PersonsCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => PersonsCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
@@ -7053,6 +7300,13 @@ export const ListsUncheckedCreateNestedManyWithoutAccountsInputSchema: z.ZodType
   connectOrCreate: z.union([ z.lazy(() => ListsCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => ListsCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
   createMany: z.lazy(() => ListsCreateManyAccountsInputEnvelopeSchema).optional(),
   connect: z.union([ z.lazy(() => ListsWhereUniqueInputSchema),z.lazy(() => ListsWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
+export const Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prisma.Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput> = z.object({
+  create: z.union([ z.lazy(() => Observation_sourcesCreateWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesCreateWithoutAccountsInputSchema).array(),z.lazy(() => Observation_sourcesUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Observation_sourcesCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Observation_sourcesCreateManyAccountsInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
 }).strict();
 
 export const PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prisma.PersonsUncheckedCreateNestedManyWithoutAccountsInput> = z.object({
@@ -7257,6 +7511,20 @@ export const ListsUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prisma.L
   update: z.union([ z.lazy(() => ListsUpdateWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => ListsUpdateWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
   updateMany: z.union([ z.lazy(() => ListsUpdateManyWithWhereWithoutAccountsInputSchema),z.lazy(() => ListsUpdateManyWithWhereWithoutAccountsInputSchema).array() ]).optional(),
   deleteMany: z.union([ z.lazy(() => ListsScalarWhereInputSchema),z.lazy(() => ListsScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
+export const Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prisma.Observation_sourcesUpdateManyWithoutAccountsNestedInput> = z.object({
+  create: z.union([ z.lazy(() => Observation_sourcesCreateWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesCreateWithoutAccountsInputSchema).array(),z.lazy(() => Observation_sourcesUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Observation_sourcesCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => Observation_sourcesUpsertWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesUpsertWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Observation_sourcesCreateManyAccountsInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => Observation_sourcesUpdateWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesUpdateWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => Observation_sourcesUpdateManyWithWhereWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesUpdateManyWithWhereWithoutAccountsInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => Observation_sourcesScalarWhereInputSchema),z.lazy(() => Observation_sourcesScalarWhereInputSchema).array() ]).optional(),
 }).strict();
 
 export const PersonsUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prisma.PersonsUpdateManyWithoutAccountsNestedInput> = z.object({
@@ -7523,6 +7791,20 @@ export const ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema: z.ZodType
   update: z.union([ z.lazy(() => ListsUpdateWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => ListsUpdateWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
   updateMany: z.union([ z.lazy(() => ListsUpdateManyWithWhereWithoutAccountsInputSchema),z.lazy(() => ListsUpdateManyWithWhereWithoutAccountsInputSchema).array() ]).optional(),
   deleteMany: z.union([ z.lazy(() => ListsScalarWhereInputSchema),z.lazy(() => ListsScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
+export const Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prisma.Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput> = z.object({
+  create: z.union([ z.lazy(() => Observation_sourcesCreateWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesCreateWithoutAccountsInputSchema).array(),z.lazy(() => Observation_sourcesUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Observation_sourcesCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => Observation_sourcesUpsertWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesUpsertWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Observation_sourcesCreateManyAccountsInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => Observation_sourcesUpdateWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesUpdateWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => Observation_sourcesUpdateManyWithWhereWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesUpdateManyWithWhereWithoutAccountsInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => Observation_sourcesScalarWhereInputSchema),z.lazy(() => Observation_sourcesScalarWhereInputSchema).array() ]).optional(),
 }).strict();
 
 export const PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prisma.PersonsUncheckedUpdateManyWithoutAccountsNestedInput> = z.object({
@@ -8175,6 +8457,38 @@ export const User_messagesUncheckedUpdateManyWithoutMessagesNestedInputSchema: z
   deleteMany: z.union([ z.lazy(() => User_messagesScalarWhereInputSchema),z.lazy(() => User_messagesScalarWhereInputSchema).array() ]).optional(),
 }).strict();
 
+export const AccountsCreateNestedOneWithoutObservation_sourcesInputSchema: z.ZodType<Prisma.AccountsCreateNestedOneWithoutObservation_sourcesInput> = z.object({
+  create: z.union([ z.lazy(() => AccountsCreateWithoutObservation_sourcesInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutObservation_sourcesInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => AccountsCreateOrConnectWithoutObservation_sourcesInputSchema).optional(),
+  connect: z.lazy(() => AccountsWhereUniqueInputSchema).optional()
+}).strict();
+
+export const ProjectsCreateNestedOneWithoutObservation_sourcesInputSchema: z.ZodType<Prisma.ProjectsCreateNestedOneWithoutObservation_sourcesInput> = z.object({
+  create: z.union([ z.lazy(() => ProjectsCreateWithoutObservation_sourcesInputSchema),z.lazy(() => ProjectsUncheckedCreateWithoutObservation_sourcesInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => ProjectsCreateOrConnectWithoutObservation_sourcesInputSchema).optional(),
+  connect: z.lazy(() => ProjectsWhereUniqueInputSchema).optional()
+}).strict();
+
+export const AccountsUpdateOneWithoutObservation_sourcesNestedInputSchema: z.ZodType<Prisma.AccountsUpdateOneWithoutObservation_sourcesNestedInput> = z.object({
+  create: z.union([ z.lazy(() => AccountsCreateWithoutObservation_sourcesInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutObservation_sourcesInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => AccountsCreateOrConnectWithoutObservation_sourcesInputSchema).optional(),
+  upsert: z.lazy(() => AccountsUpsertWithoutObservation_sourcesInputSchema).optional(),
+  disconnect: z.boolean().optional(),
+  delete: z.boolean().optional(),
+  connect: z.lazy(() => AccountsWhereUniqueInputSchema).optional(),
+  update: z.union([ z.lazy(() => AccountsUpdateWithoutObservation_sourcesInputSchema),z.lazy(() => AccountsUncheckedUpdateWithoutObservation_sourcesInputSchema) ]).optional(),
+}).strict();
+
+export const ProjectsUpdateOneWithoutObservation_sourcesNestedInputSchema: z.ZodType<Prisma.ProjectsUpdateOneWithoutObservation_sourcesNestedInput> = z.object({
+  create: z.union([ z.lazy(() => ProjectsCreateWithoutObservation_sourcesInputSchema),z.lazy(() => ProjectsUncheckedCreateWithoutObservation_sourcesInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => ProjectsCreateOrConnectWithoutObservation_sourcesInputSchema).optional(),
+  upsert: z.lazy(() => ProjectsUpsertWithoutObservation_sourcesInputSchema).optional(),
+  disconnect: z.boolean().optional(),
+  delete: z.boolean().optional(),
+  connect: z.lazy(() => ProjectsWhereUniqueInputSchema).optional(),
+  update: z.union([ z.lazy(() => ProjectsUpdateWithoutObservation_sourcesInputSchema),z.lazy(() => ProjectsUncheckedUpdateWithoutObservation_sourcesInputSchema) ]).optional(),
+}).strict();
+
 export const AccountsCreateNestedOneWithoutPersonsInputSchema: z.ZodType<Prisma.AccountsCreateNestedOneWithoutPersonsInput> = z.object({
   create: z.union([ z.lazy(() => AccountsCreateWithoutPersonsInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutPersonsInputSchema) ]).optional(),
   connectOrCreate: z.lazy(() => AccountsCreateOrConnectWithoutPersonsInputSchema).optional(),
@@ -8315,6 +8629,13 @@ export const ListsCreateNestedManyWithoutProjectsInputSchema: z.ZodType<Prisma.L
   connect: z.union([ z.lazy(() => ListsWhereUniqueInputSchema),z.lazy(() => ListsWhereUniqueInputSchema).array() ]).optional(),
 }).strict();
 
+export const Observation_sourcesCreateNestedManyWithoutProjectsInputSchema: z.ZodType<Prisma.Observation_sourcesCreateNestedManyWithoutProjectsInput> = z.object({
+  create: z.union([ z.lazy(() => Observation_sourcesCreateWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesCreateWithoutProjectsInputSchema).array(),z.lazy(() => Observation_sourcesUncheckedCreateWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesUncheckedCreateWithoutProjectsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Observation_sourcesCreateOrConnectWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesCreateOrConnectWithoutProjectsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Observation_sourcesCreateManyProjectsInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
 export const PersonsCreateNestedManyWithoutProjectsInputSchema: z.ZodType<Prisma.PersonsCreateNestedManyWithoutProjectsInput> = z.object({
   create: z.union([ z.lazy(() => PersonsCreateWithoutProjectsInputSchema),z.lazy(() => PersonsCreateWithoutProjectsInputSchema).array(),z.lazy(() => PersonsUncheckedCreateWithoutProjectsInputSchema),z.lazy(() => PersonsUncheckedCreateWithoutProjectsInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => PersonsCreateOrConnectWithoutProjectsInputSchema),z.lazy(() => PersonsCreateOrConnectWithoutProjectsInputSchema).array() ]).optional(),
@@ -8389,6 +8710,13 @@ export const ListsUncheckedCreateNestedManyWithoutProjectsInputSchema: z.ZodType
   connectOrCreate: z.union([ z.lazy(() => ListsCreateOrConnectWithoutProjectsInputSchema),z.lazy(() => ListsCreateOrConnectWithoutProjectsInputSchema).array() ]).optional(),
   createMany: z.lazy(() => ListsCreateManyProjectsInputEnvelopeSchema).optional(),
   connect: z.union([ z.lazy(() => ListsWhereUniqueInputSchema),z.lazy(() => ListsWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
+export const Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInputSchema: z.ZodType<Prisma.Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput> = z.object({
+  create: z.union([ z.lazy(() => Observation_sourcesCreateWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesCreateWithoutProjectsInputSchema).array(),z.lazy(() => Observation_sourcesUncheckedCreateWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesUncheckedCreateWithoutProjectsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Observation_sourcesCreateOrConnectWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesCreateOrConnectWithoutProjectsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Observation_sourcesCreateManyProjectsInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
 }).strict();
 
 export const PersonsUncheckedCreateNestedManyWithoutProjectsInputSchema: z.ZodType<Prisma.PersonsUncheckedCreateNestedManyWithoutProjectsInput> = z.object({
@@ -8491,6 +8819,20 @@ export const ListsUpdateManyWithoutProjectsNestedInputSchema: z.ZodType<Prisma.L
   update: z.union([ z.lazy(() => ListsUpdateWithWhereUniqueWithoutProjectsInputSchema),z.lazy(() => ListsUpdateWithWhereUniqueWithoutProjectsInputSchema).array() ]).optional(),
   updateMany: z.union([ z.lazy(() => ListsUpdateManyWithWhereWithoutProjectsInputSchema),z.lazy(() => ListsUpdateManyWithWhereWithoutProjectsInputSchema).array() ]).optional(),
   deleteMany: z.union([ z.lazy(() => ListsScalarWhereInputSchema),z.lazy(() => ListsScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
+export const Observation_sourcesUpdateManyWithoutProjectsNestedInputSchema: z.ZodType<Prisma.Observation_sourcesUpdateManyWithoutProjectsNestedInput> = z.object({
+  create: z.union([ z.lazy(() => Observation_sourcesCreateWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesCreateWithoutProjectsInputSchema).array(),z.lazy(() => Observation_sourcesUncheckedCreateWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesUncheckedCreateWithoutProjectsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Observation_sourcesCreateOrConnectWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesCreateOrConnectWithoutProjectsInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => Observation_sourcesUpsertWithWhereUniqueWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesUpsertWithWhereUniqueWithoutProjectsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Observation_sourcesCreateManyProjectsInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => Observation_sourcesUpdateWithWhereUniqueWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesUpdateWithWhereUniqueWithoutProjectsInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => Observation_sourcesUpdateManyWithWhereWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesUpdateManyWithWhereWithoutProjectsInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => Observation_sourcesScalarWhereInputSchema),z.lazy(() => Observation_sourcesScalarWhereInputSchema).array() ]).optional(),
 }).strict();
 
 export const PersonsUpdateManyWithoutProjectsNestedInputSchema: z.ZodType<Prisma.PersonsUpdateManyWithoutProjectsNestedInput> = z.object({
@@ -8641,6 +8983,20 @@ export const ListsUncheckedUpdateManyWithoutProjectsNestedInputSchema: z.ZodType
   update: z.union([ z.lazy(() => ListsUpdateWithWhereUniqueWithoutProjectsInputSchema),z.lazy(() => ListsUpdateWithWhereUniqueWithoutProjectsInputSchema).array() ]).optional(),
   updateMany: z.union([ z.lazy(() => ListsUpdateManyWithWhereWithoutProjectsInputSchema),z.lazy(() => ListsUpdateManyWithWhereWithoutProjectsInputSchema).array() ]).optional(),
   deleteMany: z.union([ z.lazy(() => ListsScalarWhereInputSchema),z.lazy(() => ListsScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
+export const Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInputSchema: z.ZodType<Prisma.Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput> = z.object({
+  create: z.union([ z.lazy(() => Observation_sourcesCreateWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesCreateWithoutProjectsInputSchema).array(),z.lazy(() => Observation_sourcesUncheckedCreateWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesUncheckedCreateWithoutProjectsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Observation_sourcesCreateOrConnectWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesCreateOrConnectWithoutProjectsInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => Observation_sourcesUpsertWithWhereUniqueWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesUpsertWithWhereUniqueWithoutProjectsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Observation_sourcesCreateManyProjectsInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => Observation_sourcesWhereUniqueInputSchema),z.lazy(() => Observation_sourcesWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => Observation_sourcesUpdateWithWhereUniqueWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesUpdateWithWhereUniqueWithoutProjectsInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => Observation_sourcesUpdateManyWithWhereWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesUpdateManyWithWhereWithoutProjectsInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => Observation_sourcesScalarWhereInputSchema),z.lazy(() => Observation_sourcesScalarWhereInputSchema).array() ]).optional(),
 }).strict();
 
 export const PersonsUncheckedUpdateManyWithoutProjectsNestedInputSchema: z.ZodType<Prisma.PersonsUncheckedUpdateManyWithoutProjectsNestedInput> = z.object({
@@ -10126,6 +10482,36 @@ export const ListsCreateManyAccountsInputEnvelopeSchema: z.ZodType<Prisma.ListsC
   skipDuplicates: z.boolean().optional()
 }).strict();
 
+export const Observation_sourcesCreateWithoutAccountsInputSchema: z.ZodType<Prisma.Observation_sourcesCreateWithoutAccountsInput> = z.object({
+  observation_source_id: z.string(),
+  name: z.string().optional().nullable(),
+  url: z.string().optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable(),
+  projects: z.lazy(() => ProjectsCreateNestedOneWithoutObservation_sourcesInputSchema).optional()
+}).strict();
+
+export const Observation_sourcesUncheckedCreateWithoutAccountsInputSchema: z.ZodType<Prisma.Observation_sourcesUncheckedCreateWithoutAccountsInput> = z.object({
+  observation_source_id: z.string(),
+  project_id: z.string().optional().nullable(),
+  name: z.string().optional().nullable(),
+  url: z.string().optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable()
+}).strict();
+
+export const Observation_sourcesCreateOrConnectWithoutAccountsInputSchema: z.ZodType<Prisma.Observation_sourcesCreateOrConnectWithoutAccountsInput> = z.object({
+  where: z.lazy(() => Observation_sourcesWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => Observation_sourcesCreateWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesUncheckedCreateWithoutAccountsInputSchema) ]),
+}).strict();
+
+export const Observation_sourcesCreateManyAccountsInputEnvelopeSchema: z.ZodType<Prisma.Observation_sourcesCreateManyAccountsInputEnvelope> = z.object({
+  data: z.lazy(() => Observation_sourcesCreateManyAccountsInputSchema).array(),
+  skipDuplicates: z.boolean().optional()
+}).strict();
+
 export const PersonsCreateWithoutAccountsInputSchema: z.ZodType<Prisma.PersonsCreateWithoutAccountsInput> = z.object({
   person_id: z.string(),
   email: z.string().optional().nullable(),
@@ -10261,6 +10647,7 @@ export const ProjectsCreateWithoutAccountsInputSchema: z.ZodType<Prisma.Projects
   gbif_occurrences: z.lazy(() => Gbif_occurrencesCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -10298,6 +10685,7 @@ export const ProjectsUncheckedCreateWithoutAccountsInputSchema: z.ZodType<Prisma
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -10834,6 +11222,36 @@ export const ListsScalarWhereInputSchema: z.ZodType<Prisma.ListsScalarWhereInput
   deleted: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
 }).strict();
 
+export const Observation_sourcesUpsertWithWhereUniqueWithoutAccountsInputSchema: z.ZodType<Prisma.Observation_sourcesUpsertWithWhereUniqueWithoutAccountsInput> = z.object({
+  where: z.lazy(() => Observation_sourcesWhereUniqueInputSchema),
+  update: z.union([ z.lazy(() => Observation_sourcesUpdateWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesUncheckedUpdateWithoutAccountsInputSchema) ]),
+  create: z.union([ z.lazy(() => Observation_sourcesCreateWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesUncheckedCreateWithoutAccountsInputSchema) ]),
+}).strict();
+
+export const Observation_sourcesUpdateWithWhereUniqueWithoutAccountsInputSchema: z.ZodType<Prisma.Observation_sourcesUpdateWithWhereUniqueWithoutAccountsInput> = z.object({
+  where: z.lazy(() => Observation_sourcesWhereUniqueInputSchema),
+  data: z.union([ z.lazy(() => Observation_sourcesUpdateWithoutAccountsInputSchema),z.lazy(() => Observation_sourcesUncheckedUpdateWithoutAccountsInputSchema) ]),
+}).strict();
+
+export const Observation_sourcesUpdateManyWithWhereWithoutAccountsInputSchema: z.ZodType<Prisma.Observation_sourcesUpdateManyWithWhereWithoutAccountsInput> = z.object({
+  where: z.lazy(() => Observation_sourcesScalarWhereInputSchema),
+  data: z.union([ z.lazy(() => Observation_sourcesUpdateManyMutationInputSchema),z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutObservation_sourcesInputSchema) ]),
+}).strict();
+
+export const Observation_sourcesScalarWhereInputSchema: z.ZodType<Prisma.Observation_sourcesScalarWhereInput> = z.object({
+  AND: z.union([ z.lazy(() => Observation_sourcesScalarWhereInputSchema),z.lazy(() => Observation_sourcesScalarWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => Observation_sourcesScalarWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => Observation_sourcesScalarWhereInputSchema),z.lazy(() => Observation_sourcesScalarWhereInputSchema).array() ]).optional(),
+  observation_source_id: z.union([ z.lazy(() => UuidFilterSchema),z.string() ]).optional(),
+  account_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  project_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  name: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  url: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  data: z.lazy(() => JsonNullableFilterSchema).optional(),
+  label_replace_by_generated_column: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  deleted: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+}).strict();
+
 export const PersonsUpsertWithWhereUniqueWithoutAccountsInputSchema: z.ZodType<Prisma.PersonsUpsertWithWhereUniqueWithoutAccountsInput> = z.object({
   where: z.lazy(() => PersonsWhereUniqueInputSchema),
   update: z.union([ z.lazy(() => PersonsUpdateWithoutAccountsInputSchema),z.lazy(() => PersonsUncheckedUpdateWithoutAccountsInputSchema) ]),
@@ -11298,6 +11716,7 @@ export const AccountsCreateWithoutGbif_occurrence_downloadsInputSchema: z.ZodTyp
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -11326,6 +11745,7 @@ export const AccountsUncheckedCreateWithoutGbif_occurrence_downloadsInputSchema:
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -11373,6 +11793,7 @@ export const ProjectsCreateWithoutGbif_occurrence_downloadsInputSchema: z.ZodTyp
   gbif_occurrences: z.lazy(() => Gbif_occurrencesCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -11411,6 +11832,7 @@ export const ProjectsUncheckedCreateWithoutGbif_occurrence_downloadsInputSchema:
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -11480,6 +11902,7 @@ export const AccountsUpdateWithoutGbif_occurrence_downloadsInputSchema: z.ZodTyp
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -11508,6 +11931,7 @@ export const AccountsUncheckedUpdateWithoutGbif_occurrence_downloadsInputSchema:
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -11555,6 +11979,7 @@ export const ProjectsUpdateWithoutGbif_occurrence_downloadsInputSchema: z.ZodTyp
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -11593,6 +12018,7 @@ export const ProjectsUncheckedUpdateWithoutGbif_occurrence_downloadsInputSchema:
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -11652,6 +12078,7 @@ export const AccountsCreateWithoutGbif_occurrencesInputSchema: z.ZodType<Prisma.
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -11680,6 +12107,7 @@ export const AccountsUncheckedCreateWithoutGbif_occurrencesInputSchema: z.ZodTyp
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -11727,6 +12155,7 @@ export const ProjectsCreateWithoutGbif_occurrencesInputSchema: z.ZodType<Prisma.
   gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -11765,6 +12194,7 @@ export const ProjectsUncheckedCreateWithoutGbif_occurrencesInputSchema: z.ZodTyp
   gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -11834,6 +12264,7 @@ export const AccountsUpdateWithoutGbif_occurrencesInputSchema: z.ZodType<Prisma.
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -11862,6 +12293,7 @@ export const AccountsUncheckedUpdateWithoutGbif_occurrencesInputSchema: z.ZodTyp
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -11909,6 +12341,7 @@ export const ProjectsUpdateWithoutGbif_occurrencesInputSchema: z.ZodType<Prisma.
   gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -11947,6 +12380,7 @@ export const ProjectsUncheckedUpdateWithoutGbif_occurrencesInputSchema: z.ZodTyp
   gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -12006,6 +12440,7 @@ export const AccountsCreateWithoutGbif_taxaInputSchema: z.ZodType<Prisma.Account
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -12034,6 +12469,7 @@ export const AccountsUncheckedCreateWithoutGbif_taxaInputSchema: z.ZodType<Prism
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -12081,6 +12517,7 @@ export const ProjectsCreateWithoutGbif_taxaInputSchema: z.ZodType<Prisma.Project
   gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_occurrences: z.lazy(() => Gbif_occurrencesCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -12119,6 +12556,7 @@ export const ProjectsUncheckedCreateWithoutGbif_taxaInputSchema: z.ZodType<Prism
   gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -12151,6 +12589,7 @@ export const AccountsUpdateWithoutGbif_taxaInputSchema: z.ZodType<Prisma.Account
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -12179,6 +12618,7 @@ export const AccountsUncheckedUpdateWithoutGbif_taxaInputSchema: z.ZodType<Prism
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -12226,6 +12666,7 @@ export const ProjectsUpdateWithoutGbif_taxaInputSchema: z.ZodType<Prisma.Project
   gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -12264,6 +12705,7 @@ export const ProjectsUncheckedUpdateWithoutGbif_taxaInputSchema: z.ZodType<Prism
   gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -12286,6 +12728,7 @@ export const AccountsCreateWithoutGoal_reportsInputSchema: z.ZodType<Prisma.Acco
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -12314,6 +12757,7 @@ export const AccountsUncheckedCreateWithoutGoal_reportsInputSchema: z.ZodType<Pr
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -12379,6 +12823,7 @@ export const AccountsUpdateWithoutGoal_reportsInputSchema: z.ZodType<Prisma.Acco
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -12407,6 +12852,7 @@ export const AccountsUncheckedUpdateWithoutGoal_reportsInputSchema: z.ZodType<Pr
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -12488,6 +12934,7 @@ export const AccountsCreateWithoutGoalsInputSchema: z.ZodType<Prisma.AccountsCre
   goal_reports: z.lazy(() => Goal_reportsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -12516,6 +12963,7 @@ export const AccountsUncheckedCreateWithoutGoalsInputSchema: z.ZodType<Prisma.Ac
   goal_reports: z.lazy(() => Goal_reportsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -12607,6 +13055,7 @@ export const AccountsUpdateWithoutGoalsInputSchema: z.ZodType<Prisma.AccountsUpd
   goal_reports: z.lazy(() => Goal_reportsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -12635,6 +13084,7 @@ export const AccountsUncheckedUpdateWithoutGoalsInputSchema: z.ZodType<Prisma.Ac
   goal_reports: z.lazy(() => Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -12700,6 +13150,7 @@ export const AccountsCreateWithoutList_valuesInputSchema: z.ZodType<Prisma.Accou
   goal_reports: z.lazy(() => Goal_reportsCreateNestedManyWithoutAccountsInputSchema).optional(),
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -12728,6 +13179,7 @@ export const AccountsUncheckedCreateWithoutList_valuesInputSchema: z.ZodType<Pri
   goal_reports: z.lazy(() => Goal_reportsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -12795,6 +13247,7 @@ export const AccountsUpdateWithoutList_valuesInputSchema: z.ZodType<Prisma.Accou
   goal_reports: z.lazy(() => Goal_reportsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -12823,6 +13276,7 @@ export const AccountsUncheckedUpdateWithoutList_valuesInputSchema: z.ZodType<Pri
   goal_reports: z.lazy(() => Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -12908,6 +13362,7 @@ export const AccountsCreateWithoutListsInputSchema: z.ZodType<Prisma.AccountsCre
   goal_reports: z.lazy(() => Goal_reportsCreateNestedManyWithoutAccountsInputSchema).optional(),
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -12936,6 +13391,7 @@ export const AccountsUncheckedCreateWithoutListsInputSchema: z.ZodType<Prisma.Ac
   goal_reports: z.lazy(() => Goal_reportsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -12983,6 +13439,7 @@ export const ProjectsCreateWithoutListsInputSchema: z.ZodType<Prisma.ProjectsCre
   gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_occurrences: z.lazy(() => Gbif_occurrencesCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -13021,6 +13478,7 @@ export const ProjectsUncheckedCreateWithoutListsInputSchema: z.ZodType<Prisma.Pr
   gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -13117,6 +13575,7 @@ export const AccountsUpdateWithoutListsInputSchema: z.ZodType<Prisma.AccountsUpd
   goal_reports: z.lazy(() => Goal_reportsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -13145,6 +13604,7 @@ export const AccountsUncheckedUpdateWithoutListsInputSchema: z.ZodType<Prisma.Ac
   goal_reports: z.lazy(() => Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -13192,6 +13652,7 @@ export const ProjectsUpdateWithoutListsInputSchema: z.ZodType<Prisma.ProjectsUpd
   gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -13230,6 +13691,7 @@ export const ProjectsUncheckedUpdateWithoutListsInputSchema: z.ZodType<Prisma.Pr
   gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -13296,6 +13758,294 @@ export const User_messagesUpdateManyWithWhereWithoutMessagesInputSchema: z.ZodTy
   data: z.union([ z.lazy(() => User_messagesUpdateManyMutationInputSchema),z.lazy(() => User_messagesUncheckedUpdateManyWithoutUser_messagesInputSchema) ]),
 }).strict();
 
+export const AccountsCreateWithoutObservation_sourcesInputSchema: z.ZodType<Prisma.AccountsCreateWithoutObservation_sourcesInput> = z.object({
+  account_id: z.string(),
+  type: z.string().optional().nullable(),
+  period_start: z.coerce.date().optional().nullable(),
+  period_end: z.coerce.date().optional().nullable(),
+  projects_label_by: z.string().optional().nullable(),
+  label: z.string().optional().nullable(),
+  users: z.lazy(() => UsersCreateNestedOneWithoutAccountsInputSchema).optional(),
+  gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  gbif_occurrences: z.lazy(() => Gbif_occurrencesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  gbif_taxa: z.lazy(() => Gbif_taxaCreateNestedManyWithoutAccountsInputSchema).optional(),
+  goal_reports: z.lazy(() => Goal_reportsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
+  projects: z.lazy(() => ProjectsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  subproject_taxa: z.lazy(() => Subproject_taxaCreateNestedManyWithoutAccountsInputSchema).optional(),
+  subproject_users: z.lazy(() => Subproject_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
+  subprojects: z.lazy(() => SubprojectsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  taxa: z.lazy(() => TaxaCreateNestedManyWithoutAccountsInputSchema).optional(),
+  taxonomies: z.lazy(() => TaxonomiesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional()
+}).strict();
+
+export const AccountsUncheckedCreateWithoutObservation_sourcesInputSchema: z.ZodType<Prisma.AccountsUncheckedCreateWithoutObservation_sourcesInput> = z.object({
+  account_id: z.string(),
+  user_id: z.string().optional().nullable(),
+  type: z.string().optional().nullable(),
+  period_start: z.coerce.date().optional().nullable(),
+  period_end: z.coerce.date().optional().nullable(),
+  projects_label_by: z.string().optional().nullable(),
+  label: z.string().optional().nullable(),
+  gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  gbif_taxa: z.lazy(() => Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  goal_reports: z.lazy(() => Goal_reportsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  projects: z.lazy(() => ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  subproject_taxa: z.lazy(() => Subproject_taxaUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  subproject_users: z.lazy(() => Subproject_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  subprojects: z.lazy(() => SubprojectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  taxa: z.lazy(() => TaxaUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  taxonomies: z.lazy(() => TaxonomiesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
+}).strict();
+
+export const AccountsCreateOrConnectWithoutObservation_sourcesInputSchema: z.ZodType<Prisma.AccountsCreateOrConnectWithoutObservation_sourcesInput> = z.object({
+  where: z.lazy(() => AccountsWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => AccountsCreateWithoutObservation_sourcesInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutObservation_sourcesInputSchema) ]),
+}).strict();
+
+export const ProjectsCreateWithoutObservation_sourcesInputSchema: z.ZodType<Prisma.ProjectsCreateWithoutObservation_sourcesInput> = z.object({
+  project_id: z.string(),
+  name: z.string().optional().nullable(),
+  label: z.string().optional().nullable(),
+  type: z.lazy(() => project_typeSchema).optional().nullable(),
+  subproject_name_singular: z.string().optional().nullable(),
+  subproject_name_plural: z.string().optional().nullable(),
+  subproject_order_by: z.string().optional().nullable(),
+  places_label_by: z.string().optional().nullable(),
+  places_order_by: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  persons_label_by: z.string().optional().nullable(),
+  persons_order_by: z.string().optional().nullable(),
+  goal_reports_label_by: z.string().optional().nullable(),
+  goal_reports_order_by: z.string().optional().nullable(),
+  values_on_multiple_levels: z.string().optional().nullable(),
+  multiple_action_values_on_same_level: z.string().optional().nullable(),
+  multiple_check_values_on_same_level: z.string().optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  files_offline: z.boolean().optional().nullable(),
+  files_active_projects: z.boolean().optional().nullable(),
+  files_active_subprojects: z.boolean().optional().nullable(),
+  files_active_places: z.boolean().optional().nullable(),
+  files_active_actions: z.boolean().optional().nullable(),
+  files_active_checks: z.boolean().optional().nullable(),
+  deleted: z.boolean().optional().nullable(),
+  gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInputSchema).optional(),
+  gbif_occurrences: z.lazy(() => Gbif_occurrencesCreateNestedManyWithoutProjectsInputSchema).optional(),
+  gbif_taxa: z.lazy(() => Gbif_taxaCreateNestedManyWithoutProjectsInputSchema).optional(),
+  lists: z.lazy(() => ListsCreateNestedManyWithoutProjectsInputSchema).optional(),
+  persons: z.lazy(() => PersonsCreateNestedManyWithoutProjectsInputSchema).optional(),
+  place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutProjectsInputSchema).optional(),
+  project_users: z.lazy(() => Project_usersCreateNestedManyWithoutProjectsInputSchema).optional(),
+  accounts: z.lazy(() => AccountsCreateNestedOneWithoutProjectsInputSchema).optional(),
+  subprojects: z.lazy(() => SubprojectsCreateNestedManyWithoutProjectsInputSchema).optional(),
+  taxonomies: z.lazy(() => TaxonomiesCreateNestedManyWithoutProjectsInputSchema).optional(),
+  units: z.lazy(() => UnitsCreateNestedManyWithoutProjectsInputSchema).optional()
+}).strict();
+
+export const ProjectsUncheckedCreateWithoutObservation_sourcesInputSchema: z.ZodType<Prisma.ProjectsUncheckedCreateWithoutObservation_sourcesInput> = z.object({
+  project_id: z.string(),
+  account_id: z.string().optional().nullable(),
+  name: z.string().optional().nullable(),
+  label: z.string().optional().nullable(),
+  type: z.lazy(() => project_typeSchema).optional().nullable(),
+  subproject_name_singular: z.string().optional().nullable(),
+  subproject_name_plural: z.string().optional().nullable(),
+  subproject_order_by: z.string().optional().nullable(),
+  places_label_by: z.string().optional().nullable(),
+  places_order_by: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  persons_label_by: z.string().optional().nullable(),
+  persons_order_by: z.string().optional().nullable(),
+  goal_reports_label_by: z.string().optional().nullable(),
+  goal_reports_order_by: z.string().optional().nullable(),
+  values_on_multiple_levels: z.string().optional().nullable(),
+  multiple_action_values_on_same_level: z.string().optional().nullable(),
+  multiple_check_values_on_same_level: z.string().optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  files_offline: z.boolean().optional().nullable(),
+  files_active_projects: z.boolean().optional().nullable(),
+  files_active_subprojects: z.boolean().optional().nullable(),
+  files_active_places: z.boolean().optional().nullable(),
+  files_active_actions: z.boolean().optional().nullable(),
+  files_active_checks: z.boolean().optional().nullable(),
+  deleted: z.boolean().optional().nullable(),
+  gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  gbif_taxa: z.lazy(() => Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  subprojects: z.lazy(() => SubprojectsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  taxonomies: z.lazy(() => TaxonomiesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional()
+}).strict();
+
+export const ProjectsCreateOrConnectWithoutObservation_sourcesInputSchema: z.ZodType<Prisma.ProjectsCreateOrConnectWithoutObservation_sourcesInput> = z.object({
+  where: z.lazy(() => ProjectsWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => ProjectsCreateWithoutObservation_sourcesInputSchema),z.lazy(() => ProjectsUncheckedCreateWithoutObservation_sourcesInputSchema) ]),
+}).strict();
+
+export const AccountsUpsertWithoutObservation_sourcesInputSchema: z.ZodType<Prisma.AccountsUpsertWithoutObservation_sourcesInput> = z.object({
+  update: z.union([ z.lazy(() => AccountsUpdateWithoutObservation_sourcesInputSchema),z.lazy(() => AccountsUncheckedUpdateWithoutObservation_sourcesInputSchema) ]),
+  create: z.union([ z.lazy(() => AccountsCreateWithoutObservation_sourcesInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutObservation_sourcesInputSchema) ]),
+}).strict();
+
+export const AccountsUpdateWithoutObservation_sourcesInputSchema: z.ZodType<Prisma.AccountsUpdateWithoutObservation_sourcesInput> = z.object({
+  account_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  type: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  period_start: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  users: z.lazy(() => UsersUpdateOneWithoutAccountsNestedInputSchema).optional(),
+  gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  gbif_occurrences: z.lazy(() => Gbif_occurrencesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  gbif_taxa: z.lazy(() => Gbif_taxaUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  goal_reports: z.lazy(() => Goal_reportsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  projects: z.lazy(() => ProjectsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  subproject_taxa: z.lazy(() => Subproject_taxaUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  subproject_users: z.lazy(() => Subproject_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  subprojects: z.lazy(() => SubprojectsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  taxa: z.lazy(() => TaxaUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  taxonomies: z.lazy(() => TaxonomiesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional()
+}).strict();
+
+export const AccountsUncheckedUpdateWithoutObservation_sourcesInputSchema: z.ZodType<Prisma.AccountsUncheckedUpdateWithoutObservation_sourcesInput> = z.object({
+  account_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  user_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  type: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  period_start: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  gbif_taxa: z.lazy(() => Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  goal_reports: z.lazy(() => Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  projects: z.lazy(() => ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  subproject_taxa: z.lazy(() => Subproject_taxaUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  subproject_users: z.lazy(() => Subproject_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  subprojects: z.lazy(() => SubprojectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  taxa: z.lazy(() => TaxaUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  taxonomies: z.lazy(() => TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
+}).strict();
+
+export const ProjectsUpsertWithoutObservation_sourcesInputSchema: z.ZodType<Prisma.ProjectsUpsertWithoutObservation_sourcesInput> = z.object({
+  update: z.union([ z.lazy(() => ProjectsUpdateWithoutObservation_sourcesInputSchema),z.lazy(() => ProjectsUncheckedUpdateWithoutObservation_sourcesInputSchema) ]),
+  create: z.union([ z.lazy(() => ProjectsCreateWithoutObservation_sourcesInputSchema),z.lazy(() => ProjectsUncheckedCreateWithoutObservation_sourcesInputSchema) ]),
+}).strict();
+
+export const ProjectsUpdateWithoutObservation_sourcesInputSchema: z.ZodType<Prisma.ProjectsUpdateWithoutObservation_sourcesInput> = z.object({
+  project_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  type: z.union([ z.lazy(() => project_typeSchema),z.lazy(() => NullableEnumproject_typeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  subproject_name_singular: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  subproject_name_plural: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  subproject_order_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  places_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  places_order_by: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  persons_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  persons_order_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  goal_reports_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  goal_reports_order_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  values_on_multiple_levels: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  multiple_action_values_on_same_level: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  multiple_check_values_on_same_level: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  files_offline: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  files_active_projects: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  files_active_subprojects: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  files_active_places: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  files_active_actions: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  files_active_checks: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  gbif_occurrences: z.lazy(() => Gbif_occurrencesUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  gbif_taxa: z.lazy(() => Gbif_taxaUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  lists: z.lazy(() => ListsUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  persons: z.lazy(() => PersonsUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  place_levels: z.lazy(() => Place_levelsUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  project_users: z.lazy(() => Project_usersUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  accounts: z.lazy(() => AccountsUpdateOneWithoutProjectsNestedInputSchema).optional(),
+  subprojects: z.lazy(() => SubprojectsUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  taxonomies: z.lazy(() => TaxonomiesUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  units: z.lazy(() => UnitsUpdateManyWithoutProjectsNestedInputSchema).optional()
+}).strict();
+
+export const ProjectsUncheckedUpdateWithoutObservation_sourcesInputSchema: z.ZodType<Prisma.ProjectsUncheckedUpdateWithoutObservation_sourcesInput> = z.object({
+  project_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  account_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  name: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  type: z.union([ z.lazy(() => project_typeSchema),z.lazy(() => NullableEnumproject_typeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  subproject_name_singular: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  subproject_name_plural: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  subproject_order_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  places_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  places_order_by: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  persons_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  persons_order_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  goal_reports_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  goal_reports_order_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  values_on_multiple_levels: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  multiple_action_values_on_same_level: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  multiple_check_values_on_same_level: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  files_offline: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  files_active_projects: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  files_active_subprojects: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  files_active_places: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  files_active_actions: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  files_active_checks: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  gbif_taxa: z.lazy(() => Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  lists: z.lazy(() => ListsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  subprojects: z.lazy(() => SubprojectsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  taxonomies: z.lazy(() => TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  units: z.lazy(() => UnitsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional()
+}).strict();
+
 export const AccountsCreateWithoutPersonsInputSchema: z.ZodType<Prisma.AccountsCreateWithoutPersonsInput> = z.object({
   account_id: z.string(),
   type: z.string().optional().nullable(),
@@ -13311,6 +14061,7 @@ export const AccountsCreateWithoutPersonsInputSchema: z.ZodType<Prisma.AccountsC
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
   projects: z.lazy(() => ProjectsCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -13339,6 +14090,7 @@ export const AccountsUncheckedCreateWithoutPersonsInputSchema: z.ZodType<Prisma.
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   projects: z.lazy(() => ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -13386,6 +14138,7 @@ export const ProjectsCreateWithoutPersonsInputSchema: z.ZodType<Prisma.ProjectsC
   gbif_occurrences: z.lazy(() => Gbif_occurrencesCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutProjectsInputSchema).optional(),
   accounts: z.lazy(() => AccountsCreateNestedOneWithoutProjectsInputSchema).optional(),
@@ -13424,6 +14177,7 @@ export const ProjectsUncheckedCreateWithoutPersonsInputSchema: z.ZodType<Prisma.
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   subprojects: z.lazy(() => SubprojectsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -13456,6 +14210,7 @@ export const AccountsUpdateWithoutPersonsInputSchema: z.ZodType<Prisma.AccountsU
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
   projects: z.lazy(() => ProjectsUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -13484,6 +14239,7 @@ export const AccountsUncheckedUpdateWithoutPersonsInputSchema: z.ZodType<Prisma.
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   projects: z.lazy(() => ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -13531,6 +14287,7 @@ export const ProjectsUpdateWithoutPersonsInputSchema: z.ZodType<Prisma.ProjectsU
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutProjectsNestedInputSchema).optional(),
   accounts: z.lazy(() => AccountsUpdateOneWithoutProjectsNestedInputSchema).optional(),
@@ -13569,6 +14326,7 @@ export const ProjectsUncheckedUpdateWithoutPersonsInputSchema: z.ZodType<Prisma.
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   subprojects: z.lazy(() => SubprojectsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -13591,6 +14349,7 @@ export const AccountsCreateWithoutPlace_levelsInputSchema: z.ZodType<Prisma.Acco
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
   projects: z.lazy(() => ProjectsCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -13619,6 +14378,7 @@ export const AccountsUncheckedCreateWithoutPlace_levelsInputSchema: z.ZodType<Pr
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   projects: z.lazy(() => ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -13666,6 +14426,7 @@ export const ProjectsCreateWithoutPlace_levelsInputSchema: z.ZodType<Prisma.Proj
   gbif_occurrences: z.lazy(() => Gbif_occurrencesCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutProjectsInputSchema).optional(),
   accounts: z.lazy(() => AccountsCreateNestedOneWithoutProjectsInputSchema).optional(),
@@ -13704,6 +14465,7 @@ export const ProjectsUncheckedCreateWithoutPlace_levelsInputSchema: z.ZodType<Pr
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   subprojects: z.lazy(() => SubprojectsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -13736,6 +14498,7 @@ export const AccountsUpdateWithoutPlace_levelsInputSchema: z.ZodType<Prisma.Acco
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
   projects: z.lazy(() => ProjectsUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -13764,6 +14527,7 @@ export const AccountsUncheckedUpdateWithoutPlace_levelsInputSchema: z.ZodType<Pr
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   projects: z.lazy(() => ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -13811,6 +14575,7 @@ export const ProjectsUpdateWithoutPlace_levelsInputSchema: z.ZodType<Prisma.Proj
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutProjectsNestedInputSchema).optional(),
   accounts: z.lazy(() => AccountsUpdateOneWithoutProjectsNestedInputSchema).optional(),
@@ -13849,6 +14614,7 @@ export const ProjectsUncheckedUpdateWithoutPlace_levelsInputSchema: z.ZodType<Pr
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   subprojects: z.lazy(() => SubprojectsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -13871,6 +14637,7 @@ export const AccountsCreateWithoutProject_usersInputSchema: z.ZodType<Prisma.Acc
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   projects: z.lazy(() => ProjectsCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -13899,6 +14666,7 @@ export const AccountsUncheckedCreateWithoutProject_usersInputSchema: z.ZodType<P
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   projects: z.lazy(() => ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -13946,6 +14714,7 @@ export const ProjectsCreateWithoutProject_usersInputSchema: z.ZodType<Prisma.Pro
   gbif_occurrences: z.lazy(() => Gbif_occurrencesCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutProjectsInputSchema).optional(),
   accounts: z.lazy(() => AccountsCreateNestedOneWithoutProjectsInputSchema).optional(),
@@ -13984,6 +14753,7 @@ export const ProjectsUncheckedCreateWithoutProject_usersInputSchema: z.ZodType<P
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   subprojects: z.lazy(() => SubprojectsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -14045,6 +14815,7 @@ export const AccountsUpdateWithoutProject_usersInputSchema: z.ZodType<Prisma.Acc
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   projects: z.lazy(() => ProjectsUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -14073,6 +14844,7 @@ export const AccountsUncheckedUpdateWithoutProject_usersInputSchema: z.ZodType<P
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   projects: z.lazy(() => ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -14120,6 +14892,7 @@ export const ProjectsUpdateWithoutProject_usersInputSchema: z.ZodType<Prisma.Pro
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   accounts: z.lazy(() => AccountsUpdateOneWithoutProjectsNestedInputSchema).optional(),
@@ -14158,6 +14931,7 @@ export const ProjectsUncheckedUpdateWithoutProject_usersInputSchema: z.ZodType<P
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   subprojects: z.lazy(() => SubprojectsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -14318,6 +15092,36 @@ export const ListsCreateManyProjectsInputEnvelopeSchema: z.ZodType<Prisma.ListsC
   skipDuplicates: z.boolean().optional()
 }).strict();
 
+export const Observation_sourcesCreateWithoutProjectsInputSchema: z.ZodType<Prisma.Observation_sourcesCreateWithoutProjectsInput> = z.object({
+  observation_source_id: z.string(),
+  name: z.string().optional().nullable(),
+  url: z.string().optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable(),
+  accounts: z.lazy(() => AccountsCreateNestedOneWithoutObservation_sourcesInputSchema).optional()
+}).strict();
+
+export const Observation_sourcesUncheckedCreateWithoutProjectsInputSchema: z.ZodType<Prisma.Observation_sourcesUncheckedCreateWithoutProjectsInput> = z.object({
+  observation_source_id: z.string(),
+  account_id: z.string().optional().nullable(),
+  name: z.string().optional().nullable(),
+  url: z.string().optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable()
+}).strict();
+
+export const Observation_sourcesCreateOrConnectWithoutProjectsInputSchema: z.ZodType<Prisma.Observation_sourcesCreateOrConnectWithoutProjectsInput> = z.object({
+  where: z.lazy(() => Observation_sourcesWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => Observation_sourcesCreateWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesUncheckedCreateWithoutProjectsInputSchema) ]),
+}).strict();
+
+export const Observation_sourcesCreateManyProjectsInputEnvelopeSchema: z.ZodType<Prisma.Observation_sourcesCreateManyProjectsInputEnvelope> = z.object({
+  data: z.lazy(() => Observation_sourcesCreateManyProjectsInputSchema).array(),
+  skipDuplicates: z.boolean().optional()
+}).strict();
+
 export const PersonsCreateWithoutProjectsInputSchema: z.ZodType<Prisma.PersonsCreateWithoutProjectsInput> = z.object({
   person_id: z.string(),
   email: z.string().optional().nullable(),
@@ -14439,6 +15243,7 @@ export const AccountsCreateWithoutProjectsInputSchema: z.ZodType<Prisma.Accounts
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -14467,6 +15272,7 @@ export const AccountsUncheckedCreateWithoutProjectsInputSchema: z.ZodType<Prisma
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -14675,6 +15481,22 @@ export const ListsUpdateManyWithWhereWithoutProjectsInputSchema: z.ZodType<Prism
   data: z.union([ z.lazy(() => ListsUpdateManyMutationInputSchema),z.lazy(() => ListsUncheckedUpdateManyWithoutListsInputSchema) ]),
 }).strict();
 
+export const Observation_sourcesUpsertWithWhereUniqueWithoutProjectsInputSchema: z.ZodType<Prisma.Observation_sourcesUpsertWithWhereUniqueWithoutProjectsInput> = z.object({
+  where: z.lazy(() => Observation_sourcesWhereUniqueInputSchema),
+  update: z.union([ z.lazy(() => Observation_sourcesUpdateWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesUncheckedUpdateWithoutProjectsInputSchema) ]),
+  create: z.union([ z.lazy(() => Observation_sourcesCreateWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesUncheckedCreateWithoutProjectsInputSchema) ]),
+}).strict();
+
+export const Observation_sourcesUpdateWithWhereUniqueWithoutProjectsInputSchema: z.ZodType<Prisma.Observation_sourcesUpdateWithWhereUniqueWithoutProjectsInput> = z.object({
+  where: z.lazy(() => Observation_sourcesWhereUniqueInputSchema),
+  data: z.union([ z.lazy(() => Observation_sourcesUpdateWithoutProjectsInputSchema),z.lazy(() => Observation_sourcesUncheckedUpdateWithoutProjectsInputSchema) ]),
+}).strict();
+
+export const Observation_sourcesUpdateManyWithWhereWithoutProjectsInputSchema: z.ZodType<Prisma.Observation_sourcesUpdateManyWithWhereWithoutProjectsInput> = z.object({
+  where: z.lazy(() => Observation_sourcesScalarWhereInputSchema),
+  data: z.union([ z.lazy(() => Observation_sourcesUpdateManyMutationInputSchema),z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutObservation_sourcesInputSchema) ]),
+}).strict();
+
 export const PersonsUpsertWithWhereUniqueWithoutProjectsInputSchema: z.ZodType<Prisma.PersonsUpsertWithWhereUniqueWithoutProjectsInput> = z.object({
   where: z.lazy(() => PersonsWhereUniqueInputSchema),
   update: z.union([ z.lazy(() => PersonsUpdateWithoutProjectsInputSchema),z.lazy(() => PersonsUncheckedUpdateWithoutProjectsInputSchema) ]),
@@ -14743,6 +15565,7 @@ export const AccountsUpdateWithoutProjectsInputSchema: z.ZodType<Prisma.Accounts
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -14771,6 +15594,7 @@ export const AccountsUncheckedUpdateWithoutProjectsInputSchema: z.ZodType<Prisma
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -14847,6 +15671,7 @@ export const AccountsCreateWithoutSubproject_taxaInputSchema: z.ZodType<Prisma.A
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -14875,6 +15700,7 @@ export const AccountsUncheckedCreateWithoutSubproject_taxaInputSchema: z.ZodType
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -14977,6 +15803,7 @@ export const AccountsUpdateWithoutSubproject_taxaInputSchema: z.ZodType<Prisma.A
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -15005,6 +15832,7 @@ export const AccountsUncheckedUpdateWithoutSubproject_taxaInputSchema: z.ZodType
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -15097,6 +15925,7 @@ export const AccountsCreateWithoutSubproject_usersInputSchema: z.ZodType<Prisma.
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -15125,6 +15954,7 @@ export const AccountsUncheckedCreateWithoutSubproject_usersInputSchema: z.ZodTyp
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -15229,6 +16059,7 @@ export const AccountsUpdateWithoutSubproject_usersInputSchema: z.ZodType<Prisma.
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -15257,6 +16088,7 @@ export const AccountsUncheckedUpdateWithoutSubproject_usersInputSchema: z.ZodTyp
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -15503,6 +16335,7 @@ export const AccountsCreateWithoutSubprojectsInputSchema: z.ZodType<Prisma.Accou
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -15531,6 +16364,7 @@ export const AccountsUncheckedCreateWithoutSubprojectsInputSchema: z.ZodType<Pri
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -15578,6 +16412,7 @@ export const ProjectsCreateWithoutSubprojectsInputSchema: z.ZodType<Prisma.Proje
   gbif_occurrences: z.lazy(() => Gbif_occurrencesCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -15616,6 +16451,7 @@ export const ProjectsUncheckedCreateWithoutSubprojectsInputSchema: z.ZodType<Pri
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -15728,6 +16564,7 @@ export const AccountsUpdateWithoutSubprojectsInputSchema: z.ZodType<Prisma.Accou
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -15756,6 +16593,7 @@ export const AccountsUncheckedUpdateWithoutSubprojectsInputSchema: z.ZodType<Pri
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -15803,6 +16641,7 @@ export const ProjectsUpdateWithoutSubprojectsInputSchema: z.ZodType<Prisma.Proje
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -15841,6 +16680,7 @@ export const ProjectsUncheckedUpdateWithoutSubprojectsInputSchema: z.ZodType<Pri
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -15889,6 +16729,7 @@ export const AccountsCreateWithoutTaxaInputSchema: z.ZodType<Prisma.AccountsCrea
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -15917,6 +16758,7 @@ export const AccountsUncheckedCreateWithoutTaxaInputSchema: z.ZodType<Prisma.Acc
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -16002,6 +16844,7 @@ export const AccountsUpdateWithoutTaxaInputSchema: z.ZodType<Prisma.AccountsUpda
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -16030,6 +16873,7 @@ export const AccountsUncheckedUpdateWithoutTaxaInputSchema: z.ZodType<Prisma.Acc
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -16121,6 +16965,7 @@ export const AccountsCreateWithoutTaxonomiesInputSchema: z.ZodType<Prisma.Accoun
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -16149,6 +16994,7 @@ export const AccountsUncheckedCreateWithoutTaxonomiesInputSchema: z.ZodType<Pris
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -16196,6 +17042,7 @@ export const ProjectsCreateWithoutTaxonomiesInputSchema: z.ZodType<Prisma.Projec
   gbif_occurrences: z.lazy(() => Gbif_occurrencesCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -16234,6 +17081,7 @@ export const ProjectsUncheckedCreateWithoutTaxonomiesInputSchema: z.ZodType<Pris
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -16282,6 +17130,7 @@ export const AccountsUpdateWithoutTaxonomiesInputSchema: z.ZodType<Prisma.Accoun
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -16310,6 +17159,7 @@ export const AccountsUncheckedUpdateWithoutTaxonomiesInputSchema: z.ZodType<Pris
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -16357,6 +17207,7 @@ export const ProjectsUpdateWithoutTaxonomiesInputSchema: z.ZodType<Prisma.Projec
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -16395,6 +17246,7 @@ export const ProjectsUncheckedUpdateWithoutTaxonomiesInputSchema: z.ZodType<Pris
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -16417,6 +17269,7 @@ export const AccountsCreateWithoutUi_optionsInputSchema: z.ZodType<Prisma.Accoun
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -16445,6 +17298,7 @@ export const AccountsUncheckedCreateWithoutUi_optionsInputSchema: z.ZodType<Pris
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -16512,6 +17366,7 @@ export const AccountsUpdateWithoutUi_optionsInputSchema: z.ZodType<Prisma.Accoun
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -16540,6 +17395,7 @@ export const AccountsUncheckedUpdateWithoutUi_optionsInputSchema: z.ZodType<Pris
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -16597,6 +17453,7 @@ export const AccountsCreateWithoutUnitsInputSchema: z.ZodType<Prisma.AccountsCre
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -16625,6 +17482,7 @@ export const AccountsUncheckedCreateWithoutUnitsInputSchema: z.ZodType<Prisma.Ac
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -16701,6 +17559,7 @@ export const ProjectsCreateWithoutUnitsInputSchema: z.ZodType<Prisma.ProjectsCre
   gbif_occurrences: z.lazy(() => Gbif_occurrencesCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -16739,6 +17598,7 @@ export const ProjectsUncheckedCreateWithoutUnitsInputSchema: z.ZodType<Prisma.Pr
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutProjectsInputSchema).optional(),
@@ -16771,6 +17631,7 @@ export const AccountsUpdateWithoutUnitsInputSchema: z.ZodType<Prisma.AccountsUpd
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -16799,6 +17660,7 @@ export const AccountsUncheckedUpdateWithoutUnitsInputSchema: z.ZodType<Prisma.Ac
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -16875,6 +17737,7 @@ export const ProjectsUpdateWithoutUnitsInputSchema: z.ZodType<Prisma.ProjectsUpd
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -16913,6 +17776,7 @@ export const ProjectsUncheckedUpdateWithoutUnitsInputSchema: z.ZodType<Prisma.Pr
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -16935,6 +17799,7 @@ export const AccountsCreateWithoutUser_messagesInputSchema: z.ZodType<Prisma.Acc
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -16963,6 +17828,7 @@ export const AccountsUncheckedCreateWithoutUser_messagesInputSchema: z.ZodType<P
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -17049,6 +17915,7 @@ export const AccountsUpdateWithoutUser_messagesInputSchema: z.ZodType<Prisma.Acc
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -17077,6 +17944,7 @@ export const AccountsUncheckedUpdateWithoutUser_messagesInputSchema: z.ZodType<P
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -17152,6 +18020,7 @@ export const AccountsCreateWithoutUsersInputSchema: z.ZodType<Prisma.AccountsCre
   goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -17180,6 +18049,7 @@ export const AccountsUncheckedCreateWithoutUsersInputSchema: z.ZodType<Prisma.Ac
   goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
@@ -17644,6 +18514,16 @@ export const ListsCreateManyAccountsInputSchema: z.ZodType<Prisma.ListsCreateMan
   deleted: z.boolean().optional().nullable()
 }).strict();
 
+export const Observation_sourcesCreateManyAccountsInputSchema: z.ZodType<Prisma.Observation_sourcesCreateManyAccountsInput> = z.object({
+  observation_source_id: z.string().uuid(),
+  project_id: z.string().uuid().optional().nullable(),
+  name: z.string().optional().nullable(),
+  url: z.string().optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable()
+}).strict();
+
 export const PersonsCreateManyAccountsInputSchema: z.ZodType<Prisma.PersonsCreateManyAccountsInput> = z.object({
   person_id: z.string().uuid(),
   project_id: z.string().uuid().optional().nullable(),
@@ -18010,6 +18890,36 @@ export const ListsUncheckedUpdateManyWithoutListsInputSchema: z.ZodType<Prisma.L
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
+export const Observation_sourcesUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.Observation_sourcesUpdateWithoutAccountsInput> = z.object({
+  observation_source_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  url: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  projects: z.lazy(() => ProjectsUpdateOneWithoutObservation_sourcesNestedInputSchema).optional()
+}).strict();
+
+export const Observation_sourcesUncheckedUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.Observation_sourcesUncheckedUpdateWithoutAccountsInput> = z.object({
+  observation_source_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  project_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  name: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  url: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const Observation_sourcesUncheckedUpdateManyWithoutObservation_sourcesInputSchema: z.ZodType<Prisma.Observation_sourcesUncheckedUpdateManyWithoutObservation_sourcesInput> = z.object({
+  observation_source_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  project_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  name: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  url: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
 export const PersonsUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.PersonsUpdateWithoutAccountsInput> = z.object({
   person_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   email: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -18153,6 +19063,7 @@ export const ProjectsUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.Projects
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -18190,6 +19101,7 @@ export const ProjectsUncheckedUpdateWithoutAccountsInputSchema: z.ZodType<Prisma
   gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   gbif_taxa: z.lazy(() => Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutProjectsNestedInputSchema).optional(),
@@ -18721,6 +19633,16 @@ export const ListsCreateManyProjectsInputSchema: z.ZodType<Prisma.ListsCreateMan
   deleted: z.boolean().optional().nullable()
 }).strict();
 
+export const Observation_sourcesCreateManyProjectsInputSchema: z.ZodType<Prisma.Observation_sourcesCreateManyProjectsInput> = z.object({
+  observation_source_id: z.string().uuid(),
+  account_id: z.string().uuid().optional().nullable(),
+  name: z.string().optional().nullable(),
+  url: z.string().optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable()
+}).strict();
+
 export const PersonsCreateManyProjectsInputSchema: z.ZodType<Prisma.PersonsCreateManyProjectsInput> = z.object({
   person_id: z.string().uuid(),
   account_id: z.string().uuid().optional().nullable(),
@@ -18883,6 +19805,26 @@ export const ListsUncheckedUpdateWithoutProjectsInputSchema: z.ZodType<Prisma.Li
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutListsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutListsNestedInputSchema).optional()
+}).strict();
+
+export const Observation_sourcesUpdateWithoutProjectsInputSchema: z.ZodType<Prisma.Observation_sourcesUpdateWithoutProjectsInput> = z.object({
+  observation_source_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  name: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  url: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  accounts: z.lazy(() => AccountsUpdateOneWithoutObservation_sourcesNestedInputSchema).optional()
+}).strict();
+
+export const Observation_sourcesUncheckedUpdateWithoutProjectsInputSchema: z.ZodType<Prisma.Observation_sourcesUncheckedUpdateWithoutProjectsInput> = z.object({
+  observation_source_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  account_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  name: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  url: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  data: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
 export const PersonsUpdateWithoutProjectsInputSchema: z.ZodType<Prisma.PersonsUpdateWithoutProjectsInput> = z.object({
@@ -19314,6 +20256,7 @@ export const AccountsUpdateWithoutUsersInputSchema: z.ZodType<Prisma.AccountsUpd
   goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -19342,6 +20285,7 @@ export const AccountsUncheckedUpdateWithoutUsersInputSchema: z.ZodType<Prisma.Ac
   goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
@@ -20061,6 +21005,68 @@ export const MessagesFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.MessagesFindU
   include: MessagesIncludeSchema.optional(),
   where: MessagesWhereUniqueInputSchema,
 }).strict() as z.ZodType<Prisma.MessagesFindUniqueOrThrowArgs>
+
+export const Observation_sourcesFindFirstArgsSchema: z.ZodType<Prisma.Observation_sourcesFindFirstArgs> = z.object({
+  select: Observation_sourcesSelectSchema.optional(),
+  include: Observation_sourcesIncludeSchema.optional(),
+  where: Observation_sourcesWhereInputSchema.optional(),
+  orderBy: z.union([ Observation_sourcesOrderByWithRelationInputSchema.array(),Observation_sourcesOrderByWithRelationInputSchema ]).optional(),
+  cursor: Observation_sourcesWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: Observation_sourcesScalarFieldEnumSchema.array().optional(),
+}).strict() as z.ZodType<Prisma.Observation_sourcesFindFirstArgs>
+
+export const Observation_sourcesFindFirstOrThrowArgsSchema: z.ZodType<Prisma.Observation_sourcesFindFirstOrThrowArgs> = z.object({
+  select: Observation_sourcesSelectSchema.optional(),
+  include: Observation_sourcesIncludeSchema.optional(),
+  where: Observation_sourcesWhereInputSchema.optional(),
+  orderBy: z.union([ Observation_sourcesOrderByWithRelationInputSchema.array(),Observation_sourcesOrderByWithRelationInputSchema ]).optional(),
+  cursor: Observation_sourcesWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: Observation_sourcesScalarFieldEnumSchema.array().optional(),
+}).strict() as z.ZodType<Prisma.Observation_sourcesFindFirstOrThrowArgs>
+
+export const Observation_sourcesFindManyArgsSchema: z.ZodType<Prisma.Observation_sourcesFindManyArgs> = z.object({
+  select: Observation_sourcesSelectSchema.optional(),
+  include: Observation_sourcesIncludeSchema.optional(),
+  where: Observation_sourcesWhereInputSchema.optional(),
+  orderBy: z.union([ Observation_sourcesOrderByWithRelationInputSchema.array(),Observation_sourcesOrderByWithRelationInputSchema ]).optional(),
+  cursor: Observation_sourcesWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: Observation_sourcesScalarFieldEnumSchema.array().optional(),
+}).strict() as z.ZodType<Prisma.Observation_sourcesFindManyArgs>
+
+export const Observation_sourcesAggregateArgsSchema: z.ZodType<Prisma.Observation_sourcesAggregateArgs> = z.object({
+  where: Observation_sourcesWhereInputSchema.optional(),
+  orderBy: z.union([ Observation_sourcesOrderByWithRelationInputSchema.array(),Observation_sourcesOrderByWithRelationInputSchema ]).optional(),
+  cursor: Observation_sourcesWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() as z.ZodType<Prisma.Observation_sourcesAggregateArgs>
+
+export const Observation_sourcesGroupByArgsSchema: z.ZodType<Prisma.Observation_sourcesGroupByArgs> = z.object({
+  where: Observation_sourcesWhereInputSchema.optional(),
+  orderBy: z.union([ Observation_sourcesOrderByWithAggregationInputSchema.array(),Observation_sourcesOrderByWithAggregationInputSchema ]).optional(),
+  by: Observation_sourcesScalarFieldEnumSchema.array(),
+  having: Observation_sourcesScalarWhereWithAggregatesInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() as z.ZodType<Prisma.Observation_sourcesGroupByArgs>
+
+export const Observation_sourcesFindUniqueArgsSchema: z.ZodType<Prisma.Observation_sourcesFindUniqueArgs> = z.object({
+  select: Observation_sourcesSelectSchema.optional(),
+  include: Observation_sourcesIncludeSchema.optional(),
+  where: Observation_sourcesWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.Observation_sourcesFindUniqueArgs>
+
+export const Observation_sourcesFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.Observation_sourcesFindUniqueOrThrowArgs> = z.object({
+  select: Observation_sourcesSelectSchema.optional(),
+  include: Observation_sourcesIncludeSchema.optional(),
+  where: Observation_sourcesWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.Observation_sourcesFindUniqueOrThrowArgs>
 
 export const PersonsFindFirstArgsSchema: z.ZodType<Prisma.PersonsFindFirstArgs> = z.object({
   select: PersonsSelectSchema.optional(),
@@ -21402,6 +22408,47 @@ export const MessagesDeleteManyArgsSchema: z.ZodType<Prisma.MessagesDeleteManyAr
   where: MessagesWhereInputSchema.optional(),
 }).strict() as z.ZodType<Prisma.MessagesDeleteManyArgs>
 
+export const Observation_sourcesCreateArgsSchema: z.ZodType<Prisma.Observation_sourcesCreateArgs> = z.object({
+  select: Observation_sourcesSelectSchema.optional(),
+  include: Observation_sourcesIncludeSchema.optional(),
+  data: z.union([ Observation_sourcesCreateInputSchema,Observation_sourcesUncheckedCreateInputSchema ]),
+}).strict() as z.ZodType<Prisma.Observation_sourcesCreateArgs>
+
+export const Observation_sourcesUpsertArgsSchema: z.ZodType<Prisma.Observation_sourcesUpsertArgs> = z.object({
+  select: Observation_sourcesSelectSchema.optional(),
+  include: Observation_sourcesIncludeSchema.optional(),
+  where: Observation_sourcesWhereUniqueInputSchema,
+  create: z.union([ Observation_sourcesCreateInputSchema,Observation_sourcesUncheckedCreateInputSchema ]),
+  update: z.union([ Observation_sourcesUpdateInputSchema,Observation_sourcesUncheckedUpdateInputSchema ]),
+}).strict() as z.ZodType<Prisma.Observation_sourcesUpsertArgs>
+
+export const Observation_sourcesCreateManyArgsSchema: z.ZodType<Prisma.Observation_sourcesCreateManyArgs> = z.object({
+  data: Observation_sourcesCreateManyInputSchema.array(),
+  skipDuplicates: z.boolean().optional(),
+}).strict() as z.ZodType<Prisma.Observation_sourcesCreateManyArgs>
+
+export const Observation_sourcesDeleteArgsSchema: z.ZodType<Prisma.Observation_sourcesDeleteArgs> = z.object({
+  select: Observation_sourcesSelectSchema.optional(),
+  include: Observation_sourcesIncludeSchema.optional(),
+  where: Observation_sourcesWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.Observation_sourcesDeleteArgs>
+
+export const Observation_sourcesUpdateArgsSchema: z.ZodType<Prisma.Observation_sourcesUpdateArgs> = z.object({
+  select: Observation_sourcesSelectSchema.optional(),
+  include: Observation_sourcesIncludeSchema.optional(),
+  data: z.union([ Observation_sourcesUpdateInputSchema,Observation_sourcesUncheckedUpdateInputSchema ]),
+  where: Observation_sourcesWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.Observation_sourcesUpdateArgs>
+
+export const Observation_sourcesUpdateManyArgsSchema: z.ZodType<Prisma.Observation_sourcesUpdateManyArgs> = z.object({
+  data: z.union([ Observation_sourcesUpdateManyMutationInputSchema,Observation_sourcesUncheckedUpdateManyInputSchema ]),
+  where: Observation_sourcesWhereInputSchema.optional(),
+}).strict() as z.ZodType<Prisma.Observation_sourcesUpdateManyArgs>
+
+export const Observation_sourcesDeleteManyArgsSchema: z.ZodType<Prisma.Observation_sourcesDeleteManyArgs> = z.object({
+  where: Observation_sourcesWhereInputSchema.optional(),
+}).strict() as z.ZodType<Prisma.Observation_sourcesDeleteManyArgs>
+
 export const PersonsCreateArgsSchema: z.ZodType<Prisma.PersonsCreateArgs> = z.object({
   select: PersonsSelectSchema.optional(),
   include: PersonsIncludeSchema.optional(),
@@ -22067,6 +23114,11 @@ interface MessagesGetPayload extends HKT {
   readonly type: Prisma.MessagesGetPayload<this['_A']>
 }
 
+interface Observation_sourcesGetPayload extends HKT {
+  readonly _A?: boolean | null | undefined | Prisma.Observation_sourcesArgs
+  readonly type: Prisma.Observation_sourcesGetPayload<this['_A']>
+}
+
 interface PersonsGetPayload extends HKT {
   readonly _A?: boolean | null | undefined | Prisma.PersonsArgs
   readonly type: Prisma.PersonsGetPayload<this['_A']>
@@ -22183,6 +23235,7 @@ export const tableSchemas = {
       new Relation("goals", "", "", "goals", "AccountsToGoals", "many"),
       new Relation("list_values", "", "", "list_values", "AccountsToList_values", "many"),
       new Relation("lists", "", "", "lists", "AccountsToLists", "many"),
+      new Relation("observation_sources", "", "", "observation_sources", "AccountsToObservation_sources", "many"),
       new Relation("persons", "", "", "persons", "AccountsToPersons", "many"),
       new Relation("place_levels", "", "", "place_levels", "AccountsToPlace_levels", "many"),
       new Relation("project_users", "", "", "project_users", "AccountsToProject_users", "many"),
@@ -22754,6 +23807,69 @@ export const tableSchemas = {
     Prisma.MessagesScalarFieldEnum,
     MessagesGetPayload
   >,
+  observation_sources: {
+    fields: new Map([
+      [
+        "observation_source_id",
+        "UUID"
+      ],
+      [
+        "account_id",
+        "UUID"
+      ],
+      [
+        "project_id",
+        "UUID"
+      ],
+      [
+        "name",
+        "TEXT"
+      ],
+      [
+        "url",
+        "TEXT"
+      ],
+      [
+        "data",
+        "JSONB"
+      ],
+      [
+        "label_replace_by_generated_column",
+        "TEXT"
+      ],
+      [
+        "deleted",
+        "BOOL"
+      ]
+    ]),
+    relations: [
+      new Relation("accounts", "account_id", "account_id", "accounts", "AccountsToObservation_sources", "one"),
+      new Relation("projects", "project_id", "project_id", "projects", "Observation_sourcesToProjects", "one"),
+    ],
+    modelSchema: (Observation_sourcesCreateInputSchema as any)
+      .partial()
+      .or((Observation_sourcesUncheckedCreateInputSchema as any).partial()),
+    createSchema: Observation_sourcesCreateArgsSchema,
+    createManySchema: Observation_sourcesCreateManyArgsSchema,
+    findUniqueSchema: Observation_sourcesFindUniqueArgsSchema,
+    findSchema: Observation_sourcesFindFirstArgsSchema,
+    updateSchema: Observation_sourcesUpdateArgsSchema,
+    updateManySchema: Observation_sourcesUpdateManyArgsSchema,
+    upsertSchema: Observation_sourcesUpsertArgsSchema,
+    deleteSchema: Observation_sourcesDeleteArgsSchema,
+    deleteManySchema: Observation_sourcesDeleteManyArgsSchema
+  } as TableSchema<
+    z.infer<typeof Observation_sourcesCreateInputSchema>,
+    Prisma.Observation_sourcesCreateArgs['data'],
+    Prisma.Observation_sourcesUpdateArgs['data'],
+    Prisma.Observation_sourcesFindFirstArgs['select'],
+    Prisma.Observation_sourcesFindFirstArgs['where'],
+    Prisma.Observation_sourcesFindUniqueArgs['where'],
+    Omit<Prisma.Observation_sourcesInclude, '_count'>,
+    Prisma.Observation_sourcesFindFirstArgs['orderBy'],
+    Prisma.Observation_sourcesScalarFieldEnum,
+    Observation_sourcesGetPayload
+  >,
   persons: {
     fields: new Map([
       [
@@ -23084,6 +24200,7 @@ export const tableSchemas = {
       new Relation("gbif_occurrences", "", "", "gbif_occurrences", "Gbif_occurrencesToProjects", "many"),
       new Relation("gbif_taxa", "", "", "gbif_taxa", "Gbif_taxaToProjects", "many"),
       new Relation("lists", "", "", "lists", "ListsToProjects", "many"),
+      new Relation("observation_sources", "", "", "observation_sources", "Observation_sourcesToProjects", "many"),
       new Relation("persons", "", "", "persons", "PersonsToProjects", "many"),
       new Relation("place_levels", "", "", "place_levels", "Place_levelsToProjects", "many"),
       new Relation("project_users", "", "", "project_users", "Project_usersToProjects", "many"),

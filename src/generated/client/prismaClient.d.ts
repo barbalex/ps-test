@@ -243,6 +243,30 @@ export type Messages = {
 }
 
 /**
+ * Model Observation_sources
+ * 
+ */
+export type Observation_sources = {
+  /**
+   * @zod.string.uuid()
+   */
+  observation_source_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  project_id: string | null
+  name: string | null
+  url: string | null
+  data: Prisma.JsonValue | null
+  label_replace_by_generated_column: string | null
+  deleted: boolean | null
+}
+
+/**
  * Model Persons
  * 
  */
@@ -917,6 +941,16 @@ export class PrismaClient<
   get messages(): Prisma.MessagesDelegate<GlobalReject>;
 
   /**
+   * `prisma.observation_sources`: Exposes CRUD operations for the **Observation_sources** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Observation_sources
+    * const observation_sources = await prisma.observation_sources.findMany()
+    * ```
+    */
+  get observation_sources(): Prisma.Observation_sourcesDelegate<GlobalReject>;
+
+  /**
    * `prisma.persons`: Exposes CRUD operations for the **Persons** model.
     * Example usage:
     * ```ts
@@ -1559,6 +1593,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     List_values: 'List_values',
     Lists: 'Lists',
     Messages: 'Messages',
+    Observation_sources: 'Observation_sources',
     Persons: 'Persons',
     Place_levels: 'Place_levels',
     Project_users: 'Project_users',
@@ -1751,6 +1786,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals: number
     list_values: number
     lists: number
+    observation_sources: number
     persons: number
     place_levels: number
     project_users: number
@@ -1773,6 +1809,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: boolean | AccountsCountOutputTypeCountGoalsArgs
     list_values?: boolean | AccountsCountOutputTypeCountList_valuesArgs
     lists?: boolean | AccountsCountOutputTypeCountListsArgs
+    observation_sources?: boolean | AccountsCountOutputTypeCountObservation_sourcesArgs
     persons?: boolean | AccountsCountOutputTypeCountPersonsArgs
     place_levels?: boolean | AccountsCountOutputTypeCountPlace_levelsArgs
     project_users?: boolean | AccountsCountOutputTypeCountProject_usersArgs
@@ -1870,6 +1907,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type AccountsCountOutputTypeCountListsArgs = {
     where?: ListsWhereInput
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountObservation_sourcesArgs = {
+    where?: Observation_sourcesWhereInput
   }
 
 
@@ -2198,6 +2243,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences: number
     gbif_taxa: number
     lists: number
+    observation_sources: number
     persons: number
     place_levels: number
     project_users: number
@@ -2211,6 +2257,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: boolean | ProjectsCountOutputTypeCountGbif_occurrencesArgs
     gbif_taxa?: boolean | ProjectsCountOutputTypeCountGbif_taxaArgs
     lists?: boolean | ProjectsCountOutputTypeCountListsArgs
+    observation_sources?: boolean | ProjectsCountOutputTypeCountObservation_sourcesArgs
     persons?: boolean | ProjectsCountOutputTypeCountPersonsArgs
     place_levels?: boolean | ProjectsCountOutputTypeCountPlace_levelsArgs
     project_users?: boolean | ProjectsCountOutputTypeCountProject_usersArgs
@@ -2278,6 +2325,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type ProjectsCountOutputTypeCountListsArgs = {
     where?: ListsWhereInput
+  }
+
+
+  /**
+   * ProjectsCountOutputType without action
+   */
+  export type ProjectsCountOutputTypeCountObservation_sourcesArgs = {
+    where?: Observation_sourcesWhereInput
   }
 
 
@@ -2859,6 +2914,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: boolean | Accounts$goalsArgs
     list_values?: boolean | Accounts$list_valuesArgs
     lists?: boolean | Accounts$listsArgs
+    observation_sources?: boolean | Accounts$observation_sourcesArgs
     persons?: boolean | Accounts$personsArgs
     place_levels?: boolean | Accounts$place_levelsArgs
     project_users?: boolean | Accounts$project_usersArgs
@@ -2884,6 +2940,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: boolean | Accounts$goalsArgs
     list_values?: boolean | Accounts$list_valuesArgs
     lists?: boolean | Accounts$listsArgs
+    observation_sources?: boolean | Accounts$observation_sourcesArgs
     persons?: boolean | Accounts$personsArgs
     place_levels?: boolean | Accounts$place_levelsArgs
     project_users?: boolean | Accounts$project_usersArgs
@@ -2914,6 +2971,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'goals' ? Array < GoalsGetPayload<S['include'][P]>>  :
         P extends 'list_values' ? Array < List_valuesGetPayload<S['include'][P]>>  :
         P extends 'lists' ? Array < ListsGetPayload<S['include'][P]>>  :
+        P extends 'observation_sources' ? Array < Observation_sourcesGetPayload<S['include'][P]>>  :
         P extends 'persons' ? Array < PersonsGetPayload<S['include'][P]>>  :
         P extends 'place_levels' ? Array < Place_levelsGetPayload<S['include'][P]>>  :
         P extends 'project_users' ? Array < Project_usersGetPayload<S['include'][P]>>  :
@@ -2939,6 +2997,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'goals' ? Array < GoalsGetPayload<S['select'][P]>>  :
         P extends 'list_values' ? Array < List_valuesGetPayload<S['select'][P]>>  :
         P extends 'lists' ? Array < ListsGetPayload<S['select'][P]>>  :
+        P extends 'observation_sources' ? Array < Observation_sourcesGetPayload<S['select'][P]>>  :
         P extends 'persons' ? Array < PersonsGetPayload<S['select'][P]>>  :
         P extends 'place_levels' ? Array < Place_levelsGetPayload<S['select'][P]>>  :
         P extends 'project_users' ? Array < Project_usersGetPayload<S['select'][P]>>  :
@@ -3340,6 +3399,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_values<T extends Accounts$list_valuesArgs= {}>(args?: Subset<T, Accounts$list_valuesArgs>): PrismaPromise<Array<List_valuesGetPayload<T>>| Null>;
 
     lists<T extends Accounts$listsArgs= {}>(args?: Subset<T, Accounts$listsArgs>): PrismaPromise<Array<ListsGetPayload<T>>| Null>;
+
+    observation_sources<T extends Accounts$observation_sourcesArgs= {}>(args?: Subset<T, Accounts$observation_sourcesArgs>): PrismaPromise<Array<Observation_sourcesGetPayload<T>>| Null>;
 
     persons<T extends Accounts$personsArgs= {}>(args?: Subset<T, Accounts$personsArgs>): PrismaPromise<Array<PersonsGetPayload<T>>| Null>;
 
@@ -3944,6 +4005,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<ListsScalarFieldEnum>
+  }
+
+
+  /**
+   * Accounts.observation_sources
+   */
+  export type Accounts$observation_sourcesArgs = {
+    /**
+     * Select specific fields to fetch from the Observation_sources
+     * 
+    **/
+    select?: Observation_sourcesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Observation_sourcesInclude | null
+    where?: Observation_sourcesWhereInput
+    orderBy?: Enumerable<Observation_sourcesOrderByWithRelationInput>
+    cursor?: Observation_sourcesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Observation_sourcesScalarFieldEnum>
   }
 
 
@@ -13847,6 +13931,1056 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Model Observation_sources
+   */
+
+
+  export type AggregateObservation_sources = {
+    _count: Observation_sourcesCountAggregateOutputType | null
+    _min: Observation_sourcesMinAggregateOutputType | null
+    _max: Observation_sourcesMaxAggregateOutputType | null
+  }
+
+  export type Observation_sourcesMinAggregateOutputType = {
+    observation_source_id: string | null
+    account_id: string | null
+    project_id: string | null
+    name: string | null
+    url: string | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+  }
+
+  export type Observation_sourcesMaxAggregateOutputType = {
+    observation_source_id: string | null
+    account_id: string | null
+    project_id: string | null
+    name: string | null
+    url: string | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+  }
+
+  export type Observation_sourcesCountAggregateOutputType = {
+    observation_source_id: number
+    account_id: number
+    project_id: number
+    name: number
+    url: number
+    data: number
+    label_replace_by_generated_column: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type Observation_sourcesMinAggregateInputType = {
+    observation_source_id?: true
+    account_id?: true
+    project_id?: true
+    name?: true
+    url?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+  }
+
+  export type Observation_sourcesMaxAggregateInputType = {
+    observation_source_id?: true
+    account_id?: true
+    project_id?: true
+    name?: true
+    url?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+  }
+
+  export type Observation_sourcesCountAggregateInputType = {
+    observation_source_id?: true
+    account_id?: true
+    project_id?: true
+    name?: true
+    url?: true
+    data?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type Observation_sourcesAggregateArgs = {
+    /**
+     * Filter which Observation_sources to aggregate.
+     * 
+    **/
+    where?: Observation_sourcesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Observation_sources to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Observation_sourcesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: Observation_sourcesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Observation_sources from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Observation_sources.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Observation_sources
+    **/
+    _count?: true | Observation_sourcesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Observation_sourcesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Observation_sourcesMaxAggregateInputType
+  }
+
+  export type GetObservation_sourcesAggregateType<T extends Observation_sourcesAggregateArgs> = {
+        [P in keyof T & keyof AggregateObservation_sources]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateObservation_sources[P]>
+      : GetScalarType<T[P], AggregateObservation_sources[P]>
+  }
+
+
+
+
+  export type Observation_sourcesGroupByArgs = {
+    where?: Observation_sourcesWhereInput
+    orderBy?: Enumerable<Observation_sourcesOrderByWithAggregationInput>
+    by: Array<Observation_sourcesScalarFieldEnum>
+    having?: Observation_sourcesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Observation_sourcesCountAggregateInputType | true
+    _min?: Observation_sourcesMinAggregateInputType
+    _max?: Observation_sourcesMaxAggregateInputType
+  }
+
+
+  export type Observation_sourcesGroupByOutputType = {
+    observation_source_id: string
+    account_id: string | null
+    project_id: string | null
+    name: string | null
+    url: string | null
+    data: JsonValue | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+    _count: Observation_sourcesCountAggregateOutputType | null
+    _min: Observation_sourcesMinAggregateOutputType | null
+    _max: Observation_sourcesMaxAggregateOutputType | null
+  }
+
+  type GetObservation_sourcesGroupByPayload<T extends Observation_sourcesGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Observation_sourcesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Observation_sourcesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Observation_sourcesGroupByOutputType[P]>
+            : GetScalarType<T[P], Observation_sourcesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Observation_sourcesSelect = {
+    observation_source_id?: boolean
+    account_id?: boolean
+    project_id?: boolean
+    name?: boolean
+    url?: boolean
+    data?: boolean
+    label_replace_by_generated_column?: boolean
+    deleted?: boolean
+    accounts?: boolean | Observation_sources$accountsArgs
+    projects?: boolean | Observation_sources$projectsArgs
+  }
+
+
+  export type Observation_sourcesInclude = {
+    accounts?: boolean | Observation_sources$accountsArgs
+    projects?: boolean | Observation_sources$projectsArgs
+  } 
+
+  export type Observation_sourcesGetPayload<S extends boolean | null | undefined | Observation_sourcesArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Observation_sources :
+    S extends undefined ? never :
+    S extends { include: any } & (Observation_sourcesArgs | Observation_sourcesFindManyArgs)
+    ? Observation_sources  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (Observation_sourcesArgs | Observation_sourcesFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> | null :  P extends keyof Observation_sources ? Observation_sources[P] : never
+  } 
+      : Observation_sources
+
+
+  type Observation_sourcesCountArgs = Merge<
+    Omit<Observation_sourcesFindManyArgs, 'select' | 'include'> & {
+      select?: Observation_sourcesCountAggregateInputType | true
+    }
+  >
+
+  export interface Observation_sourcesDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Observation_sources that matches the filter.
+     * @param {Observation_sourcesFindUniqueArgs} args - Arguments to find a Observation_sources
+     * @example
+     * // Get one Observation_sources
+     * const observation_sources = await prisma.observation_sources.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends Observation_sourcesFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Observation_sourcesFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Observation_sources'> extends True ? Prisma__Observation_sourcesClient<Observation_sourcesGetPayload<T>> : Prisma__Observation_sourcesClient<Observation_sourcesGetPayload<T> | null, null>
+
+    /**
+     * Find one Observation_sources that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {Observation_sourcesFindUniqueOrThrowArgs} args - Arguments to find a Observation_sources
+     * @example
+     * // Get one Observation_sources
+     * const observation_sources = await prisma.observation_sources.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends Observation_sourcesFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, Observation_sourcesFindUniqueOrThrowArgs>
+    ): Prisma__Observation_sourcesClient<Observation_sourcesGetPayload<T>>
+
+    /**
+     * Find the first Observation_sources that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Observation_sourcesFindFirstArgs} args - Arguments to find a Observation_sources
+     * @example
+     * // Get one Observation_sources
+     * const observation_sources = await prisma.observation_sources.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends Observation_sourcesFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Observation_sourcesFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Observation_sources'> extends True ? Prisma__Observation_sourcesClient<Observation_sourcesGetPayload<T>> : Prisma__Observation_sourcesClient<Observation_sourcesGetPayload<T> | null, null>
+
+    /**
+     * Find the first Observation_sources that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Observation_sourcesFindFirstOrThrowArgs} args - Arguments to find a Observation_sources
+     * @example
+     * // Get one Observation_sources
+     * const observation_sources = await prisma.observation_sources.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends Observation_sourcesFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, Observation_sourcesFindFirstOrThrowArgs>
+    ): Prisma__Observation_sourcesClient<Observation_sourcesGetPayload<T>>
+
+    /**
+     * Find zero or more Observation_sources that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Observation_sourcesFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Observation_sources
+     * const observation_sources = await prisma.observation_sources.findMany()
+     * 
+     * // Get first 10 Observation_sources
+     * const observation_sources = await prisma.observation_sources.findMany({ take: 10 })
+     * 
+     * // Only select the `observation_source_id`
+     * const observation_sourcesWithObservation_source_idOnly = await prisma.observation_sources.findMany({ select: { observation_source_id: true } })
+     * 
+    **/
+    findMany<T extends Observation_sourcesFindManyArgs>(
+      args?: SelectSubset<T, Observation_sourcesFindManyArgs>
+    ): PrismaPromise<Array<Observation_sourcesGetPayload<T>>>
+
+    /**
+     * Create a Observation_sources.
+     * @param {Observation_sourcesCreateArgs} args - Arguments to create a Observation_sources.
+     * @example
+     * // Create one Observation_sources
+     * const Observation_sources = await prisma.observation_sources.create({
+     *   data: {
+     *     // ... data to create a Observation_sources
+     *   }
+     * })
+     * 
+    **/
+    create<T extends Observation_sourcesCreateArgs>(
+      args: SelectSubset<T, Observation_sourcesCreateArgs>
+    ): Prisma__Observation_sourcesClient<Observation_sourcesGetPayload<T>>
+
+    /**
+     * Create many Observation_sources.
+     *     @param {Observation_sourcesCreateManyArgs} args - Arguments to create many Observation_sources.
+     *     @example
+     *     // Create many Observation_sources
+     *     const observation_sources = await prisma.observation_sources.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends Observation_sourcesCreateManyArgs>(
+      args?: SelectSubset<T, Observation_sourcesCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Observation_sources.
+     * @param {Observation_sourcesDeleteArgs} args - Arguments to delete one Observation_sources.
+     * @example
+     * // Delete one Observation_sources
+     * const Observation_sources = await prisma.observation_sources.delete({
+     *   where: {
+     *     // ... filter to delete one Observation_sources
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends Observation_sourcesDeleteArgs>(
+      args: SelectSubset<T, Observation_sourcesDeleteArgs>
+    ): Prisma__Observation_sourcesClient<Observation_sourcesGetPayload<T>>
+
+    /**
+     * Update one Observation_sources.
+     * @param {Observation_sourcesUpdateArgs} args - Arguments to update one Observation_sources.
+     * @example
+     * // Update one Observation_sources
+     * const observation_sources = await prisma.observation_sources.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends Observation_sourcesUpdateArgs>(
+      args: SelectSubset<T, Observation_sourcesUpdateArgs>
+    ): Prisma__Observation_sourcesClient<Observation_sourcesGetPayload<T>>
+
+    /**
+     * Delete zero or more Observation_sources.
+     * @param {Observation_sourcesDeleteManyArgs} args - Arguments to filter Observation_sources to delete.
+     * @example
+     * // Delete a few Observation_sources
+     * const { count } = await prisma.observation_sources.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends Observation_sourcesDeleteManyArgs>(
+      args?: SelectSubset<T, Observation_sourcesDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Observation_sources.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Observation_sourcesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Observation_sources
+     * const observation_sources = await prisma.observation_sources.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends Observation_sourcesUpdateManyArgs>(
+      args: SelectSubset<T, Observation_sourcesUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Observation_sources.
+     * @param {Observation_sourcesUpsertArgs} args - Arguments to update or create a Observation_sources.
+     * @example
+     * // Update or create a Observation_sources
+     * const observation_sources = await prisma.observation_sources.upsert({
+     *   create: {
+     *     // ... data to create a Observation_sources
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Observation_sources we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends Observation_sourcesUpsertArgs>(
+      args: SelectSubset<T, Observation_sourcesUpsertArgs>
+    ): Prisma__Observation_sourcesClient<Observation_sourcesGetPayload<T>>
+
+    /**
+     * Count the number of Observation_sources.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Observation_sourcesCountArgs} args - Arguments to filter Observation_sources to count.
+     * @example
+     * // Count the number of Observation_sources
+     * const count = await prisma.observation_sources.count({
+     *   where: {
+     *     // ... the filter for the Observation_sources we want to count
+     *   }
+     * })
+    **/
+    count<T extends Observation_sourcesCountArgs>(
+      args?: Subset<T, Observation_sourcesCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Observation_sourcesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Observation_sources.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Observation_sourcesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Observation_sourcesAggregateArgs>(args: Subset<T, Observation_sourcesAggregateArgs>): PrismaPromise<GetObservation_sourcesAggregateType<T>>
+
+    /**
+     * Group by Observation_sources.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Observation_sourcesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Observation_sourcesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Observation_sourcesGroupByArgs['orderBy'] }
+        : { orderBy?: Observation_sourcesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Observation_sourcesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetObservation_sourcesGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Observation_sources.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__Observation_sourcesClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Observation_sources$accountsArgs= {}>(args?: Subset<T, Observation_sources$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    projects<T extends Observation_sources$projectsArgs= {}>(args?: Subset<T, Observation_sources$projectsArgs>): Prisma__ProjectsClient<ProjectsGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Observation_sources base type for findUnique actions
+   */
+  export type Observation_sourcesFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Observation_sources
+     * 
+    **/
+    select?: Observation_sourcesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Observation_sourcesInclude | null
+    /**
+     * Filter, which Observation_sources to fetch.
+     * 
+    **/
+    where: Observation_sourcesWhereUniqueInput
+  }
+
+  /**
+   * Observation_sources findUnique
+   */
+  export interface Observation_sourcesFindUniqueArgs extends Observation_sourcesFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Observation_sources findUniqueOrThrow
+   */
+  export type Observation_sourcesFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Observation_sources
+     * 
+    **/
+    select?: Observation_sourcesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Observation_sourcesInclude | null
+    /**
+     * Filter, which Observation_sources to fetch.
+     * 
+    **/
+    where: Observation_sourcesWhereUniqueInput
+  }
+
+
+  /**
+   * Observation_sources base type for findFirst actions
+   */
+  export type Observation_sourcesFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Observation_sources
+     * 
+    **/
+    select?: Observation_sourcesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Observation_sourcesInclude | null
+    /**
+     * Filter, which Observation_sources to fetch.
+     * 
+    **/
+    where?: Observation_sourcesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Observation_sources to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Observation_sourcesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Observation_sources.
+     * 
+    **/
+    cursor?: Observation_sourcesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Observation_sources from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Observation_sources.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Observation_sources.
+     * 
+    **/
+    distinct?: Enumerable<Observation_sourcesScalarFieldEnum>
+  }
+
+  /**
+   * Observation_sources findFirst
+   */
+  export interface Observation_sourcesFindFirstArgs extends Observation_sourcesFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Observation_sources findFirstOrThrow
+   */
+  export type Observation_sourcesFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Observation_sources
+     * 
+    **/
+    select?: Observation_sourcesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Observation_sourcesInclude | null
+    /**
+     * Filter, which Observation_sources to fetch.
+     * 
+    **/
+    where?: Observation_sourcesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Observation_sources to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Observation_sourcesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Observation_sources.
+     * 
+    **/
+    cursor?: Observation_sourcesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Observation_sources from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Observation_sources.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Observation_sources.
+     * 
+    **/
+    distinct?: Enumerable<Observation_sourcesScalarFieldEnum>
+  }
+
+
+  /**
+   * Observation_sources findMany
+   */
+  export type Observation_sourcesFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Observation_sources
+     * 
+    **/
+    select?: Observation_sourcesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Observation_sourcesInclude | null
+    /**
+     * Filter, which Observation_sources to fetch.
+     * 
+    **/
+    where?: Observation_sourcesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Observation_sources to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Observation_sourcesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Observation_sources.
+     * 
+    **/
+    cursor?: Observation_sourcesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Observation_sources from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Observation_sources.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Observation_sourcesScalarFieldEnum>
+  }
+
+
+  /**
+   * Observation_sources create
+   */
+  export type Observation_sourcesCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Observation_sources
+     * 
+    **/
+    select?: Observation_sourcesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Observation_sourcesInclude | null
+    /**
+     * The data needed to create a Observation_sources.
+     * 
+    **/
+    data: XOR<Observation_sourcesCreateInput, Observation_sourcesUncheckedCreateInput>
+  }
+
+
+  /**
+   * Observation_sources createMany
+   */
+  export type Observation_sourcesCreateManyArgs = {
+    /**
+     * The data used to create many Observation_sources.
+     * 
+    **/
+    data: Enumerable<Observation_sourcesCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Observation_sources update
+   */
+  export type Observation_sourcesUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Observation_sources
+     * 
+    **/
+    select?: Observation_sourcesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Observation_sourcesInclude | null
+    /**
+     * The data needed to update a Observation_sources.
+     * 
+    **/
+    data: XOR<Observation_sourcesUpdateInput, Observation_sourcesUncheckedUpdateInput>
+    /**
+     * Choose, which Observation_sources to update.
+     * 
+    **/
+    where: Observation_sourcesWhereUniqueInput
+  }
+
+
+  /**
+   * Observation_sources updateMany
+   */
+  export type Observation_sourcesUpdateManyArgs = {
+    /**
+     * The data used to update Observation_sources.
+     * 
+    **/
+    data: XOR<Observation_sourcesUpdateManyMutationInput, Observation_sourcesUncheckedUpdateManyInput>
+    /**
+     * Filter which Observation_sources to update
+     * 
+    **/
+    where?: Observation_sourcesWhereInput
+  }
+
+
+  /**
+   * Observation_sources upsert
+   */
+  export type Observation_sourcesUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Observation_sources
+     * 
+    **/
+    select?: Observation_sourcesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Observation_sourcesInclude | null
+    /**
+     * The filter to search for the Observation_sources to update in case it exists.
+     * 
+    **/
+    where: Observation_sourcesWhereUniqueInput
+    /**
+     * In case the Observation_sources found by the `where` argument doesn't exist, create a new Observation_sources with this data.
+     * 
+    **/
+    create: XOR<Observation_sourcesCreateInput, Observation_sourcesUncheckedCreateInput>
+    /**
+     * In case the Observation_sources was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<Observation_sourcesUpdateInput, Observation_sourcesUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Observation_sources delete
+   */
+  export type Observation_sourcesDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Observation_sources
+     * 
+    **/
+    select?: Observation_sourcesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Observation_sourcesInclude | null
+    /**
+     * Filter which Observation_sources to delete.
+     * 
+    **/
+    where: Observation_sourcesWhereUniqueInput
+  }
+
+
+  /**
+   * Observation_sources deleteMany
+   */
+  export type Observation_sourcesDeleteManyArgs = {
+    /**
+     * Filter which Observation_sources to delete
+     * 
+    **/
+    where?: Observation_sourcesWhereInput
+  }
+
+
+  /**
+   * Observation_sources.accounts
+   */
+  export type Observation_sources$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Observation_sources.projects
+   */
+  export type Observation_sources$projectsArgs = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    where?: ProjectsWhereInput
+  }
+
+
+  /**
+   * Observation_sources without action
+   */
+  export type Observation_sourcesArgs = {
+    /**
+     * Select specific fields to fetch from the Observation_sources
+     * 
+    **/
+    select?: Observation_sourcesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Observation_sourcesInclude | null
+  }
+
+
+
+  /**
    * Model Persons
    */
 
@@ -17453,6 +18587,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: boolean | Projects$gbif_occurrencesArgs
     gbif_taxa?: boolean | Projects$gbif_taxaArgs
     lists?: boolean | Projects$listsArgs
+    observation_sources?: boolean | Projects$observation_sourcesArgs
     persons?: boolean | Projects$personsArgs
     place_levels?: boolean | Projects$place_levelsArgs
     project_users?: boolean | Projects$project_usersArgs
@@ -17469,6 +18604,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: boolean | Projects$gbif_occurrencesArgs
     gbif_taxa?: boolean | Projects$gbif_taxaArgs
     lists?: boolean | Projects$listsArgs
+    observation_sources?: boolean | Projects$observation_sourcesArgs
     persons?: boolean | Projects$personsArgs
     place_levels?: boolean | Projects$place_levelsArgs
     project_users?: boolean | Projects$project_usersArgs
@@ -17490,6 +18626,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['include'][P]>>  :
         P extends 'gbif_taxa' ? Array < Gbif_taxaGetPayload<S['include'][P]>>  :
         P extends 'lists' ? Array < ListsGetPayload<S['include'][P]>>  :
+        P extends 'observation_sources' ? Array < Observation_sourcesGetPayload<S['include'][P]>>  :
         P extends 'persons' ? Array < PersonsGetPayload<S['include'][P]>>  :
         P extends 'place_levels' ? Array < Place_levelsGetPayload<S['include'][P]>>  :
         P extends 'project_users' ? Array < Project_usersGetPayload<S['include'][P]>>  :
@@ -17506,6 +18643,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['select'][P]>>  :
         P extends 'gbif_taxa' ? Array < Gbif_taxaGetPayload<S['select'][P]>>  :
         P extends 'lists' ? Array < ListsGetPayload<S['select'][P]>>  :
+        P extends 'observation_sources' ? Array < Observation_sourcesGetPayload<S['select'][P]>>  :
         P extends 'persons' ? Array < PersonsGetPayload<S['select'][P]>>  :
         P extends 'place_levels' ? Array < Place_levelsGetPayload<S['select'][P]>>  :
         P extends 'project_users' ? Array < Project_usersGetPayload<S['select'][P]>>  :
@@ -17894,6 +19032,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_taxa<T extends Projects$gbif_taxaArgs= {}>(args?: Subset<T, Projects$gbif_taxaArgs>): PrismaPromise<Array<Gbif_taxaGetPayload<T>>| Null>;
 
     lists<T extends Projects$listsArgs= {}>(args?: Subset<T, Projects$listsArgs>): PrismaPromise<Array<ListsGetPayload<T>>| Null>;
+
+    observation_sources<T extends Projects$observation_sourcesArgs= {}>(args?: Subset<T, Projects$observation_sourcesArgs>): PrismaPromise<Array<Observation_sourcesGetPayload<T>>| Null>;
 
     persons<T extends Projects$personsArgs= {}>(args?: Subset<T, Projects$personsArgs>): PrismaPromise<Array<PersonsGetPayload<T>>| Null>;
 
@@ -18401,6 +19541,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<ListsScalarFieldEnum>
+  }
+
+
+  /**
+   * Projects.observation_sources
+   */
+  export type Projects$observation_sourcesArgs = {
+    /**
+     * Select specific fields to fetch from the Observation_sources
+     * 
+    **/
+    select?: Observation_sourcesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Observation_sourcesInclude | null
+    where?: Observation_sourcesWhereInput
+    orderBy?: Enumerable<Observation_sourcesOrderByWithRelationInput>
+    cursor?: Observation_sourcesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Observation_sourcesScalarFieldEnum>
   }
 
 
@@ -30835,6 +31998,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type MessagesScalarFieldEnum = (typeof MessagesScalarFieldEnum)[keyof typeof MessagesScalarFieldEnum]
 
 
+  export const Observation_sourcesScalarFieldEnum: {
+    observation_source_id: 'observation_source_id',
+    account_id: 'account_id',
+    project_id: 'project_id',
+    name: 'name',
+    url: 'url',
+    data: 'data',
+    label_replace_by_generated_column: 'label_replace_by_generated_column',
+    deleted: 'deleted'
+  };
+
+  export type Observation_sourcesScalarFieldEnum = (typeof Observation_sourcesScalarFieldEnum)[keyof typeof Observation_sourcesScalarFieldEnum]
+
+
   export const PersonsScalarFieldEnum: {
     person_id: 'person_id',
     project_id: 'project_id',
@@ -31271,6 +32448,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsListRelationFilter
     list_values?: List_valuesListRelationFilter
     lists?: ListsListRelationFilter
+    observation_sources?: Observation_sourcesListRelationFilter
     persons?: PersonsListRelationFilter
     place_levels?: Place_levelsListRelationFilter
     project_users?: Project_usersListRelationFilter
@@ -31301,6 +32479,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsOrderByRelationAggregateInput
     list_values?: List_valuesOrderByRelationAggregateInput
     lists?: ListsOrderByRelationAggregateInput
+    observation_sources?: Observation_sourcesOrderByRelationAggregateInput
     persons?: PersonsOrderByRelationAggregateInput
     place_levels?: Place_levelsOrderByRelationAggregateInput
     project_users?: Project_usersOrderByRelationAggregateInput
@@ -31334,6 +32513,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsListRelationFilter
     list_values?: List_valuesListRelationFilter
     lists?: ListsListRelationFilter
+    observation_sources?: Observation_sourcesListRelationFilter
     persons?: PersonsListRelationFilter
     place_levels?: Place_levelsListRelationFilter
     project_users?: Project_usersListRelationFilter
@@ -32001,6 +33181,79 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     message?: StringNullableWithAggregatesFilter<"Messages"> | string | null
   }
 
+  export type Observation_sourcesWhereInput = {
+    AND?: Enumerable<Observation_sourcesWhereInput>
+    OR?: Enumerable<Observation_sourcesWhereInput>
+    NOT?: Enumerable<Observation_sourcesWhereInput>
+    observation_source_id?: UuidFilter<"Observation_sources"> | string
+    account_id?: UuidNullableFilter<"Observation_sources"> | string | null
+    project_id?: UuidNullableFilter<"Observation_sources"> | string | null
+    name?: StringNullableFilter<"Observation_sources"> | string | null
+    url?: StringNullableFilter<"Observation_sources"> | string | null
+    data?: JsonNullableFilter<"Observation_sources">
+    label_replace_by_generated_column?: StringNullableFilter<"Observation_sources"> | string | null
+    deleted?: BoolNullableFilter<"Observation_sources"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
+  }
+
+  export type Observation_sourcesOrderByWithRelationInput = {
+    observation_source_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    project_id?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    url?: SortOrderInput | SortOrder
+    data?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    projects?: ProjectsOrderByWithRelationInput
+  }
+
+  export type Observation_sourcesWhereUniqueInput = Prisma.AtLeast<{
+    observation_source_id?: string
+    AND?: Enumerable<Observation_sourcesWhereInput>
+    OR?: Enumerable<Observation_sourcesWhereInput>
+    NOT?: Enumerable<Observation_sourcesWhereInput>
+    account_id?: UuidNullableFilter<"Observation_sources"> | string | null
+    project_id?: UuidNullableFilter<"Observation_sources"> | string | null
+    name?: StringNullableFilter<"Observation_sources"> | string | null
+    url?: StringNullableFilter<"Observation_sources"> | string | null
+    data?: JsonNullableFilter<"Observation_sources">
+    label_replace_by_generated_column?: StringNullableFilter<"Observation_sources"> | string | null
+    deleted?: BoolNullableFilter<"Observation_sources"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
+  }, "observation_source_id">
+
+  export type Observation_sourcesOrderByWithAggregationInput = {
+    observation_source_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    project_id?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    url?: SortOrderInput | SortOrder
+    data?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    _count?: Observation_sourcesCountOrderByAggregateInput
+    _max?: Observation_sourcesMaxOrderByAggregateInput
+    _min?: Observation_sourcesMinOrderByAggregateInput
+  }
+
+  export type Observation_sourcesScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<Observation_sourcesScalarWhereWithAggregatesInput>
+    OR?: Enumerable<Observation_sourcesScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<Observation_sourcesScalarWhereWithAggregatesInput>
+    observation_source_id?: UuidWithAggregatesFilter<"Observation_sources"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"Observation_sources"> | string | null
+    project_id?: UuidNullableWithAggregatesFilter<"Observation_sources"> | string | null
+    name?: StringNullableWithAggregatesFilter<"Observation_sources"> | string | null
+    url?: StringNullableWithAggregatesFilter<"Observation_sources"> | string | null
+    data?: JsonNullableWithAggregatesFilter<"Observation_sources">
+    label_replace_by_generated_column?: StringNullableWithAggregatesFilter<"Observation_sources"> | string | null
+    deleted?: BoolNullableWithAggregatesFilter<"Observation_sources"> | boolean | null
+  }
+
   export type PersonsWhereInput = {
     AND?: Enumerable<PersonsWhereInput>
     OR?: Enumerable<PersonsWhereInput>
@@ -32298,6 +33551,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesListRelationFilter
     gbif_taxa?: Gbif_taxaListRelationFilter
     lists?: ListsListRelationFilter
+    observation_sources?: Observation_sourcesListRelationFilter
     persons?: PersonsListRelationFilter
     place_levels?: Place_levelsListRelationFilter
     project_users?: Project_usersListRelationFilter
@@ -32337,6 +33591,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesOrderByRelationAggregateInput
     gbif_taxa?: Gbif_taxaOrderByRelationAggregateInput
     lists?: ListsOrderByRelationAggregateInput
+    observation_sources?: Observation_sourcesOrderByRelationAggregateInput
     persons?: PersonsOrderByRelationAggregateInput
     place_levels?: Place_levelsOrderByRelationAggregateInput
     project_users?: Project_usersOrderByRelationAggregateInput
@@ -32379,6 +33634,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesListRelationFilter
     gbif_taxa?: Gbif_taxaListRelationFilter
     lists?: ListsListRelationFilter
+    observation_sources?: Observation_sourcesListRelationFilter
     persons?: PersonsListRelationFilter
     place_levels?: Place_levelsListRelationFilter
     project_users?: Project_usersListRelationFilter
@@ -33348,6 +34604,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -33377,6 +34634,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -33406,6 +34664,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -33435,6 +34694,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -34112,6 +35372,81 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     message?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type Observation_sourcesCreateInput = {
+    observation_source_id: string
+    name?: string | null
+    url?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutObservation_sourcesInput
+    projects?: ProjectsCreateNestedOneWithoutObservation_sourcesInput
+  }
+
+  export type Observation_sourcesUncheckedCreateInput = {
+    observation_source_id: string
+    account_id?: string | null
+    project_id?: string | null
+    name?: string | null
+    url?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Observation_sourcesUpdateInput = {
+    observation_source_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutObservation_sourcesNestedInput
+    projects?: ProjectsUpdateOneWithoutObservation_sourcesNestedInput
+  }
+
+  export type Observation_sourcesUncheckedUpdateInput = {
+    observation_source_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Observation_sourcesCreateManyInput = {
+    observation_source_id: string
+    account_id?: string | null
+    project_id?: string | null
+    name?: string | null
+    url?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Observation_sourcesUpdateManyMutationInput = {
+    observation_source_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Observation_sourcesUncheckedUpdateManyInput = {
+    observation_source_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type PersonsCreateInput = {
     person_id: string
     email?: string | null
@@ -34421,6 +35756,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
@@ -34460,6 +35796,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
@@ -34497,6 +35834,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
@@ -34536,6 +35874,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
@@ -35650,6 +36989,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     none?: ListsWhereInput
   }
 
+  export type Observation_sourcesListRelationFilter = {
+    every?: Observation_sourcesWhereInput
+    some?: Observation_sourcesWhereInput
+    none?: Observation_sourcesWhereInput
+  }
+
   export type PersonsListRelationFilter = {
     every?: PersonsWhereInput
     some?: PersonsWhereInput
@@ -35752,6 +37097,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type ListsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type Observation_sourcesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -36314,6 +37663,37 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: SortOrder
     date?: SortOrder
     message?: SortOrder
+  }
+
+  export type Observation_sourcesCountOrderByAggregateInput = {
+    observation_source_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    data?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Observation_sourcesMaxOrderByAggregateInput = {
+    observation_source_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Observation_sourcesMinOrderByAggregateInput = {
+    observation_source_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
   }
 
   export type PersonsCountOrderByAggregateInput = {
@@ -37076,6 +38456,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<ListsWhereUniqueInput>
   }
 
+  export type Observation_sourcesCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Observation_sourcesCreateWithoutAccountsInput>, Enumerable<Observation_sourcesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Observation_sourcesCreateOrConnectWithoutAccountsInput>
+    createMany?: Observation_sourcesCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Observation_sourcesWhereUniqueInput>
+  }
+
   export type PersonsCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<PersonsCreateWithoutAccountsInput>, Enumerable<PersonsUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<PersonsCreateOrConnectWithoutAccountsInput>
@@ -37207,6 +38594,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<ListsCreateOrConnectWithoutAccountsInput>
     createMany?: ListsCreateManyAccountsInputEnvelope
     connect?: Enumerable<ListsWhereUniqueInput>
+  }
+
+  export type Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Observation_sourcesCreateWithoutAccountsInput>, Enumerable<Observation_sourcesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Observation_sourcesCreateOrConnectWithoutAccountsInput>
+    createMany?: Observation_sourcesCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Observation_sourcesWhereUniqueInput>
   }
 
   export type PersonsUncheckedCreateNestedManyWithoutAccountsInput = {
@@ -37411,6 +38805,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<ListsUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<ListsUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<ListsScalarWhereInput>
+  }
+
+  export type Observation_sourcesUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Observation_sourcesCreateWithoutAccountsInput>, Enumerable<Observation_sourcesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Observation_sourcesCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Observation_sourcesUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Observation_sourcesCreateManyAccountsInputEnvelope
+    set?: Enumerable<Observation_sourcesWhereUniqueInput>
+    disconnect?: Enumerable<Observation_sourcesWhereUniqueInput>
+    delete?: Enumerable<Observation_sourcesWhereUniqueInput>
+    connect?: Enumerable<Observation_sourcesWhereUniqueInput>
+    update?: Enumerable<Observation_sourcesUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Observation_sourcesUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Observation_sourcesScalarWhereInput>
   }
 
   export type PersonsUpdateManyWithoutAccountsNestedInput = {
@@ -37677,6 +39085,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<ListsUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<ListsUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<ListsScalarWhereInput>
+  }
+
+  export type Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Observation_sourcesCreateWithoutAccountsInput>, Enumerable<Observation_sourcesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Observation_sourcesCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Observation_sourcesUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Observation_sourcesCreateManyAccountsInputEnvelope
+    set?: Enumerable<Observation_sourcesWhereUniqueInput>
+    disconnect?: Enumerable<Observation_sourcesWhereUniqueInput>
+    delete?: Enumerable<Observation_sourcesWhereUniqueInput>
+    connect?: Enumerable<Observation_sourcesWhereUniqueInput>
+    update?: Enumerable<Observation_sourcesUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Observation_sourcesUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Observation_sourcesScalarWhereInput>
   }
 
   export type PersonsUncheckedUpdateManyWithoutAccountsNestedInput = {
@@ -38329,6 +39751,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<User_messagesScalarWhereInput>
   }
 
+  export type AccountsCreateNestedOneWithoutObservation_sourcesInput = {
+    create?: XOR<AccountsCreateWithoutObservation_sourcesInput, AccountsUncheckedCreateWithoutObservation_sourcesInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutObservation_sourcesInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type ProjectsCreateNestedOneWithoutObservation_sourcesInput = {
+    create?: XOR<ProjectsCreateWithoutObservation_sourcesInput, ProjectsUncheckedCreateWithoutObservation_sourcesInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutObservation_sourcesInput
+    connect?: ProjectsWhereUniqueInput
+  }
+
+  export type AccountsUpdateOneWithoutObservation_sourcesNestedInput = {
+    create?: XOR<AccountsCreateWithoutObservation_sourcesInput, AccountsUncheckedCreateWithoutObservation_sourcesInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutObservation_sourcesInput
+    upsert?: AccountsUpsertWithoutObservation_sourcesInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutObservation_sourcesInput, AccountsUpdateWithoutObservation_sourcesInput>, AccountsUncheckedUpdateWithoutObservation_sourcesInput>
+  }
+
+  export type ProjectsUpdateOneWithoutObservation_sourcesNestedInput = {
+    create?: XOR<ProjectsCreateWithoutObservation_sourcesInput, ProjectsUncheckedCreateWithoutObservation_sourcesInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutObservation_sourcesInput
+    upsert?: ProjectsUpsertWithoutObservation_sourcesInput
+    disconnect?: ProjectsWhereInput | boolean
+    delete?: ProjectsWhereInput | boolean
+    connect?: ProjectsWhereUniqueInput
+    update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutObservation_sourcesInput, ProjectsUpdateWithoutObservation_sourcesInput>, ProjectsUncheckedUpdateWithoutObservation_sourcesInput>
+  }
+
   export type AccountsCreateNestedOneWithoutPersonsInput = {
     create?: XOR<AccountsCreateWithoutPersonsInput, AccountsUncheckedCreateWithoutPersonsInput>
     connectOrCreate?: AccountsCreateOrConnectWithoutPersonsInput
@@ -38469,6 +39923,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<ListsWhereUniqueInput>
   }
 
+  export type Observation_sourcesCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<Observation_sourcesCreateWithoutProjectsInput>, Enumerable<Observation_sourcesUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Observation_sourcesCreateOrConnectWithoutProjectsInput>
+    createMany?: Observation_sourcesCreateManyProjectsInputEnvelope
+    connect?: Enumerable<Observation_sourcesWhereUniqueInput>
+  }
+
   export type PersonsCreateNestedManyWithoutProjectsInput = {
     create?: XOR<Enumerable<PersonsCreateWithoutProjectsInput>, Enumerable<PersonsUncheckedCreateWithoutProjectsInput>>
     connectOrCreate?: Enumerable<PersonsCreateOrConnectWithoutProjectsInput>
@@ -38543,6 +40004,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<ListsCreateOrConnectWithoutProjectsInput>
     createMany?: ListsCreateManyProjectsInputEnvelope
     connect?: Enumerable<ListsWhereUniqueInput>
+  }
+
+  export type Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<Observation_sourcesCreateWithoutProjectsInput>, Enumerable<Observation_sourcesUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Observation_sourcesCreateOrConnectWithoutProjectsInput>
+    createMany?: Observation_sourcesCreateManyProjectsInputEnvelope
+    connect?: Enumerable<Observation_sourcesWhereUniqueInput>
   }
 
   export type PersonsUncheckedCreateNestedManyWithoutProjectsInput = {
@@ -38645,6 +40113,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<ListsUpdateWithWhereUniqueWithoutProjectsInput>
     updateMany?: Enumerable<ListsUpdateManyWithWhereWithoutProjectsInput>
     deleteMany?: Enumerable<ListsScalarWhereInput>
+  }
+
+  export type Observation_sourcesUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<Observation_sourcesCreateWithoutProjectsInput>, Enumerable<Observation_sourcesUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Observation_sourcesCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<Observation_sourcesUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: Observation_sourcesCreateManyProjectsInputEnvelope
+    set?: Enumerable<Observation_sourcesWhereUniqueInput>
+    disconnect?: Enumerable<Observation_sourcesWhereUniqueInput>
+    delete?: Enumerable<Observation_sourcesWhereUniqueInput>
+    connect?: Enumerable<Observation_sourcesWhereUniqueInput>
+    update?: Enumerable<Observation_sourcesUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<Observation_sourcesUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<Observation_sourcesScalarWhereInput>
   }
 
   export type PersonsUpdateManyWithoutProjectsNestedInput = {
@@ -38795,6 +40277,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<ListsUpdateWithWhereUniqueWithoutProjectsInput>
     updateMany?: Enumerable<ListsUpdateManyWithWhereWithoutProjectsInput>
     deleteMany?: Enumerable<ListsScalarWhereInput>
+  }
+
+  export type Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<Observation_sourcesCreateWithoutProjectsInput>, Enumerable<Observation_sourcesUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Observation_sourcesCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<Observation_sourcesUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: Observation_sourcesCreateManyProjectsInputEnvelope
+    set?: Enumerable<Observation_sourcesWhereUniqueInput>
+    disconnect?: Enumerable<Observation_sourcesWhereUniqueInput>
+    delete?: Enumerable<Observation_sourcesWhereUniqueInput>
+    connect?: Enumerable<Observation_sourcesWhereUniqueInput>
+    update?: Enumerable<Observation_sourcesUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<Observation_sourcesUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<Observation_sourcesScalarWhereInput>
   }
 
   export type PersonsUncheckedUpdateManyWithoutProjectsNestedInput = {
@@ -40286,6 +41782,36 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     skipDuplicates?: boolean
   }
 
+  export type Observation_sourcesCreateWithoutAccountsInput = {
+    observation_source_id: string
+    name?: string | null
+    url?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    projects?: ProjectsCreateNestedOneWithoutObservation_sourcesInput
+  }
+
+  export type Observation_sourcesUncheckedCreateWithoutAccountsInput = {
+    observation_source_id: string
+    project_id?: string | null
+    name?: string | null
+    url?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Observation_sourcesCreateOrConnectWithoutAccountsInput = {
+    where: Observation_sourcesWhereUniqueInput
+    create: XOR<Observation_sourcesCreateWithoutAccountsInput, Observation_sourcesUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Observation_sourcesCreateManyAccountsInputEnvelope = {
+    data: Enumerable<Observation_sourcesCreateManyAccountsInput>
+    skipDuplicates?: boolean
+  }
+
   export type PersonsCreateWithoutAccountsInput = {
     person_id: string
     email?: string | null
@@ -40421,6 +41947,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
@@ -40458,6 +41985,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
@@ -41000,6 +42528,36 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableFilter<"Lists"> | boolean | null
   }
 
+  export type Observation_sourcesUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: Observation_sourcesWhereUniqueInput
+    update: XOR<Observation_sourcesUpdateWithoutAccountsInput, Observation_sourcesUncheckedUpdateWithoutAccountsInput>
+    create: XOR<Observation_sourcesCreateWithoutAccountsInput, Observation_sourcesUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Observation_sourcesUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: Observation_sourcesWhereUniqueInput
+    data: XOR<Observation_sourcesUpdateWithoutAccountsInput, Observation_sourcesUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type Observation_sourcesUpdateManyWithWhereWithoutAccountsInput = {
+    where: Observation_sourcesScalarWhereInput
+    data: XOR<Observation_sourcesUpdateManyMutationInput, Observation_sourcesUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type Observation_sourcesScalarWhereInput = {
+    AND?: Enumerable<Observation_sourcesScalarWhereInput>
+    OR?: Enumerable<Observation_sourcesScalarWhereInput>
+    NOT?: Enumerable<Observation_sourcesScalarWhereInput>
+    observation_source_id?: UuidFilter<"Observation_sources"> | string
+    account_id?: UuidNullableFilter<"Observation_sources"> | string | null
+    project_id?: UuidNullableFilter<"Observation_sources"> | string | null
+    name?: StringNullableFilter<"Observation_sources"> | string | null
+    url?: StringNullableFilter<"Observation_sources"> | string | null
+    data?: JsonNullableFilter<"Observation_sources">
+    label_replace_by_generated_column?: StringNullableFilter<"Observation_sources"> | string | null
+    deleted?: BoolNullableFilter<"Observation_sources"> | boolean | null
+  }
+
   export type PersonsUpsertWithWhereUniqueWithoutAccountsInput = {
     where: PersonsWhereUniqueInput
     update: XOR<PersonsUpdateWithoutAccountsInput, PersonsUncheckedUpdateWithoutAccountsInput>
@@ -41464,6 +43022,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -41492,6 +43051,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -41539,6 +43099,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
@@ -41577,6 +43138,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
@@ -41652,6 +43214,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -41680,6 +43243,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -41733,6 +43297,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
@@ -41771,6 +43336,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
@@ -41836,6 +43402,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -41864,6 +43431,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -41911,6 +43479,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
@@ -41949,6 +43518,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
@@ -42024,6 +43594,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -42052,6 +43623,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -42105,6 +43677,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
@@ -42143,6 +43716,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
@@ -42208,6 +43782,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -42236,6 +43811,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -42283,6 +43859,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
@@ -42321,6 +43898,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
@@ -42359,6 +43937,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -42387,6 +43966,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -42440,6 +44020,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
@@ -42478,6 +44059,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
@@ -42500,6 +44082,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -42528,6 +44111,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -42599,6 +44183,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -42627,6 +44212,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -42714,6 +44300,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -42742,6 +44329,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -42839,6 +44427,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -42867,6 +44456,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -42938,6 +44528,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -42966,6 +44557,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -43039,6 +44631,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -43067,6 +44660,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -43158,6 +44752,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -43186,6 +44781,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -43233,6 +44829,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
@@ -43271,6 +44868,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
@@ -43373,6 +44971,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -43401,6 +45000,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -43454,6 +45054,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
@@ -43492,6 +45093,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
@@ -43558,6 +45160,306 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data: XOR<User_messagesUpdateManyMutationInput, User_messagesUncheckedUpdateManyWithoutMessagesInput>
   }
 
+  export type AccountsCreateWithoutObservation_sourcesInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesCreateNestedManyWithoutAccountsInput
+    lists?: ListsCreateNestedManyWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutObservation_sourcesInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutObservation_sourcesInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutObservation_sourcesInput, AccountsUncheckedCreateWithoutObservation_sourcesInput>
+  }
+
+  export type ProjectsCreateWithoutObservation_sourcesInput = {
+    project_id: string
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
+    lists?: ListsCreateNestedManyWithoutProjectsInput
+    persons?: PersonsCreateNestedManyWithoutProjectsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
+    project_users?: Project_usersCreateNestedManyWithoutProjectsInput
+    accounts?: AccountsCreateNestedOneWithoutProjectsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    units?: UnitsCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectsUncheckedCreateWithoutObservation_sourcesInput = {
+    project_id: string
+    account_id?: string | null
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectsCreateOrConnectWithoutObservation_sourcesInput = {
+    where: ProjectsWhereUniqueInput
+    create: XOR<ProjectsCreateWithoutObservation_sourcesInput, ProjectsUncheckedCreateWithoutObservation_sourcesInput>
+  }
+
+  export type AccountsUpsertWithoutObservation_sourcesInput = {
+    update: XOR<AccountsUpdateWithoutObservation_sourcesInput, AccountsUncheckedUpdateWithoutObservation_sourcesInput>
+    create: XOR<AccountsCreateWithoutObservation_sourcesInput, AccountsUncheckedCreateWithoutObservation_sourcesInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutObservation_sourcesInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutObservation_sourcesInput, AccountsUncheckedUpdateWithoutObservation_sourcesInput>
+  }
+
+  export type AccountsUpdateWithoutObservation_sourcesInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutObservation_sourcesInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type ProjectsUpsertWithoutObservation_sourcesInput = {
+    update: XOR<ProjectsUpdateWithoutObservation_sourcesInput, ProjectsUncheckedUpdateWithoutObservation_sourcesInput>
+    create: XOR<ProjectsCreateWithoutObservation_sourcesInput, ProjectsUncheckedCreateWithoutObservation_sourcesInput>
+    where?: ProjectsWhereInput
+  }
+
+  export type ProjectsUpdateToOneWithWhereWithoutObservation_sourcesInput = {
+    where?: ProjectsWhereInput
+    data: XOR<ProjectsUpdateWithoutObservation_sourcesInput, ProjectsUncheckedUpdateWithoutObservation_sourcesInput>
+  }
+
+  export type ProjectsUpdateWithoutObservation_sourcesInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
+    lists?: ListsUpdateManyWithoutProjectsNestedInput
+    persons?: PersonsUpdateManyWithoutProjectsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
+    project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
+    accounts?: AccountsUpdateOneWithoutProjectsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type ProjectsUncheckedUpdateWithoutObservation_sourcesInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
   export type AccountsCreateWithoutPersonsInput = {
     account_id: string
     type?: string | null
@@ -43573,6 +45475,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
@@ -43601,6 +45504,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
@@ -43648,6 +45552,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
@@ -43686,6 +45591,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
@@ -43724,6 +45630,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
@@ -43752,6 +45659,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -43805,6 +45713,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
@@ -43843,6 +45752,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -43865,6 +45775,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
@@ -43893,6 +45804,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
@@ -43940,6 +45852,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
@@ -43978,6 +45891,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
@@ -44016,6 +45930,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
@@ -44044,6 +45959,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -44097,6 +46013,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
@@ -44135,6 +46052,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -44157,6 +46075,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
@@ -44185,6 +46104,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
@@ -44232,6 +46152,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
@@ -44270,6 +46191,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
@@ -44337,6 +46259,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
@@ -44365,6 +46288,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -44418,6 +46342,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
@@ -44456,6 +46381,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -44622,6 +46548,36 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     skipDuplicates?: boolean
   }
 
+  export type Observation_sourcesCreateWithoutProjectsInput = {
+    observation_source_id: string
+    name?: string | null
+    url?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutObservation_sourcesInput
+  }
+
+  export type Observation_sourcesUncheckedCreateWithoutProjectsInput = {
+    observation_source_id: string
+    account_id?: string | null
+    name?: string | null
+    url?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Observation_sourcesCreateOrConnectWithoutProjectsInput = {
+    where: Observation_sourcesWhereUniqueInput
+    create: XOR<Observation_sourcesCreateWithoutProjectsInput, Observation_sourcesUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type Observation_sourcesCreateManyProjectsInputEnvelope = {
+    data: Enumerable<Observation_sourcesCreateManyProjectsInput>
+    skipDuplicates?: boolean
+  }
+
   export type PersonsCreateWithoutProjectsInput = {
     person_id: string
     email?: string | null
@@ -44743,6 +46699,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -44771,6 +46728,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -44979,6 +46937,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data: XOR<ListsUpdateManyMutationInput, ListsUncheckedUpdateManyWithoutProjectsInput>
   }
 
+  export type Observation_sourcesUpsertWithWhereUniqueWithoutProjectsInput = {
+    where: Observation_sourcesWhereUniqueInput
+    update: XOR<Observation_sourcesUpdateWithoutProjectsInput, Observation_sourcesUncheckedUpdateWithoutProjectsInput>
+    create: XOR<Observation_sourcesCreateWithoutProjectsInput, Observation_sourcesUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type Observation_sourcesUpdateWithWhereUniqueWithoutProjectsInput = {
+    where: Observation_sourcesWhereUniqueInput
+    data: XOR<Observation_sourcesUpdateWithoutProjectsInput, Observation_sourcesUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type Observation_sourcesUpdateManyWithWhereWithoutProjectsInput = {
+    where: Observation_sourcesScalarWhereInput
+    data: XOR<Observation_sourcesUpdateManyMutationInput, Observation_sourcesUncheckedUpdateManyWithoutProjectsInput>
+  }
+
   export type PersonsUpsertWithWhereUniqueWithoutProjectsInput = {
     where: PersonsWhereUniqueInput
     update: XOR<PersonsUpdateWithoutProjectsInput, PersonsUncheckedUpdateWithoutProjectsInput>
@@ -45053,6 +47027,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -45081,6 +47056,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -45157,6 +47133,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -45185,6 +47162,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -45293,6 +47271,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -45321,6 +47300,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -45425,6 +47405,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -45453,6 +47434,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -45563,6 +47545,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -45591,6 +47574,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -45849,6 +47833,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -45877,6 +47862,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -45924,6 +47910,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
@@ -45962,6 +47949,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
@@ -46080,6 +48068,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -46108,6 +48097,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -46161,6 +48151,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
@@ -46199,6 +48190,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
@@ -46247,6 +48239,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -46275,6 +48268,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -46366,6 +48360,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -46394,6 +48389,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -46491,6 +48487,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -46519,6 +48516,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -46566,6 +48564,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
@@ -46604,6 +48603,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
@@ -46658,6 +48658,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -46686,6 +48687,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -46739,6 +48741,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
@@ -46777,6 +48780,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
@@ -46799,6 +48803,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -46827,6 +48832,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -46900,6 +48906,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -46928,6 +48935,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -46991,6 +48999,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -47019,6 +49028,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -47095,6 +49105,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
@@ -47133,6 +49144,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
@@ -47171,6 +49183,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -47199,6 +49212,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -47287,6 +49301,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
@@ -47325,6 +49340,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
@@ -47347,6 +49363,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -47375,6 +49392,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -47467,6 +49485,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -47495,6 +49514,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -47582,6 +49602,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -47610,6 +49631,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -48092,6 +50114,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
   }
 
+  export type Observation_sourcesCreateManyAccountsInput = {
+    observation_source_id: string
+    project_id?: string | null
+    name?: string | null
+    url?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
   export type PersonsCreateManyAccountsInput = {
     person_id: string
     project_id?: string | null
@@ -48458,6 +50490,36 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Observation_sourcesUpdateWithoutAccountsInput = {
+    observation_source_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    projects?: ProjectsUpdateOneWithoutObservation_sourcesNestedInput
+  }
+
+  export type Observation_sourcesUncheckedUpdateWithoutAccountsInput = {
+    observation_source_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Observation_sourcesUncheckedUpdateManyWithoutAccountsInput = {
+    observation_source_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type PersonsUpdateWithoutAccountsInput = {
     person_id?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -48601,6 +50663,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
@@ -48638,6 +50701,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
@@ -49213,6 +51277,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
   }
 
+  export type Observation_sourcesCreateManyProjectsInput = {
+    observation_source_id: string
+    account_id?: string | null
+    name?: string | null
+    url?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
   export type PersonsCreateManyProjectsInput = {
     person_id: string
     account_id?: string | null
@@ -49413,6 +51487,36 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     name?: NullableStringFieldUpdateOperationsInput | string | null
     data?: NullableJsonNullValueInput | InputJsonValue
     obsolete?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Observation_sourcesUpdateWithoutProjectsInput = {
+    observation_source_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutObservation_sourcesNestedInput
+  }
+
+  export type Observation_sourcesUncheckedUpdateWithoutProjectsInput = {
+    observation_source_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Observation_sourcesUncheckedUpdateManyWithoutProjectsInput = {
+    observation_source_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
@@ -49994,6 +52098,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -50022,6 +52127,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
