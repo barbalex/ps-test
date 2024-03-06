@@ -33,6 +33,25 @@ export type Accounts = {
 }
 
 /**
+ * Model Field_types
+ * 
+ */
+export type Field_types = {
+  /**
+   * @zod.string.uuid()
+   */
+  field_type_id: string
+  name: string | null
+  /**
+   * @zod.number.int().gte(-32768).lte(32767)
+   */
+  sort: number | null
+  comment: string | null
+  label_replace_by_generated_column: string | null
+  deleted: boolean | null
+}
+
+/**
  * Model Messages
  * 
  */
@@ -123,6 +142,26 @@ export type Users = {
    * @zod.string.uuid()
    */
   auth_id: string | null
+  label_replace_by_generated_column: string | null
+  deleted: boolean | null
+}
+
+/**
+ * Model Widget_types
+ * 
+ */
+export type Widget_types = {
+  /**
+   * @zod.string.uuid()
+   */
+  widget_type_id: string
+  name: string | null
+  needs_list: boolean | null
+  /**
+   * @zod.number.int().gte(-32768).lte(32767)
+   */
+  sort: number | null
+  comment: string | null
   label_replace_by_generated_column: string | null
   deleted: boolean | null
 }
@@ -271,6 +310,16 @@ export class PrismaClient<
   get accounts(): Prisma.AccountsDelegate<GlobalReject>;
 
   /**
+   * `prisma.field_types`: Exposes CRUD operations for the **Field_types** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Field_types
+    * const field_types = await prisma.field_types.findMany()
+    * ```
+    */
+  get field_types(): Prisma.Field_typesDelegate<GlobalReject>;
+
+  /**
    * `prisma.messages`: Exposes CRUD operations for the **Messages** model.
     * Example usage:
     * ```ts
@@ -309,6 +358,16 @@ export class PrismaClient<
     * ```
     */
   get users(): Prisma.UsersDelegate<GlobalReject>;
+
+  /**
+   * `prisma.widget_types`: Exposes CRUD operations for the **Widget_types** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Widget_types
+    * const widget_types = await prisma.widget_types.findMany()
+    * ```
+    */
+  get widget_types(): Prisma.Widget_typesDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -794,10 +853,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export const ModelName: {
     Accounts: 'Accounts',
+    Field_types: 'Field_types',
     Messages: 'Messages',
     Projects: 'Projects',
     User_messages: 'User_messages',
-    Users: 'Users'
+    Users: 'Users',
+    Widget_types: 'Widget_types'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2222,6 +2283,977 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     include?: AccountsInclude | null
+  }
+
+
+
+  /**
+   * Model Field_types
+   */
+
+
+  export type AggregateField_types = {
+    _count: Field_typesCountAggregateOutputType | null
+    _avg: Field_typesAvgAggregateOutputType | null
+    _sum: Field_typesSumAggregateOutputType | null
+    _min: Field_typesMinAggregateOutputType | null
+    _max: Field_typesMaxAggregateOutputType | null
+  }
+
+  export type Field_typesAvgAggregateOutputType = {
+    sort: number | null
+  }
+
+  export type Field_typesSumAggregateOutputType = {
+    sort: number | null
+  }
+
+  export type Field_typesMinAggregateOutputType = {
+    field_type_id: string | null
+    name: string | null
+    sort: number | null
+    comment: string | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+  }
+
+  export type Field_typesMaxAggregateOutputType = {
+    field_type_id: string | null
+    name: string | null
+    sort: number | null
+    comment: string | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+  }
+
+  export type Field_typesCountAggregateOutputType = {
+    field_type_id: number
+    name: number
+    sort: number
+    comment: number
+    label_replace_by_generated_column: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type Field_typesAvgAggregateInputType = {
+    sort?: true
+  }
+
+  export type Field_typesSumAggregateInputType = {
+    sort?: true
+  }
+
+  export type Field_typesMinAggregateInputType = {
+    field_type_id?: true
+    name?: true
+    sort?: true
+    comment?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+  }
+
+  export type Field_typesMaxAggregateInputType = {
+    field_type_id?: true
+    name?: true
+    sort?: true
+    comment?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+  }
+
+  export type Field_typesCountAggregateInputType = {
+    field_type_id?: true
+    name?: true
+    sort?: true
+    comment?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type Field_typesAggregateArgs = {
+    /**
+     * Filter which Field_types to aggregate.
+     * 
+    **/
+    where?: Field_typesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Field_types to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Field_typesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: Field_typesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Field_types from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Field_types.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Field_types
+    **/
+    _count?: true | Field_typesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Field_typesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Field_typesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Field_typesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Field_typesMaxAggregateInputType
+  }
+
+  export type GetField_typesAggregateType<T extends Field_typesAggregateArgs> = {
+        [P in keyof T & keyof AggregateField_types]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateField_types[P]>
+      : GetScalarType<T[P], AggregateField_types[P]>
+  }
+
+
+
+
+  export type Field_typesGroupByArgs = {
+    where?: Field_typesWhereInput
+    orderBy?: Enumerable<Field_typesOrderByWithAggregationInput>
+    by: Array<Field_typesScalarFieldEnum>
+    having?: Field_typesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Field_typesCountAggregateInputType | true
+    _avg?: Field_typesAvgAggregateInputType
+    _sum?: Field_typesSumAggregateInputType
+    _min?: Field_typesMinAggregateInputType
+    _max?: Field_typesMaxAggregateInputType
+  }
+
+
+  export type Field_typesGroupByOutputType = {
+    field_type_id: string
+    name: string | null
+    sort: number | null
+    comment: string | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+    _count: Field_typesCountAggregateOutputType | null
+    _avg: Field_typesAvgAggregateOutputType | null
+    _sum: Field_typesSumAggregateOutputType | null
+    _min: Field_typesMinAggregateOutputType | null
+    _max: Field_typesMaxAggregateOutputType | null
+  }
+
+  type GetField_typesGroupByPayload<T extends Field_typesGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Field_typesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Field_typesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Field_typesGroupByOutputType[P]>
+            : GetScalarType<T[P], Field_typesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Field_typesSelect = {
+    field_type_id?: boolean
+    name?: boolean
+    sort?: boolean
+    comment?: boolean
+    label_replace_by_generated_column?: boolean
+    deleted?: boolean
+  }
+
+
+  export type Field_typesGetPayload<S extends boolean | null | undefined | Field_typesArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Field_types :
+    S extends undefined ? never :
+    S extends { include: any } & (Field_typesArgs | Field_typesFindManyArgs)
+    ? Field_types 
+    : S extends { select: any } & (Field_typesArgs | Field_typesFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof Field_types ? Field_types[P] : never
+  } 
+      : Field_types
+
+
+  type Field_typesCountArgs = Merge<
+    Omit<Field_typesFindManyArgs, 'select' | 'include'> & {
+      select?: Field_typesCountAggregateInputType | true
+    }
+  >
+
+  export interface Field_typesDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Field_types that matches the filter.
+     * @param {Field_typesFindUniqueArgs} args - Arguments to find a Field_types
+     * @example
+     * // Get one Field_types
+     * const field_types = await prisma.field_types.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends Field_typesFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Field_typesFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Field_types'> extends True ? Prisma__Field_typesClient<Field_typesGetPayload<T>> : Prisma__Field_typesClient<Field_typesGetPayload<T> | null, null>
+
+    /**
+     * Find one Field_types that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {Field_typesFindUniqueOrThrowArgs} args - Arguments to find a Field_types
+     * @example
+     * // Get one Field_types
+     * const field_types = await prisma.field_types.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends Field_typesFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, Field_typesFindUniqueOrThrowArgs>
+    ): Prisma__Field_typesClient<Field_typesGetPayload<T>>
+
+    /**
+     * Find the first Field_types that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Field_typesFindFirstArgs} args - Arguments to find a Field_types
+     * @example
+     * // Get one Field_types
+     * const field_types = await prisma.field_types.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends Field_typesFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Field_typesFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Field_types'> extends True ? Prisma__Field_typesClient<Field_typesGetPayload<T>> : Prisma__Field_typesClient<Field_typesGetPayload<T> | null, null>
+
+    /**
+     * Find the first Field_types that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Field_typesFindFirstOrThrowArgs} args - Arguments to find a Field_types
+     * @example
+     * // Get one Field_types
+     * const field_types = await prisma.field_types.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends Field_typesFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, Field_typesFindFirstOrThrowArgs>
+    ): Prisma__Field_typesClient<Field_typesGetPayload<T>>
+
+    /**
+     * Find zero or more Field_types that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Field_typesFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Field_types
+     * const field_types = await prisma.field_types.findMany()
+     * 
+     * // Get first 10 Field_types
+     * const field_types = await prisma.field_types.findMany({ take: 10 })
+     * 
+     * // Only select the `field_type_id`
+     * const field_typesWithField_type_idOnly = await prisma.field_types.findMany({ select: { field_type_id: true } })
+     * 
+    **/
+    findMany<T extends Field_typesFindManyArgs>(
+      args?: SelectSubset<T, Field_typesFindManyArgs>
+    ): PrismaPromise<Array<Field_typesGetPayload<T>>>
+
+    /**
+     * Create a Field_types.
+     * @param {Field_typesCreateArgs} args - Arguments to create a Field_types.
+     * @example
+     * // Create one Field_types
+     * const Field_types = await prisma.field_types.create({
+     *   data: {
+     *     // ... data to create a Field_types
+     *   }
+     * })
+     * 
+    **/
+    create<T extends Field_typesCreateArgs>(
+      args: SelectSubset<T, Field_typesCreateArgs>
+    ): Prisma__Field_typesClient<Field_typesGetPayload<T>>
+
+    /**
+     * Create many Field_types.
+     *     @param {Field_typesCreateManyArgs} args - Arguments to create many Field_types.
+     *     @example
+     *     // Create many Field_types
+     *     const field_types = await prisma.field_types.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends Field_typesCreateManyArgs>(
+      args?: SelectSubset<T, Field_typesCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Field_types.
+     * @param {Field_typesDeleteArgs} args - Arguments to delete one Field_types.
+     * @example
+     * // Delete one Field_types
+     * const Field_types = await prisma.field_types.delete({
+     *   where: {
+     *     // ... filter to delete one Field_types
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends Field_typesDeleteArgs>(
+      args: SelectSubset<T, Field_typesDeleteArgs>
+    ): Prisma__Field_typesClient<Field_typesGetPayload<T>>
+
+    /**
+     * Update one Field_types.
+     * @param {Field_typesUpdateArgs} args - Arguments to update one Field_types.
+     * @example
+     * // Update one Field_types
+     * const field_types = await prisma.field_types.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends Field_typesUpdateArgs>(
+      args: SelectSubset<T, Field_typesUpdateArgs>
+    ): Prisma__Field_typesClient<Field_typesGetPayload<T>>
+
+    /**
+     * Delete zero or more Field_types.
+     * @param {Field_typesDeleteManyArgs} args - Arguments to filter Field_types to delete.
+     * @example
+     * // Delete a few Field_types
+     * const { count } = await prisma.field_types.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends Field_typesDeleteManyArgs>(
+      args?: SelectSubset<T, Field_typesDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Field_types.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Field_typesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Field_types
+     * const field_types = await prisma.field_types.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends Field_typesUpdateManyArgs>(
+      args: SelectSubset<T, Field_typesUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Field_types.
+     * @param {Field_typesUpsertArgs} args - Arguments to update or create a Field_types.
+     * @example
+     * // Update or create a Field_types
+     * const field_types = await prisma.field_types.upsert({
+     *   create: {
+     *     // ... data to create a Field_types
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Field_types we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends Field_typesUpsertArgs>(
+      args: SelectSubset<T, Field_typesUpsertArgs>
+    ): Prisma__Field_typesClient<Field_typesGetPayload<T>>
+
+    /**
+     * Count the number of Field_types.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Field_typesCountArgs} args - Arguments to filter Field_types to count.
+     * @example
+     * // Count the number of Field_types
+     * const count = await prisma.field_types.count({
+     *   where: {
+     *     // ... the filter for the Field_types we want to count
+     *   }
+     * })
+    **/
+    count<T extends Field_typesCountArgs>(
+      args?: Subset<T, Field_typesCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Field_typesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Field_types.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Field_typesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Field_typesAggregateArgs>(args: Subset<T, Field_typesAggregateArgs>): PrismaPromise<GetField_typesAggregateType<T>>
+
+    /**
+     * Group by Field_types.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Field_typesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Field_typesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Field_typesGroupByArgs['orderBy'] }
+        : { orderBy?: Field_typesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Field_typesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetField_typesGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Field_types.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__Field_typesClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Field_types base type for findUnique actions
+   */
+  export type Field_typesFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Field_types
+     * 
+    **/
+    select?: Field_typesSelect | null
+    /**
+     * Filter, which Field_types to fetch.
+     * 
+    **/
+    where: Field_typesWhereUniqueInput
+  }
+
+  /**
+   * Field_types findUnique
+   */
+  export interface Field_typesFindUniqueArgs extends Field_typesFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Field_types findUniqueOrThrow
+   */
+  export type Field_typesFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Field_types
+     * 
+    **/
+    select?: Field_typesSelect | null
+    /**
+     * Filter, which Field_types to fetch.
+     * 
+    **/
+    where: Field_typesWhereUniqueInput
+  }
+
+
+  /**
+   * Field_types base type for findFirst actions
+   */
+  export type Field_typesFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Field_types
+     * 
+    **/
+    select?: Field_typesSelect | null
+    /**
+     * Filter, which Field_types to fetch.
+     * 
+    **/
+    where?: Field_typesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Field_types to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Field_typesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Field_types.
+     * 
+    **/
+    cursor?: Field_typesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Field_types from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Field_types.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Field_types.
+     * 
+    **/
+    distinct?: Enumerable<Field_typesScalarFieldEnum>
+  }
+
+  /**
+   * Field_types findFirst
+   */
+  export interface Field_typesFindFirstArgs extends Field_typesFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Field_types findFirstOrThrow
+   */
+  export type Field_typesFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Field_types
+     * 
+    **/
+    select?: Field_typesSelect | null
+    /**
+     * Filter, which Field_types to fetch.
+     * 
+    **/
+    where?: Field_typesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Field_types to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Field_typesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Field_types.
+     * 
+    **/
+    cursor?: Field_typesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Field_types from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Field_types.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Field_types.
+     * 
+    **/
+    distinct?: Enumerable<Field_typesScalarFieldEnum>
+  }
+
+
+  /**
+   * Field_types findMany
+   */
+  export type Field_typesFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Field_types
+     * 
+    **/
+    select?: Field_typesSelect | null
+    /**
+     * Filter, which Field_types to fetch.
+     * 
+    **/
+    where?: Field_typesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Field_types to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Field_typesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Field_types.
+     * 
+    **/
+    cursor?: Field_typesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Field_types from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Field_types.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Field_typesScalarFieldEnum>
+  }
+
+
+  /**
+   * Field_types create
+   */
+  export type Field_typesCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Field_types
+     * 
+    **/
+    select?: Field_typesSelect | null
+    /**
+     * The data needed to create a Field_types.
+     * 
+    **/
+    data: XOR<Field_typesCreateInput, Field_typesUncheckedCreateInput>
+  }
+
+
+  /**
+   * Field_types createMany
+   */
+  export type Field_typesCreateManyArgs = {
+    /**
+     * The data used to create many Field_types.
+     * 
+    **/
+    data: Enumerable<Field_typesCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Field_types update
+   */
+  export type Field_typesUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Field_types
+     * 
+    **/
+    select?: Field_typesSelect | null
+    /**
+     * The data needed to update a Field_types.
+     * 
+    **/
+    data: XOR<Field_typesUpdateInput, Field_typesUncheckedUpdateInput>
+    /**
+     * Choose, which Field_types to update.
+     * 
+    **/
+    where: Field_typesWhereUniqueInput
+  }
+
+
+  /**
+   * Field_types updateMany
+   */
+  export type Field_typesUpdateManyArgs = {
+    /**
+     * The data used to update Field_types.
+     * 
+    **/
+    data: XOR<Field_typesUpdateManyMutationInput, Field_typesUncheckedUpdateManyInput>
+    /**
+     * Filter which Field_types to update
+     * 
+    **/
+    where?: Field_typesWhereInput
+  }
+
+
+  /**
+   * Field_types upsert
+   */
+  export type Field_typesUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Field_types
+     * 
+    **/
+    select?: Field_typesSelect | null
+    /**
+     * The filter to search for the Field_types to update in case it exists.
+     * 
+    **/
+    where: Field_typesWhereUniqueInput
+    /**
+     * In case the Field_types found by the `where` argument doesn't exist, create a new Field_types with this data.
+     * 
+    **/
+    create: XOR<Field_typesCreateInput, Field_typesUncheckedCreateInput>
+    /**
+     * In case the Field_types was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<Field_typesUpdateInput, Field_typesUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Field_types delete
+   */
+  export type Field_typesDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Field_types
+     * 
+    **/
+    select?: Field_typesSelect | null
+    /**
+     * Filter which Field_types to delete.
+     * 
+    **/
+    where: Field_typesWhereUniqueInput
+  }
+
+
+  /**
+   * Field_types deleteMany
+   */
+  export type Field_typesDeleteManyArgs = {
+    /**
+     * Filter which Field_types to delete
+     * 
+    **/
+    where?: Field_typesWhereInput
+  }
+
+
+  /**
+   * Field_types without action
+   */
+  export type Field_typesArgs = {
+    /**
+     * Select specific fields to fetch from the Field_types
+     * 
+    **/
+    select?: Field_typesSelect | null
   }
 
 
@@ -6498,6 +7530,985 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Model Widget_types
+   */
+
+
+  export type AggregateWidget_types = {
+    _count: Widget_typesCountAggregateOutputType | null
+    _avg: Widget_typesAvgAggregateOutputType | null
+    _sum: Widget_typesSumAggregateOutputType | null
+    _min: Widget_typesMinAggregateOutputType | null
+    _max: Widget_typesMaxAggregateOutputType | null
+  }
+
+  export type Widget_typesAvgAggregateOutputType = {
+    sort: number | null
+  }
+
+  export type Widget_typesSumAggregateOutputType = {
+    sort: number | null
+  }
+
+  export type Widget_typesMinAggregateOutputType = {
+    widget_type_id: string | null
+    name: string | null
+    needs_list: boolean | null
+    sort: number | null
+    comment: string | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+  }
+
+  export type Widget_typesMaxAggregateOutputType = {
+    widget_type_id: string | null
+    name: string | null
+    needs_list: boolean | null
+    sort: number | null
+    comment: string | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+  }
+
+  export type Widget_typesCountAggregateOutputType = {
+    widget_type_id: number
+    name: number
+    needs_list: number
+    sort: number
+    comment: number
+    label_replace_by_generated_column: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type Widget_typesAvgAggregateInputType = {
+    sort?: true
+  }
+
+  export type Widget_typesSumAggregateInputType = {
+    sort?: true
+  }
+
+  export type Widget_typesMinAggregateInputType = {
+    widget_type_id?: true
+    name?: true
+    needs_list?: true
+    sort?: true
+    comment?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+  }
+
+  export type Widget_typesMaxAggregateInputType = {
+    widget_type_id?: true
+    name?: true
+    needs_list?: true
+    sort?: true
+    comment?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+  }
+
+  export type Widget_typesCountAggregateInputType = {
+    widget_type_id?: true
+    name?: true
+    needs_list?: true
+    sort?: true
+    comment?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type Widget_typesAggregateArgs = {
+    /**
+     * Filter which Widget_types to aggregate.
+     * 
+    **/
+    where?: Widget_typesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Widget_types to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Widget_typesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: Widget_typesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Widget_types from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Widget_types.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Widget_types
+    **/
+    _count?: true | Widget_typesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Widget_typesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Widget_typesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Widget_typesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Widget_typesMaxAggregateInputType
+  }
+
+  export type GetWidget_typesAggregateType<T extends Widget_typesAggregateArgs> = {
+        [P in keyof T & keyof AggregateWidget_types]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWidget_types[P]>
+      : GetScalarType<T[P], AggregateWidget_types[P]>
+  }
+
+
+
+
+  export type Widget_typesGroupByArgs = {
+    where?: Widget_typesWhereInput
+    orderBy?: Enumerable<Widget_typesOrderByWithAggregationInput>
+    by: Array<Widget_typesScalarFieldEnum>
+    having?: Widget_typesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Widget_typesCountAggregateInputType | true
+    _avg?: Widget_typesAvgAggregateInputType
+    _sum?: Widget_typesSumAggregateInputType
+    _min?: Widget_typesMinAggregateInputType
+    _max?: Widget_typesMaxAggregateInputType
+  }
+
+
+  export type Widget_typesGroupByOutputType = {
+    widget_type_id: string
+    name: string | null
+    needs_list: boolean | null
+    sort: number | null
+    comment: string | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+    _count: Widget_typesCountAggregateOutputType | null
+    _avg: Widget_typesAvgAggregateOutputType | null
+    _sum: Widget_typesSumAggregateOutputType | null
+    _min: Widget_typesMinAggregateOutputType | null
+    _max: Widget_typesMaxAggregateOutputType | null
+  }
+
+  type GetWidget_typesGroupByPayload<T extends Widget_typesGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Widget_typesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Widget_typesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Widget_typesGroupByOutputType[P]>
+            : GetScalarType<T[P], Widget_typesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Widget_typesSelect = {
+    widget_type_id?: boolean
+    name?: boolean
+    needs_list?: boolean
+    sort?: boolean
+    comment?: boolean
+    label_replace_by_generated_column?: boolean
+    deleted?: boolean
+  }
+
+
+  export type Widget_typesGetPayload<S extends boolean | null | undefined | Widget_typesArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Widget_types :
+    S extends undefined ? never :
+    S extends { include: any } & (Widget_typesArgs | Widget_typesFindManyArgs)
+    ? Widget_types 
+    : S extends { select: any } & (Widget_typesArgs | Widget_typesFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof Widget_types ? Widget_types[P] : never
+  } 
+      : Widget_types
+
+
+  type Widget_typesCountArgs = Merge<
+    Omit<Widget_typesFindManyArgs, 'select' | 'include'> & {
+      select?: Widget_typesCountAggregateInputType | true
+    }
+  >
+
+  export interface Widget_typesDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Widget_types that matches the filter.
+     * @param {Widget_typesFindUniqueArgs} args - Arguments to find a Widget_types
+     * @example
+     * // Get one Widget_types
+     * const widget_types = await prisma.widget_types.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends Widget_typesFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Widget_typesFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Widget_types'> extends True ? Prisma__Widget_typesClient<Widget_typesGetPayload<T>> : Prisma__Widget_typesClient<Widget_typesGetPayload<T> | null, null>
+
+    /**
+     * Find one Widget_types that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {Widget_typesFindUniqueOrThrowArgs} args - Arguments to find a Widget_types
+     * @example
+     * // Get one Widget_types
+     * const widget_types = await prisma.widget_types.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends Widget_typesFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, Widget_typesFindUniqueOrThrowArgs>
+    ): Prisma__Widget_typesClient<Widget_typesGetPayload<T>>
+
+    /**
+     * Find the first Widget_types that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Widget_typesFindFirstArgs} args - Arguments to find a Widget_types
+     * @example
+     * // Get one Widget_types
+     * const widget_types = await prisma.widget_types.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends Widget_typesFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Widget_typesFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Widget_types'> extends True ? Prisma__Widget_typesClient<Widget_typesGetPayload<T>> : Prisma__Widget_typesClient<Widget_typesGetPayload<T> | null, null>
+
+    /**
+     * Find the first Widget_types that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Widget_typesFindFirstOrThrowArgs} args - Arguments to find a Widget_types
+     * @example
+     * // Get one Widget_types
+     * const widget_types = await prisma.widget_types.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends Widget_typesFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, Widget_typesFindFirstOrThrowArgs>
+    ): Prisma__Widget_typesClient<Widget_typesGetPayload<T>>
+
+    /**
+     * Find zero or more Widget_types that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Widget_typesFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Widget_types
+     * const widget_types = await prisma.widget_types.findMany()
+     * 
+     * // Get first 10 Widget_types
+     * const widget_types = await prisma.widget_types.findMany({ take: 10 })
+     * 
+     * // Only select the `widget_type_id`
+     * const widget_typesWithWidget_type_idOnly = await prisma.widget_types.findMany({ select: { widget_type_id: true } })
+     * 
+    **/
+    findMany<T extends Widget_typesFindManyArgs>(
+      args?: SelectSubset<T, Widget_typesFindManyArgs>
+    ): PrismaPromise<Array<Widget_typesGetPayload<T>>>
+
+    /**
+     * Create a Widget_types.
+     * @param {Widget_typesCreateArgs} args - Arguments to create a Widget_types.
+     * @example
+     * // Create one Widget_types
+     * const Widget_types = await prisma.widget_types.create({
+     *   data: {
+     *     // ... data to create a Widget_types
+     *   }
+     * })
+     * 
+    **/
+    create<T extends Widget_typesCreateArgs>(
+      args: SelectSubset<T, Widget_typesCreateArgs>
+    ): Prisma__Widget_typesClient<Widget_typesGetPayload<T>>
+
+    /**
+     * Create many Widget_types.
+     *     @param {Widget_typesCreateManyArgs} args - Arguments to create many Widget_types.
+     *     @example
+     *     // Create many Widget_types
+     *     const widget_types = await prisma.widget_types.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends Widget_typesCreateManyArgs>(
+      args?: SelectSubset<T, Widget_typesCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Widget_types.
+     * @param {Widget_typesDeleteArgs} args - Arguments to delete one Widget_types.
+     * @example
+     * // Delete one Widget_types
+     * const Widget_types = await prisma.widget_types.delete({
+     *   where: {
+     *     // ... filter to delete one Widget_types
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends Widget_typesDeleteArgs>(
+      args: SelectSubset<T, Widget_typesDeleteArgs>
+    ): Prisma__Widget_typesClient<Widget_typesGetPayload<T>>
+
+    /**
+     * Update one Widget_types.
+     * @param {Widget_typesUpdateArgs} args - Arguments to update one Widget_types.
+     * @example
+     * // Update one Widget_types
+     * const widget_types = await prisma.widget_types.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends Widget_typesUpdateArgs>(
+      args: SelectSubset<T, Widget_typesUpdateArgs>
+    ): Prisma__Widget_typesClient<Widget_typesGetPayload<T>>
+
+    /**
+     * Delete zero or more Widget_types.
+     * @param {Widget_typesDeleteManyArgs} args - Arguments to filter Widget_types to delete.
+     * @example
+     * // Delete a few Widget_types
+     * const { count } = await prisma.widget_types.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends Widget_typesDeleteManyArgs>(
+      args?: SelectSubset<T, Widget_typesDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Widget_types.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Widget_typesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Widget_types
+     * const widget_types = await prisma.widget_types.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends Widget_typesUpdateManyArgs>(
+      args: SelectSubset<T, Widget_typesUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Widget_types.
+     * @param {Widget_typesUpsertArgs} args - Arguments to update or create a Widget_types.
+     * @example
+     * // Update or create a Widget_types
+     * const widget_types = await prisma.widget_types.upsert({
+     *   create: {
+     *     // ... data to create a Widget_types
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Widget_types we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends Widget_typesUpsertArgs>(
+      args: SelectSubset<T, Widget_typesUpsertArgs>
+    ): Prisma__Widget_typesClient<Widget_typesGetPayload<T>>
+
+    /**
+     * Count the number of Widget_types.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Widget_typesCountArgs} args - Arguments to filter Widget_types to count.
+     * @example
+     * // Count the number of Widget_types
+     * const count = await prisma.widget_types.count({
+     *   where: {
+     *     // ... the filter for the Widget_types we want to count
+     *   }
+     * })
+    **/
+    count<T extends Widget_typesCountArgs>(
+      args?: Subset<T, Widget_typesCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Widget_typesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Widget_types.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Widget_typesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Widget_typesAggregateArgs>(args: Subset<T, Widget_typesAggregateArgs>): PrismaPromise<GetWidget_typesAggregateType<T>>
+
+    /**
+     * Group by Widget_types.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Widget_typesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Widget_typesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Widget_typesGroupByArgs['orderBy'] }
+        : { orderBy?: Widget_typesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Widget_typesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWidget_typesGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Widget_types.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__Widget_typesClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Widget_types base type for findUnique actions
+   */
+  export type Widget_typesFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Widget_types
+     * 
+    **/
+    select?: Widget_typesSelect | null
+    /**
+     * Filter, which Widget_types to fetch.
+     * 
+    **/
+    where: Widget_typesWhereUniqueInput
+  }
+
+  /**
+   * Widget_types findUnique
+   */
+  export interface Widget_typesFindUniqueArgs extends Widget_typesFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Widget_types findUniqueOrThrow
+   */
+  export type Widget_typesFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Widget_types
+     * 
+    **/
+    select?: Widget_typesSelect | null
+    /**
+     * Filter, which Widget_types to fetch.
+     * 
+    **/
+    where: Widget_typesWhereUniqueInput
+  }
+
+
+  /**
+   * Widget_types base type for findFirst actions
+   */
+  export type Widget_typesFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Widget_types
+     * 
+    **/
+    select?: Widget_typesSelect | null
+    /**
+     * Filter, which Widget_types to fetch.
+     * 
+    **/
+    where?: Widget_typesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Widget_types to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Widget_typesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Widget_types.
+     * 
+    **/
+    cursor?: Widget_typesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Widget_types from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Widget_types.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Widget_types.
+     * 
+    **/
+    distinct?: Enumerable<Widget_typesScalarFieldEnum>
+  }
+
+  /**
+   * Widget_types findFirst
+   */
+  export interface Widget_typesFindFirstArgs extends Widget_typesFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Widget_types findFirstOrThrow
+   */
+  export type Widget_typesFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Widget_types
+     * 
+    **/
+    select?: Widget_typesSelect | null
+    /**
+     * Filter, which Widget_types to fetch.
+     * 
+    **/
+    where?: Widget_typesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Widget_types to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Widget_typesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Widget_types.
+     * 
+    **/
+    cursor?: Widget_typesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Widget_types from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Widget_types.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Widget_types.
+     * 
+    **/
+    distinct?: Enumerable<Widget_typesScalarFieldEnum>
+  }
+
+
+  /**
+   * Widget_types findMany
+   */
+  export type Widget_typesFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Widget_types
+     * 
+    **/
+    select?: Widget_typesSelect | null
+    /**
+     * Filter, which Widget_types to fetch.
+     * 
+    **/
+    where?: Widget_typesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Widget_types to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Widget_typesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Widget_types.
+     * 
+    **/
+    cursor?: Widget_typesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Widget_types from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Widget_types.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Widget_typesScalarFieldEnum>
+  }
+
+
+  /**
+   * Widget_types create
+   */
+  export type Widget_typesCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Widget_types
+     * 
+    **/
+    select?: Widget_typesSelect | null
+    /**
+     * The data needed to create a Widget_types.
+     * 
+    **/
+    data: XOR<Widget_typesCreateInput, Widget_typesUncheckedCreateInput>
+  }
+
+
+  /**
+   * Widget_types createMany
+   */
+  export type Widget_typesCreateManyArgs = {
+    /**
+     * The data used to create many Widget_types.
+     * 
+    **/
+    data: Enumerable<Widget_typesCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Widget_types update
+   */
+  export type Widget_typesUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Widget_types
+     * 
+    **/
+    select?: Widget_typesSelect | null
+    /**
+     * The data needed to update a Widget_types.
+     * 
+    **/
+    data: XOR<Widget_typesUpdateInput, Widget_typesUncheckedUpdateInput>
+    /**
+     * Choose, which Widget_types to update.
+     * 
+    **/
+    where: Widget_typesWhereUniqueInput
+  }
+
+
+  /**
+   * Widget_types updateMany
+   */
+  export type Widget_typesUpdateManyArgs = {
+    /**
+     * The data used to update Widget_types.
+     * 
+    **/
+    data: XOR<Widget_typesUpdateManyMutationInput, Widget_typesUncheckedUpdateManyInput>
+    /**
+     * Filter which Widget_types to update
+     * 
+    **/
+    where?: Widget_typesWhereInput
+  }
+
+
+  /**
+   * Widget_types upsert
+   */
+  export type Widget_typesUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Widget_types
+     * 
+    **/
+    select?: Widget_typesSelect | null
+    /**
+     * The filter to search for the Widget_types to update in case it exists.
+     * 
+    **/
+    where: Widget_typesWhereUniqueInput
+    /**
+     * In case the Widget_types found by the `where` argument doesn't exist, create a new Widget_types with this data.
+     * 
+    **/
+    create: XOR<Widget_typesCreateInput, Widget_typesUncheckedCreateInput>
+    /**
+     * In case the Widget_types was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<Widget_typesUpdateInput, Widget_typesUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Widget_types delete
+   */
+  export type Widget_typesDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Widget_types
+     * 
+    **/
+    select?: Widget_typesSelect | null
+    /**
+     * Filter which Widget_types to delete.
+     * 
+    **/
+    where: Widget_typesWhereUniqueInput
+  }
+
+
+  /**
+   * Widget_types deleteMany
+   */
+  export type Widget_typesDeleteManyArgs = {
+    /**
+     * Filter which Widget_types to delete
+     * 
+    **/
+    where?: Widget_typesWhereInput
+  }
+
+
+  /**
+   * Widget_types without action
+   */
+  export type Widget_typesArgs = {
+    /**
+     * Select specific fields to fetch from the Widget_types
+     * 
+    **/
+    select?: Widget_typesSelect | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -6525,6 +8536,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   };
 
   export type AccountsScalarFieldEnum = (typeof AccountsScalarFieldEnum)[keyof typeof AccountsScalarFieldEnum]
+
+
+  export const Field_typesScalarFieldEnum: {
+    field_type_id: 'field_type_id',
+    name: 'name',
+    sort: 'sort',
+    comment: 'comment',
+    label_replace_by_generated_column: 'label_replace_by_generated_column',
+    deleted: 'deleted'
+  };
+
+  export type Field_typesScalarFieldEnum = (typeof Field_typesScalarFieldEnum)[keyof typeof Field_typesScalarFieldEnum]
 
 
   export const MessagesScalarFieldEnum: {
@@ -6589,6 +8612,19 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   };
 
   export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
+  export const Widget_typesScalarFieldEnum: {
+    widget_type_id: 'widget_type_id',
+    name: 'name',
+    needs_list: 'needs_list',
+    sort: 'sort',
+    comment: 'comment',
+    label_replace_by_generated_column: 'label_replace_by_generated_column',
+    deleted: 'deleted'
+  };
+
+  export type Widget_typesScalarFieldEnum = (typeof Widget_typesScalarFieldEnum)[keyof typeof Widget_typesScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -6666,6 +8702,27 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'project_type'
    */
   export type Enumproject_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'project_type'>
@@ -6687,23 +8744,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
-   * Reference to a field of type 'Boolean'
+   * Reference to a field of type 'Float'
    */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'Float[]'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -6779,6 +8829,65 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: DateTimeNullableWithAggregatesFilter<"Accounts"> | Date | string | null
     projects_label_by?: StringNullableWithAggregatesFilter<"Accounts"> | string | null
     label?: StringNullableWithAggregatesFilter<"Accounts"> | string | null
+  }
+
+  export type Field_typesWhereInput = {
+    AND?: Enumerable<Field_typesWhereInput>
+    OR?: Enumerable<Field_typesWhereInput>
+    NOT?: Enumerable<Field_typesWhereInput>
+    field_type_id?: UuidFilter<"Field_types"> | string
+    name?: StringNullableFilter<"Field_types"> | string | null
+    sort?: IntNullableFilter<"Field_types"> | number | null
+    comment?: StringNullableFilter<"Field_types"> | string | null
+    label_replace_by_generated_column?: StringNullableFilter<"Field_types"> | string | null
+    deleted?: BoolNullableFilter<"Field_types"> | boolean | null
+  }
+
+  export type Field_typesOrderByWithRelationInput = {
+    field_type_id?: SortOrder
+    name?: SortOrderInput | SortOrder
+    sort?: SortOrderInput | SortOrder
+    comment?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+  }
+
+  export type Field_typesWhereUniqueInput = Prisma.AtLeast<{
+    field_type_id?: string
+    AND?: Enumerable<Field_typesWhereInput>
+    OR?: Enumerable<Field_typesWhereInput>
+    NOT?: Enumerable<Field_typesWhereInput>
+    name?: StringNullableFilter<"Field_types"> | string | null
+    sort?: IntNullableFilter<"Field_types"> | number | null
+    comment?: StringNullableFilter<"Field_types"> | string | null
+    label_replace_by_generated_column?: StringNullableFilter<"Field_types"> | string | null
+    deleted?: BoolNullableFilter<"Field_types"> | boolean | null
+  }, "field_type_id">
+
+  export type Field_typesOrderByWithAggregationInput = {
+    field_type_id?: SortOrder
+    name?: SortOrderInput | SortOrder
+    sort?: SortOrderInput | SortOrder
+    comment?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    _count?: Field_typesCountOrderByAggregateInput
+    _avg?: Field_typesAvgOrderByAggregateInput
+    _max?: Field_typesMaxOrderByAggregateInput
+    _min?: Field_typesMinOrderByAggregateInput
+    _sum?: Field_typesSumOrderByAggregateInput
+  }
+
+  export type Field_typesScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<Field_typesScalarWhereWithAggregatesInput>
+    OR?: Enumerable<Field_typesScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<Field_typesScalarWhereWithAggregatesInput>
+    field_type_id?: UuidWithAggregatesFilter<"Field_types"> | string
+    name?: StringNullableWithAggregatesFilter<"Field_types"> | string | null
+    sort?: IntNullableWithAggregatesFilter<"Field_types"> | number | null
+    comment?: StringNullableWithAggregatesFilter<"Field_types"> | string | null
+    label_replace_by_generated_column?: StringNullableWithAggregatesFilter<"Field_types"> | string | null
+    deleted?: BoolNullableWithAggregatesFilter<"Field_types"> | boolean | null
   }
 
   export type MessagesWhereInput = {
@@ -7110,6 +9219,70 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableWithAggregatesFilter<"Users"> | boolean | null
   }
 
+  export type Widget_typesWhereInput = {
+    AND?: Enumerable<Widget_typesWhereInput>
+    OR?: Enumerable<Widget_typesWhereInput>
+    NOT?: Enumerable<Widget_typesWhereInput>
+    widget_type_id?: UuidFilter<"Widget_types"> | string
+    name?: StringNullableFilter<"Widget_types"> | string | null
+    needs_list?: BoolNullableFilter<"Widget_types"> | boolean | null
+    sort?: IntNullableFilter<"Widget_types"> | number | null
+    comment?: StringNullableFilter<"Widget_types"> | string | null
+    label_replace_by_generated_column?: StringNullableFilter<"Widget_types"> | string | null
+    deleted?: BoolNullableFilter<"Widget_types"> | boolean | null
+  }
+
+  export type Widget_typesOrderByWithRelationInput = {
+    widget_type_id?: SortOrder
+    name?: SortOrderInput | SortOrder
+    needs_list?: SortOrderInput | SortOrder
+    sort?: SortOrderInput | SortOrder
+    comment?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+  }
+
+  export type Widget_typesWhereUniqueInput = Prisma.AtLeast<{
+    widget_type_id?: string
+    AND?: Enumerable<Widget_typesWhereInput>
+    OR?: Enumerable<Widget_typesWhereInput>
+    NOT?: Enumerable<Widget_typesWhereInput>
+    name?: StringNullableFilter<"Widget_types"> | string | null
+    needs_list?: BoolNullableFilter<"Widget_types"> | boolean | null
+    sort?: IntNullableFilter<"Widget_types"> | number | null
+    comment?: StringNullableFilter<"Widget_types"> | string | null
+    label_replace_by_generated_column?: StringNullableFilter<"Widget_types"> | string | null
+    deleted?: BoolNullableFilter<"Widget_types"> | boolean | null
+  }, "widget_type_id">
+
+  export type Widget_typesOrderByWithAggregationInput = {
+    widget_type_id?: SortOrder
+    name?: SortOrderInput | SortOrder
+    needs_list?: SortOrderInput | SortOrder
+    sort?: SortOrderInput | SortOrder
+    comment?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    _count?: Widget_typesCountOrderByAggregateInput
+    _avg?: Widget_typesAvgOrderByAggregateInput
+    _max?: Widget_typesMaxOrderByAggregateInput
+    _min?: Widget_typesMinOrderByAggregateInput
+    _sum?: Widget_typesSumOrderByAggregateInput
+  }
+
+  export type Widget_typesScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<Widget_typesScalarWhereWithAggregatesInput>
+    OR?: Enumerable<Widget_typesScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<Widget_typesScalarWhereWithAggregatesInput>
+    widget_type_id?: UuidWithAggregatesFilter<"Widget_types"> | string
+    name?: StringNullableWithAggregatesFilter<"Widget_types"> | string | null
+    needs_list?: BoolNullableWithAggregatesFilter<"Widget_types"> | boolean | null
+    sort?: IntNullableWithAggregatesFilter<"Widget_types"> | number | null
+    comment?: StringNullableWithAggregatesFilter<"Widget_types"> | string | null
+    label_replace_by_generated_column?: StringNullableWithAggregatesFilter<"Widget_types"> | string | null
+    deleted?: BoolNullableWithAggregatesFilter<"Widget_types"> | boolean | null
+  }
+
   export type AccountsCreateInput = {
     account_id: string
     type?: string | null
@@ -7185,6 +9358,69 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Field_typesCreateInput = {
+    field_type_id: string
+    name?: string | null
+    sort?: number | null
+    comment?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Field_typesUncheckedCreateInput = {
+    field_type_id: string
+    name?: string | null
+    sort?: number | null
+    comment?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Field_typesUpdateInput = {
+    field_type_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Field_typesUncheckedUpdateInput = {
+    field_type_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Field_typesCreateManyInput = {
+    field_type_id: string
+    name?: string | null
+    sort?: number | null
+    comment?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Field_typesUpdateManyMutationInput = {
+    field_type_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Field_typesUncheckedUpdateManyInput = {
+    field_type_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type MessagesCreateInput = {
@@ -7559,6 +9795,76 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Widget_typesCreateInput = {
+    widget_type_id: string
+    name?: string | null
+    needs_list?: boolean | null
+    sort?: number | null
+    comment?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Widget_typesUncheckedCreateInput = {
+    widget_type_id: string
+    name?: string | null
+    needs_list?: boolean | null
+    sort?: number | null
+    comment?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Widget_typesUpdateInput = {
+    widget_type_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    needs_list?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Widget_typesUncheckedUpdateInput = {
+    widget_type_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    needs_list?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Widget_typesCreateManyInput = {
+    widget_type_id: string
+    name?: string | null
+    needs_list?: boolean | null
+    sort?: number | null
+    comment?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Widget_typesUpdateManyMutationInput = {
+    widget_type_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    needs_list?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Widget_typesUncheckedUpdateManyInput = {
+    widget_type_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    needs_list?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
@@ -7731,6 +10037,81 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type Field_typesCountOrderByAggregateInput = {
+    field_type_id?: SortOrder
+    name?: SortOrder
+    sort?: SortOrder
+    comment?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Field_typesAvgOrderByAggregateInput = {
+    sort?: SortOrder
+  }
+
+  export type Field_typesMaxOrderByAggregateInput = {
+    field_type_id?: SortOrder
+    name?: SortOrder
+    sort?: SortOrder
+    comment?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Field_typesMinOrderByAggregateInput = {
+    field_type_id?: SortOrder
+    name?: SortOrder
+    sort?: SortOrder
+    comment?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Field_typesSumOrderByAggregateInput = {
+    sort?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
   export type MessagesCountOrderByAggregateInput = {
     message_id?: SortOrder
     label_replace_by_generated_column?: SortOrder
@@ -7779,11 +10160,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type BoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
 
   export type AccountsNullableRelationFilter = {
@@ -7906,14 +10282,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
-  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
-  }
-
   export type MessagesNullableRelationFilter = {
     is?: MessagesWhereInput | null
     isNot?: MessagesWhereInput | null
@@ -7978,6 +10346,44 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     auth_id?: SortOrder
     label_replace_by_generated_column?: SortOrder
     deleted?: SortOrder
+  }
+
+  export type Widget_typesCountOrderByAggregateInput = {
+    widget_type_id?: SortOrder
+    name?: SortOrder
+    needs_list?: SortOrder
+    sort?: SortOrder
+    comment?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Widget_typesAvgOrderByAggregateInput = {
+    sort?: SortOrder
+  }
+
+  export type Widget_typesMaxOrderByAggregateInput = {
+    widget_type_id?: SortOrder
+    name?: SortOrder
+    needs_list?: SortOrder
+    sort?: SortOrder
+    comment?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Widget_typesMinOrderByAggregateInput = {
+    widget_type_id?: SortOrder
+    name?: SortOrder
+    needs_list?: SortOrder
+    sort?: SortOrder
+    comment?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Widget_typesSumOrderByAggregateInput = {
+    sort?: SortOrder
   }
 
   export type UsersCreateNestedOneWithoutAccountsInput = {
@@ -8092,6 +10498,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<User_messagesScalarWhereInput>
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
+  }
+
   export type User_messagesCreateNestedManyWithoutMessagesInput = {
     create?: XOR<Enumerable<User_messagesCreateWithoutMessagesInput>, Enumerable<User_messagesUncheckedCreateWithoutMessagesInput>>
     connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutMessagesInput>
@@ -8142,10 +10560,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type NullableEnumproject_typeFieldUpdateOperationsInput = {
     set?: project_type | null
-  }
-
-  export type NullableBoolFieldUpdateOperationsInput = {
-    set?: boolean | null
   }
 
   export type AccountsUpdateOneWithoutProjectsNestedInput = {
@@ -8432,16 +10846,51 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumproject_typeNullableFilter<$PrismaModel = never> = {
     equals?: project_type | Enumproject_typeFieldRefInput<$PrismaModel> | null
     in?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
     notIn?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
     not?: NestedEnumproject_typeNullableFilter<$PrismaModel> | project_type | null
-  }
-
-  export type NestedBoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
 
   export type NestedEnumproject_typeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -8474,14 +10923,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type UsersCreateWithoutAccountsInput = {
