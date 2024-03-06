@@ -52,6 +52,31 @@ export type Field_types = {
 }
 
 /**
+ * Model Gbif_occurrences
+ * 
+ */
+export type Gbif_occurrences = {
+  /**
+   * @zod.string.uuid()
+   */
+  gbif_occurrence_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  project_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  subproject_id: string | null
+  gbif_data: Prisma.JsonValue | null
+  label: string | null
+}
+
+/**
  * Model Gbif_taxa
  * 
  */
@@ -596,6 +621,16 @@ export class PrismaClient<
     * ```
     */
   get field_types(): Prisma.Field_typesDelegate<GlobalReject>;
+
+  /**
+   * `prisma.gbif_occurrences`: Exposes CRUD operations for the **Gbif_occurrences** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Gbif_occurrences
+    * const gbif_occurrences = await prisma.gbif_occurrences.findMany()
+    * ```
+    */
+  get gbif_occurrences(): Prisma.Gbif_occurrencesDelegate<GlobalReject>;
 
   /**
    * `prisma.gbif_taxa`: Exposes CRUD operations for the **Gbif_taxa** model.
@@ -1232,6 +1267,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export const ModelName: {
     Accounts: 'Accounts',
     Field_types: 'Field_types',
+    Gbif_occurrences: 'Gbif_occurrences',
     Gbif_taxa: 'Gbif_taxa',
     Lists: 'Lists',
     Messages: 'Messages',
@@ -1417,6 +1453,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type AccountsCountOutputType = {
+    gbif_occurrences: number
     gbif_taxa: number
     lists: number
     persons: number
@@ -1431,6 +1468,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type AccountsCountOutputTypeSelect = {
+    gbif_occurrences?: boolean | AccountsCountOutputTypeCountGbif_occurrencesArgs
     gbif_taxa?: boolean | AccountsCountOutputTypeCountGbif_taxaArgs
     lists?: boolean | AccountsCountOutputTypeCountListsArgs
     persons?: boolean | AccountsCountOutputTypeCountPersonsArgs
@@ -1471,6 +1509,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: AccountsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountGbif_occurrencesArgs = {
+    where?: Gbif_occurrencesWhereInput
   }
 
 
@@ -1673,6 +1719,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type ProjectsCountOutputType = {
+    gbif_occurrences: number
     gbif_taxa: number
     lists: number
     persons: number
@@ -1683,6 +1730,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type ProjectsCountOutputTypeSelect = {
+    gbif_occurrences?: boolean | ProjectsCountOutputTypeCountGbif_occurrencesArgs
     gbif_taxa?: boolean | ProjectsCountOutputTypeCountGbif_taxaArgs
     lists?: boolean | ProjectsCountOutputTypeCountListsArgs
     persons?: boolean | ProjectsCountOutputTypeCountPersonsArgs
@@ -1719,6 +1767,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: ProjectsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * ProjectsCountOutputType without action
+   */
+  export type ProjectsCountOutputTypeCountGbif_occurrencesArgs = {
+    where?: Gbif_occurrencesWhereInput
   }
 
 
@@ -1775,6 +1831,58 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type ProjectsCountOutputTypeCountTaxonomiesArgs = {
     where?: TaxonomiesWhereInput
+  }
+
+
+
+  /**
+   * Count Type SubprojectsCountOutputType
+   */
+
+
+  export type SubprojectsCountOutputType = {
+    gbif_occurrences: number
+  }
+
+  export type SubprojectsCountOutputTypeSelect = {
+    gbif_occurrences?: boolean | SubprojectsCountOutputTypeCountGbif_occurrencesArgs
+  }
+
+  export type SubprojectsCountOutputTypeGetPayload<S extends boolean | null | undefined | SubprojectsCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? SubprojectsCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (SubprojectsCountOutputTypeArgs)
+    ? SubprojectsCountOutputType 
+    : S extends { select: any } & (SubprojectsCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof SubprojectsCountOutputType ? SubprojectsCountOutputType[P] : never
+  } 
+      : SubprojectsCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * SubprojectsCountOutputType without action
+   */
+  export type SubprojectsCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the SubprojectsCountOutputType
+     * 
+    **/
+    select?: SubprojectsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * SubprojectsCountOutputType without action
+   */
+  export type SubprojectsCountOutputTypeCountGbif_occurrencesArgs = {
+    where?: Gbif_occurrencesWhereInput
   }
 
 
@@ -2147,6 +2255,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: boolean
     label?: boolean
     users?: boolean | Accounts$usersArgs
+    gbif_occurrences?: boolean | Accounts$gbif_occurrencesArgs
     gbif_taxa?: boolean | Accounts$gbif_taxaArgs
     lists?: boolean | Accounts$listsArgs
     persons?: boolean | Accounts$personsArgs
@@ -2164,6 +2273,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type AccountsInclude = {
     users?: boolean | Accounts$usersArgs
+    gbif_occurrences?: boolean | Accounts$gbif_occurrencesArgs
     gbif_taxa?: boolean | Accounts$gbif_taxaArgs
     lists?: boolean | Accounts$listsArgs
     persons?: boolean | Accounts$personsArgs
@@ -2186,6 +2296,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ? Accounts  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'users' ? UsersGetPayload<S['include'][P]> | null :
+        P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['include'][P]>>  :
         P extends 'gbif_taxa' ? Array < Gbif_taxaGetPayload<S['include'][P]>>  :
         P extends 'lists' ? Array < ListsGetPayload<S['include'][P]>>  :
         P extends 'persons' ? Array < PersonsGetPayload<S['include'][P]>>  :
@@ -2203,6 +2314,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'users' ? UsersGetPayload<S['select'][P]> | null :
+        P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['select'][P]>>  :
         P extends 'gbif_taxa' ? Array < Gbif_taxaGetPayload<S['select'][P]>>  :
         P extends 'lists' ? Array < ListsGetPayload<S['select'][P]>>  :
         P extends 'persons' ? Array < PersonsGetPayload<S['select'][P]>>  :
@@ -2589,6 +2701,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
     users<T extends Accounts$usersArgs= {}>(args?: Subset<T, Accounts$usersArgs>): Prisma__UsersClient<UsersGetPayload<T> | Null>;
+
+    gbif_occurrences<T extends Accounts$gbif_occurrencesArgs= {}>(args?: Subset<T, Accounts$gbif_occurrencesArgs>): PrismaPromise<Array<Gbif_occurrencesGetPayload<T>>| Null>;
 
     gbif_taxa<T extends Accounts$gbif_taxaArgs= {}>(args?: Subset<T, Accounts$gbif_taxaArgs>): PrismaPromise<Array<Gbif_taxaGetPayload<T>>| Null>;
 
@@ -3030,6 +3144,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     include?: UsersInclude | null
     where?: UsersWhereInput
+  }
+
+
+  /**
+   * Accounts.gbif_occurrences
+   */
+  export type Accounts$gbif_occurrencesArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_occurrences
+     * 
+    **/
+    select?: Gbif_occurrencesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_occurrencesInclude | null
+    where?: Gbif_occurrencesWhereInput
+    orderBy?: Enumerable<Gbif_occurrencesOrderByWithRelationInput>
+    cursor?: Gbif_occurrencesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Gbif_occurrencesScalarFieldEnum>
   }
 
 
@@ -4357,6 +4494,1064 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     include?: Field_typesInclude | null
+  }
+
+
+
+  /**
+   * Model Gbif_occurrences
+   */
+
+
+  export type AggregateGbif_occurrences = {
+    _count: Gbif_occurrencesCountAggregateOutputType | null
+    _min: Gbif_occurrencesMinAggregateOutputType | null
+    _max: Gbif_occurrencesMaxAggregateOutputType | null
+  }
+
+  export type Gbif_occurrencesMinAggregateOutputType = {
+    gbif_occurrence_id: string | null
+    account_id: string | null
+    project_id: string | null
+    subproject_id: string | null
+    label: string | null
+  }
+
+  export type Gbif_occurrencesMaxAggregateOutputType = {
+    gbif_occurrence_id: string | null
+    account_id: string | null
+    project_id: string | null
+    subproject_id: string | null
+    label: string | null
+  }
+
+  export type Gbif_occurrencesCountAggregateOutputType = {
+    gbif_occurrence_id: number
+    account_id: number
+    project_id: number
+    subproject_id: number
+    gbif_data: number
+    label: number
+    _all: number
+  }
+
+
+  export type Gbif_occurrencesMinAggregateInputType = {
+    gbif_occurrence_id?: true
+    account_id?: true
+    project_id?: true
+    subproject_id?: true
+    label?: true
+  }
+
+  export type Gbif_occurrencesMaxAggregateInputType = {
+    gbif_occurrence_id?: true
+    account_id?: true
+    project_id?: true
+    subproject_id?: true
+    label?: true
+  }
+
+  export type Gbif_occurrencesCountAggregateInputType = {
+    gbif_occurrence_id?: true
+    account_id?: true
+    project_id?: true
+    subproject_id?: true
+    gbif_data?: true
+    label?: true
+    _all?: true
+  }
+
+  export type Gbif_occurrencesAggregateArgs = {
+    /**
+     * Filter which Gbif_occurrences to aggregate.
+     * 
+    **/
+    where?: Gbif_occurrencesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Gbif_occurrences to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Gbif_occurrencesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: Gbif_occurrencesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Gbif_occurrences from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Gbif_occurrences.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Gbif_occurrences
+    **/
+    _count?: true | Gbif_occurrencesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Gbif_occurrencesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Gbif_occurrencesMaxAggregateInputType
+  }
+
+  export type GetGbif_occurrencesAggregateType<T extends Gbif_occurrencesAggregateArgs> = {
+        [P in keyof T & keyof AggregateGbif_occurrences]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGbif_occurrences[P]>
+      : GetScalarType<T[P], AggregateGbif_occurrences[P]>
+  }
+
+
+
+
+  export type Gbif_occurrencesGroupByArgs = {
+    where?: Gbif_occurrencesWhereInput
+    orderBy?: Enumerable<Gbif_occurrencesOrderByWithAggregationInput>
+    by: Array<Gbif_occurrencesScalarFieldEnum>
+    having?: Gbif_occurrencesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Gbif_occurrencesCountAggregateInputType | true
+    _min?: Gbif_occurrencesMinAggregateInputType
+    _max?: Gbif_occurrencesMaxAggregateInputType
+  }
+
+
+  export type Gbif_occurrencesGroupByOutputType = {
+    gbif_occurrence_id: string
+    account_id: string | null
+    project_id: string | null
+    subproject_id: string | null
+    gbif_data: JsonValue | null
+    label: string | null
+    _count: Gbif_occurrencesCountAggregateOutputType | null
+    _min: Gbif_occurrencesMinAggregateOutputType | null
+    _max: Gbif_occurrencesMaxAggregateOutputType | null
+  }
+
+  type GetGbif_occurrencesGroupByPayload<T extends Gbif_occurrencesGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Gbif_occurrencesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Gbif_occurrencesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Gbif_occurrencesGroupByOutputType[P]>
+            : GetScalarType<T[P], Gbif_occurrencesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Gbif_occurrencesSelect = {
+    gbif_occurrence_id?: boolean
+    account_id?: boolean
+    project_id?: boolean
+    subproject_id?: boolean
+    gbif_data?: boolean
+    label?: boolean
+    accounts?: boolean | Gbif_occurrences$accountsArgs
+    projects?: boolean | Gbif_occurrences$projectsArgs
+    subprojects?: boolean | Gbif_occurrences$subprojectsArgs
+  }
+
+
+  export type Gbif_occurrencesInclude = {
+    accounts?: boolean | Gbif_occurrences$accountsArgs
+    projects?: boolean | Gbif_occurrences$projectsArgs
+    subprojects?: boolean | Gbif_occurrences$subprojectsArgs
+  } 
+
+  export type Gbif_occurrencesGetPayload<S extends boolean | null | undefined | Gbif_occurrencesArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Gbif_occurrences :
+    S extends undefined ? never :
+    S extends { include: any } & (Gbif_occurrencesArgs | Gbif_occurrencesFindManyArgs)
+    ? Gbif_occurrences  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> | null :
+        P extends 'subprojects' ? SubprojectsGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (Gbif_occurrencesArgs | Gbif_occurrencesFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> | null :
+        P extends 'subprojects' ? SubprojectsGetPayload<S['select'][P]> | null :  P extends keyof Gbif_occurrences ? Gbif_occurrences[P] : never
+  } 
+      : Gbif_occurrences
+
+
+  type Gbif_occurrencesCountArgs = Merge<
+    Omit<Gbif_occurrencesFindManyArgs, 'select' | 'include'> & {
+      select?: Gbif_occurrencesCountAggregateInputType | true
+    }
+  >
+
+  export interface Gbif_occurrencesDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Gbif_occurrences that matches the filter.
+     * @param {Gbif_occurrencesFindUniqueArgs} args - Arguments to find a Gbif_occurrences
+     * @example
+     * // Get one Gbif_occurrences
+     * const gbif_occurrences = await prisma.gbif_occurrences.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends Gbif_occurrencesFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Gbif_occurrencesFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Gbif_occurrences'> extends True ? Prisma__Gbif_occurrencesClient<Gbif_occurrencesGetPayload<T>> : Prisma__Gbif_occurrencesClient<Gbif_occurrencesGetPayload<T> | null, null>
+
+    /**
+     * Find one Gbif_occurrences that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {Gbif_occurrencesFindUniqueOrThrowArgs} args - Arguments to find a Gbif_occurrences
+     * @example
+     * // Get one Gbif_occurrences
+     * const gbif_occurrences = await prisma.gbif_occurrences.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends Gbif_occurrencesFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, Gbif_occurrencesFindUniqueOrThrowArgs>
+    ): Prisma__Gbif_occurrencesClient<Gbif_occurrencesGetPayload<T>>
+
+    /**
+     * Find the first Gbif_occurrences that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Gbif_occurrencesFindFirstArgs} args - Arguments to find a Gbif_occurrences
+     * @example
+     * // Get one Gbif_occurrences
+     * const gbif_occurrences = await prisma.gbif_occurrences.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends Gbif_occurrencesFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Gbif_occurrencesFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Gbif_occurrences'> extends True ? Prisma__Gbif_occurrencesClient<Gbif_occurrencesGetPayload<T>> : Prisma__Gbif_occurrencesClient<Gbif_occurrencesGetPayload<T> | null, null>
+
+    /**
+     * Find the first Gbif_occurrences that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Gbif_occurrencesFindFirstOrThrowArgs} args - Arguments to find a Gbif_occurrences
+     * @example
+     * // Get one Gbif_occurrences
+     * const gbif_occurrences = await prisma.gbif_occurrences.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends Gbif_occurrencesFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, Gbif_occurrencesFindFirstOrThrowArgs>
+    ): Prisma__Gbif_occurrencesClient<Gbif_occurrencesGetPayload<T>>
+
+    /**
+     * Find zero or more Gbif_occurrences that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Gbif_occurrencesFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Gbif_occurrences
+     * const gbif_occurrences = await prisma.gbif_occurrences.findMany()
+     * 
+     * // Get first 10 Gbif_occurrences
+     * const gbif_occurrences = await prisma.gbif_occurrences.findMany({ take: 10 })
+     * 
+     * // Only select the `gbif_occurrence_id`
+     * const gbif_occurrencesWithGbif_occurrence_idOnly = await prisma.gbif_occurrences.findMany({ select: { gbif_occurrence_id: true } })
+     * 
+    **/
+    findMany<T extends Gbif_occurrencesFindManyArgs>(
+      args?: SelectSubset<T, Gbif_occurrencesFindManyArgs>
+    ): PrismaPromise<Array<Gbif_occurrencesGetPayload<T>>>
+
+    /**
+     * Create a Gbif_occurrences.
+     * @param {Gbif_occurrencesCreateArgs} args - Arguments to create a Gbif_occurrences.
+     * @example
+     * // Create one Gbif_occurrences
+     * const Gbif_occurrences = await prisma.gbif_occurrences.create({
+     *   data: {
+     *     // ... data to create a Gbif_occurrences
+     *   }
+     * })
+     * 
+    **/
+    create<T extends Gbif_occurrencesCreateArgs>(
+      args: SelectSubset<T, Gbif_occurrencesCreateArgs>
+    ): Prisma__Gbif_occurrencesClient<Gbif_occurrencesGetPayload<T>>
+
+    /**
+     * Create many Gbif_occurrences.
+     *     @param {Gbif_occurrencesCreateManyArgs} args - Arguments to create many Gbif_occurrences.
+     *     @example
+     *     // Create many Gbif_occurrences
+     *     const gbif_occurrences = await prisma.gbif_occurrences.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends Gbif_occurrencesCreateManyArgs>(
+      args?: SelectSubset<T, Gbif_occurrencesCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Gbif_occurrences.
+     * @param {Gbif_occurrencesDeleteArgs} args - Arguments to delete one Gbif_occurrences.
+     * @example
+     * // Delete one Gbif_occurrences
+     * const Gbif_occurrences = await prisma.gbif_occurrences.delete({
+     *   where: {
+     *     // ... filter to delete one Gbif_occurrences
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends Gbif_occurrencesDeleteArgs>(
+      args: SelectSubset<T, Gbif_occurrencesDeleteArgs>
+    ): Prisma__Gbif_occurrencesClient<Gbif_occurrencesGetPayload<T>>
+
+    /**
+     * Update one Gbif_occurrences.
+     * @param {Gbif_occurrencesUpdateArgs} args - Arguments to update one Gbif_occurrences.
+     * @example
+     * // Update one Gbif_occurrences
+     * const gbif_occurrences = await prisma.gbif_occurrences.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends Gbif_occurrencesUpdateArgs>(
+      args: SelectSubset<T, Gbif_occurrencesUpdateArgs>
+    ): Prisma__Gbif_occurrencesClient<Gbif_occurrencesGetPayload<T>>
+
+    /**
+     * Delete zero or more Gbif_occurrences.
+     * @param {Gbif_occurrencesDeleteManyArgs} args - Arguments to filter Gbif_occurrences to delete.
+     * @example
+     * // Delete a few Gbif_occurrences
+     * const { count } = await prisma.gbif_occurrences.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends Gbif_occurrencesDeleteManyArgs>(
+      args?: SelectSubset<T, Gbif_occurrencesDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Gbif_occurrences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Gbif_occurrencesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Gbif_occurrences
+     * const gbif_occurrences = await prisma.gbif_occurrences.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends Gbif_occurrencesUpdateManyArgs>(
+      args: SelectSubset<T, Gbif_occurrencesUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Gbif_occurrences.
+     * @param {Gbif_occurrencesUpsertArgs} args - Arguments to update or create a Gbif_occurrences.
+     * @example
+     * // Update or create a Gbif_occurrences
+     * const gbif_occurrences = await prisma.gbif_occurrences.upsert({
+     *   create: {
+     *     // ... data to create a Gbif_occurrences
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Gbif_occurrences we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends Gbif_occurrencesUpsertArgs>(
+      args: SelectSubset<T, Gbif_occurrencesUpsertArgs>
+    ): Prisma__Gbif_occurrencesClient<Gbif_occurrencesGetPayload<T>>
+
+    /**
+     * Count the number of Gbif_occurrences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Gbif_occurrencesCountArgs} args - Arguments to filter Gbif_occurrences to count.
+     * @example
+     * // Count the number of Gbif_occurrences
+     * const count = await prisma.gbif_occurrences.count({
+     *   where: {
+     *     // ... the filter for the Gbif_occurrences we want to count
+     *   }
+     * })
+    **/
+    count<T extends Gbif_occurrencesCountArgs>(
+      args?: Subset<T, Gbif_occurrencesCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Gbif_occurrencesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Gbif_occurrences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Gbif_occurrencesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Gbif_occurrencesAggregateArgs>(args: Subset<T, Gbif_occurrencesAggregateArgs>): PrismaPromise<GetGbif_occurrencesAggregateType<T>>
+
+    /**
+     * Group by Gbif_occurrences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Gbif_occurrencesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Gbif_occurrencesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Gbif_occurrencesGroupByArgs['orderBy'] }
+        : { orderBy?: Gbif_occurrencesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Gbif_occurrencesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGbif_occurrencesGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Gbif_occurrences.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__Gbif_occurrencesClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Gbif_occurrences$accountsArgs= {}>(args?: Subset<T, Gbif_occurrences$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    projects<T extends Gbif_occurrences$projectsArgs= {}>(args?: Subset<T, Gbif_occurrences$projectsArgs>): Prisma__ProjectsClient<ProjectsGetPayload<T> | Null>;
+
+    subprojects<T extends Gbif_occurrences$subprojectsArgs= {}>(args?: Subset<T, Gbif_occurrences$subprojectsArgs>): Prisma__SubprojectsClient<SubprojectsGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Gbif_occurrences base type for findUnique actions
+   */
+  export type Gbif_occurrencesFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Gbif_occurrences
+     * 
+    **/
+    select?: Gbif_occurrencesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_occurrencesInclude | null
+    /**
+     * Filter, which Gbif_occurrences to fetch.
+     * 
+    **/
+    where: Gbif_occurrencesWhereUniqueInput
+  }
+
+  /**
+   * Gbif_occurrences findUnique
+   */
+  export interface Gbif_occurrencesFindUniqueArgs extends Gbif_occurrencesFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Gbif_occurrences findUniqueOrThrow
+   */
+  export type Gbif_occurrencesFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_occurrences
+     * 
+    **/
+    select?: Gbif_occurrencesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_occurrencesInclude | null
+    /**
+     * Filter, which Gbif_occurrences to fetch.
+     * 
+    **/
+    where: Gbif_occurrencesWhereUniqueInput
+  }
+
+
+  /**
+   * Gbif_occurrences base type for findFirst actions
+   */
+  export type Gbif_occurrencesFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Gbif_occurrences
+     * 
+    **/
+    select?: Gbif_occurrencesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_occurrencesInclude | null
+    /**
+     * Filter, which Gbif_occurrences to fetch.
+     * 
+    **/
+    where?: Gbif_occurrencesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Gbif_occurrences to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Gbif_occurrencesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Gbif_occurrences.
+     * 
+    **/
+    cursor?: Gbif_occurrencesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Gbif_occurrences from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Gbif_occurrences.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Gbif_occurrences.
+     * 
+    **/
+    distinct?: Enumerable<Gbif_occurrencesScalarFieldEnum>
+  }
+
+  /**
+   * Gbif_occurrences findFirst
+   */
+  export interface Gbif_occurrencesFindFirstArgs extends Gbif_occurrencesFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Gbif_occurrences findFirstOrThrow
+   */
+  export type Gbif_occurrencesFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_occurrences
+     * 
+    **/
+    select?: Gbif_occurrencesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_occurrencesInclude | null
+    /**
+     * Filter, which Gbif_occurrences to fetch.
+     * 
+    **/
+    where?: Gbif_occurrencesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Gbif_occurrences to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Gbif_occurrencesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Gbif_occurrences.
+     * 
+    **/
+    cursor?: Gbif_occurrencesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Gbif_occurrences from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Gbif_occurrences.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Gbif_occurrences.
+     * 
+    **/
+    distinct?: Enumerable<Gbif_occurrencesScalarFieldEnum>
+  }
+
+
+  /**
+   * Gbif_occurrences findMany
+   */
+  export type Gbif_occurrencesFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_occurrences
+     * 
+    **/
+    select?: Gbif_occurrencesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_occurrencesInclude | null
+    /**
+     * Filter, which Gbif_occurrences to fetch.
+     * 
+    **/
+    where?: Gbif_occurrencesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Gbif_occurrences to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Gbif_occurrencesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Gbif_occurrences.
+     * 
+    **/
+    cursor?: Gbif_occurrencesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Gbif_occurrences from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Gbif_occurrences.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Gbif_occurrencesScalarFieldEnum>
+  }
+
+
+  /**
+   * Gbif_occurrences create
+   */
+  export type Gbif_occurrencesCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_occurrences
+     * 
+    **/
+    select?: Gbif_occurrencesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_occurrencesInclude | null
+    /**
+     * The data needed to create a Gbif_occurrences.
+     * 
+    **/
+    data: XOR<Gbif_occurrencesCreateInput, Gbif_occurrencesUncheckedCreateInput>
+  }
+
+
+  /**
+   * Gbif_occurrences createMany
+   */
+  export type Gbif_occurrencesCreateManyArgs = {
+    /**
+     * The data used to create many Gbif_occurrences.
+     * 
+    **/
+    data: Enumerable<Gbif_occurrencesCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Gbif_occurrences update
+   */
+  export type Gbif_occurrencesUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_occurrences
+     * 
+    **/
+    select?: Gbif_occurrencesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_occurrencesInclude | null
+    /**
+     * The data needed to update a Gbif_occurrences.
+     * 
+    **/
+    data: XOR<Gbif_occurrencesUpdateInput, Gbif_occurrencesUncheckedUpdateInput>
+    /**
+     * Choose, which Gbif_occurrences to update.
+     * 
+    **/
+    where: Gbif_occurrencesWhereUniqueInput
+  }
+
+
+  /**
+   * Gbif_occurrences updateMany
+   */
+  export type Gbif_occurrencesUpdateManyArgs = {
+    /**
+     * The data used to update Gbif_occurrences.
+     * 
+    **/
+    data: XOR<Gbif_occurrencesUpdateManyMutationInput, Gbif_occurrencesUncheckedUpdateManyInput>
+    /**
+     * Filter which Gbif_occurrences to update
+     * 
+    **/
+    where?: Gbif_occurrencesWhereInput
+  }
+
+
+  /**
+   * Gbif_occurrences upsert
+   */
+  export type Gbif_occurrencesUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_occurrences
+     * 
+    **/
+    select?: Gbif_occurrencesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_occurrencesInclude | null
+    /**
+     * The filter to search for the Gbif_occurrences to update in case it exists.
+     * 
+    **/
+    where: Gbif_occurrencesWhereUniqueInput
+    /**
+     * In case the Gbif_occurrences found by the `where` argument doesn't exist, create a new Gbif_occurrences with this data.
+     * 
+    **/
+    create: XOR<Gbif_occurrencesCreateInput, Gbif_occurrencesUncheckedCreateInput>
+    /**
+     * In case the Gbif_occurrences was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<Gbif_occurrencesUpdateInput, Gbif_occurrencesUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Gbif_occurrences delete
+   */
+  export type Gbif_occurrencesDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_occurrences
+     * 
+    **/
+    select?: Gbif_occurrencesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_occurrencesInclude | null
+    /**
+     * Filter which Gbif_occurrences to delete.
+     * 
+    **/
+    where: Gbif_occurrencesWhereUniqueInput
+  }
+
+
+  /**
+   * Gbif_occurrences deleteMany
+   */
+  export type Gbif_occurrencesDeleteManyArgs = {
+    /**
+     * Filter which Gbif_occurrences to delete
+     * 
+    **/
+    where?: Gbif_occurrencesWhereInput
+  }
+
+
+  /**
+   * Gbif_occurrences.accounts
+   */
+  export type Gbif_occurrences$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Gbif_occurrences.projects
+   */
+  export type Gbif_occurrences$projectsArgs = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    where?: ProjectsWhereInput
+  }
+
+
+  /**
+   * Gbif_occurrences.subprojects
+   */
+  export type Gbif_occurrences$subprojectsArgs = {
+    /**
+     * Select specific fields to fetch from the Subprojects
+     * 
+    **/
+    select?: SubprojectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: SubprojectsInclude | null
+    where?: SubprojectsWhereInput
+  }
+
+
+  /**
+   * Gbif_occurrences without action
+   */
+  export type Gbif_occurrencesArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_occurrences
+     * 
+    **/
+    select?: Gbif_occurrencesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_occurrencesInclude | null
   }
 
 
@@ -11047,6 +12242,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean
     files_active_checks?: boolean
     deleted?: boolean
+    gbif_occurrences?: boolean | Projects$gbif_occurrencesArgs
     gbif_taxa?: boolean | Projects$gbif_taxaArgs
     lists?: boolean | Projects$listsArgs
     persons?: boolean | Projects$personsArgs
@@ -11060,6 +12256,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type ProjectsInclude = {
+    gbif_occurrences?: boolean | Projects$gbif_occurrencesArgs
     gbif_taxa?: boolean | Projects$gbif_taxaArgs
     lists?: boolean | Projects$listsArgs
     persons?: boolean | Projects$personsArgs
@@ -11078,6 +12275,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (ProjectsArgs | ProjectsFindManyArgs)
     ? Projects  & {
     [P in TruthyKeys<S['include']>]:
+        P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['include'][P]>>  :
         P extends 'gbif_taxa' ? Array < Gbif_taxaGetPayload<S['include'][P]>>  :
         P extends 'lists' ? Array < ListsGetPayload<S['include'][P]>>  :
         P extends 'persons' ? Array < PersonsGetPayload<S['include'][P]>>  :
@@ -11091,6 +12289,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     : S extends { select: any } & (ProjectsArgs | ProjectsFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
+        P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['select'][P]>>  :
         P extends 'gbif_taxa' ? Array < Gbif_taxaGetPayload<S['select'][P]>>  :
         P extends 'lists' ? Array < ListsGetPayload<S['select'][P]>>  :
         P extends 'persons' ? Array < PersonsGetPayload<S['select'][P]>>  :
@@ -11472,6 +12671,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _requestPromise?;
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    gbif_occurrences<T extends Projects$gbif_occurrencesArgs= {}>(args?: Subset<T, Projects$gbif_occurrencesArgs>): PrismaPromise<Array<Gbif_occurrencesGetPayload<T>>| Null>;
 
     gbif_taxa<T extends Projects$gbif_taxaArgs= {}>(args?: Subset<T, Projects$gbif_taxaArgs>): PrismaPromise<Array<Gbif_taxaGetPayload<T>>| Null>;
 
@@ -11889,6 +13090,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     where?: ProjectsWhereInput
+  }
+
+
+  /**
+   * Projects.gbif_occurrences
+   */
+  export type Projects$gbif_occurrencesArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_occurrences
+     * 
+    **/
+    select?: Gbif_occurrencesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_occurrencesInclude | null
+    where?: Gbif_occurrencesWhereInput
+    orderBy?: Enumerable<Gbif_occurrencesOrderByWithRelationInput>
+    cursor?: Gbif_occurrencesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Gbif_occurrencesScalarFieldEnum>
   }
 
 
@@ -12326,14 +13550,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: boolean
     data?: boolean
     deleted?: boolean
+    gbif_occurrences?: boolean | Subprojects$gbif_occurrencesArgs
     accounts?: boolean | Subprojects$accountsArgs
     projects?: boolean | Subprojects$projectsArgs
+    _count?: boolean | SubprojectsCountOutputTypeArgs
   }
 
 
   export type SubprojectsInclude = {
+    gbif_occurrences?: boolean | Subprojects$gbif_occurrencesArgs
     accounts?: boolean | Subprojects$accountsArgs
     projects?: boolean | Subprojects$projectsArgs
+    _count?: boolean | SubprojectsCountOutputTypeArgs
   } 
 
   export type SubprojectsGetPayload<S extends boolean | null | undefined | SubprojectsArgs> =
@@ -12343,14 +13571,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (SubprojectsArgs | SubprojectsFindManyArgs)
     ? Subprojects  & {
     [P in TruthyKeys<S['include']>]:
+        P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['include'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
-        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> | null :  never
+        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> | null :
+        P extends '_count' ? SubprojectsCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (SubprojectsArgs | SubprojectsFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
+        P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['select'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
-        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> | null :  P extends keyof Subprojects ? Subprojects[P] : never
+        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> | null :
+        P extends '_count' ? SubprojectsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Subprojects ? Subprojects[P] : never
   } 
       : Subprojects
 
@@ -12723,6 +13955,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _requestPromise?;
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    gbif_occurrences<T extends Subprojects$gbif_occurrencesArgs= {}>(args?: Subset<T, Subprojects$gbif_occurrencesArgs>): PrismaPromise<Array<Gbif_occurrencesGetPayload<T>>| Null>;
 
     accounts<T extends Subprojects$accountsArgs= {}>(args?: Subset<T, Subprojects$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
 
@@ -13128,6 +14362,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     where?: SubprojectsWhereInput
+  }
+
+
+  /**
+   * Subprojects.gbif_occurrences
+   */
+  export type Subprojects$gbif_occurrencesArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_occurrences
+     * 
+    **/
+    select?: Gbif_occurrencesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_occurrencesInclude | null
+    where?: Gbif_occurrencesWhereInput
+    orderBy?: Enumerable<Gbif_occurrencesOrderByWithRelationInput>
+    cursor?: Gbif_occurrencesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Gbif_occurrencesScalarFieldEnum>
   }
 
 
@@ -20714,6 +21971,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Field_typesScalarFieldEnum = (typeof Field_typesScalarFieldEnum)[keyof typeof Field_typesScalarFieldEnum]
 
 
+  export const Gbif_occurrencesScalarFieldEnum: {
+    gbif_occurrence_id: 'gbif_occurrence_id',
+    account_id: 'account_id',
+    project_id: 'project_id',
+    subproject_id: 'subproject_id',
+    gbif_data: 'gbif_data',
+    label: 'label'
+  };
+
+  export type Gbif_occurrencesScalarFieldEnum = (typeof Gbif_occurrencesScalarFieldEnum)[keyof typeof Gbif_occurrencesScalarFieldEnum]
+
+
   export const Gbif_taxaScalarFieldEnum: {
     gbif_taxon_id: 'gbif_taxon_id',
     account_id: 'account_id',
@@ -21102,6 +22371,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: StringNullableFilter<"Accounts"> | string | null
     label?: StringNullableFilter<"Accounts"> | string | null
     users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
+    gbif_occurrences?: Gbif_occurrencesListRelationFilter
     gbif_taxa?: Gbif_taxaListRelationFilter
     lists?: ListsListRelationFilter
     persons?: PersonsListRelationFilter
@@ -21124,6 +22394,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: SortOrderInput | SortOrder
     label?: SortOrderInput | SortOrder
     users?: UsersOrderByWithRelationInput
+    gbif_occurrences?: Gbif_occurrencesOrderByRelationAggregateInput
     gbif_taxa?: Gbif_taxaOrderByRelationAggregateInput
     lists?: ListsOrderByRelationAggregateInput
     persons?: PersonsOrderByRelationAggregateInput
@@ -21149,6 +22420,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: StringNullableFilter<"Accounts"> | string | null
     label?: StringNullableFilter<"Accounts"> | string | null
     users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
+    gbif_occurrences?: Gbif_occurrencesListRelationFilter
     gbif_taxa?: Gbif_taxaListRelationFilter
     lists?: ListsListRelationFilter
     persons?: PersonsListRelationFilter
@@ -21248,6 +22520,72 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: StringNullableWithAggregatesFilter<"Field_types"> | string | null
     label_replace_by_generated_column?: StringNullableWithAggregatesFilter<"Field_types"> | string | null
     deleted?: BoolNullableWithAggregatesFilter<"Field_types"> | boolean | null
+  }
+
+  export type Gbif_occurrencesWhereInput = {
+    AND?: Enumerable<Gbif_occurrencesWhereInput>
+    OR?: Enumerable<Gbif_occurrencesWhereInput>
+    NOT?: Enumerable<Gbif_occurrencesWhereInput>
+    gbif_occurrence_id?: UuidFilter<"Gbif_occurrences"> | string
+    account_id?: UuidNullableFilter<"Gbif_occurrences"> | string | null
+    project_id?: UuidNullableFilter<"Gbif_occurrences"> | string | null
+    subproject_id?: UuidNullableFilter<"Gbif_occurrences"> | string | null
+    gbif_data?: JsonNullableFilter<"Gbif_occurrences">
+    label?: StringNullableFilter<"Gbif_occurrences"> | string | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
+    subprojects?: XOR<SubprojectsNullableRelationFilter, SubprojectsWhereInput> | null
+  }
+
+  export type Gbif_occurrencesOrderByWithRelationInput = {
+    gbif_occurrence_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    project_id?: SortOrderInput | SortOrder
+    subproject_id?: SortOrderInput | SortOrder
+    gbif_data?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    projects?: ProjectsOrderByWithRelationInput
+    subprojects?: SubprojectsOrderByWithRelationInput
+  }
+
+  export type Gbif_occurrencesWhereUniqueInput = Prisma.AtLeast<{
+    gbif_occurrence_id?: string
+    AND?: Enumerable<Gbif_occurrencesWhereInput>
+    OR?: Enumerable<Gbif_occurrencesWhereInput>
+    NOT?: Enumerable<Gbif_occurrencesWhereInput>
+    account_id?: UuidNullableFilter<"Gbif_occurrences"> | string | null
+    project_id?: UuidNullableFilter<"Gbif_occurrences"> | string | null
+    subproject_id?: UuidNullableFilter<"Gbif_occurrences"> | string | null
+    gbif_data?: JsonNullableFilter<"Gbif_occurrences">
+    label?: StringNullableFilter<"Gbif_occurrences"> | string | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
+    subprojects?: XOR<SubprojectsNullableRelationFilter, SubprojectsWhereInput> | null
+  }, "gbif_occurrence_id">
+
+  export type Gbif_occurrencesOrderByWithAggregationInput = {
+    gbif_occurrence_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    project_id?: SortOrderInput | SortOrder
+    subproject_id?: SortOrderInput | SortOrder
+    gbif_data?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    _count?: Gbif_occurrencesCountOrderByAggregateInput
+    _max?: Gbif_occurrencesMaxOrderByAggregateInput
+    _min?: Gbif_occurrencesMinOrderByAggregateInput
+  }
+
+  export type Gbif_occurrencesScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<Gbif_occurrencesScalarWhereWithAggregatesInput>
+    OR?: Enumerable<Gbif_occurrencesScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<Gbif_occurrencesScalarWhereWithAggregatesInput>
+    gbif_occurrence_id?: UuidWithAggregatesFilter<"Gbif_occurrences"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"Gbif_occurrences"> | string | null
+    project_id?: UuidNullableWithAggregatesFilter<"Gbif_occurrences"> | string | null
+    subproject_id?: UuidNullableWithAggregatesFilter<"Gbif_occurrences"> | string | null
+    gbif_data?: JsonNullableWithAggregatesFilter<"Gbif_occurrences">
+    label?: StringNullableWithAggregatesFilter<"Gbif_occurrences"> | string | null
   }
 
   export type Gbif_taxaWhereInput = {
@@ -21724,6 +23062,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: BoolNullableFilter<"Projects"> | boolean | null
     files_active_checks?: BoolNullableFilter<"Projects"> | boolean | null
     deleted?: BoolNullableFilter<"Projects"> | boolean | null
+    gbif_occurrences?: Gbif_occurrencesListRelationFilter
     gbif_taxa?: Gbif_taxaListRelationFilter
     lists?: ListsListRelationFilter
     persons?: PersonsListRelationFilter
@@ -21760,6 +23099,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: SortOrderInput | SortOrder
     files_active_checks?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    gbif_occurrences?: Gbif_occurrencesOrderByRelationAggregateInput
     gbif_taxa?: Gbif_taxaOrderByRelationAggregateInput
     lists?: ListsOrderByRelationAggregateInput
     persons?: PersonsOrderByRelationAggregateInput
@@ -21799,6 +23139,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: BoolNullableFilter<"Projects"> | boolean | null
     files_active_checks?: BoolNullableFilter<"Projects"> | boolean | null
     deleted?: BoolNullableFilter<"Projects"> | boolean | null
+    gbif_occurrences?: Gbif_occurrencesListRelationFilter
     gbif_taxa?: Gbif_taxaListRelationFilter
     lists?: ListsListRelationFilter
     persons?: PersonsListRelationFilter
@@ -21884,6 +23225,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: IntNullableFilter<"Subprojects"> | number | null
     data?: JsonNullableFilter<"Subprojects">
     deleted?: BoolNullableFilter<"Subprojects"> | boolean | null
+    gbif_occurrences?: Gbif_occurrencesListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
   }
@@ -21898,6 +23240,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: SortOrderInput | SortOrder
     data?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    gbif_occurrences?: Gbif_occurrencesOrderByRelationAggregateInput
     accounts?: AccountsOrderByWithRelationInput
     projects?: ProjectsOrderByWithRelationInput
   }
@@ -21915,6 +23258,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: IntNullableFilter<"Subprojects"> | number | null
     data?: JsonNullableFilter<"Subprojects">
     deleted?: BoolNullableFilter<"Subprojects"> | boolean | null
+    gbif_occurrences?: Gbif_occurrencesListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
   }, "subproject_id">
@@ -22481,6 +23825,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -22502,6 +23847,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -22523,6 +23869,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -22544,6 +23891,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -22651,6 +23999,66 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Gbif_occurrencesCreateInput = {
+    gbif_occurrence_id: string
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+    accounts?: AccountsCreateNestedOneWithoutGbif_occurrencesInput
+    projects?: ProjectsCreateNestedOneWithoutGbif_occurrencesInput
+    subprojects?: SubprojectsCreateNestedOneWithoutGbif_occurrencesInput
+  }
+
+  export type Gbif_occurrencesUncheckedCreateInput = {
+    gbif_occurrence_id: string
+    account_id?: string | null
+    project_id?: string | null
+    subproject_id?: string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+  }
+
+  export type Gbif_occurrencesUpdateInput = {
+    gbif_occurrence_id?: StringFieldUpdateOperationsInput | string
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountsUpdateOneWithoutGbif_occurrencesNestedInput
+    projects?: ProjectsUpdateOneWithoutGbif_occurrencesNestedInput
+    subprojects?: SubprojectsUpdateOneWithoutGbif_occurrencesNestedInput
+  }
+
+  export type Gbif_occurrencesUncheckedUpdateInput = {
+    gbif_occurrence_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Gbif_occurrencesCreateManyInput = {
+    gbif_occurrence_id: string
+    account_id?: string | null
+    project_id?: string | null
+    subproject_id?: string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+  }
+
+  export type Gbif_occurrencesUpdateManyMutationInput = {
+    gbif_occurrence_id?: StringFieldUpdateOperationsInput | string
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Gbif_occurrencesUncheckedUpdateManyInput = {
+    gbif_occurrence_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type Gbif_taxaCreateInput = {
@@ -23140,6 +24548,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
@@ -23176,6 +24585,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
@@ -23210,6 +24620,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
@@ -23246,6 +24657,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -23346,6 +24758,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
     accounts?: AccountsCreateNestedOneWithoutSubprojectsInput
     projects?: ProjectsCreateNestedOneWithoutSubprojectsInput
   }
@@ -23360,6 +24773,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
   }
 
   export type SubprojectsUpdateInput = {
@@ -23370,6 +24784,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
     accounts?: AccountsUpdateOneWithoutSubprojectsNestedInput
     projects?: ProjectsUpdateOneWithoutSubprojectsNestedInput
   }
@@ -23384,6 +24799,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
   }
 
   export type SubprojectsCreateManyInput = {
@@ -24027,6 +25443,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     isNot?: UsersWhereInput | null
   }
 
+  export type Gbif_occurrencesListRelationFilter = {
+    every?: Gbif_occurrencesWhereInput
+    some?: Gbif_occurrencesWhereInput
+    none?: Gbif_occurrencesWhereInput
+  }
+
   export type Gbif_taxaListRelationFilter = {
     every?: Gbif_taxaWhereInput
     some?: Gbif_taxaWhereInput
@@ -24096,6 +25518,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type Gbif_occurrencesOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type Gbif_taxaOrderByRelationAggregateInput = {
@@ -24351,25 +25777,33 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     isNot?: ProjectsWhereInput | null
   }
 
-  export type Gbif_taxaCountOrderByAggregateInput = {
-    gbif_taxon_id?: SortOrder
+  export type SubprojectsNullableRelationFilter = {
+    is?: SubprojectsWhereInput | null
+    isNot?: SubprojectsWhereInput | null
+  }
+
+  export type Gbif_occurrencesCountOrderByAggregateInput = {
+    gbif_occurrence_id?: SortOrder
     account_id?: SortOrder
     project_id?: SortOrder
+    subproject_id?: SortOrder
     gbif_data?: SortOrder
     label?: SortOrder
   }
 
-  export type Gbif_taxaMaxOrderByAggregateInput = {
-    gbif_taxon_id?: SortOrder
+  export type Gbif_occurrencesMaxOrderByAggregateInput = {
+    gbif_occurrence_id?: SortOrder
     account_id?: SortOrder
     project_id?: SortOrder
+    subproject_id?: SortOrder
     label?: SortOrder
   }
 
-  export type Gbif_taxaMinOrderByAggregateInput = {
-    gbif_taxon_id?: SortOrder
+  export type Gbif_occurrencesMinOrderByAggregateInput = {
+    gbif_occurrence_id?: SortOrder
     account_id?: SortOrder
     project_id?: SortOrder
+    subproject_id?: SortOrder
     label?: SortOrder
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
@@ -24396,6 +25830,28 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedJsonNullableFilter<$PrismaModel>
     _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type Gbif_taxaCountOrderByAggregateInput = {
+    gbif_taxon_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    gbif_data?: SortOrder
+    label?: SortOrder
+  }
+
+  export type Gbif_taxaMaxOrderByAggregateInput = {
+    gbif_taxon_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    label?: SortOrder
+  }
+
+  export type Gbif_taxaMinOrderByAggregateInput = {
+    gbif_taxon_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    label?: SortOrder
   }
 
   export type ListsCountOrderByAggregateInput = {
@@ -25014,6 +26470,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: UsersWhereUniqueInput
   }
 
+  export type Gbif_occurrencesCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Gbif_occurrencesCreateWithoutAccountsInput>, Enumerable<Gbif_occurrencesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Gbif_occurrencesCreateOrConnectWithoutAccountsInput>
+    createMany?: Gbif_occurrencesCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+  }
+
   export type Gbif_taxaCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<Gbif_taxaCreateWithoutAccountsInput>, Enumerable<Gbif_taxaUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<Gbif_taxaCreateOrConnectWithoutAccountsInput>
@@ -25089,6 +26552,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutAccountsInput>
     createMany?: User_messagesCreateManyAccountsInputEnvelope
     connect?: Enumerable<User_messagesWhereUniqueInput>
+  }
+
+  export type Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Gbif_occurrencesCreateWithoutAccountsInput>, Enumerable<Gbif_occurrencesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Gbif_occurrencesCreateOrConnectWithoutAccountsInput>
+    createMany?: Gbif_occurrencesCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
   }
 
   export type Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput = {
@@ -25188,6 +26658,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     delete?: UsersWhereInput | boolean
     connect?: UsersWhereUniqueInput
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutAccountsInput, UsersUpdateWithoutAccountsInput>, UsersUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type Gbif_occurrencesUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Gbif_occurrencesCreateWithoutAccountsInput>, Enumerable<Gbif_occurrencesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Gbif_occurrencesCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Gbif_occurrencesUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Gbif_occurrencesCreateManyAccountsInputEnvelope
+    set?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    disconnect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    delete?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    connect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    update?: Enumerable<Gbif_occurrencesUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Gbif_occurrencesUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Gbif_occurrencesScalarWhereInput>
   }
 
   export type Gbif_taxaUpdateManyWithoutAccountsNestedInput = {
@@ -25342,6 +26826,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<User_messagesUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<User_messagesUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<User_messagesScalarWhereInput>
+  }
+
+  export type Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Gbif_occurrencesCreateWithoutAccountsInput>, Enumerable<Gbif_occurrencesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Gbif_occurrencesCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Gbif_occurrencesUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Gbif_occurrencesCreateManyAccountsInputEnvelope
+    set?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    disconnect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    delete?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    connect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    update?: Enumerable<Gbif_occurrencesUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Gbif_occurrencesUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Gbif_occurrencesScalarWhereInput>
   }
 
   export type Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput = {
@@ -25550,6 +27048,54 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<Widgets_for_fieldsUpdateWithWhereUniqueWithoutField_typesInput>
     updateMany?: Enumerable<Widgets_for_fieldsUpdateManyWithWhereWithoutField_typesInput>
     deleteMany?: Enumerable<Widgets_for_fieldsScalarWhereInput>
+  }
+
+  export type AccountsCreateNestedOneWithoutGbif_occurrencesInput = {
+    create?: XOR<AccountsCreateWithoutGbif_occurrencesInput, AccountsUncheckedCreateWithoutGbif_occurrencesInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutGbif_occurrencesInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type ProjectsCreateNestedOneWithoutGbif_occurrencesInput = {
+    create?: XOR<ProjectsCreateWithoutGbif_occurrencesInput, ProjectsUncheckedCreateWithoutGbif_occurrencesInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutGbif_occurrencesInput
+    connect?: ProjectsWhereUniqueInput
+  }
+
+  export type SubprojectsCreateNestedOneWithoutGbif_occurrencesInput = {
+    create?: XOR<SubprojectsCreateWithoutGbif_occurrencesInput, SubprojectsUncheckedCreateWithoutGbif_occurrencesInput>
+    connectOrCreate?: SubprojectsCreateOrConnectWithoutGbif_occurrencesInput
+    connect?: SubprojectsWhereUniqueInput
+  }
+
+  export type AccountsUpdateOneWithoutGbif_occurrencesNestedInput = {
+    create?: XOR<AccountsCreateWithoutGbif_occurrencesInput, AccountsUncheckedCreateWithoutGbif_occurrencesInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutGbif_occurrencesInput
+    upsert?: AccountsUpsertWithoutGbif_occurrencesInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutGbif_occurrencesInput, AccountsUpdateWithoutGbif_occurrencesInput>, AccountsUncheckedUpdateWithoutGbif_occurrencesInput>
+  }
+
+  export type ProjectsUpdateOneWithoutGbif_occurrencesNestedInput = {
+    create?: XOR<ProjectsCreateWithoutGbif_occurrencesInput, ProjectsUncheckedCreateWithoutGbif_occurrencesInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutGbif_occurrencesInput
+    upsert?: ProjectsUpsertWithoutGbif_occurrencesInput
+    disconnect?: ProjectsWhereInput | boolean
+    delete?: ProjectsWhereInput | boolean
+    connect?: ProjectsWhereUniqueInput
+    update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutGbif_occurrencesInput, ProjectsUpdateWithoutGbif_occurrencesInput>, ProjectsUncheckedUpdateWithoutGbif_occurrencesInput>
+  }
+
+  export type SubprojectsUpdateOneWithoutGbif_occurrencesNestedInput = {
+    create?: XOR<SubprojectsCreateWithoutGbif_occurrencesInput, SubprojectsUncheckedCreateWithoutGbif_occurrencesInput>
+    connectOrCreate?: SubprojectsCreateOrConnectWithoutGbif_occurrencesInput
+    upsert?: SubprojectsUpsertWithoutGbif_occurrencesInput
+    disconnect?: SubprojectsWhereInput | boolean
+    delete?: SubprojectsWhereInput | boolean
+    connect?: SubprojectsWhereUniqueInput
+    update?: XOR<XOR<SubprojectsUpdateToOneWithWhereWithoutGbif_occurrencesInput, SubprojectsUpdateWithoutGbif_occurrencesInput>, SubprojectsUncheckedUpdateWithoutGbif_occurrencesInput>
   }
 
   export type AccountsCreateNestedOneWithoutGbif_taxaInput = {
@@ -25770,6 +27316,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutProject_usersInput, UsersUpdateWithoutProject_usersInput>, UsersUncheckedUpdateWithoutProject_usersInput>
   }
 
+  export type Gbif_occurrencesCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<Gbif_occurrencesCreateWithoutProjectsInput>, Enumerable<Gbif_occurrencesUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Gbif_occurrencesCreateOrConnectWithoutProjectsInput>
+    createMany?: Gbif_occurrencesCreateManyProjectsInputEnvelope
+    connect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+  }
+
   export type Gbif_taxaCreateNestedManyWithoutProjectsInput = {
     create?: XOR<Enumerable<Gbif_taxaCreateWithoutProjectsInput>, Enumerable<Gbif_taxaUncheckedCreateWithoutProjectsInput>>
     connectOrCreate?: Enumerable<Gbif_taxaCreateOrConnectWithoutProjectsInput>
@@ -25825,6 +27378,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<TaxonomiesWhereUniqueInput>
   }
 
+  export type Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<Gbif_occurrencesCreateWithoutProjectsInput>, Enumerable<Gbif_occurrencesUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Gbif_occurrencesCreateOrConnectWithoutProjectsInput>
+    createMany?: Gbif_occurrencesCreateManyProjectsInputEnvelope
+    connect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+  }
+
   export type Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput = {
     create?: XOR<Enumerable<Gbif_taxaCreateWithoutProjectsInput>, Enumerable<Gbif_taxaUncheckedCreateWithoutProjectsInput>>
     connectOrCreate?: Enumerable<Gbif_taxaCreateOrConnectWithoutProjectsInput>
@@ -25876,6 +27436,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type NullableEnumproject_typeFieldUpdateOperationsInput = {
     set?: project_type | null
+  }
+
+  export type Gbif_occurrencesUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<Gbif_occurrencesCreateWithoutProjectsInput>, Enumerable<Gbif_occurrencesUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Gbif_occurrencesCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<Gbif_occurrencesUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: Gbif_occurrencesCreateManyProjectsInputEnvelope
+    set?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    disconnect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    delete?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    connect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    update?: Enumerable<Gbif_occurrencesUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<Gbif_occurrencesUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<Gbif_occurrencesScalarWhereInput>
   }
 
   export type Gbif_taxaUpdateManyWithoutProjectsNestedInput = {
@@ -25986,6 +27560,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<TaxonomiesScalarWhereInput>
   }
 
+  export type Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<Gbif_occurrencesCreateWithoutProjectsInput>, Enumerable<Gbif_occurrencesUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Gbif_occurrencesCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<Gbif_occurrencesUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: Gbif_occurrencesCreateManyProjectsInputEnvelope
+    set?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    disconnect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    delete?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    connect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    update?: Enumerable<Gbif_occurrencesUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<Gbif_occurrencesUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<Gbif_occurrencesScalarWhereInput>
+  }
+
   export type Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput = {
     create?: XOR<Enumerable<Gbif_taxaCreateWithoutProjectsInput>, Enumerable<Gbif_taxaUncheckedCreateWithoutProjectsInput>>
     connectOrCreate?: Enumerable<Gbif_taxaCreateOrConnectWithoutProjectsInput>
@@ -26084,6 +27672,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<TaxonomiesScalarWhereInput>
   }
 
+  export type Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput = {
+    create?: XOR<Enumerable<Gbif_occurrencesCreateWithoutSubprojectsInput>, Enumerable<Gbif_occurrencesUncheckedCreateWithoutSubprojectsInput>>
+    connectOrCreate?: Enumerable<Gbif_occurrencesCreateOrConnectWithoutSubprojectsInput>
+    createMany?: Gbif_occurrencesCreateManySubprojectsInputEnvelope
+    connect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+  }
+
   export type AccountsCreateNestedOneWithoutSubprojectsInput = {
     create?: XOR<AccountsCreateWithoutSubprojectsInput, AccountsUncheckedCreateWithoutSubprojectsInput>
     connectOrCreate?: AccountsCreateOrConnectWithoutSubprojectsInput
@@ -26094,6 +27689,27 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     create?: XOR<ProjectsCreateWithoutSubprojectsInput, ProjectsUncheckedCreateWithoutSubprojectsInput>
     connectOrCreate?: ProjectsCreateOrConnectWithoutSubprojectsInput
     connect?: ProjectsWhereUniqueInput
+  }
+
+  export type Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput = {
+    create?: XOR<Enumerable<Gbif_occurrencesCreateWithoutSubprojectsInput>, Enumerable<Gbif_occurrencesUncheckedCreateWithoutSubprojectsInput>>
+    connectOrCreate?: Enumerable<Gbif_occurrencesCreateOrConnectWithoutSubprojectsInput>
+    createMany?: Gbif_occurrencesCreateManySubprojectsInputEnvelope
+    connect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+  }
+
+  export type Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput = {
+    create?: XOR<Enumerable<Gbif_occurrencesCreateWithoutSubprojectsInput>, Enumerable<Gbif_occurrencesUncheckedCreateWithoutSubprojectsInput>>
+    connectOrCreate?: Enumerable<Gbif_occurrencesCreateOrConnectWithoutSubprojectsInput>
+    upsert?: Enumerable<Gbif_occurrencesUpsertWithWhereUniqueWithoutSubprojectsInput>
+    createMany?: Gbif_occurrencesCreateManySubprojectsInputEnvelope
+    set?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    disconnect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    delete?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    connect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    update?: Enumerable<Gbif_occurrencesUpdateWithWhereUniqueWithoutSubprojectsInput>
+    updateMany?: Enumerable<Gbif_occurrencesUpdateManyWithWhereWithoutSubprojectsInput>
+    deleteMany?: Enumerable<Gbif_occurrencesScalarWhereInput>
   }
 
   export type AccountsUpdateOneWithoutSubprojectsNestedInput = {
@@ -26114,6 +27730,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     delete?: ProjectsWhereInput | boolean
     connect?: ProjectsWhereUniqueInput
     update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutSubprojectsInput, ProjectsUpdateWithoutSubprojectsInput>, ProjectsUncheckedUpdateWithoutSubprojectsInput>
+  }
+
+  export type Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput = {
+    create?: XOR<Enumerable<Gbif_occurrencesCreateWithoutSubprojectsInput>, Enumerable<Gbif_occurrencesUncheckedCreateWithoutSubprojectsInput>>
+    connectOrCreate?: Enumerable<Gbif_occurrencesCreateOrConnectWithoutSubprojectsInput>
+    upsert?: Enumerable<Gbif_occurrencesUpsertWithWhereUniqueWithoutSubprojectsInput>
+    createMany?: Gbif_occurrencesCreateManySubprojectsInputEnvelope
+    set?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    disconnect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    delete?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    connect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+    update?: Enumerable<Gbif_occurrencesUpdateWithWhereUniqueWithoutSubprojectsInput>
+    updateMany?: Enumerable<Gbif_occurrencesUpdateManyWithWhereWithoutSubprojectsInput>
+    deleteMany?: Enumerable<Gbif_occurrencesScalarWhereInput>
   }
 
   export type AccountsCreateNestedOneWithoutTaxaInput = {
@@ -26801,6 +28431,32 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     create: XOR<UsersCreateWithoutAccountsInput, UsersUncheckedCreateWithoutAccountsInput>
   }
 
+  export type Gbif_occurrencesCreateWithoutAccountsInput = {
+    gbif_occurrence_id: string
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+    projects?: ProjectsCreateNestedOneWithoutGbif_occurrencesInput
+    subprojects?: SubprojectsCreateNestedOneWithoutGbif_occurrencesInput
+  }
+
+  export type Gbif_occurrencesUncheckedCreateWithoutAccountsInput = {
+    gbif_occurrence_id: string
+    project_id?: string | null
+    subproject_id?: string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+  }
+
+  export type Gbif_occurrencesCreateOrConnectWithoutAccountsInput = {
+    where: Gbif_occurrencesWhereUniqueInput
+    create: XOR<Gbif_occurrencesCreateWithoutAccountsInput, Gbif_occurrencesUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Gbif_occurrencesCreateManyAccountsInputEnvelope = {
+    data: Enumerable<Gbif_occurrencesCreateManyAccountsInput>
+    skipDuplicates?: boolean
+  }
+
   export type Gbif_taxaCreateWithoutAccountsInput = {
     gbif_taxon_id: string
     gbif_data?: NullableJsonNullValueInput | InputJsonValue
@@ -26986,6 +28642,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
@@ -27020,6 +28677,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
@@ -27047,6 +28705,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
     projects?: ProjectsCreateNestedOneWithoutSubprojectsInput
   }
 
@@ -27059,6 +28718,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
   }
 
   export type SubprojectsCreateOrConnectWithoutAccountsInput = {
@@ -27238,6 +28898,34 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutUsersNestedInput
     ui_options?: Ui_optionsUncheckedUpdateOneWithoutUsersNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type Gbif_occurrencesUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: Gbif_occurrencesWhereUniqueInput
+    update: XOR<Gbif_occurrencesUpdateWithoutAccountsInput, Gbif_occurrencesUncheckedUpdateWithoutAccountsInput>
+    create: XOR<Gbif_occurrencesCreateWithoutAccountsInput, Gbif_occurrencesUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Gbif_occurrencesUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: Gbif_occurrencesWhereUniqueInput
+    data: XOR<Gbif_occurrencesUpdateWithoutAccountsInput, Gbif_occurrencesUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type Gbif_occurrencesUpdateManyWithWhereWithoutAccountsInput = {
+    where: Gbif_occurrencesScalarWhereInput
+    data: XOR<Gbif_occurrencesUpdateManyMutationInput, Gbif_occurrencesUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type Gbif_occurrencesScalarWhereInput = {
+    AND?: Enumerable<Gbif_occurrencesScalarWhereInput>
+    OR?: Enumerable<Gbif_occurrencesScalarWhereInput>
+    NOT?: Enumerable<Gbif_occurrencesScalarWhereInput>
+    gbif_occurrence_id?: UuidFilter<"Gbif_occurrences"> | string
+    account_id?: UuidNullableFilter<"Gbif_occurrences"> | string | null
+    project_id?: UuidNullableFilter<"Gbif_occurrences"> | string | null
+    subproject_id?: UuidNullableFilter<"Gbif_occurrences"> | string | null
+    gbif_data?: JsonNullableFilter<"Gbif_occurrences">
+    label?: StringNullableFilter<"Gbif_occurrences"> | string | null
   }
 
   export type Gbif_taxaUpsertWithWhereUniqueWithoutAccountsInput = {
@@ -27651,6 +29339,326 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableFilter<"Widgets_for_fields"> | boolean | null
   }
 
+  export type AccountsCreateWithoutGbif_occurrencesInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    lists?: ListsCreateNestedManyWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutGbif_occurrencesInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutGbif_occurrencesInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutGbif_occurrencesInput, AccountsUncheckedCreateWithoutGbif_occurrencesInput>
+  }
+
+  export type ProjectsCreateWithoutGbif_occurrencesInput = {
+    project_id: string
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
+    lists?: ListsCreateNestedManyWithoutProjectsInput
+    persons?: PersonsCreateNestedManyWithoutProjectsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
+    project_users?: Project_usersCreateNestedManyWithoutProjectsInput
+    accounts?: AccountsCreateNestedOneWithoutProjectsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectsUncheckedCreateWithoutGbif_occurrencesInput = {
+    project_id: string
+    account_id?: string | null
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectsCreateOrConnectWithoutGbif_occurrencesInput = {
+    where: ProjectsWhereUniqueInput
+    create: XOR<ProjectsCreateWithoutGbif_occurrencesInput, ProjectsUncheckedCreateWithoutGbif_occurrencesInput>
+  }
+
+  export type SubprojectsCreateWithoutGbif_occurrencesInput = {
+    subproject_id: string
+    name?: string | null
+    label_replace_by_generated_column?: string | null
+    start_year?: number | null
+    end_year?: number | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutSubprojectsInput
+    projects?: ProjectsCreateNestedOneWithoutSubprojectsInput
+  }
+
+  export type SubprojectsUncheckedCreateWithoutGbif_occurrencesInput = {
+    subproject_id: string
+    account_id?: string | null
+    project_id?: string | null
+    name?: string | null
+    label_replace_by_generated_column?: string | null
+    start_year?: number | null
+    end_year?: number | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+  }
+
+  export type SubprojectsCreateOrConnectWithoutGbif_occurrencesInput = {
+    where: SubprojectsWhereUniqueInput
+    create: XOR<SubprojectsCreateWithoutGbif_occurrencesInput, SubprojectsUncheckedCreateWithoutGbif_occurrencesInput>
+  }
+
+  export type AccountsUpsertWithoutGbif_occurrencesInput = {
+    update: XOR<AccountsUpdateWithoutGbif_occurrencesInput, AccountsUncheckedUpdateWithoutGbif_occurrencesInput>
+    create: XOR<AccountsCreateWithoutGbif_occurrencesInput, AccountsUncheckedCreateWithoutGbif_occurrencesInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutGbif_occurrencesInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutGbif_occurrencesInput, AccountsUncheckedUpdateWithoutGbif_occurrencesInput>
+  }
+
+  export type AccountsUpdateWithoutGbif_occurrencesInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutGbif_occurrencesInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type ProjectsUpsertWithoutGbif_occurrencesInput = {
+    update: XOR<ProjectsUpdateWithoutGbif_occurrencesInput, ProjectsUncheckedUpdateWithoutGbif_occurrencesInput>
+    create: XOR<ProjectsCreateWithoutGbif_occurrencesInput, ProjectsUncheckedCreateWithoutGbif_occurrencesInput>
+    where?: ProjectsWhereInput
+  }
+
+  export type ProjectsUpdateToOneWithWhereWithoutGbif_occurrencesInput = {
+    where?: ProjectsWhereInput
+    data: XOR<ProjectsUpdateWithoutGbif_occurrencesInput, ProjectsUncheckedUpdateWithoutGbif_occurrencesInput>
+  }
+
+  export type ProjectsUpdateWithoutGbif_occurrencesInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
+    lists?: ListsUpdateManyWithoutProjectsNestedInput
+    persons?: PersonsUpdateManyWithoutProjectsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
+    project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
+    accounts?: AccountsUpdateOneWithoutProjectsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type ProjectsUncheckedUpdateWithoutGbif_occurrencesInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type SubprojectsUpsertWithoutGbif_occurrencesInput = {
+    update: XOR<SubprojectsUpdateWithoutGbif_occurrencesInput, SubprojectsUncheckedUpdateWithoutGbif_occurrencesInput>
+    create: XOR<SubprojectsCreateWithoutGbif_occurrencesInput, SubprojectsUncheckedCreateWithoutGbif_occurrencesInput>
+    where?: SubprojectsWhereInput
+  }
+
+  export type SubprojectsUpdateToOneWithWhereWithoutGbif_occurrencesInput = {
+    where?: SubprojectsWhereInput
+    data: XOR<SubprojectsUpdateWithoutGbif_occurrencesInput, SubprojectsUncheckedUpdateWithoutGbif_occurrencesInput>
+  }
+
+  export type SubprojectsUpdateWithoutGbif_occurrencesInput = {
+    subproject_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    start_year?: NullableIntFieldUpdateOperationsInput | number | null
+    end_year?: NullableIntFieldUpdateOperationsInput | number | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutSubprojectsNestedInput
+    projects?: ProjectsUpdateOneWithoutSubprojectsNestedInput
+  }
+
+  export type SubprojectsUncheckedUpdateWithoutGbif_occurrencesInput = {
+    subproject_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    start_year?: NullableIntFieldUpdateOperationsInput | number | null
+    end_year?: NullableIntFieldUpdateOperationsInput | number | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type AccountsCreateWithoutGbif_taxaInput = {
     account_id: string
     type?: string | null
@@ -27659,6 +29667,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
@@ -27679,6 +29688,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
@@ -27721,6 +29731,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
@@ -27756,6 +29767,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
@@ -27788,6 +29800,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
@@ -27808,6 +29821,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -27856,6 +29870,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
@@ -27891,6 +29906,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -27907,6 +29923,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
@@ -27927,6 +29944,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
@@ -27969,6 +29987,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
@@ -28004,6 +30023,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
@@ -28036,6 +30056,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
@@ -28056,6 +30077,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -28104,6 +30126,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
@@ -28139,6 +30162,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -28197,6 +30221,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
@@ -28217,6 +30242,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
@@ -28259,6 +30285,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
@@ -28294,6 +30321,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
@@ -28326,6 +30354,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
@@ -28346,6 +30375,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -28394,6 +30424,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
@@ -28429,6 +30460,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -28445,6 +30477,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -28465,6 +30498,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -28507,6 +30541,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
@@ -28542,6 +30577,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
@@ -28574,6 +30610,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -28594,6 +30631,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -28642,6 +30680,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
@@ -28677,6 +30716,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -28693,6 +30733,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -28713,6 +30754,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -28755,6 +30797,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
@@ -28790,6 +30833,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
@@ -28849,6 +30893,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -28869,6 +30914,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -28917,6 +30963,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
@@ -28952,6 +30999,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -28991,6 +31039,32 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUncheckedUpdateManyWithoutUsersNestedInput
     ui_options?: Ui_optionsUncheckedUpdateOneWithoutUsersNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type Gbif_occurrencesCreateWithoutProjectsInput = {
+    gbif_occurrence_id: string
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+    accounts?: AccountsCreateNestedOneWithoutGbif_occurrencesInput
+    subprojects?: SubprojectsCreateNestedOneWithoutGbif_occurrencesInput
+  }
+
+  export type Gbif_occurrencesUncheckedCreateWithoutProjectsInput = {
+    gbif_occurrence_id: string
+    account_id?: string | null
+    subproject_id?: string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+  }
+
+  export type Gbif_occurrencesCreateOrConnectWithoutProjectsInput = {
+    where: Gbif_occurrencesWhereUniqueInput
+    create: XOR<Gbif_occurrencesCreateWithoutProjectsInput, Gbif_occurrencesUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type Gbif_occurrencesCreateManyProjectsInputEnvelope = {
+    data: Enumerable<Gbif_occurrencesCreateManyProjectsInput>
+    skipDuplicates?: boolean
   }
 
   export type Gbif_taxaCreateWithoutProjectsInput = {
@@ -29161,6 +31235,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -29181,6 +31256,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -29206,6 +31282,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
     accounts?: AccountsCreateNestedOneWithoutSubprojectsInput
   }
 
@@ -29218,6 +31295,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
   }
 
   export type SubprojectsCreateOrConnectWithoutProjectsInput = {
@@ -29264,6 +31342,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type TaxonomiesCreateManyProjectsInputEnvelope = {
     data: Enumerable<TaxonomiesCreateManyProjectsInput>
     skipDuplicates?: boolean
+  }
+
+  export type Gbif_occurrencesUpsertWithWhereUniqueWithoutProjectsInput = {
+    where: Gbif_occurrencesWhereUniqueInput
+    update: XOR<Gbif_occurrencesUpdateWithoutProjectsInput, Gbif_occurrencesUncheckedUpdateWithoutProjectsInput>
+    create: XOR<Gbif_occurrencesCreateWithoutProjectsInput, Gbif_occurrencesUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type Gbif_occurrencesUpdateWithWhereUniqueWithoutProjectsInput = {
+    where: Gbif_occurrencesWhereUniqueInput
+    data: XOR<Gbif_occurrencesUpdateWithoutProjectsInput, Gbif_occurrencesUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type Gbif_occurrencesUpdateManyWithWhereWithoutProjectsInput = {
+    where: Gbif_occurrencesScalarWhereInput
+    data: XOR<Gbif_occurrencesUpdateManyMutationInput, Gbif_occurrencesUncheckedUpdateManyWithoutProjectsInput>
   }
 
   export type Gbif_taxaUpsertWithWhereUniqueWithoutProjectsInput = {
@@ -29365,6 +31459,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -29385,6 +31480,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -29429,6 +31525,32 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data: XOR<TaxonomiesUpdateManyMutationInput, TaxonomiesUncheckedUpdateManyWithoutProjectsInput>
   }
 
+  export type Gbif_occurrencesCreateWithoutSubprojectsInput = {
+    gbif_occurrence_id: string
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+    accounts?: AccountsCreateNestedOneWithoutGbif_occurrencesInput
+    projects?: ProjectsCreateNestedOneWithoutGbif_occurrencesInput
+  }
+
+  export type Gbif_occurrencesUncheckedCreateWithoutSubprojectsInput = {
+    gbif_occurrence_id: string
+    account_id?: string | null
+    project_id?: string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+  }
+
+  export type Gbif_occurrencesCreateOrConnectWithoutSubprojectsInput = {
+    where: Gbif_occurrencesWhereUniqueInput
+    create: XOR<Gbif_occurrencesCreateWithoutSubprojectsInput, Gbif_occurrencesUncheckedCreateWithoutSubprojectsInput>
+  }
+
+  export type Gbif_occurrencesCreateManySubprojectsInputEnvelope = {
+    data: Enumerable<Gbif_occurrencesCreateManySubprojectsInput>
+    skipDuplicates?: boolean
+  }
+
   export type AccountsCreateWithoutSubprojectsInput = {
     account_id: string
     type?: string | null
@@ -29437,6 +31559,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -29457,6 +31580,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -29499,6 +31623,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
@@ -29534,6 +31659,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
@@ -29545,6 +31671,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type ProjectsCreateOrConnectWithoutSubprojectsInput = {
     where: ProjectsWhereUniqueInput
     create: XOR<ProjectsCreateWithoutSubprojectsInput, ProjectsUncheckedCreateWithoutSubprojectsInput>
+  }
+
+  export type Gbif_occurrencesUpsertWithWhereUniqueWithoutSubprojectsInput = {
+    where: Gbif_occurrencesWhereUniqueInput
+    update: XOR<Gbif_occurrencesUpdateWithoutSubprojectsInput, Gbif_occurrencesUncheckedUpdateWithoutSubprojectsInput>
+    create: XOR<Gbif_occurrencesCreateWithoutSubprojectsInput, Gbif_occurrencesUncheckedCreateWithoutSubprojectsInput>
+  }
+
+  export type Gbif_occurrencesUpdateWithWhereUniqueWithoutSubprojectsInput = {
+    where: Gbif_occurrencesWhereUniqueInput
+    data: XOR<Gbif_occurrencesUpdateWithoutSubprojectsInput, Gbif_occurrencesUncheckedUpdateWithoutSubprojectsInput>
+  }
+
+  export type Gbif_occurrencesUpdateManyWithWhereWithoutSubprojectsInput = {
+    where: Gbif_occurrencesScalarWhereInput
+    data: XOR<Gbif_occurrencesUpdateManyMutationInput, Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsInput>
   }
 
   export type AccountsUpsertWithoutSubprojectsInput = {
@@ -29566,6 +31708,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -29586,6 +31729,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -29634,6 +31778,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
@@ -29669,6 +31814,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -29685,6 +31831,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -29705,6 +31852,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -29772,6 +31920,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -29792,6 +31941,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -29879,6 +32029,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -29899,6 +32050,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -29941,6 +32093,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
@@ -29976,6 +32129,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
@@ -30024,6 +32178,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -30044,6 +32199,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -30092,6 +32248,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
@@ -30127,6 +32284,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -30143,6 +32301,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -30163,6 +32322,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -30226,6 +32386,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -30246,6 +32407,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -30299,6 +32461,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -30319,6 +32482,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -30401,6 +32565,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -30421,6 +32586,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -30498,6 +32664,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -30518,6 +32685,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -30888,6 +33056,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Gbif_occurrencesCreateManyAccountsInput = {
+    gbif_occurrence_id: string
+    project_id?: string | null
+    subproject_id?: string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+  }
+
   export type Gbif_taxaCreateManyAccountsInput = {
     gbif_taxon_id: string
     project_id?: string | null
@@ -31026,6 +33202,30 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     message_id?: string | null
     label_replace_by_generated_column?: string | null
     read?: boolean | null
+  }
+
+  export type Gbif_occurrencesUpdateWithoutAccountsInput = {
+    gbif_occurrence_id?: StringFieldUpdateOperationsInput | string
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    projects?: ProjectsUpdateOneWithoutGbif_occurrencesNestedInput
+    subprojects?: SubprojectsUpdateOneWithoutGbif_occurrencesNestedInput
+  }
+
+  export type Gbif_occurrencesUncheckedUpdateWithoutAccountsInput = {
+    gbif_occurrence_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Gbif_occurrencesUncheckedUpdateManyWithoutAccountsInput = {
+    gbif_occurrence_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type Gbif_taxaUpdateWithoutAccountsInput = {
@@ -31218,6 +33418,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
@@ -31252,6 +33453,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -31296,6 +33498,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
     projects?: ProjectsUpdateOneWithoutSubprojectsNestedInput
   }
 
@@ -31308,6 +33511,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
   }
 
   export type SubprojectsUncheckedUpdateManyWithoutAccountsInput = {
@@ -31524,6 +33728,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     read?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Gbif_occurrencesCreateManyProjectsInput = {
+    gbif_occurrence_id: string
+    account_id?: string | null
+    subproject_id?: string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+  }
+
   export type Gbif_taxaCreateManyProjectsInput = {
     gbif_taxon_id: string
     account_id?: string | null
@@ -31600,6 +33812,30 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+  }
+
+  export type Gbif_occurrencesUpdateWithoutProjectsInput = {
+    gbif_occurrence_id?: StringFieldUpdateOperationsInput | string
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountsUpdateOneWithoutGbif_occurrencesNestedInput
+    subprojects?: SubprojectsUpdateOneWithoutGbif_occurrencesNestedInput
+  }
+
+  export type Gbif_occurrencesUncheckedUpdateWithoutProjectsInput = {
+    gbif_occurrence_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Gbif_occurrencesUncheckedUpdateManyWithoutProjectsInput = {
+    gbif_occurrence_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type Gbif_taxaUpdateWithoutProjectsInput = {
@@ -31775,6 +34011,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
     accounts?: AccountsUpdateOneWithoutSubprojectsNestedInput
   }
 
@@ -31787,6 +34024,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
   }
 
   export type SubprojectsUncheckedUpdateManyWithoutProjectsInput = {
@@ -31836,6 +34074,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Gbif_occurrencesCreateManySubprojectsInput = {
+    gbif_occurrence_id: string
+    account_id?: string | null
+    project_id?: string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+  }
+
+  export type Gbif_occurrencesUpdateWithoutSubprojectsInput = {
+    gbif_occurrence_id?: StringFieldUpdateOperationsInput | string
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountsUpdateOneWithoutGbif_occurrencesNestedInput
+    projects?: ProjectsUpdateOneWithoutGbif_occurrencesNestedInput
+  }
+
+  export type Gbif_occurrencesUncheckedUpdateWithoutSubprojectsInput = {
+    gbif_occurrence_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsInput = {
+    gbif_occurrence_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TaxaCreateManyTaxonomiesInput = {
@@ -31911,6 +34181,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -31931,6 +34202,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
