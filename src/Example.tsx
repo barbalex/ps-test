@@ -69,9 +69,15 @@ const ExampleComponent = () => {
           },
         },
       })
+      const messagesShape = await db.messages.sync({
+        include: {
+          user_messages: { include: { accounts: true, users: true } },
+        },
+      })
 
       // Resolves when the data has been synced into the local database.
       await userShape.synced
+      await messagesShape.synced
     }
 
     syncItems()

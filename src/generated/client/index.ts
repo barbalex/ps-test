@@ -49,6 +49,8 @@ export const AccountsScalarFieldEnumSchema = z.enum(['account_id','user_id','typ
 
 export const JsonNullValueFilterSchema = z.enum(['DbNull','JsonNull','AnyNull',]);
 
+export const MessagesScalarFieldEnumSchema = z.enum(['message_id','label_replace_by_generated_column','date','message']);
+
 export const NullableJsonNullValueInputSchema = z.enum(['DbNull','JsonNull',])
 
 export const ProjectsScalarFieldEnumSchema = z.enum(['project_id','account_id','name','label','type','subproject_name_singular','subproject_name_plural','subproject_order_by','places_label_by','places_order_by','persons_label_by','persons_order_by','goal_reports_label_by','goal_reports_order_by','values_on_multiple_levels','multiple_action_values_on_same_level','multiple_check_values_on_same_level','data','files_offline','files_active_projects','files_active_subprojects','files_active_places','files_active_actions','files_active_checks','deleted']);
@@ -58,6 +60,8 @@ export const QueryModeSchema = z.enum(['default','insensitive']);
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
+
+export const User_messagesScalarFieldEnumSchema = z.enum(['user_message_id','account_id','user_id','message_id','label_replace_by_generated_column','read']);
 
 export const UsersScalarFieldEnumSchema = z.enum(['user_id','email','auth_id','label_replace_by_generated_column','deleted']);
 
@@ -84,6 +88,19 @@ export const AccountsSchema = z.object({
 })
 
 export type Accounts = z.infer<typeof AccountsSchema>
+
+/////////////////////////////////////////
+// MESSAGES SCHEMA
+/////////////////////////////////////////
+
+export const MessagesSchema = z.object({
+  message_id: z.string().uuid(),
+  label_replace_by_generated_column: z.string().nullable(),
+  date: z.coerce.date().nullable(),
+  message: z.string().nullable(),
+})
+
+export type Messages = z.infer<typeof MessagesSchema>
 
 /////////////////////////////////////////
 // PROJECTS SCHEMA
@@ -120,6 +137,21 @@ export const ProjectsSchema = z.object({
 export type Projects = z.infer<typeof ProjectsSchema>
 
 /////////////////////////////////////////
+// USER MESSAGES SCHEMA
+/////////////////////////////////////////
+
+export const User_messagesSchema = z.object({
+  user_message_id: z.string().uuid(),
+  account_id: z.string().uuid().nullable(),
+  user_id: z.string().uuid().nullable(),
+  message_id: z.string().uuid().nullable(),
+  label_replace_by_generated_column: z.string().nullable(),
+  read: z.boolean().nullable(),
+})
+
+export type User_messages = z.infer<typeof User_messagesSchema>
+
+/////////////////////////////////////////
 // USERS SCHEMA
 /////////////////////////////////////////
 
@@ -143,6 +175,7 @@ export type Users = z.infer<typeof UsersSchema>
 export const AccountsIncludeSchema: z.ZodType<Prisma.AccountsInclude> = z.object({
   users: z.union([z.boolean(),z.lazy(() => UsersArgsSchema)]).optional(),
   projects: z.union([z.boolean(),z.lazy(() => ProjectsFindManyArgsSchema)]).optional(),
+  user_messages: z.union([z.boolean(),z.lazy(() => User_messagesFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => AccountsCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
@@ -157,6 +190,7 @@ export const AccountsCountOutputTypeArgsSchema: z.ZodType<Prisma.AccountsCountOu
 
 export const AccountsCountOutputTypeSelectSchema: z.ZodType<Prisma.AccountsCountOutputTypeSelect> = z.object({
   projects: z.boolean().optional(),
+  user_messages: z.boolean().optional(),
 }).strict();
 
 export const AccountsSelectSchema: z.ZodType<Prisma.AccountsSelect> = z.object({
@@ -169,7 +203,38 @@ export const AccountsSelectSchema: z.ZodType<Prisma.AccountsSelect> = z.object({
   label: z.boolean().optional(),
   users: z.union([z.boolean(),z.lazy(() => UsersArgsSchema)]).optional(),
   projects: z.union([z.boolean(),z.lazy(() => ProjectsFindManyArgsSchema)]).optional(),
+  user_messages: z.union([z.boolean(),z.lazy(() => User_messagesFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => AccountsCountOutputTypeArgsSchema)]).optional(),
+}).strict()
+
+// MESSAGES
+//------------------------------------------------------
+
+export const MessagesIncludeSchema: z.ZodType<Prisma.MessagesInclude> = z.object({
+  user_messages: z.union([z.boolean(),z.lazy(() => User_messagesFindManyArgsSchema)]).optional(),
+  _count: z.union([z.boolean(),z.lazy(() => MessagesCountOutputTypeArgsSchema)]).optional(),
+}).strict()
+
+export const MessagesArgsSchema: z.ZodType<Prisma.MessagesArgs> = z.object({
+  select: z.lazy(() => MessagesSelectSchema).optional(),
+  include: z.lazy(() => MessagesIncludeSchema).optional(),
+}).strict();
+
+export const MessagesCountOutputTypeArgsSchema: z.ZodType<Prisma.MessagesCountOutputTypeArgs> = z.object({
+  select: z.lazy(() => MessagesCountOutputTypeSelectSchema).nullish(),
+}).strict();
+
+export const MessagesCountOutputTypeSelectSchema: z.ZodType<Prisma.MessagesCountOutputTypeSelect> = z.object({
+  user_messages: z.boolean().optional(),
+}).strict();
+
+export const MessagesSelectSchema: z.ZodType<Prisma.MessagesSelect> = z.object({
+  message_id: z.boolean().optional(),
+  label_replace_by_generated_column: z.boolean().optional(),
+  date: z.boolean().optional(),
+  message: z.boolean().optional(),
+  user_messages: z.union([z.boolean(),z.lazy(() => User_messagesFindManyArgsSchema)]).optional(),
+  _count: z.union([z.boolean(),z.lazy(() => MessagesCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
 // PROJECTS
@@ -213,11 +278,38 @@ export const ProjectsSelectSchema: z.ZodType<Prisma.ProjectsSelect> = z.object({
   accounts: z.union([z.boolean(),z.lazy(() => AccountsArgsSchema)]).optional(),
 }).strict()
 
+// USER MESSAGES
+//------------------------------------------------------
+
+export const User_messagesIncludeSchema: z.ZodType<Prisma.User_messagesInclude> = z.object({
+  accounts: z.union([z.boolean(),z.lazy(() => AccountsArgsSchema)]).optional(),
+  messages: z.union([z.boolean(),z.lazy(() => MessagesArgsSchema)]).optional(),
+  users: z.union([z.boolean(),z.lazy(() => UsersArgsSchema)]).optional(),
+}).strict()
+
+export const User_messagesArgsSchema: z.ZodType<Prisma.User_messagesArgs> = z.object({
+  select: z.lazy(() => User_messagesSelectSchema).optional(),
+  include: z.lazy(() => User_messagesIncludeSchema).optional(),
+}).strict();
+
+export const User_messagesSelectSchema: z.ZodType<Prisma.User_messagesSelect> = z.object({
+  user_message_id: z.boolean().optional(),
+  account_id: z.boolean().optional(),
+  user_id: z.boolean().optional(),
+  message_id: z.boolean().optional(),
+  label_replace_by_generated_column: z.boolean().optional(),
+  read: z.boolean().optional(),
+  accounts: z.union([z.boolean(),z.lazy(() => AccountsArgsSchema)]).optional(),
+  messages: z.union([z.boolean(),z.lazy(() => MessagesArgsSchema)]).optional(),
+  users: z.union([z.boolean(),z.lazy(() => UsersArgsSchema)]).optional(),
+}).strict()
+
 // USERS
 //------------------------------------------------------
 
 export const UsersIncludeSchema: z.ZodType<Prisma.UsersInclude> = z.object({
   accounts: z.union([z.boolean(),z.lazy(() => AccountsFindManyArgsSchema)]).optional(),
+  user_messages: z.union([z.boolean(),z.lazy(() => User_messagesFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => UsersCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
@@ -232,6 +324,7 @@ export const UsersCountOutputTypeArgsSchema: z.ZodType<Prisma.UsersCountOutputTy
 
 export const UsersCountOutputTypeSelectSchema: z.ZodType<Prisma.UsersCountOutputTypeSelect> = z.object({
   accounts: z.boolean().optional(),
+  user_messages: z.boolean().optional(),
 }).strict();
 
 export const UsersSelectSchema: z.ZodType<Prisma.UsersSelect> = z.object({
@@ -241,6 +334,7 @@ export const UsersSelectSchema: z.ZodType<Prisma.UsersSelect> = z.object({
   label_replace_by_generated_column: z.boolean().optional(),
   deleted: z.boolean().optional(),
   accounts: z.union([z.boolean(),z.lazy(() => AccountsFindManyArgsSchema)]).optional(),
+  user_messages: z.union([z.boolean(),z.lazy(() => User_messagesFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => UsersCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
@@ -261,7 +355,8 @@ export const AccountsWhereInputSchema: z.ZodType<Prisma.AccountsWhereInput> = z.
   projects_label_by: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   label: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   users: z.union([ z.lazy(() => UsersRelationFilterSchema),z.lazy(() => UsersWhereInputSchema) ]).optional().nullable(),
-  projects: z.lazy(() => ProjectsListRelationFilterSchema).optional()
+  projects: z.lazy(() => ProjectsListRelationFilterSchema).optional(),
+  user_messages: z.lazy(() => User_messagesListRelationFilterSchema).optional()
 }).strict();
 
 export const AccountsOrderByWithRelationInputSchema: z.ZodType<Prisma.AccountsOrderByWithRelationInput> = z.object({
@@ -273,7 +368,8 @@ export const AccountsOrderByWithRelationInputSchema: z.ZodType<Prisma.AccountsOr
   projects_label_by: z.lazy(() => SortOrderSchema).optional(),
   label: z.lazy(() => SortOrderSchema).optional(),
   users: z.lazy(() => UsersOrderByWithRelationInputSchema).optional(),
-  projects: z.lazy(() => ProjectsOrderByRelationAggregateInputSchema).optional()
+  projects: z.lazy(() => ProjectsOrderByRelationAggregateInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesOrderByRelationAggregateInputSchema).optional()
 }).strict();
 
 export const AccountsWhereUniqueInputSchema: z.ZodType<Prisma.AccountsWhereUniqueInput> = z.object({
@@ -304,6 +400,49 @@ export const AccountsScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Acco
   period_end: z.union([ z.lazy(() => DateTimeNullableWithAggregatesFilterSchema),z.coerce.date() ]).optional().nullable(),
   projects_label_by: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
   label: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+}).strict();
+
+export const MessagesWhereInputSchema: z.ZodType<Prisma.MessagesWhereInput> = z.object({
+  AND: z.union([ z.lazy(() => MessagesWhereInputSchema),z.lazy(() => MessagesWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => MessagesWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => MessagesWhereInputSchema),z.lazy(() => MessagesWhereInputSchema).array() ]).optional(),
+  message_id: z.union([ z.lazy(() => UuidFilterSchema),z.string() ]).optional(),
+  label_replace_by_generated_column: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  date: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
+  message: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  user_messages: z.lazy(() => User_messagesListRelationFilterSchema).optional()
+}).strict();
+
+export const MessagesOrderByWithRelationInputSchema: z.ZodType<Prisma.MessagesOrderByWithRelationInput> = z.object({
+  message_id: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  date: z.lazy(() => SortOrderSchema).optional(),
+  message: z.lazy(() => SortOrderSchema).optional(),
+  user_messages: z.lazy(() => User_messagesOrderByRelationAggregateInputSchema).optional()
+}).strict();
+
+export const MessagesWhereUniqueInputSchema: z.ZodType<Prisma.MessagesWhereUniqueInput> = z.object({
+  message_id: z.string().uuid().optional()
+}).strict();
+
+export const MessagesOrderByWithAggregationInputSchema: z.ZodType<Prisma.MessagesOrderByWithAggregationInput> = z.object({
+  message_id: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  date: z.lazy(() => SortOrderSchema).optional(),
+  message: z.lazy(() => SortOrderSchema).optional(),
+  _count: z.lazy(() => MessagesCountOrderByAggregateInputSchema).optional(),
+  _max: z.lazy(() => MessagesMaxOrderByAggregateInputSchema).optional(),
+  _min: z.lazy(() => MessagesMinOrderByAggregateInputSchema).optional()
+}).strict();
+
+export const MessagesScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.MessagesScalarWhereWithAggregatesInput> = z.object({
+  AND: z.union([ z.lazy(() => MessagesScalarWhereWithAggregatesInputSchema),z.lazy(() => MessagesScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  OR: z.lazy(() => MessagesScalarWhereWithAggregatesInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => MessagesScalarWhereWithAggregatesInputSchema),z.lazy(() => MessagesScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  message_id: z.union([ z.lazy(() => UuidWithAggregatesFilterSchema),z.string() ]).optional(),
+  label_replace_by_generated_column: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  date: z.union([ z.lazy(() => DateTimeNullableWithAggregatesFilterSchema),z.coerce.date() ]).optional().nullable(),
+  message: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
 }).strict();
 
 export const ProjectsWhereInputSchema: z.ZodType<Prisma.ProjectsWhereInput> = z.object({
@@ -433,6 +572,61 @@ export const ProjectsScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Proj
   deleted: z.union([ z.lazy(() => BoolNullableWithAggregatesFilterSchema),z.boolean() ]).optional().nullable(),
 }).strict();
 
+export const User_messagesWhereInputSchema: z.ZodType<Prisma.User_messagesWhereInput> = z.object({
+  AND: z.union([ z.lazy(() => User_messagesWhereInputSchema),z.lazy(() => User_messagesWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => User_messagesWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => User_messagesWhereInputSchema),z.lazy(() => User_messagesWhereInputSchema).array() ]).optional(),
+  user_message_id: z.union([ z.lazy(() => UuidFilterSchema),z.string() ]).optional(),
+  account_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  user_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  message_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  read: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+  accounts: z.union([ z.lazy(() => AccountsRelationFilterSchema),z.lazy(() => AccountsWhereInputSchema) ]).optional().nullable(),
+  messages: z.union([ z.lazy(() => MessagesRelationFilterSchema),z.lazy(() => MessagesWhereInputSchema) ]).optional().nullable(),
+  users: z.union([ z.lazy(() => UsersRelationFilterSchema),z.lazy(() => UsersWhereInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const User_messagesOrderByWithRelationInputSchema: z.ZodType<Prisma.User_messagesOrderByWithRelationInput> = z.object({
+  user_message_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  message_id: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  read: z.lazy(() => SortOrderSchema).optional(),
+  accounts: z.lazy(() => AccountsOrderByWithRelationInputSchema).optional(),
+  messages: z.lazy(() => MessagesOrderByWithRelationInputSchema).optional(),
+  users: z.lazy(() => UsersOrderByWithRelationInputSchema).optional()
+}).strict();
+
+export const User_messagesWhereUniqueInputSchema: z.ZodType<Prisma.User_messagesWhereUniqueInput> = z.object({
+  user_message_id: z.string().uuid().optional()
+}).strict();
+
+export const User_messagesOrderByWithAggregationInputSchema: z.ZodType<Prisma.User_messagesOrderByWithAggregationInput> = z.object({
+  user_message_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  message_id: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  read: z.lazy(() => SortOrderSchema).optional(),
+  _count: z.lazy(() => User_messagesCountOrderByAggregateInputSchema).optional(),
+  _max: z.lazy(() => User_messagesMaxOrderByAggregateInputSchema).optional(),
+  _min: z.lazy(() => User_messagesMinOrderByAggregateInputSchema).optional()
+}).strict();
+
+export const User_messagesScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.User_messagesScalarWhereWithAggregatesInput> = z.object({
+  AND: z.union([ z.lazy(() => User_messagesScalarWhereWithAggregatesInputSchema),z.lazy(() => User_messagesScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  OR: z.lazy(() => User_messagesScalarWhereWithAggregatesInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => User_messagesScalarWhereWithAggregatesInputSchema),z.lazy(() => User_messagesScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  user_message_id: z.union([ z.lazy(() => UuidWithAggregatesFilterSchema),z.string() ]).optional(),
+  account_id: z.union([ z.lazy(() => UuidNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  user_id: z.union([ z.lazy(() => UuidNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  message_id: z.union([ z.lazy(() => UuidNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  read: z.union([ z.lazy(() => BoolNullableWithAggregatesFilterSchema),z.boolean() ]).optional().nullable(),
+}).strict();
+
 export const UsersWhereInputSchema: z.ZodType<Prisma.UsersWhereInput> = z.object({
   AND: z.union([ z.lazy(() => UsersWhereInputSchema),z.lazy(() => UsersWhereInputSchema).array() ]).optional(),
   OR: z.lazy(() => UsersWhereInputSchema).array().optional(),
@@ -442,7 +636,8 @@ export const UsersWhereInputSchema: z.ZodType<Prisma.UsersWhereInput> = z.object
   auth_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
   label_replace_by_generated_column: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   deleted: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
-  accounts: z.lazy(() => AccountsListRelationFilterSchema).optional()
+  accounts: z.lazy(() => AccountsListRelationFilterSchema).optional(),
+  user_messages: z.lazy(() => User_messagesListRelationFilterSchema).optional()
 }).strict();
 
 export const UsersOrderByWithRelationInputSchema: z.ZodType<Prisma.UsersOrderByWithRelationInput> = z.object({
@@ -451,7 +646,8 @@ export const UsersOrderByWithRelationInputSchema: z.ZodType<Prisma.UsersOrderByW
   auth_id: z.lazy(() => SortOrderSchema).optional(),
   label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
   deleted: z.lazy(() => SortOrderSchema).optional(),
-  accounts: z.lazy(() => AccountsOrderByRelationAggregateInputSchema).optional()
+  accounts: z.lazy(() => AccountsOrderByRelationAggregateInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesOrderByRelationAggregateInputSchema).optional()
 }).strict();
 
 export const UsersWhereUniqueInputSchema: z.ZodType<Prisma.UsersWhereUniqueInput> = z.object({
@@ -488,7 +684,8 @@ export const AccountsCreateInputSchema: z.ZodType<Prisma.AccountsCreateInput> = 
   projects_label_by: z.string().optional().nullable(),
   label: z.string().optional().nullable(),
   users: z.lazy(() => UsersCreateNestedOneWithoutAccountsInputSchema).optional(),
-  projects: z.lazy(() => ProjectsCreateNestedManyWithoutAccountsInputSchema).optional()
+  projects: z.lazy(() => ProjectsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
 export const AccountsUncheckedCreateInputSchema: z.ZodType<Prisma.AccountsUncheckedCreateInput> = z.object({
@@ -499,7 +696,8 @@ export const AccountsUncheckedCreateInputSchema: z.ZodType<Prisma.AccountsUnchec
   period_end: z.coerce.date().optional().nullable(),
   projects_label_by: z.string().optional().nullable(),
   label: z.string().optional().nullable(),
-  projects: z.lazy(() => ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
+  projects: z.lazy(() => ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
 export const AccountsUpdateInputSchema: z.ZodType<Prisma.AccountsUpdateInput> = z.object({
@@ -510,7 +708,8 @@ export const AccountsUpdateInputSchema: z.ZodType<Prisma.AccountsUpdateInput> = 
   projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   users: z.lazy(() => UsersUpdateOneWithoutAccountsNestedInputSchema).optional(),
-  projects: z.lazy(() => ProjectsUpdateManyWithoutAccountsNestedInputSchema).optional()
+  projects: z.lazy(() => ProjectsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
 export const AccountsUncheckedUpdateInputSchema: z.ZodType<Prisma.AccountsUncheckedUpdateInput> = z.object({
@@ -521,7 +720,8 @@ export const AccountsUncheckedUpdateInputSchema: z.ZodType<Prisma.AccountsUnchec
   period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  projects: z.lazy(() => ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
+  projects: z.lazy(() => ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
 export const AccountsCreateManyInputSchema: z.ZodType<Prisma.AccountsCreateManyInput> = z.object({
@@ -551,6 +751,59 @@ export const AccountsUncheckedUpdateManyInputSchema: z.ZodType<Prisma.AccountsUn
   period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const MessagesCreateInputSchema: z.ZodType<Prisma.MessagesCreateInput> = z.object({
+  message_id: z.string().uuid(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  date: z.coerce.date().optional().nullable(),
+  message: z.string().optional().nullable(),
+  user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutMessagesInputSchema).optional()
+}).strict();
+
+export const MessagesUncheckedCreateInputSchema: z.ZodType<Prisma.MessagesUncheckedCreateInput> = z.object({
+  message_id: z.string().uuid(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  date: z.coerce.date().optional().nullable(),
+  message: z.string().optional().nullable(),
+  user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutMessagesInputSchema).optional()
+}).strict();
+
+export const MessagesUpdateInputSchema: z.ZodType<Prisma.MessagesUpdateInput> = z.object({
+  message_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  date: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  message: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  user_messages: z.lazy(() => User_messagesUpdateManyWithoutMessagesNestedInputSchema).optional()
+}).strict();
+
+export const MessagesUncheckedUpdateInputSchema: z.ZodType<Prisma.MessagesUncheckedUpdateInput> = z.object({
+  message_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  date: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  message: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutMessagesNestedInputSchema).optional()
+}).strict();
+
+export const MessagesCreateManyInputSchema: z.ZodType<Prisma.MessagesCreateManyInput> = z.object({
+  message_id: z.string().uuid(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  date: z.coerce.date().optional().nullable(),
+  message: z.string().optional().nullable()
+}).strict();
+
+export const MessagesUpdateManyMutationInputSchema: z.ZodType<Prisma.MessagesUpdateManyMutationInput> = z.object({
+  message_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  date: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  message: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const MessagesUncheckedUpdateManyInputSchema: z.ZodType<Prisma.MessagesUncheckedUpdateManyInput> = z.object({
+  message_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  date: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  message: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
 export const ProjectsCreateInputSchema: z.ZodType<Prisma.ProjectsCreateInput> = z.object({
@@ -748,13 +1001,74 @@ export const ProjectsUncheckedUpdateManyInputSchema: z.ZodType<Prisma.ProjectsUn
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
+export const User_messagesCreateInputSchema: z.ZodType<Prisma.User_messagesCreateInput> = z.object({
+  user_message_id: z.string().uuid(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  read: z.boolean().optional().nullable(),
+  accounts: z.lazy(() => AccountsCreateNestedOneWithoutUser_messagesInputSchema).optional(),
+  messages: z.lazy(() => MessagesCreateNestedOneWithoutUser_messagesInputSchema).optional(),
+  users: z.lazy(() => UsersCreateNestedOneWithoutUser_messagesInputSchema).optional()
+}).strict();
+
+export const User_messagesUncheckedCreateInputSchema: z.ZodType<Prisma.User_messagesUncheckedCreateInput> = z.object({
+  user_message_id: z.string().uuid(),
+  account_id: z.string().uuid().optional().nullable(),
+  user_id: z.string().uuid().optional().nullable(),
+  message_id: z.string().uuid().optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  read: z.boolean().optional().nullable()
+}).strict();
+
+export const User_messagesUpdateInputSchema: z.ZodType<Prisma.User_messagesUpdateInput> = z.object({
+  user_message_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  read: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  accounts: z.lazy(() => AccountsUpdateOneWithoutUser_messagesNestedInputSchema).optional(),
+  messages: z.lazy(() => MessagesUpdateOneWithoutUser_messagesNestedInputSchema).optional(),
+  users: z.lazy(() => UsersUpdateOneWithoutUser_messagesNestedInputSchema).optional()
+}).strict();
+
+export const User_messagesUncheckedUpdateInputSchema: z.ZodType<Prisma.User_messagesUncheckedUpdateInput> = z.object({
+  user_message_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  account_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  user_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  message_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  read: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const User_messagesCreateManyInputSchema: z.ZodType<Prisma.User_messagesCreateManyInput> = z.object({
+  user_message_id: z.string().uuid(),
+  account_id: z.string().uuid().optional().nullable(),
+  user_id: z.string().uuid().optional().nullable(),
+  message_id: z.string().uuid().optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  read: z.boolean().optional().nullable()
+}).strict();
+
+export const User_messagesUpdateManyMutationInputSchema: z.ZodType<Prisma.User_messagesUpdateManyMutationInput> = z.object({
+  user_message_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  read: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const User_messagesUncheckedUpdateManyInputSchema: z.ZodType<Prisma.User_messagesUncheckedUpdateManyInput> = z.object({
+  user_message_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  account_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  user_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  message_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  read: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
 export const UsersCreateInputSchema: z.ZodType<Prisma.UsersCreateInput> = z.object({
   user_id: z.string().uuid(),
   email: z.string().optional().nullable(),
   auth_id: z.string().uuid().optional().nullable(),
   label_replace_by_generated_column: z.string().optional().nullable(),
   deleted: z.boolean().optional().nullable(),
-  accounts: z.lazy(() => AccountsCreateNestedManyWithoutUsersInputSchema).optional()
+  accounts: z.lazy(() => AccountsCreateNestedManyWithoutUsersInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutUsersInputSchema).optional()
 }).strict();
 
 export const UsersUncheckedCreateInputSchema: z.ZodType<Prisma.UsersUncheckedCreateInput> = z.object({
@@ -763,7 +1077,8 @@ export const UsersUncheckedCreateInputSchema: z.ZodType<Prisma.UsersUncheckedCre
   auth_id: z.string().uuid().optional().nullable(),
   label_replace_by_generated_column: z.string().optional().nullable(),
   deleted: z.boolean().optional().nullable(),
-  accounts: z.lazy(() => AccountsUncheckedCreateNestedManyWithoutUsersInputSchema).optional()
+  accounts: z.lazy(() => AccountsUncheckedCreateNestedManyWithoutUsersInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutUsersInputSchema).optional()
 }).strict();
 
 export const UsersUpdateInputSchema: z.ZodType<Prisma.UsersUpdateInput> = z.object({
@@ -772,7 +1087,8 @@ export const UsersUpdateInputSchema: z.ZodType<Prisma.UsersUpdateInput> = z.obje
   auth_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  accounts: z.lazy(() => AccountsUpdateManyWithoutUsersNestedInputSchema).optional()
+  accounts: z.lazy(() => AccountsUpdateManyWithoutUsersNestedInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUpdateManyWithoutUsersNestedInputSchema).optional()
 }).strict();
 
 export const UsersUncheckedUpdateInputSchema: z.ZodType<Prisma.UsersUncheckedUpdateInput> = z.object({
@@ -781,7 +1097,8 @@ export const UsersUncheckedUpdateInputSchema: z.ZodType<Prisma.UsersUncheckedUpd
   auth_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  accounts: z.lazy(() => AccountsUncheckedUpdateManyWithoutUsersNestedInputSchema).optional()
+  accounts: z.lazy(() => AccountsUncheckedUpdateManyWithoutUsersNestedInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutUsersNestedInputSchema).optional()
 }).strict();
 
 export const UsersCreateManyInputSchema: z.ZodType<Prisma.UsersCreateManyInput> = z.object({
@@ -869,7 +1186,17 @@ export const ProjectsListRelationFilterSchema: z.ZodType<Prisma.ProjectsListRela
   none: z.lazy(() => ProjectsWhereInputSchema).optional()
 }).strict();
 
+export const User_messagesListRelationFilterSchema: z.ZodType<Prisma.User_messagesListRelationFilter> = z.object({
+  every: z.lazy(() => User_messagesWhereInputSchema).optional(),
+  some: z.lazy(() => User_messagesWhereInputSchema).optional(),
+  none: z.lazy(() => User_messagesWhereInputSchema).optional()
+}).strict();
+
 export const ProjectsOrderByRelationAggregateInputSchema: z.ZodType<Prisma.ProjectsOrderByRelationAggregateInput> = z.object({
+  _count: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const User_messagesOrderByRelationAggregateInputSchema: z.ZodType<Prisma.User_messagesOrderByRelationAggregateInput> = z.object({
   _count: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
@@ -963,6 +1290,27 @@ export const DateTimeNullableWithAggregatesFilterSchema: z.ZodType<Prisma.DateTi
   _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
   _min: z.lazy(() => NestedDateTimeNullableFilterSchema).optional(),
   _max: z.lazy(() => NestedDateTimeNullableFilterSchema).optional()
+}).strict();
+
+export const MessagesCountOrderByAggregateInputSchema: z.ZodType<Prisma.MessagesCountOrderByAggregateInput> = z.object({
+  message_id: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  date: z.lazy(() => SortOrderSchema).optional(),
+  message: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const MessagesMaxOrderByAggregateInputSchema: z.ZodType<Prisma.MessagesMaxOrderByAggregateInput> = z.object({
+  message_id: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  date: z.lazy(() => SortOrderSchema).optional(),
+  message: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const MessagesMinOrderByAggregateInputSchema: z.ZodType<Prisma.MessagesMinOrderByAggregateInput> = z.object({
+  message_id: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  date: z.lazy(() => SortOrderSchema).optional(),
+  message: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const Enumproject_typeNullableFilterSchema: z.ZodType<Prisma.Enumproject_typeNullableFilter> = z.object({
@@ -1115,6 +1463,38 @@ export const BoolNullableWithAggregatesFilterSchema: z.ZodType<Prisma.BoolNullab
   _max: z.lazy(() => NestedBoolNullableFilterSchema).optional()
 }).strict();
 
+export const MessagesRelationFilterSchema: z.ZodType<Prisma.MessagesRelationFilter> = z.object({
+  is: z.lazy(() => MessagesWhereInputSchema).optional().nullable(),
+  isNot: z.lazy(() => MessagesWhereInputSchema).optional().nullable()
+}).strict();
+
+export const User_messagesCountOrderByAggregateInputSchema: z.ZodType<Prisma.User_messagesCountOrderByAggregateInput> = z.object({
+  user_message_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  message_id: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  read: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const User_messagesMaxOrderByAggregateInputSchema: z.ZodType<Prisma.User_messagesMaxOrderByAggregateInput> = z.object({
+  user_message_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  message_id: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  read: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const User_messagesMinOrderByAggregateInputSchema: z.ZodType<Prisma.User_messagesMinOrderByAggregateInput> = z.object({
+  user_message_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  user_id: z.lazy(() => SortOrderSchema).optional(),
+  message_id: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  read: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
 export const AccountsListRelationFilterSchema: z.ZodType<Prisma.AccountsListRelationFilter> = z.object({
   every: z.lazy(() => AccountsWhereInputSchema).optional(),
   some: z.lazy(() => AccountsWhereInputSchema).optional(),
@@ -1162,11 +1542,25 @@ export const ProjectsCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prism
   connect: z.union([ z.lazy(() => ProjectsWhereUniqueInputSchema),z.lazy(() => ProjectsWhereUniqueInputSchema).array() ]).optional(),
 }).strict();
 
+export const User_messagesCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prisma.User_messagesCreateNestedManyWithoutAccountsInput> = z.object({
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutAccountsInputSchema),z.lazy(() => User_messagesCreateWithoutAccountsInputSchema).array(),z.lazy(() => User_messagesUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => User_messagesCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => User_messagesCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => User_messagesCreateManyAccountsInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
 export const ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prisma.ProjectsUncheckedCreateNestedManyWithoutAccountsInput> = z.object({
   create: z.union([ z.lazy(() => ProjectsCreateWithoutAccountsInputSchema),z.lazy(() => ProjectsCreateWithoutAccountsInputSchema).array(),z.lazy(() => ProjectsUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => ProjectsUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => ProjectsCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => ProjectsCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
   createMany: z.lazy(() => ProjectsCreateManyAccountsInputEnvelopeSchema).optional(),
   connect: z.union([ z.lazy(() => ProjectsWhereUniqueInputSchema),z.lazy(() => ProjectsWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
+export const User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prisma.User_messagesUncheckedCreateNestedManyWithoutAccountsInput> = z.object({
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutAccountsInputSchema),z.lazy(() => User_messagesCreateWithoutAccountsInputSchema).array(),z.lazy(() => User_messagesUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => User_messagesCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => User_messagesCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => User_messagesCreateManyAccountsInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
 }).strict();
 
 export const StringFieldUpdateOperationsInputSchema: z.ZodType<Prisma.StringFieldUpdateOperationsInput> = z.object({
@@ -1205,6 +1599,20 @@ export const ProjectsUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prism
   deleteMany: z.union([ z.lazy(() => ProjectsScalarWhereInputSchema),z.lazy(() => ProjectsScalarWhereInputSchema).array() ]).optional(),
 }).strict();
 
+export const User_messagesUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prisma.User_messagesUpdateManyWithoutAccountsNestedInput> = z.object({
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutAccountsInputSchema),z.lazy(() => User_messagesCreateWithoutAccountsInputSchema).array(),z.lazy(() => User_messagesUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => User_messagesCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => User_messagesCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => User_messagesUpsertWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => User_messagesUpsertWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => User_messagesCreateManyAccountsInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => User_messagesUpdateWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => User_messagesUpdateWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => User_messagesUpdateManyWithWhereWithoutAccountsInputSchema),z.lazy(() => User_messagesUpdateManyWithWhereWithoutAccountsInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => User_messagesScalarWhereInputSchema),z.lazy(() => User_messagesScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
 export const ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prisma.ProjectsUncheckedUpdateManyWithoutAccountsNestedInput> = z.object({
   create: z.union([ z.lazy(() => ProjectsCreateWithoutAccountsInputSchema),z.lazy(() => ProjectsCreateWithoutAccountsInputSchema).array(),z.lazy(() => ProjectsUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => ProjectsUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => ProjectsCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => ProjectsCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
@@ -1217,6 +1625,62 @@ export const ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema: z.ZodT
   update: z.union([ z.lazy(() => ProjectsUpdateWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => ProjectsUpdateWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
   updateMany: z.union([ z.lazy(() => ProjectsUpdateManyWithWhereWithoutAccountsInputSchema),z.lazy(() => ProjectsUpdateManyWithWhereWithoutAccountsInputSchema).array() ]).optional(),
   deleteMany: z.union([ z.lazy(() => ProjectsScalarWhereInputSchema),z.lazy(() => ProjectsScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
+export const User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prisma.User_messagesUncheckedUpdateManyWithoutAccountsNestedInput> = z.object({
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutAccountsInputSchema),z.lazy(() => User_messagesCreateWithoutAccountsInputSchema).array(),z.lazy(() => User_messagesUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => User_messagesCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => User_messagesCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => User_messagesUpsertWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => User_messagesUpsertWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => User_messagesCreateManyAccountsInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => User_messagesUpdateWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => User_messagesUpdateWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => User_messagesUpdateManyWithWhereWithoutAccountsInputSchema),z.lazy(() => User_messagesUpdateManyWithWhereWithoutAccountsInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => User_messagesScalarWhereInputSchema),z.lazy(() => User_messagesScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
+export const User_messagesCreateNestedManyWithoutMessagesInputSchema: z.ZodType<Prisma.User_messagesCreateNestedManyWithoutMessagesInput> = z.object({
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutMessagesInputSchema),z.lazy(() => User_messagesCreateWithoutMessagesInputSchema).array(),z.lazy(() => User_messagesUncheckedCreateWithoutMessagesInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutMessagesInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => User_messagesCreateOrConnectWithoutMessagesInputSchema),z.lazy(() => User_messagesCreateOrConnectWithoutMessagesInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => User_messagesCreateManyMessagesInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
+export const User_messagesUncheckedCreateNestedManyWithoutMessagesInputSchema: z.ZodType<Prisma.User_messagesUncheckedCreateNestedManyWithoutMessagesInput> = z.object({
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutMessagesInputSchema),z.lazy(() => User_messagesCreateWithoutMessagesInputSchema).array(),z.lazy(() => User_messagesUncheckedCreateWithoutMessagesInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutMessagesInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => User_messagesCreateOrConnectWithoutMessagesInputSchema),z.lazy(() => User_messagesCreateOrConnectWithoutMessagesInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => User_messagesCreateManyMessagesInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
+export const User_messagesUpdateManyWithoutMessagesNestedInputSchema: z.ZodType<Prisma.User_messagesUpdateManyWithoutMessagesNestedInput> = z.object({
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutMessagesInputSchema),z.lazy(() => User_messagesCreateWithoutMessagesInputSchema).array(),z.lazy(() => User_messagesUncheckedCreateWithoutMessagesInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutMessagesInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => User_messagesCreateOrConnectWithoutMessagesInputSchema),z.lazy(() => User_messagesCreateOrConnectWithoutMessagesInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => User_messagesUpsertWithWhereUniqueWithoutMessagesInputSchema),z.lazy(() => User_messagesUpsertWithWhereUniqueWithoutMessagesInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => User_messagesCreateManyMessagesInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => User_messagesUpdateWithWhereUniqueWithoutMessagesInputSchema),z.lazy(() => User_messagesUpdateWithWhereUniqueWithoutMessagesInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => User_messagesUpdateManyWithWhereWithoutMessagesInputSchema),z.lazy(() => User_messagesUpdateManyWithWhereWithoutMessagesInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => User_messagesScalarWhereInputSchema),z.lazy(() => User_messagesScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
+export const User_messagesUncheckedUpdateManyWithoutMessagesNestedInputSchema: z.ZodType<Prisma.User_messagesUncheckedUpdateManyWithoutMessagesNestedInput> = z.object({
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutMessagesInputSchema),z.lazy(() => User_messagesCreateWithoutMessagesInputSchema).array(),z.lazy(() => User_messagesUncheckedCreateWithoutMessagesInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutMessagesInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => User_messagesCreateOrConnectWithoutMessagesInputSchema),z.lazy(() => User_messagesCreateOrConnectWithoutMessagesInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => User_messagesUpsertWithWhereUniqueWithoutMessagesInputSchema),z.lazy(() => User_messagesUpsertWithWhereUniqueWithoutMessagesInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => User_messagesCreateManyMessagesInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => User_messagesUpdateWithWhereUniqueWithoutMessagesInputSchema),z.lazy(() => User_messagesUpdateWithWhereUniqueWithoutMessagesInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => User_messagesUpdateManyWithWhereWithoutMessagesInputSchema),z.lazy(() => User_messagesUpdateManyWithWhereWithoutMessagesInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => User_messagesScalarWhereInputSchema),z.lazy(() => User_messagesScalarWhereInputSchema).array() ]).optional(),
 }).strict();
 
 export const AccountsCreateNestedOneWithoutProjectsInputSchema: z.ZodType<Prisma.AccountsCreateNestedOneWithoutProjectsInput> = z.object({
@@ -1243,6 +1707,54 @@ export const AccountsUpdateOneWithoutProjectsNestedInputSchema: z.ZodType<Prisma
   update: z.union([ z.lazy(() => AccountsUpdateWithoutProjectsInputSchema),z.lazy(() => AccountsUncheckedUpdateWithoutProjectsInputSchema) ]).optional(),
 }).strict();
 
+export const AccountsCreateNestedOneWithoutUser_messagesInputSchema: z.ZodType<Prisma.AccountsCreateNestedOneWithoutUser_messagesInput> = z.object({
+  create: z.union([ z.lazy(() => AccountsCreateWithoutUser_messagesInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutUser_messagesInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => AccountsCreateOrConnectWithoutUser_messagesInputSchema).optional(),
+  connect: z.lazy(() => AccountsWhereUniqueInputSchema).optional()
+}).strict();
+
+export const MessagesCreateNestedOneWithoutUser_messagesInputSchema: z.ZodType<Prisma.MessagesCreateNestedOneWithoutUser_messagesInput> = z.object({
+  create: z.union([ z.lazy(() => MessagesCreateWithoutUser_messagesInputSchema),z.lazy(() => MessagesUncheckedCreateWithoutUser_messagesInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => MessagesCreateOrConnectWithoutUser_messagesInputSchema).optional(),
+  connect: z.lazy(() => MessagesWhereUniqueInputSchema).optional()
+}).strict();
+
+export const UsersCreateNestedOneWithoutUser_messagesInputSchema: z.ZodType<Prisma.UsersCreateNestedOneWithoutUser_messagesInput> = z.object({
+  create: z.union([ z.lazy(() => UsersCreateWithoutUser_messagesInputSchema),z.lazy(() => UsersUncheckedCreateWithoutUser_messagesInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => UsersCreateOrConnectWithoutUser_messagesInputSchema).optional(),
+  connect: z.lazy(() => UsersWhereUniqueInputSchema).optional()
+}).strict();
+
+export const AccountsUpdateOneWithoutUser_messagesNestedInputSchema: z.ZodType<Prisma.AccountsUpdateOneWithoutUser_messagesNestedInput> = z.object({
+  create: z.union([ z.lazy(() => AccountsCreateWithoutUser_messagesInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutUser_messagesInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => AccountsCreateOrConnectWithoutUser_messagesInputSchema).optional(),
+  upsert: z.lazy(() => AccountsUpsertWithoutUser_messagesInputSchema).optional(),
+  disconnect: z.boolean().optional(),
+  delete: z.boolean().optional(),
+  connect: z.lazy(() => AccountsWhereUniqueInputSchema).optional(),
+  update: z.union([ z.lazy(() => AccountsUpdateWithoutUser_messagesInputSchema),z.lazy(() => AccountsUncheckedUpdateWithoutUser_messagesInputSchema) ]).optional(),
+}).strict();
+
+export const MessagesUpdateOneWithoutUser_messagesNestedInputSchema: z.ZodType<Prisma.MessagesUpdateOneWithoutUser_messagesNestedInput> = z.object({
+  create: z.union([ z.lazy(() => MessagesCreateWithoutUser_messagesInputSchema),z.lazy(() => MessagesUncheckedCreateWithoutUser_messagesInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => MessagesCreateOrConnectWithoutUser_messagesInputSchema).optional(),
+  upsert: z.lazy(() => MessagesUpsertWithoutUser_messagesInputSchema).optional(),
+  disconnect: z.boolean().optional(),
+  delete: z.boolean().optional(),
+  connect: z.lazy(() => MessagesWhereUniqueInputSchema).optional(),
+  update: z.union([ z.lazy(() => MessagesUpdateWithoutUser_messagesInputSchema),z.lazy(() => MessagesUncheckedUpdateWithoutUser_messagesInputSchema) ]).optional(),
+}).strict();
+
+export const UsersUpdateOneWithoutUser_messagesNestedInputSchema: z.ZodType<Prisma.UsersUpdateOneWithoutUser_messagesNestedInput> = z.object({
+  create: z.union([ z.lazy(() => UsersCreateWithoutUser_messagesInputSchema),z.lazy(() => UsersUncheckedCreateWithoutUser_messagesInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => UsersCreateOrConnectWithoutUser_messagesInputSchema).optional(),
+  upsert: z.lazy(() => UsersUpsertWithoutUser_messagesInputSchema).optional(),
+  disconnect: z.boolean().optional(),
+  delete: z.boolean().optional(),
+  connect: z.lazy(() => UsersWhereUniqueInputSchema).optional(),
+  update: z.union([ z.lazy(() => UsersUpdateWithoutUser_messagesInputSchema),z.lazy(() => UsersUncheckedUpdateWithoutUser_messagesInputSchema) ]).optional(),
+}).strict();
+
 export const AccountsCreateNestedManyWithoutUsersInputSchema: z.ZodType<Prisma.AccountsCreateNestedManyWithoutUsersInput> = z.object({
   create: z.union([ z.lazy(() => AccountsCreateWithoutUsersInputSchema),z.lazy(() => AccountsCreateWithoutUsersInputSchema).array(),z.lazy(() => AccountsUncheckedCreateWithoutUsersInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutUsersInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => AccountsCreateOrConnectWithoutUsersInputSchema),z.lazy(() => AccountsCreateOrConnectWithoutUsersInputSchema).array() ]).optional(),
@@ -1250,11 +1762,25 @@ export const AccountsCreateNestedManyWithoutUsersInputSchema: z.ZodType<Prisma.A
   connect: z.union([ z.lazy(() => AccountsWhereUniqueInputSchema),z.lazy(() => AccountsWhereUniqueInputSchema).array() ]).optional(),
 }).strict();
 
+export const User_messagesCreateNestedManyWithoutUsersInputSchema: z.ZodType<Prisma.User_messagesCreateNestedManyWithoutUsersInput> = z.object({
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutUsersInputSchema),z.lazy(() => User_messagesCreateWithoutUsersInputSchema).array(),z.lazy(() => User_messagesUncheckedCreateWithoutUsersInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutUsersInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => User_messagesCreateOrConnectWithoutUsersInputSchema),z.lazy(() => User_messagesCreateOrConnectWithoutUsersInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => User_messagesCreateManyUsersInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
 export const AccountsUncheckedCreateNestedManyWithoutUsersInputSchema: z.ZodType<Prisma.AccountsUncheckedCreateNestedManyWithoutUsersInput> = z.object({
   create: z.union([ z.lazy(() => AccountsCreateWithoutUsersInputSchema),z.lazy(() => AccountsCreateWithoutUsersInputSchema).array(),z.lazy(() => AccountsUncheckedCreateWithoutUsersInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutUsersInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => AccountsCreateOrConnectWithoutUsersInputSchema),z.lazy(() => AccountsCreateOrConnectWithoutUsersInputSchema).array() ]).optional(),
   createMany: z.lazy(() => AccountsCreateManyUsersInputEnvelopeSchema).optional(),
   connect: z.union([ z.lazy(() => AccountsWhereUniqueInputSchema),z.lazy(() => AccountsWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
+export const User_messagesUncheckedCreateNestedManyWithoutUsersInputSchema: z.ZodType<Prisma.User_messagesUncheckedCreateNestedManyWithoutUsersInput> = z.object({
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutUsersInputSchema),z.lazy(() => User_messagesCreateWithoutUsersInputSchema).array(),z.lazy(() => User_messagesUncheckedCreateWithoutUsersInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutUsersInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => User_messagesCreateOrConnectWithoutUsersInputSchema),z.lazy(() => User_messagesCreateOrConnectWithoutUsersInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => User_messagesCreateManyUsersInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
 }).strict();
 
 export const AccountsUpdateManyWithoutUsersNestedInputSchema: z.ZodType<Prisma.AccountsUpdateManyWithoutUsersNestedInput> = z.object({
@@ -1271,6 +1797,20 @@ export const AccountsUpdateManyWithoutUsersNestedInputSchema: z.ZodType<Prisma.A
   deleteMany: z.union([ z.lazy(() => AccountsScalarWhereInputSchema),z.lazy(() => AccountsScalarWhereInputSchema).array() ]).optional(),
 }).strict();
 
+export const User_messagesUpdateManyWithoutUsersNestedInputSchema: z.ZodType<Prisma.User_messagesUpdateManyWithoutUsersNestedInput> = z.object({
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutUsersInputSchema),z.lazy(() => User_messagesCreateWithoutUsersInputSchema).array(),z.lazy(() => User_messagesUncheckedCreateWithoutUsersInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutUsersInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => User_messagesCreateOrConnectWithoutUsersInputSchema),z.lazy(() => User_messagesCreateOrConnectWithoutUsersInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => User_messagesUpsertWithWhereUniqueWithoutUsersInputSchema),z.lazy(() => User_messagesUpsertWithWhereUniqueWithoutUsersInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => User_messagesCreateManyUsersInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => User_messagesUpdateWithWhereUniqueWithoutUsersInputSchema),z.lazy(() => User_messagesUpdateWithWhereUniqueWithoutUsersInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => User_messagesUpdateManyWithWhereWithoutUsersInputSchema),z.lazy(() => User_messagesUpdateManyWithWhereWithoutUsersInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => User_messagesScalarWhereInputSchema),z.lazy(() => User_messagesScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
 export const AccountsUncheckedUpdateManyWithoutUsersNestedInputSchema: z.ZodType<Prisma.AccountsUncheckedUpdateManyWithoutUsersNestedInput> = z.object({
   create: z.union([ z.lazy(() => AccountsCreateWithoutUsersInputSchema),z.lazy(() => AccountsCreateWithoutUsersInputSchema).array(),z.lazy(() => AccountsUncheckedCreateWithoutUsersInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutUsersInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => AccountsCreateOrConnectWithoutUsersInputSchema),z.lazy(() => AccountsCreateOrConnectWithoutUsersInputSchema).array() ]).optional(),
@@ -1283,6 +1823,20 @@ export const AccountsUncheckedUpdateManyWithoutUsersNestedInputSchema: z.ZodType
   update: z.union([ z.lazy(() => AccountsUpdateWithWhereUniqueWithoutUsersInputSchema),z.lazy(() => AccountsUpdateWithWhereUniqueWithoutUsersInputSchema).array() ]).optional(),
   updateMany: z.union([ z.lazy(() => AccountsUpdateManyWithWhereWithoutUsersInputSchema),z.lazy(() => AccountsUpdateManyWithWhereWithoutUsersInputSchema).array() ]).optional(),
   deleteMany: z.union([ z.lazy(() => AccountsScalarWhereInputSchema),z.lazy(() => AccountsScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
+export const User_messagesUncheckedUpdateManyWithoutUsersNestedInputSchema: z.ZodType<Prisma.User_messagesUncheckedUpdateManyWithoutUsersNestedInput> = z.object({
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutUsersInputSchema),z.lazy(() => User_messagesCreateWithoutUsersInputSchema).array(),z.lazy(() => User_messagesUncheckedCreateWithoutUsersInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutUsersInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => User_messagesCreateOrConnectWithoutUsersInputSchema),z.lazy(() => User_messagesCreateOrConnectWithoutUsersInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => User_messagesUpsertWithWhereUniqueWithoutUsersInputSchema),z.lazy(() => User_messagesUpsertWithWhereUniqueWithoutUsersInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => User_messagesCreateManyUsersInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => User_messagesUpdateWithWhereUniqueWithoutUsersInputSchema),z.lazy(() => User_messagesUpdateWithWhereUniqueWithoutUsersInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => User_messagesUpdateManyWithWhereWithoutUsersInputSchema),z.lazy(() => User_messagesUpdateManyWithWhereWithoutUsersInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => User_messagesScalarWhereInputSchema),z.lazy(() => User_messagesScalarWhereInputSchema).array() ]).optional(),
 }).strict();
 
 export const NestedUuidFilterSchema: z.ZodType<Prisma.NestedUuidFilter> = z.object({
@@ -1478,7 +2032,8 @@ export const UsersCreateWithoutAccountsInputSchema: z.ZodType<Prisma.UsersCreate
   email: z.string().optional().nullable(),
   auth_id: z.string().optional().nullable(),
   label_replace_by_generated_column: z.string().optional().nullable(),
-  deleted: z.boolean().optional().nullable()
+  deleted: z.boolean().optional().nullable(),
+  user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutUsersInputSchema).optional()
 }).strict();
 
 export const UsersUncheckedCreateWithoutAccountsInputSchema: z.ZodType<Prisma.UsersUncheckedCreateWithoutAccountsInput> = z.object({
@@ -1486,7 +2041,8 @@ export const UsersUncheckedCreateWithoutAccountsInputSchema: z.ZodType<Prisma.Us
   email: z.string().optional().nullable(),
   auth_id: z.string().optional().nullable(),
   label_replace_by_generated_column: z.string().optional().nullable(),
-  deleted: z.boolean().optional().nullable()
+  deleted: z.boolean().optional().nullable(),
+  user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutUsersInputSchema).optional()
 }).strict();
 
 export const UsersCreateOrConnectWithoutAccountsInputSchema: z.ZodType<Prisma.UsersCreateOrConnectWithoutAccountsInput> = z.object({
@@ -1558,6 +2114,32 @@ export const ProjectsCreateManyAccountsInputEnvelopeSchema: z.ZodType<Prisma.Pro
   skipDuplicates: z.boolean().optional()
 }).strict();
 
+export const User_messagesCreateWithoutAccountsInputSchema: z.ZodType<Prisma.User_messagesCreateWithoutAccountsInput> = z.object({
+  user_message_id: z.string(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  read: z.boolean().optional().nullable(),
+  messages: z.lazy(() => MessagesCreateNestedOneWithoutUser_messagesInputSchema).optional(),
+  users: z.lazy(() => UsersCreateNestedOneWithoutUser_messagesInputSchema).optional()
+}).strict();
+
+export const User_messagesUncheckedCreateWithoutAccountsInputSchema: z.ZodType<Prisma.User_messagesUncheckedCreateWithoutAccountsInput> = z.object({
+  user_message_id: z.string(),
+  user_id: z.string().optional().nullable(),
+  message_id: z.string().optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  read: z.boolean().optional().nullable()
+}).strict();
+
+export const User_messagesCreateOrConnectWithoutAccountsInputSchema: z.ZodType<Prisma.User_messagesCreateOrConnectWithoutAccountsInput> = z.object({
+  where: z.lazy(() => User_messagesWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutAccountsInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutAccountsInputSchema) ]),
+}).strict();
+
+export const User_messagesCreateManyAccountsInputEnvelopeSchema: z.ZodType<Prisma.User_messagesCreateManyAccountsInputEnvelope> = z.object({
+  data: z.lazy(() => User_messagesCreateManyAccountsInputSchema).array(),
+  skipDuplicates: z.boolean().optional()
+}).strict();
+
 export const UsersUpsertWithoutAccountsInputSchema: z.ZodType<Prisma.UsersUpsertWithoutAccountsInput> = z.object({
   update: z.union([ z.lazy(() => UsersUpdateWithoutAccountsInputSchema),z.lazy(() => UsersUncheckedUpdateWithoutAccountsInputSchema) ]),
   create: z.union([ z.lazy(() => UsersCreateWithoutAccountsInputSchema),z.lazy(() => UsersUncheckedCreateWithoutAccountsInputSchema) ]),
@@ -1569,6 +2151,7 @@ export const UsersUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.UsersUpdate
   auth_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  user_messages: z.lazy(() => User_messagesUpdateManyWithoutUsersNestedInputSchema).optional()
 }).strict();
 
 export const UsersUncheckedUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.UsersUncheckedUpdateWithoutAccountsInput> = z.object({
@@ -1577,6 +2160,7 @@ export const UsersUncheckedUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.Us
   auth_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutUsersNestedInputSchema).optional()
 }).strict();
 
 export const ProjectsUpsertWithWhereUniqueWithoutAccountsInputSchema: z.ZodType<Prisma.ProjectsUpsertWithWhereUniqueWithoutAccountsInput> = z.object({
@@ -1626,6 +2210,76 @@ export const ProjectsScalarWhereInputSchema: z.ZodType<Prisma.ProjectsScalarWher
   deleted: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
 }).strict();
 
+export const User_messagesUpsertWithWhereUniqueWithoutAccountsInputSchema: z.ZodType<Prisma.User_messagesUpsertWithWhereUniqueWithoutAccountsInput> = z.object({
+  where: z.lazy(() => User_messagesWhereUniqueInputSchema),
+  update: z.union([ z.lazy(() => User_messagesUpdateWithoutAccountsInputSchema),z.lazy(() => User_messagesUncheckedUpdateWithoutAccountsInputSchema) ]),
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutAccountsInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutAccountsInputSchema) ]),
+}).strict();
+
+export const User_messagesUpdateWithWhereUniqueWithoutAccountsInputSchema: z.ZodType<Prisma.User_messagesUpdateWithWhereUniqueWithoutAccountsInput> = z.object({
+  where: z.lazy(() => User_messagesWhereUniqueInputSchema),
+  data: z.union([ z.lazy(() => User_messagesUpdateWithoutAccountsInputSchema),z.lazy(() => User_messagesUncheckedUpdateWithoutAccountsInputSchema) ]),
+}).strict();
+
+export const User_messagesUpdateManyWithWhereWithoutAccountsInputSchema: z.ZodType<Prisma.User_messagesUpdateManyWithWhereWithoutAccountsInput> = z.object({
+  where: z.lazy(() => User_messagesScalarWhereInputSchema),
+  data: z.union([ z.lazy(() => User_messagesUpdateManyMutationInputSchema),z.lazy(() => User_messagesUncheckedUpdateManyWithoutUser_messagesInputSchema) ]),
+}).strict();
+
+export const User_messagesScalarWhereInputSchema: z.ZodType<Prisma.User_messagesScalarWhereInput> = z.object({
+  AND: z.union([ z.lazy(() => User_messagesScalarWhereInputSchema),z.lazy(() => User_messagesScalarWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => User_messagesScalarWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => User_messagesScalarWhereInputSchema),z.lazy(() => User_messagesScalarWhereInputSchema).array() ]).optional(),
+  user_message_id: z.union([ z.lazy(() => UuidFilterSchema),z.string() ]).optional(),
+  account_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  user_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  message_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  read: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+}).strict();
+
+export const User_messagesCreateWithoutMessagesInputSchema: z.ZodType<Prisma.User_messagesCreateWithoutMessagesInput> = z.object({
+  user_message_id: z.string(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  read: z.boolean().optional().nullable(),
+  accounts: z.lazy(() => AccountsCreateNestedOneWithoutUser_messagesInputSchema).optional(),
+  users: z.lazy(() => UsersCreateNestedOneWithoutUser_messagesInputSchema).optional()
+}).strict();
+
+export const User_messagesUncheckedCreateWithoutMessagesInputSchema: z.ZodType<Prisma.User_messagesUncheckedCreateWithoutMessagesInput> = z.object({
+  user_message_id: z.string(),
+  account_id: z.string().optional().nullable(),
+  user_id: z.string().optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  read: z.boolean().optional().nullable()
+}).strict();
+
+export const User_messagesCreateOrConnectWithoutMessagesInputSchema: z.ZodType<Prisma.User_messagesCreateOrConnectWithoutMessagesInput> = z.object({
+  where: z.lazy(() => User_messagesWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutMessagesInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutMessagesInputSchema) ]),
+}).strict();
+
+export const User_messagesCreateManyMessagesInputEnvelopeSchema: z.ZodType<Prisma.User_messagesCreateManyMessagesInputEnvelope> = z.object({
+  data: z.lazy(() => User_messagesCreateManyMessagesInputSchema).array(),
+  skipDuplicates: z.boolean().optional()
+}).strict();
+
+export const User_messagesUpsertWithWhereUniqueWithoutMessagesInputSchema: z.ZodType<Prisma.User_messagesUpsertWithWhereUniqueWithoutMessagesInput> = z.object({
+  where: z.lazy(() => User_messagesWhereUniqueInputSchema),
+  update: z.union([ z.lazy(() => User_messagesUpdateWithoutMessagesInputSchema),z.lazy(() => User_messagesUncheckedUpdateWithoutMessagesInputSchema) ]),
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutMessagesInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutMessagesInputSchema) ]),
+}).strict();
+
+export const User_messagesUpdateWithWhereUniqueWithoutMessagesInputSchema: z.ZodType<Prisma.User_messagesUpdateWithWhereUniqueWithoutMessagesInput> = z.object({
+  where: z.lazy(() => User_messagesWhereUniqueInputSchema),
+  data: z.union([ z.lazy(() => User_messagesUpdateWithoutMessagesInputSchema),z.lazy(() => User_messagesUncheckedUpdateWithoutMessagesInputSchema) ]),
+}).strict();
+
+export const User_messagesUpdateManyWithWhereWithoutMessagesInputSchema: z.ZodType<Prisma.User_messagesUpdateManyWithWhereWithoutMessagesInput> = z.object({
+  where: z.lazy(() => User_messagesScalarWhereInputSchema),
+  data: z.union([ z.lazy(() => User_messagesUpdateManyMutationInputSchema),z.lazy(() => User_messagesUncheckedUpdateManyWithoutUser_messagesInputSchema) ]),
+}).strict();
+
 export const AccountsCreateWithoutProjectsInputSchema: z.ZodType<Prisma.AccountsCreateWithoutProjectsInput> = z.object({
   account_id: z.string(),
   type: z.string().optional().nullable(),
@@ -1633,7 +2287,8 @@ export const AccountsCreateWithoutProjectsInputSchema: z.ZodType<Prisma.Accounts
   period_end: z.coerce.date().optional().nullable(),
   projects_label_by: z.string().optional().nullable(),
   label: z.string().optional().nullable(),
-  users: z.lazy(() => UsersCreateNestedOneWithoutAccountsInputSchema).optional()
+  users: z.lazy(() => UsersCreateNestedOneWithoutAccountsInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
 export const AccountsUncheckedCreateWithoutProjectsInputSchema: z.ZodType<Prisma.AccountsUncheckedCreateWithoutProjectsInput> = z.object({
@@ -1643,7 +2298,8 @@ export const AccountsUncheckedCreateWithoutProjectsInputSchema: z.ZodType<Prisma
   period_start: z.coerce.date().optional().nullable(),
   period_end: z.coerce.date().optional().nullable(),
   projects_label_by: z.string().optional().nullable(),
-  label: z.string().optional().nullable()
+  label: z.string().optional().nullable(),
+  user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
 export const AccountsCreateOrConnectWithoutProjectsInputSchema: z.ZodType<Prisma.AccountsCreateOrConnectWithoutProjectsInput> = z.object({
@@ -1663,7 +2319,8 @@ export const AccountsUpdateWithoutProjectsInputSchema: z.ZodType<Prisma.Accounts
   period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  users: z.lazy(() => UsersUpdateOneWithoutAccountsNestedInputSchema).optional()
+  users: z.lazy(() => UsersUpdateOneWithoutAccountsNestedInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
 export const AccountsUncheckedUpdateWithoutProjectsInputSchema: z.ZodType<Prisma.AccountsUncheckedUpdateWithoutProjectsInput> = z.object({
@@ -1674,6 +2331,145 @@ export const AccountsUncheckedUpdateWithoutProjectsInputSchema: z.ZodType<Prisma
   period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
+}).strict();
+
+export const AccountsCreateWithoutUser_messagesInputSchema: z.ZodType<Prisma.AccountsCreateWithoutUser_messagesInput> = z.object({
+  account_id: z.string(),
+  type: z.string().optional().nullable(),
+  period_start: z.coerce.date().optional().nullable(),
+  period_end: z.coerce.date().optional().nullable(),
+  projects_label_by: z.string().optional().nullable(),
+  label: z.string().optional().nullable(),
+  users: z.lazy(() => UsersCreateNestedOneWithoutAccountsInputSchema).optional(),
+  projects: z.lazy(() => ProjectsCreateNestedManyWithoutAccountsInputSchema).optional()
+}).strict();
+
+export const AccountsUncheckedCreateWithoutUser_messagesInputSchema: z.ZodType<Prisma.AccountsUncheckedCreateWithoutUser_messagesInput> = z.object({
+  account_id: z.string(),
+  user_id: z.string().optional().nullable(),
+  type: z.string().optional().nullable(),
+  period_start: z.coerce.date().optional().nullable(),
+  period_end: z.coerce.date().optional().nullable(),
+  projects_label_by: z.string().optional().nullable(),
+  label: z.string().optional().nullable(),
+  projects: z.lazy(() => ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
+}).strict();
+
+export const AccountsCreateOrConnectWithoutUser_messagesInputSchema: z.ZodType<Prisma.AccountsCreateOrConnectWithoutUser_messagesInput> = z.object({
+  where: z.lazy(() => AccountsWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => AccountsCreateWithoutUser_messagesInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutUser_messagesInputSchema) ]),
+}).strict();
+
+export const MessagesCreateWithoutUser_messagesInputSchema: z.ZodType<Prisma.MessagesCreateWithoutUser_messagesInput> = z.object({
+  message_id: z.string(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  date: z.coerce.date().optional().nullable(),
+  message: z.string().optional().nullable()
+}).strict();
+
+export const MessagesUncheckedCreateWithoutUser_messagesInputSchema: z.ZodType<Prisma.MessagesUncheckedCreateWithoutUser_messagesInput> = z.object({
+  message_id: z.string(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  date: z.coerce.date().optional().nullable(),
+  message: z.string().optional().nullable()
+}).strict();
+
+export const MessagesCreateOrConnectWithoutUser_messagesInputSchema: z.ZodType<Prisma.MessagesCreateOrConnectWithoutUser_messagesInput> = z.object({
+  where: z.lazy(() => MessagesWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => MessagesCreateWithoutUser_messagesInputSchema),z.lazy(() => MessagesUncheckedCreateWithoutUser_messagesInputSchema) ]),
+}).strict();
+
+export const UsersCreateWithoutUser_messagesInputSchema: z.ZodType<Prisma.UsersCreateWithoutUser_messagesInput> = z.object({
+  user_id: z.string(),
+  email: z.string().optional().nullable(),
+  auth_id: z.string().optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable(),
+  accounts: z.lazy(() => AccountsCreateNestedManyWithoutUsersInputSchema).optional()
+}).strict();
+
+export const UsersUncheckedCreateWithoutUser_messagesInputSchema: z.ZodType<Prisma.UsersUncheckedCreateWithoutUser_messagesInput> = z.object({
+  user_id: z.string(),
+  email: z.string().optional().nullable(),
+  auth_id: z.string().optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable(),
+  accounts: z.lazy(() => AccountsUncheckedCreateNestedManyWithoutUsersInputSchema).optional()
+}).strict();
+
+export const UsersCreateOrConnectWithoutUser_messagesInputSchema: z.ZodType<Prisma.UsersCreateOrConnectWithoutUser_messagesInput> = z.object({
+  where: z.lazy(() => UsersWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => UsersCreateWithoutUser_messagesInputSchema),z.lazy(() => UsersUncheckedCreateWithoutUser_messagesInputSchema) ]),
+}).strict();
+
+export const AccountsUpsertWithoutUser_messagesInputSchema: z.ZodType<Prisma.AccountsUpsertWithoutUser_messagesInput> = z.object({
+  update: z.union([ z.lazy(() => AccountsUpdateWithoutUser_messagesInputSchema),z.lazy(() => AccountsUncheckedUpdateWithoutUser_messagesInputSchema) ]),
+  create: z.union([ z.lazy(() => AccountsCreateWithoutUser_messagesInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutUser_messagesInputSchema) ]),
+}).strict();
+
+export const AccountsUpdateWithoutUser_messagesInputSchema: z.ZodType<Prisma.AccountsUpdateWithoutUser_messagesInput> = z.object({
+  account_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  type: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  period_start: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  users: z.lazy(() => UsersUpdateOneWithoutAccountsNestedInputSchema).optional(),
+  projects: z.lazy(() => ProjectsUpdateManyWithoutAccountsNestedInputSchema).optional()
+}).strict();
+
+export const AccountsUncheckedUpdateWithoutUser_messagesInputSchema: z.ZodType<Prisma.AccountsUncheckedUpdateWithoutUser_messagesInput> = z.object({
+  account_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  user_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  type: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  period_start: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  projects: z.lazy(() => ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
+}).strict();
+
+export const MessagesUpsertWithoutUser_messagesInputSchema: z.ZodType<Prisma.MessagesUpsertWithoutUser_messagesInput> = z.object({
+  update: z.union([ z.lazy(() => MessagesUpdateWithoutUser_messagesInputSchema),z.lazy(() => MessagesUncheckedUpdateWithoutUser_messagesInputSchema) ]),
+  create: z.union([ z.lazy(() => MessagesCreateWithoutUser_messagesInputSchema),z.lazy(() => MessagesUncheckedCreateWithoutUser_messagesInputSchema) ]),
+}).strict();
+
+export const MessagesUpdateWithoutUser_messagesInputSchema: z.ZodType<Prisma.MessagesUpdateWithoutUser_messagesInput> = z.object({
+  message_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  date: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  message: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const MessagesUncheckedUpdateWithoutUser_messagesInputSchema: z.ZodType<Prisma.MessagesUncheckedUpdateWithoutUser_messagesInput> = z.object({
+  message_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  date: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  message: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const UsersUpsertWithoutUser_messagesInputSchema: z.ZodType<Prisma.UsersUpsertWithoutUser_messagesInput> = z.object({
+  update: z.union([ z.lazy(() => UsersUpdateWithoutUser_messagesInputSchema),z.lazy(() => UsersUncheckedUpdateWithoutUser_messagesInputSchema) ]),
+  create: z.union([ z.lazy(() => UsersCreateWithoutUser_messagesInputSchema),z.lazy(() => UsersUncheckedCreateWithoutUser_messagesInputSchema) ]),
+}).strict();
+
+export const UsersUpdateWithoutUser_messagesInputSchema: z.ZodType<Prisma.UsersUpdateWithoutUser_messagesInput> = z.object({
+  user_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  email: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  auth_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  accounts: z.lazy(() => AccountsUpdateManyWithoutUsersNestedInputSchema).optional()
+}).strict();
+
+export const UsersUncheckedUpdateWithoutUser_messagesInputSchema: z.ZodType<Prisma.UsersUncheckedUpdateWithoutUser_messagesInput> = z.object({
+  user_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  email: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  auth_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  accounts: z.lazy(() => AccountsUncheckedUpdateManyWithoutUsersNestedInputSchema).optional()
 }).strict();
 
 export const AccountsCreateWithoutUsersInputSchema: z.ZodType<Prisma.AccountsCreateWithoutUsersInput> = z.object({
@@ -1683,7 +2479,8 @@ export const AccountsCreateWithoutUsersInputSchema: z.ZodType<Prisma.AccountsCre
   period_end: z.coerce.date().optional().nullable(),
   projects_label_by: z.string().optional().nullable(),
   label: z.string().optional().nullable(),
-  projects: z.lazy(() => ProjectsCreateNestedManyWithoutAccountsInputSchema).optional()
+  projects: z.lazy(() => ProjectsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
 export const AccountsUncheckedCreateWithoutUsersInputSchema: z.ZodType<Prisma.AccountsUncheckedCreateWithoutUsersInput> = z.object({
@@ -1693,7 +2490,8 @@ export const AccountsUncheckedCreateWithoutUsersInputSchema: z.ZodType<Prisma.Ac
   period_end: z.coerce.date().optional().nullable(),
   projects_label_by: z.string().optional().nullable(),
   label: z.string().optional().nullable(),
-  projects: z.lazy(() => ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
+  projects: z.lazy(() => ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
 export const AccountsCreateOrConnectWithoutUsersInputSchema: z.ZodType<Prisma.AccountsCreateOrConnectWithoutUsersInput> = z.object({
@@ -1703,6 +2501,32 @@ export const AccountsCreateOrConnectWithoutUsersInputSchema: z.ZodType<Prisma.Ac
 
 export const AccountsCreateManyUsersInputEnvelopeSchema: z.ZodType<Prisma.AccountsCreateManyUsersInputEnvelope> = z.object({
   data: z.lazy(() => AccountsCreateManyUsersInputSchema).array(),
+  skipDuplicates: z.boolean().optional()
+}).strict();
+
+export const User_messagesCreateWithoutUsersInputSchema: z.ZodType<Prisma.User_messagesCreateWithoutUsersInput> = z.object({
+  user_message_id: z.string(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  read: z.boolean().optional().nullable(),
+  accounts: z.lazy(() => AccountsCreateNestedOneWithoutUser_messagesInputSchema).optional(),
+  messages: z.lazy(() => MessagesCreateNestedOneWithoutUser_messagesInputSchema).optional()
+}).strict();
+
+export const User_messagesUncheckedCreateWithoutUsersInputSchema: z.ZodType<Prisma.User_messagesUncheckedCreateWithoutUsersInput> = z.object({
+  user_message_id: z.string(),
+  account_id: z.string().optional().nullable(),
+  message_id: z.string().optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  read: z.boolean().optional().nullable()
+}).strict();
+
+export const User_messagesCreateOrConnectWithoutUsersInputSchema: z.ZodType<Prisma.User_messagesCreateOrConnectWithoutUsersInput> = z.object({
+  where: z.lazy(() => User_messagesWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutUsersInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutUsersInputSchema) ]),
+}).strict();
+
+export const User_messagesCreateManyUsersInputEnvelopeSchema: z.ZodType<Prisma.User_messagesCreateManyUsersInputEnvelope> = z.object({
+  data: z.lazy(() => User_messagesCreateManyUsersInputSchema).array(),
   skipDuplicates: z.boolean().optional()
 }).strict();
 
@@ -1735,6 +2559,22 @@ export const AccountsScalarWhereInputSchema: z.ZodType<Prisma.AccountsScalarWher
   label: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
 }).strict();
 
+export const User_messagesUpsertWithWhereUniqueWithoutUsersInputSchema: z.ZodType<Prisma.User_messagesUpsertWithWhereUniqueWithoutUsersInput> = z.object({
+  where: z.lazy(() => User_messagesWhereUniqueInputSchema),
+  update: z.union([ z.lazy(() => User_messagesUpdateWithoutUsersInputSchema),z.lazy(() => User_messagesUncheckedUpdateWithoutUsersInputSchema) ]),
+  create: z.union([ z.lazy(() => User_messagesCreateWithoutUsersInputSchema),z.lazy(() => User_messagesUncheckedCreateWithoutUsersInputSchema) ]),
+}).strict();
+
+export const User_messagesUpdateWithWhereUniqueWithoutUsersInputSchema: z.ZodType<Prisma.User_messagesUpdateWithWhereUniqueWithoutUsersInput> = z.object({
+  where: z.lazy(() => User_messagesWhereUniqueInputSchema),
+  data: z.union([ z.lazy(() => User_messagesUpdateWithoutUsersInputSchema),z.lazy(() => User_messagesUncheckedUpdateWithoutUsersInputSchema) ]),
+}).strict();
+
+export const User_messagesUpdateManyWithWhereWithoutUsersInputSchema: z.ZodType<Prisma.User_messagesUpdateManyWithWhereWithoutUsersInput> = z.object({
+  where: z.lazy(() => User_messagesScalarWhereInputSchema),
+  data: z.union([ z.lazy(() => User_messagesUpdateManyMutationInputSchema),z.lazy(() => User_messagesUncheckedUpdateManyWithoutUser_messagesInputSchema) ]),
+}).strict();
+
 export const ProjectsCreateManyAccountsInputSchema: z.ZodType<Prisma.ProjectsCreateManyAccountsInput> = z.object({
   project_id: z.string().uuid(),
   name: z.string().optional().nullable(),
@@ -1760,6 +2600,14 @@ export const ProjectsCreateManyAccountsInputSchema: z.ZodType<Prisma.ProjectsCre
   files_active_actions: z.boolean().optional().nullable(),
   files_active_checks: z.boolean().optional().nullable(),
   deleted: z.boolean().optional().nullable()
+}).strict();
+
+export const User_messagesCreateManyAccountsInputSchema: z.ZodType<Prisma.User_messagesCreateManyAccountsInput> = z.object({
+  user_message_id: z.string().uuid(),
+  user_id: z.string().uuid().optional().nullable(),
+  message_id: z.string().uuid().optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  read: z.boolean().optional().nullable()
 }).strict();
 
 export const ProjectsUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.ProjectsUpdateWithoutAccountsInput> = z.object({
@@ -1843,6 +2691,54 @@ export const ProjectsUncheckedUpdateManyWithoutProjectsInputSchema: z.ZodType<Pr
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
+export const User_messagesUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.User_messagesUpdateWithoutAccountsInput> = z.object({
+  user_message_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  read: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  messages: z.lazy(() => MessagesUpdateOneWithoutUser_messagesNestedInputSchema).optional(),
+  users: z.lazy(() => UsersUpdateOneWithoutUser_messagesNestedInputSchema).optional()
+}).strict();
+
+export const User_messagesUncheckedUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.User_messagesUncheckedUpdateWithoutAccountsInput> = z.object({
+  user_message_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  user_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  message_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  read: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const User_messagesUncheckedUpdateManyWithoutUser_messagesInputSchema: z.ZodType<Prisma.User_messagesUncheckedUpdateManyWithoutUser_messagesInput> = z.object({
+  user_message_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  user_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  message_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  read: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const User_messagesCreateManyMessagesInputSchema: z.ZodType<Prisma.User_messagesCreateManyMessagesInput> = z.object({
+  user_message_id: z.string().uuid(),
+  account_id: z.string().uuid().optional().nullable(),
+  user_id: z.string().uuid().optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  read: z.boolean().optional().nullable()
+}).strict();
+
+export const User_messagesUpdateWithoutMessagesInputSchema: z.ZodType<Prisma.User_messagesUpdateWithoutMessagesInput> = z.object({
+  user_message_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  read: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  accounts: z.lazy(() => AccountsUpdateOneWithoutUser_messagesNestedInputSchema).optional(),
+  users: z.lazy(() => UsersUpdateOneWithoutUser_messagesNestedInputSchema).optional()
+}).strict();
+
+export const User_messagesUncheckedUpdateWithoutMessagesInputSchema: z.ZodType<Prisma.User_messagesUncheckedUpdateWithoutMessagesInput> = z.object({
+  user_message_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  account_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  user_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  read: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
 export const AccountsCreateManyUsersInputSchema: z.ZodType<Prisma.AccountsCreateManyUsersInput> = z.object({
   account_id: z.string().uuid(),
   type: z.string().optional().nullable(),
@@ -1852,6 +2748,14 @@ export const AccountsCreateManyUsersInputSchema: z.ZodType<Prisma.AccountsCreate
   label: z.string().optional().nullable()
 }).strict();
 
+export const User_messagesCreateManyUsersInputSchema: z.ZodType<Prisma.User_messagesCreateManyUsersInput> = z.object({
+  user_message_id: z.string().uuid(),
+  account_id: z.string().uuid().optional().nullable(),
+  message_id: z.string().uuid().optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  read: z.boolean().optional().nullable()
+}).strict();
+
 export const AccountsUpdateWithoutUsersInputSchema: z.ZodType<Prisma.AccountsUpdateWithoutUsersInput> = z.object({
   account_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   type: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -1859,7 +2763,8 @@ export const AccountsUpdateWithoutUsersInputSchema: z.ZodType<Prisma.AccountsUpd
   period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  projects: z.lazy(() => ProjectsUpdateManyWithoutAccountsNestedInputSchema).optional()
+  projects: z.lazy(() => ProjectsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
 export const AccountsUncheckedUpdateWithoutUsersInputSchema: z.ZodType<Prisma.AccountsUncheckedUpdateWithoutUsersInput> = z.object({
@@ -1869,7 +2774,8 @@ export const AccountsUncheckedUpdateWithoutUsersInputSchema: z.ZodType<Prisma.Ac
   period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  projects: z.lazy(() => ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
+  projects: z.lazy(() => ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
 export const AccountsUncheckedUpdateManyWithoutAccountsInputSchema: z.ZodType<Prisma.AccountsUncheckedUpdateManyWithoutAccountsInput> = z.object({
@@ -1879,6 +2785,22 @@ export const AccountsUncheckedUpdateManyWithoutAccountsInputSchema: z.ZodType<Pr
   period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const User_messagesUpdateWithoutUsersInputSchema: z.ZodType<Prisma.User_messagesUpdateWithoutUsersInput> = z.object({
+  user_message_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  read: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  accounts: z.lazy(() => AccountsUpdateOneWithoutUser_messagesNestedInputSchema).optional(),
+  messages: z.lazy(() => MessagesUpdateOneWithoutUser_messagesNestedInputSchema).optional()
+}).strict();
+
+export const User_messagesUncheckedUpdateWithoutUsersInputSchema: z.ZodType<Prisma.User_messagesUncheckedUpdateWithoutUsersInput> = z.object({
+  user_message_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  account_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  message_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  read: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
 /////////////////////////////////////////
@@ -1947,6 +2869,68 @@ export const AccountsFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.AccountsFindU
   where: AccountsWhereUniqueInputSchema,
 }).strict() as z.ZodType<Prisma.AccountsFindUniqueOrThrowArgs>
 
+export const MessagesFindFirstArgsSchema: z.ZodType<Prisma.MessagesFindFirstArgs> = z.object({
+  select: MessagesSelectSchema.optional(),
+  include: MessagesIncludeSchema.optional(),
+  where: MessagesWhereInputSchema.optional(),
+  orderBy: z.union([ MessagesOrderByWithRelationInputSchema.array(),MessagesOrderByWithRelationInputSchema ]).optional(),
+  cursor: MessagesWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: MessagesScalarFieldEnumSchema.array().optional(),
+}).strict() as z.ZodType<Prisma.MessagesFindFirstArgs>
+
+export const MessagesFindFirstOrThrowArgsSchema: z.ZodType<Prisma.MessagesFindFirstOrThrowArgs> = z.object({
+  select: MessagesSelectSchema.optional(),
+  include: MessagesIncludeSchema.optional(),
+  where: MessagesWhereInputSchema.optional(),
+  orderBy: z.union([ MessagesOrderByWithRelationInputSchema.array(),MessagesOrderByWithRelationInputSchema ]).optional(),
+  cursor: MessagesWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: MessagesScalarFieldEnumSchema.array().optional(),
+}).strict() as z.ZodType<Prisma.MessagesFindFirstOrThrowArgs>
+
+export const MessagesFindManyArgsSchema: z.ZodType<Prisma.MessagesFindManyArgs> = z.object({
+  select: MessagesSelectSchema.optional(),
+  include: MessagesIncludeSchema.optional(),
+  where: MessagesWhereInputSchema.optional(),
+  orderBy: z.union([ MessagesOrderByWithRelationInputSchema.array(),MessagesOrderByWithRelationInputSchema ]).optional(),
+  cursor: MessagesWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: MessagesScalarFieldEnumSchema.array().optional(),
+}).strict() as z.ZodType<Prisma.MessagesFindManyArgs>
+
+export const MessagesAggregateArgsSchema: z.ZodType<Prisma.MessagesAggregateArgs> = z.object({
+  where: MessagesWhereInputSchema.optional(),
+  orderBy: z.union([ MessagesOrderByWithRelationInputSchema.array(),MessagesOrderByWithRelationInputSchema ]).optional(),
+  cursor: MessagesWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() as z.ZodType<Prisma.MessagesAggregateArgs>
+
+export const MessagesGroupByArgsSchema: z.ZodType<Prisma.MessagesGroupByArgs> = z.object({
+  where: MessagesWhereInputSchema.optional(),
+  orderBy: z.union([ MessagesOrderByWithAggregationInputSchema.array(),MessagesOrderByWithAggregationInputSchema ]).optional(),
+  by: MessagesScalarFieldEnumSchema.array(),
+  having: MessagesScalarWhereWithAggregatesInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() as z.ZodType<Prisma.MessagesGroupByArgs>
+
+export const MessagesFindUniqueArgsSchema: z.ZodType<Prisma.MessagesFindUniqueArgs> = z.object({
+  select: MessagesSelectSchema.optional(),
+  include: MessagesIncludeSchema.optional(),
+  where: MessagesWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.MessagesFindUniqueArgs>
+
+export const MessagesFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.MessagesFindUniqueOrThrowArgs> = z.object({
+  select: MessagesSelectSchema.optional(),
+  include: MessagesIncludeSchema.optional(),
+  where: MessagesWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.MessagesFindUniqueOrThrowArgs>
+
 export const ProjectsFindFirstArgsSchema: z.ZodType<Prisma.ProjectsFindFirstArgs> = z.object({
   select: ProjectsSelectSchema.optional(),
   include: ProjectsIncludeSchema.optional(),
@@ -2008,6 +2992,68 @@ export const ProjectsFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.ProjectsFindU
   include: ProjectsIncludeSchema.optional(),
   where: ProjectsWhereUniqueInputSchema,
 }).strict() as z.ZodType<Prisma.ProjectsFindUniqueOrThrowArgs>
+
+export const User_messagesFindFirstArgsSchema: z.ZodType<Prisma.User_messagesFindFirstArgs> = z.object({
+  select: User_messagesSelectSchema.optional(),
+  include: User_messagesIncludeSchema.optional(),
+  where: User_messagesWhereInputSchema.optional(),
+  orderBy: z.union([ User_messagesOrderByWithRelationInputSchema.array(),User_messagesOrderByWithRelationInputSchema ]).optional(),
+  cursor: User_messagesWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: User_messagesScalarFieldEnumSchema.array().optional(),
+}).strict() as z.ZodType<Prisma.User_messagesFindFirstArgs>
+
+export const User_messagesFindFirstOrThrowArgsSchema: z.ZodType<Prisma.User_messagesFindFirstOrThrowArgs> = z.object({
+  select: User_messagesSelectSchema.optional(),
+  include: User_messagesIncludeSchema.optional(),
+  where: User_messagesWhereInputSchema.optional(),
+  orderBy: z.union([ User_messagesOrderByWithRelationInputSchema.array(),User_messagesOrderByWithRelationInputSchema ]).optional(),
+  cursor: User_messagesWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: User_messagesScalarFieldEnumSchema.array().optional(),
+}).strict() as z.ZodType<Prisma.User_messagesFindFirstOrThrowArgs>
+
+export const User_messagesFindManyArgsSchema: z.ZodType<Prisma.User_messagesFindManyArgs> = z.object({
+  select: User_messagesSelectSchema.optional(),
+  include: User_messagesIncludeSchema.optional(),
+  where: User_messagesWhereInputSchema.optional(),
+  orderBy: z.union([ User_messagesOrderByWithRelationInputSchema.array(),User_messagesOrderByWithRelationInputSchema ]).optional(),
+  cursor: User_messagesWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: User_messagesScalarFieldEnumSchema.array().optional(),
+}).strict() as z.ZodType<Prisma.User_messagesFindManyArgs>
+
+export const User_messagesAggregateArgsSchema: z.ZodType<Prisma.User_messagesAggregateArgs> = z.object({
+  where: User_messagesWhereInputSchema.optional(),
+  orderBy: z.union([ User_messagesOrderByWithRelationInputSchema.array(),User_messagesOrderByWithRelationInputSchema ]).optional(),
+  cursor: User_messagesWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() as z.ZodType<Prisma.User_messagesAggregateArgs>
+
+export const User_messagesGroupByArgsSchema: z.ZodType<Prisma.User_messagesGroupByArgs> = z.object({
+  where: User_messagesWhereInputSchema.optional(),
+  orderBy: z.union([ User_messagesOrderByWithAggregationInputSchema.array(),User_messagesOrderByWithAggregationInputSchema ]).optional(),
+  by: User_messagesScalarFieldEnumSchema.array(),
+  having: User_messagesScalarWhereWithAggregatesInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() as z.ZodType<Prisma.User_messagesGroupByArgs>
+
+export const User_messagesFindUniqueArgsSchema: z.ZodType<Prisma.User_messagesFindUniqueArgs> = z.object({
+  select: User_messagesSelectSchema.optional(),
+  include: User_messagesIncludeSchema.optional(),
+  where: User_messagesWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.User_messagesFindUniqueArgs>
+
+export const User_messagesFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.User_messagesFindUniqueOrThrowArgs> = z.object({
+  select: User_messagesSelectSchema.optional(),
+  include: User_messagesIncludeSchema.optional(),
+  where: User_messagesWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.User_messagesFindUniqueOrThrowArgs>
 
 export const UsersFindFirstArgsSchema: z.ZodType<Prisma.UsersFindFirstArgs> = z.object({
   select: UsersSelectSchema.optional(),
@@ -2112,6 +3158,47 @@ export const AccountsDeleteManyArgsSchema: z.ZodType<Prisma.AccountsDeleteManyAr
   where: AccountsWhereInputSchema.optional(),
 }).strict() as z.ZodType<Prisma.AccountsDeleteManyArgs>
 
+export const MessagesCreateArgsSchema: z.ZodType<Prisma.MessagesCreateArgs> = z.object({
+  select: MessagesSelectSchema.optional(),
+  include: MessagesIncludeSchema.optional(),
+  data: z.union([ MessagesCreateInputSchema,MessagesUncheckedCreateInputSchema ]),
+}).strict() as z.ZodType<Prisma.MessagesCreateArgs>
+
+export const MessagesUpsertArgsSchema: z.ZodType<Prisma.MessagesUpsertArgs> = z.object({
+  select: MessagesSelectSchema.optional(),
+  include: MessagesIncludeSchema.optional(),
+  where: MessagesWhereUniqueInputSchema,
+  create: z.union([ MessagesCreateInputSchema,MessagesUncheckedCreateInputSchema ]),
+  update: z.union([ MessagesUpdateInputSchema,MessagesUncheckedUpdateInputSchema ]),
+}).strict() as z.ZodType<Prisma.MessagesUpsertArgs>
+
+export const MessagesCreateManyArgsSchema: z.ZodType<Prisma.MessagesCreateManyArgs> = z.object({
+  data: MessagesCreateManyInputSchema.array(),
+  skipDuplicates: z.boolean().optional(),
+}).strict() as z.ZodType<Prisma.MessagesCreateManyArgs>
+
+export const MessagesDeleteArgsSchema: z.ZodType<Prisma.MessagesDeleteArgs> = z.object({
+  select: MessagesSelectSchema.optional(),
+  include: MessagesIncludeSchema.optional(),
+  where: MessagesWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.MessagesDeleteArgs>
+
+export const MessagesUpdateArgsSchema: z.ZodType<Prisma.MessagesUpdateArgs> = z.object({
+  select: MessagesSelectSchema.optional(),
+  include: MessagesIncludeSchema.optional(),
+  data: z.union([ MessagesUpdateInputSchema,MessagesUncheckedUpdateInputSchema ]),
+  where: MessagesWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.MessagesUpdateArgs>
+
+export const MessagesUpdateManyArgsSchema: z.ZodType<Prisma.MessagesUpdateManyArgs> = z.object({
+  data: z.union([ MessagesUpdateManyMutationInputSchema,MessagesUncheckedUpdateManyInputSchema ]),
+  where: MessagesWhereInputSchema.optional(),
+}).strict() as z.ZodType<Prisma.MessagesUpdateManyArgs>
+
+export const MessagesDeleteManyArgsSchema: z.ZodType<Prisma.MessagesDeleteManyArgs> = z.object({
+  where: MessagesWhereInputSchema.optional(),
+}).strict() as z.ZodType<Prisma.MessagesDeleteManyArgs>
+
 export const ProjectsCreateArgsSchema: z.ZodType<Prisma.ProjectsCreateArgs> = z.object({
   select: ProjectsSelectSchema.optional(),
   include: ProjectsIncludeSchema.optional(),
@@ -2152,6 +3239,47 @@ export const ProjectsUpdateManyArgsSchema: z.ZodType<Prisma.ProjectsUpdateManyAr
 export const ProjectsDeleteManyArgsSchema: z.ZodType<Prisma.ProjectsDeleteManyArgs> = z.object({
   where: ProjectsWhereInputSchema.optional(),
 }).strict() as z.ZodType<Prisma.ProjectsDeleteManyArgs>
+
+export const User_messagesCreateArgsSchema: z.ZodType<Prisma.User_messagesCreateArgs> = z.object({
+  select: User_messagesSelectSchema.optional(),
+  include: User_messagesIncludeSchema.optional(),
+  data: z.union([ User_messagesCreateInputSchema,User_messagesUncheckedCreateInputSchema ]),
+}).strict() as z.ZodType<Prisma.User_messagesCreateArgs>
+
+export const User_messagesUpsertArgsSchema: z.ZodType<Prisma.User_messagesUpsertArgs> = z.object({
+  select: User_messagesSelectSchema.optional(),
+  include: User_messagesIncludeSchema.optional(),
+  where: User_messagesWhereUniqueInputSchema,
+  create: z.union([ User_messagesCreateInputSchema,User_messagesUncheckedCreateInputSchema ]),
+  update: z.union([ User_messagesUpdateInputSchema,User_messagesUncheckedUpdateInputSchema ]),
+}).strict() as z.ZodType<Prisma.User_messagesUpsertArgs>
+
+export const User_messagesCreateManyArgsSchema: z.ZodType<Prisma.User_messagesCreateManyArgs> = z.object({
+  data: User_messagesCreateManyInputSchema.array(),
+  skipDuplicates: z.boolean().optional(),
+}).strict() as z.ZodType<Prisma.User_messagesCreateManyArgs>
+
+export const User_messagesDeleteArgsSchema: z.ZodType<Prisma.User_messagesDeleteArgs> = z.object({
+  select: User_messagesSelectSchema.optional(),
+  include: User_messagesIncludeSchema.optional(),
+  where: User_messagesWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.User_messagesDeleteArgs>
+
+export const User_messagesUpdateArgsSchema: z.ZodType<Prisma.User_messagesUpdateArgs> = z.object({
+  select: User_messagesSelectSchema.optional(),
+  include: User_messagesIncludeSchema.optional(),
+  data: z.union([ User_messagesUpdateInputSchema,User_messagesUncheckedUpdateInputSchema ]),
+  where: User_messagesWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.User_messagesUpdateArgs>
+
+export const User_messagesUpdateManyArgsSchema: z.ZodType<Prisma.User_messagesUpdateManyArgs> = z.object({
+  data: z.union([ User_messagesUpdateManyMutationInputSchema,User_messagesUncheckedUpdateManyInputSchema ]),
+  where: User_messagesWhereInputSchema.optional(),
+}).strict() as z.ZodType<Prisma.User_messagesUpdateManyArgs>
+
+export const User_messagesDeleteManyArgsSchema: z.ZodType<Prisma.User_messagesDeleteManyArgs> = z.object({
+  where: User_messagesWhereInputSchema.optional(),
+}).strict() as z.ZodType<Prisma.User_messagesDeleteManyArgs>
 
 export const UsersCreateArgsSchema: z.ZodType<Prisma.UsersCreateArgs> = z.object({
   select: UsersSelectSchema.optional(),
@@ -2199,9 +3327,19 @@ interface AccountsGetPayload extends HKT {
   readonly type: Prisma.AccountsGetPayload<this['_A']>
 }
 
+interface MessagesGetPayload extends HKT {
+  readonly _A?: boolean | null | undefined | Prisma.MessagesArgs
+  readonly type: Prisma.MessagesGetPayload<this['_A']>
+}
+
 interface ProjectsGetPayload extends HKT {
   readonly _A?: boolean | null | undefined | Prisma.ProjectsArgs
   readonly type: Prisma.ProjectsGetPayload<this['_A']>
+}
+
+interface User_messagesGetPayload extends HKT {
+  readonly _A?: boolean | null | undefined | Prisma.User_messagesArgs
+  readonly type: Prisma.User_messagesGetPayload<this['_A']>
 }
 
 interface UsersGetPayload extends HKT {
@@ -2244,6 +3382,7 @@ export const tableSchemas = {
     relations: [
       new Relation("users", "user_id", "user_id", "users", "AccountsToUsers", "one"),
       new Relation("projects", "", "", "projects", "AccountsToProjects", "many"),
+      new Relation("user_messages", "", "", "user_messages", "AccountsToUser_messages", "many"),
     ],
     modelSchema: (AccountsCreateInputSchema as any)
       .partial()
@@ -2268,6 +3407,52 @@ export const tableSchemas = {
     Prisma.AccountsFindFirstArgs['orderBy'],
     Prisma.AccountsScalarFieldEnum,
     AccountsGetPayload
+  >,
+  messages: {
+    fields: new Map([
+      [
+        "message_id",
+        "UUID"
+      ],
+      [
+        "label_replace_by_generated_column",
+        "TEXT"
+      ],
+      [
+        "date",
+        "TIMESTAMP"
+      ],
+      [
+        "message",
+        "TEXT"
+      ]
+    ]),
+    relations: [
+      new Relation("user_messages", "", "", "user_messages", "MessagesToUser_messages", "many"),
+    ],
+    modelSchema: (MessagesCreateInputSchema as any)
+      .partial()
+      .or((MessagesUncheckedCreateInputSchema as any).partial()),
+    createSchema: MessagesCreateArgsSchema,
+    createManySchema: MessagesCreateManyArgsSchema,
+    findUniqueSchema: MessagesFindUniqueArgsSchema,
+    findSchema: MessagesFindFirstArgsSchema,
+    updateSchema: MessagesUpdateArgsSchema,
+    updateManySchema: MessagesUpdateManyArgsSchema,
+    upsertSchema: MessagesUpsertArgsSchema,
+    deleteSchema: MessagesDeleteArgsSchema,
+    deleteManySchema: MessagesDeleteManyArgsSchema
+  } as TableSchema<
+    z.infer<typeof MessagesCreateInputSchema>,
+    Prisma.MessagesCreateArgs['data'],
+    Prisma.MessagesUpdateArgs['data'],
+    Prisma.MessagesFindFirstArgs['select'],
+    Prisma.MessagesFindFirstArgs['where'],
+    Prisma.MessagesFindUniqueArgs['where'],
+    Omit<Prisma.MessagesInclude, '_count'>,
+    Prisma.MessagesFindFirstArgs['orderBy'],
+    Prisma.MessagesScalarFieldEnum,
+    MessagesGetPayload
   >,
   projects: {
     fields: new Map([
@@ -2399,6 +3584,62 @@ export const tableSchemas = {
     Prisma.ProjectsScalarFieldEnum,
     ProjectsGetPayload
   >,
+  user_messages: {
+    fields: new Map([
+      [
+        "user_message_id",
+        "UUID"
+      ],
+      [
+        "account_id",
+        "UUID"
+      ],
+      [
+        "user_id",
+        "UUID"
+      ],
+      [
+        "message_id",
+        "UUID"
+      ],
+      [
+        "label_replace_by_generated_column",
+        "TEXT"
+      ],
+      [
+        "read",
+        "BOOL"
+      ]
+    ]),
+    relations: [
+      new Relation("accounts", "account_id", "account_id", "accounts", "AccountsToUser_messages", "one"),
+      new Relation("messages", "message_id", "message_id", "messages", "MessagesToUser_messages", "one"),
+      new Relation("users", "user_id", "user_id", "users", "User_messagesToUsers", "one"),
+    ],
+    modelSchema: (User_messagesCreateInputSchema as any)
+      .partial()
+      .or((User_messagesUncheckedCreateInputSchema as any).partial()),
+    createSchema: User_messagesCreateArgsSchema,
+    createManySchema: User_messagesCreateManyArgsSchema,
+    findUniqueSchema: User_messagesFindUniqueArgsSchema,
+    findSchema: User_messagesFindFirstArgsSchema,
+    updateSchema: User_messagesUpdateArgsSchema,
+    updateManySchema: User_messagesUpdateManyArgsSchema,
+    upsertSchema: User_messagesUpsertArgsSchema,
+    deleteSchema: User_messagesDeleteArgsSchema,
+    deleteManySchema: User_messagesDeleteManyArgsSchema
+  } as TableSchema<
+    z.infer<typeof User_messagesCreateInputSchema>,
+    Prisma.User_messagesCreateArgs['data'],
+    Prisma.User_messagesUpdateArgs['data'],
+    Prisma.User_messagesFindFirstArgs['select'],
+    Prisma.User_messagesFindFirstArgs['where'],
+    Prisma.User_messagesFindUniqueArgs['where'],
+    Omit<Prisma.User_messagesInclude, '_count'>,
+    Prisma.User_messagesFindFirstArgs['orderBy'],
+    Prisma.User_messagesScalarFieldEnum,
+    User_messagesGetPayload
+  >,
   users: {
     fields: new Map([
       [
@@ -2424,6 +3665,7 @@ export const tableSchemas = {
     ]),
     relations: [
       new Relation("accounts", "", "", "accounts", "AccountsToUsers", "many"),
+      new Relation("user_messages", "", "", "user_messages", "User_messagesToUsers", "many"),
     ],
     modelSchema: (UsersCreateInputSchema as any)
       .partial()

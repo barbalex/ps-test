@@ -33,6 +33,20 @@ export type Accounts = {
 }
 
 /**
+ * Model Messages
+ * 
+ */
+export type Messages = {
+  /**
+   * @zod.string.uuid()
+   */
+  message_id: string
+  label_replace_by_generated_column: string | null
+  date: Date | null
+  message: string | null
+}
+
+/**
  * Model Projects
  * 
  */
@@ -68,6 +82,31 @@ export type Projects = {
   files_active_actions: boolean | null
   files_active_checks: boolean | null
   deleted: boolean | null
+}
+
+/**
+ * Model User_messages
+ * 
+ */
+export type User_messages = {
+  /**
+   * @zod.string.uuid()
+   */
+  user_message_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  user_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  message_id: string | null
+  label_replace_by_generated_column: string | null
+  read: boolean | null
 }
 
 /**
@@ -232,6 +271,16 @@ export class PrismaClient<
   get accounts(): Prisma.AccountsDelegate<GlobalReject>;
 
   /**
+   * `prisma.messages`: Exposes CRUD operations for the **Messages** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Messages
+    * const messages = await prisma.messages.findMany()
+    * ```
+    */
+  get messages(): Prisma.MessagesDelegate<GlobalReject>;
+
+  /**
    * `prisma.projects`: Exposes CRUD operations for the **Projects** model.
     * Example usage:
     * ```ts
@@ -240,6 +289,16 @@ export class PrismaClient<
     * ```
     */
   get projects(): Prisma.ProjectsDelegate<GlobalReject>;
+
+  /**
+   * `prisma.user_messages`: Exposes CRUD operations for the **User_messages** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more User_messages
+    * const user_messages = await prisma.user_messages.findMany()
+    * ```
+    */
+  get user_messages(): Prisma.User_messagesDelegate<GlobalReject>;
 
   /**
    * `prisma.users`: Exposes CRUD operations for the **Users** model.
@@ -735,7 +794,9 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export const ModelName: {
     Accounts: 'Accounts',
+    Messages: 'Messages',
     Projects: 'Projects',
+    User_messages: 'User_messages',
     Users: 'Users'
   };
 
@@ -908,10 +969,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type AccountsCountOutputType = {
     projects: number
+    user_messages: number
   }
 
   export type AccountsCountOutputTypeSelect = {
     projects?: boolean | AccountsCountOutputTypeCountProjectsArgs
+    user_messages?: boolean | AccountsCountOutputTypeCountUser_messagesArgs
   }
 
   export type AccountsCountOutputTypeGetPayload<S extends boolean | null | undefined | AccountsCountOutputTypeArgs> =
@@ -952,6 +1015,66 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
 
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountUser_messagesArgs = {
+    where?: User_messagesWhereInput
+  }
+
+
+
+  /**
+   * Count Type MessagesCountOutputType
+   */
+
+
+  export type MessagesCountOutputType = {
+    user_messages: number
+  }
+
+  export type MessagesCountOutputTypeSelect = {
+    user_messages?: boolean | MessagesCountOutputTypeCountUser_messagesArgs
+  }
+
+  export type MessagesCountOutputTypeGetPayload<S extends boolean | null | undefined | MessagesCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? MessagesCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (MessagesCountOutputTypeArgs)
+    ? MessagesCountOutputType 
+    : S extends { select: any } & (MessagesCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof MessagesCountOutputType ? MessagesCountOutputType[P] : never
+  } 
+      : MessagesCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * MessagesCountOutputType without action
+   */
+  export type MessagesCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the MessagesCountOutputType
+     * 
+    **/
+    select?: MessagesCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * MessagesCountOutputType without action
+   */
+  export type MessagesCountOutputTypeCountUser_messagesArgs = {
+    where?: User_messagesWhereInput
+  }
+
+
 
   /**
    * Count Type UsersCountOutputType
@@ -960,10 +1083,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type UsersCountOutputType = {
     accounts: number
+    user_messages: number
   }
 
   export type UsersCountOutputTypeSelect = {
     accounts?: boolean | UsersCountOutputTypeCountAccountsArgs
+    user_messages?: boolean | UsersCountOutputTypeCountUser_messagesArgs
   }
 
   export type UsersCountOutputTypeGetPayload<S extends boolean | null | undefined | UsersCountOutputTypeArgs> =
@@ -1001,6 +1126,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type UsersCountOutputTypeCountAccountsArgs = {
     where?: AccountsWhereInput
+  }
+
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeCountUser_messagesArgs = {
+    where?: User_messagesWhereInput
   }
 
 
@@ -1198,6 +1331,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: boolean
     users?: boolean | Accounts$usersArgs
     projects?: boolean | Accounts$projectsArgs
+    user_messages?: boolean | Accounts$user_messagesArgs
     _count?: boolean | AccountsCountOutputTypeArgs
   }
 
@@ -1205,6 +1339,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type AccountsInclude = {
     users?: boolean | Accounts$usersArgs
     projects?: boolean | Accounts$projectsArgs
+    user_messages?: boolean | Accounts$user_messagesArgs
     _count?: boolean | AccountsCountOutputTypeArgs
   } 
 
@@ -1217,6 +1352,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     [P in TruthyKeys<S['include']>]:
         P extends 'users' ? UsersGetPayload<S['include'][P]> | null :
         P extends 'projects' ? Array < ProjectsGetPayload<S['include'][P]>>  :
+        P extends 'user_messages' ? Array < User_messagesGetPayload<S['include'][P]>>  :
         P extends '_count' ? AccountsCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (AccountsArgs | AccountsFindManyArgs)
@@ -1224,6 +1360,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     [P in TruthyKeys<S['select']>]:
         P extends 'users' ? UsersGetPayload<S['select'][P]> | null :
         P extends 'projects' ? Array < ProjectsGetPayload<S['select'][P]>>  :
+        P extends 'user_messages' ? Array < User_messagesGetPayload<S['select'][P]>>  :
         P extends '_count' ? AccountsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Accounts ? Accounts[P] : never
   } 
       : Accounts
@@ -1601,6 +1738,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     users<T extends Accounts$usersArgs= {}>(args?: Subset<T, Accounts$usersArgs>): Prisma__UsersClient<UsersGetPayload<T> | Null>;
 
     projects<T extends Accounts$projectsArgs= {}>(args?: Subset<T, Accounts$projectsArgs>): PrismaPromise<Array<ProjectsGetPayload<T>>| Null>;
+
+    user_messages<T extends Accounts$user_messagesArgs= {}>(args?: Subset<T, Accounts$user_messagesArgs>): PrismaPromise<Array<User_messagesGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -2047,6 +2186,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Accounts.user_messages
+   */
+  export type Accounts$user_messagesArgs = {
+    /**
+     * Select specific fields to fetch from the User_messages
+     * 
+    **/
+    select?: User_messagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: User_messagesInclude | null
+    where?: User_messagesWhereInput
+    orderBy?: Enumerable<User_messagesOrderByWithRelationInput>
+    cursor?: User_messagesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<User_messagesScalarFieldEnum>
+  }
+
+
+  /**
    * Accounts without action
    */
   export type AccountsArgs = {
@@ -2060,6 +2222,1013 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     include?: AccountsInclude | null
+  }
+
+
+
+  /**
+   * Model Messages
+   */
+
+
+  export type AggregateMessages = {
+    _count: MessagesCountAggregateOutputType | null
+    _min: MessagesMinAggregateOutputType | null
+    _max: MessagesMaxAggregateOutputType | null
+  }
+
+  export type MessagesMinAggregateOutputType = {
+    message_id: string | null
+    label_replace_by_generated_column: string | null
+    date: Date | null
+    message: string | null
+  }
+
+  export type MessagesMaxAggregateOutputType = {
+    message_id: string | null
+    label_replace_by_generated_column: string | null
+    date: Date | null
+    message: string | null
+  }
+
+  export type MessagesCountAggregateOutputType = {
+    message_id: number
+    label_replace_by_generated_column: number
+    date: number
+    message: number
+    _all: number
+  }
+
+
+  export type MessagesMinAggregateInputType = {
+    message_id?: true
+    label_replace_by_generated_column?: true
+    date?: true
+    message?: true
+  }
+
+  export type MessagesMaxAggregateInputType = {
+    message_id?: true
+    label_replace_by_generated_column?: true
+    date?: true
+    message?: true
+  }
+
+  export type MessagesCountAggregateInputType = {
+    message_id?: true
+    label_replace_by_generated_column?: true
+    date?: true
+    message?: true
+    _all?: true
+  }
+
+  export type MessagesAggregateArgs = {
+    /**
+     * Filter which Messages to aggregate.
+     * 
+    **/
+    where?: MessagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Messages to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<MessagesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: MessagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Messages from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Messages.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Messages
+    **/
+    _count?: true | MessagesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MessagesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MessagesMaxAggregateInputType
+  }
+
+  export type GetMessagesAggregateType<T extends MessagesAggregateArgs> = {
+        [P in keyof T & keyof AggregateMessages]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMessages[P]>
+      : GetScalarType<T[P], AggregateMessages[P]>
+  }
+
+
+
+
+  export type MessagesGroupByArgs = {
+    where?: MessagesWhereInput
+    orderBy?: Enumerable<MessagesOrderByWithAggregationInput>
+    by: Array<MessagesScalarFieldEnum>
+    having?: MessagesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MessagesCountAggregateInputType | true
+    _min?: MessagesMinAggregateInputType
+    _max?: MessagesMaxAggregateInputType
+  }
+
+
+  export type MessagesGroupByOutputType = {
+    message_id: string
+    label_replace_by_generated_column: string | null
+    date: Date | null
+    message: string | null
+    _count: MessagesCountAggregateOutputType | null
+    _min: MessagesMinAggregateOutputType | null
+    _max: MessagesMaxAggregateOutputType | null
+  }
+
+  type GetMessagesGroupByPayload<T extends MessagesGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<MessagesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MessagesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MessagesGroupByOutputType[P]>
+            : GetScalarType<T[P], MessagesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MessagesSelect = {
+    message_id?: boolean
+    label_replace_by_generated_column?: boolean
+    date?: boolean
+    message?: boolean
+    user_messages?: boolean | Messages$user_messagesArgs
+    _count?: boolean | MessagesCountOutputTypeArgs
+  }
+
+
+  export type MessagesInclude = {
+    user_messages?: boolean | Messages$user_messagesArgs
+    _count?: boolean | MessagesCountOutputTypeArgs
+  } 
+
+  export type MessagesGetPayload<S extends boolean | null | undefined | MessagesArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Messages :
+    S extends undefined ? never :
+    S extends { include: any } & (MessagesArgs | MessagesFindManyArgs)
+    ? Messages  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'user_messages' ? Array < User_messagesGetPayload<S['include'][P]>>  :
+        P extends '_count' ? MessagesCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (MessagesArgs | MessagesFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'user_messages' ? Array < User_messagesGetPayload<S['select'][P]>>  :
+        P extends '_count' ? MessagesCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Messages ? Messages[P] : never
+  } 
+      : Messages
+
+
+  type MessagesCountArgs = Merge<
+    Omit<MessagesFindManyArgs, 'select' | 'include'> & {
+      select?: MessagesCountAggregateInputType | true
+    }
+  >
+
+  export interface MessagesDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Messages that matches the filter.
+     * @param {MessagesFindUniqueArgs} args - Arguments to find a Messages
+     * @example
+     * // Get one Messages
+     * const messages = await prisma.messages.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends MessagesFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, MessagesFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Messages'> extends True ? Prisma__MessagesClient<MessagesGetPayload<T>> : Prisma__MessagesClient<MessagesGetPayload<T> | null, null>
+
+    /**
+     * Find one Messages that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {MessagesFindUniqueOrThrowArgs} args - Arguments to find a Messages
+     * @example
+     * // Get one Messages
+     * const messages = await prisma.messages.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends MessagesFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, MessagesFindUniqueOrThrowArgs>
+    ): Prisma__MessagesClient<MessagesGetPayload<T>>
+
+    /**
+     * Find the first Messages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MessagesFindFirstArgs} args - Arguments to find a Messages
+     * @example
+     * // Get one Messages
+     * const messages = await prisma.messages.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends MessagesFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, MessagesFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Messages'> extends True ? Prisma__MessagesClient<MessagesGetPayload<T>> : Prisma__MessagesClient<MessagesGetPayload<T> | null, null>
+
+    /**
+     * Find the first Messages that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MessagesFindFirstOrThrowArgs} args - Arguments to find a Messages
+     * @example
+     * // Get one Messages
+     * const messages = await prisma.messages.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends MessagesFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, MessagesFindFirstOrThrowArgs>
+    ): Prisma__MessagesClient<MessagesGetPayload<T>>
+
+    /**
+     * Find zero or more Messages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MessagesFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Messages
+     * const messages = await prisma.messages.findMany()
+     * 
+     * // Get first 10 Messages
+     * const messages = await prisma.messages.findMany({ take: 10 })
+     * 
+     * // Only select the `message_id`
+     * const messagesWithMessage_idOnly = await prisma.messages.findMany({ select: { message_id: true } })
+     * 
+    **/
+    findMany<T extends MessagesFindManyArgs>(
+      args?: SelectSubset<T, MessagesFindManyArgs>
+    ): PrismaPromise<Array<MessagesGetPayload<T>>>
+
+    /**
+     * Create a Messages.
+     * @param {MessagesCreateArgs} args - Arguments to create a Messages.
+     * @example
+     * // Create one Messages
+     * const Messages = await prisma.messages.create({
+     *   data: {
+     *     // ... data to create a Messages
+     *   }
+     * })
+     * 
+    **/
+    create<T extends MessagesCreateArgs>(
+      args: SelectSubset<T, MessagesCreateArgs>
+    ): Prisma__MessagesClient<MessagesGetPayload<T>>
+
+    /**
+     * Create many Messages.
+     *     @param {MessagesCreateManyArgs} args - Arguments to create many Messages.
+     *     @example
+     *     // Create many Messages
+     *     const messages = await prisma.messages.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends MessagesCreateManyArgs>(
+      args?: SelectSubset<T, MessagesCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Messages.
+     * @param {MessagesDeleteArgs} args - Arguments to delete one Messages.
+     * @example
+     * // Delete one Messages
+     * const Messages = await prisma.messages.delete({
+     *   where: {
+     *     // ... filter to delete one Messages
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends MessagesDeleteArgs>(
+      args: SelectSubset<T, MessagesDeleteArgs>
+    ): Prisma__MessagesClient<MessagesGetPayload<T>>
+
+    /**
+     * Update one Messages.
+     * @param {MessagesUpdateArgs} args - Arguments to update one Messages.
+     * @example
+     * // Update one Messages
+     * const messages = await prisma.messages.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends MessagesUpdateArgs>(
+      args: SelectSubset<T, MessagesUpdateArgs>
+    ): Prisma__MessagesClient<MessagesGetPayload<T>>
+
+    /**
+     * Delete zero or more Messages.
+     * @param {MessagesDeleteManyArgs} args - Arguments to filter Messages to delete.
+     * @example
+     * // Delete a few Messages
+     * const { count } = await prisma.messages.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends MessagesDeleteManyArgs>(
+      args?: SelectSubset<T, MessagesDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Messages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MessagesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Messages
+     * const messages = await prisma.messages.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends MessagesUpdateManyArgs>(
+      args: SelectSubset<T, MessagesUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Messages.
+     * @param {MessagesUpsertArgs} args - Arguments to update or create a Messages.
+     * @example
+     * // Update or create a Messages
+     * const messages = await prisma.messages.upsert({
+     *   create: {
+     *     // ... data to create a Messages
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Messages we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends MessagesUpsertArgs>(
+      args: SelectSubset<T, MessagesUpsertArgs>
+    ): Prisma__MessagesClient<MessagesGetPayload<T>>
+
+    /**
+     * Count the number of Messages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MessagesCountArgs} args - Arguments to filter Messages to count.
+     * @example
+     * // Count the number of Messages
+     * const count = await prisma.messages.count({
+     *   where: {
+     *     // ... the filter for the Messages we want to count
+     *   }
+     * })
+    **/
+    count<T extends MessagesCountArgs>(
+      args?: Subset<T, MessagesCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MessagesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Messages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MessagesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MessagesAggregateArgs>(args: Subset<T, MessagesAggregateArgs>): PrismaPromise<GetMessagesAggregateType<T>>
+
+    /**
+     * Group by Messages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MessagesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MessagesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MessagesGroupByArgs['orderBy'] }
+        : { orderBy?: MessagesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MessagesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMessagesGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Messages.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__MessagesClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    user_messages<T extends Messages$user_messagesArgs= {}>(args?: Subset<T, Messages$user_messagesArgs>): PrismaPromise<Array<User_messagesGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Messages base type for findUnique actions
+   */
+  export type MessagesFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Messages
+     * 
+    **/
+    select?: MessagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: MessagesInclude | null
+    /**
+     * Filter, which Messages to fetch.
+     * 
+    **/
+    where: MessagesWhereUniqueInput
+  }
+
+  /**
+   * Messages findUnique
+   */
+  export interface MessagesFindUniqueArgs extends MessagesFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Messages findUniqueOrThrow
+   */
+  export type MessagesFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Messages
+     * 
+    **/
+    select?: MessagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: MessagesInclude | null
+    /**
+     * Filter, which Messages to fetch.
+     * 
+    **/
+    where: MessagesWhereUniqueInput
+  }
+
+
+  /**
+   * Messages base type for findFirst actions
+   */
+  export type MessagesFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Messages
+     * 
+    **/
+    select?: MessagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: MessagesInclude | null
+    /**
+     * Filter, which Messages to fetch.
+     * 
+    **/
+    where?: MessagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Messages to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<MessagesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Messages.
+     * 
+    **/
+    cursor?: MessagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Messages from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Messages.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Messages.
+     * 
+    **/
+    distinct?: Enumerable<MessagesScalarFieldEnum>
+  }
+
+  /**
+   * Messages findFirst
+   */
+  export interface MessagesFindFirstArgs extends MessagesFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Messages findFirstOrThrow
+   */
+  export type MessagesFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Messages
+     * 
+    **/
+    select?: MessagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: MessagesInclude | null
+    /**
+     * Filter, which Messages to fetch.
+     * 
+    **/
+    where?: MessagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Messages to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<MessagesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Messages.
+     * 
+    **/
+    cursor?: MessagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Messages from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Messages.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Messages.
+     * 
+    **/
+    distinct?: Enumerable<MessagesScalarFieldEnum>
+  }
+
+
+  /**
+   * Messages findMany
+   */
+  export type MessagesFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Messages
+     * 
+    **/
+    select?: MessagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: MessagesInclude | null
+    /**
+     * Filter, which Messages to fetch.
+     * 
+    **/
+    where?: MessagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Messages to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<MessagesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Messages.
+     * 
+    **/
+    cursor?: MessagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Messages from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Messages.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<MessagesScalarFieldEnum>
+  }
+
+
+  /**
+   * Messages create
+   */
+  export type MessagesCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Messages
+     * 
+    **/
+    select?: MessagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: MessagesInclude | null
+    /**
+     * The data needed to create a Messages.
+     * 
+    **/
+    data: XOR<MessagesCreateInput, MessagesUncheckedCreateInput>
+  }
+
+
+  /**
+   * Messages createMany
+   */
+  export type MessagesCreateManyArgs = {
+    /**
+     * The data used to create many Messages.
+     * 
+    **/
+    data: Enumerable<MessagesCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Messages update
+   */
+  export type MessagesUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Messages
+     * 
+    **/
+    select?: MessagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: MessagesInclude | null
+    /**
+     * The data needed to update a Messages.
+     * 
+    **/
+    data: XOR<MessagesUpdateInput, MessagesUncheckedUpdateInput>
+    /**
+     * Choose, which Messages to update.
+     * 
+    **/
+    where: MessagesWhereUniqueInput
+  }
+
+
+  /**
+   * Messages updateMany
+   */
+  export type MessagesUpdateManyArgs = {
+    /**
+     * The data used to update Messages.
+     * 
+    **/
+    data: XOR<MessagesUpdateManyMutationInput, MessagesUncheckedUpdateManyInput>
+    /**
+     * Filter which Messages to update
+     * 
+    **/
+    where?: MessagesWhereInput
+  }
+
+
+  /**
+   * Messages upsert
+   */
+  export type MessagesUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Messages
+     * 
+    **/
+    select?: MessagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: MessagesInclude | null
+    /**
+     * The filter to search for the Messages to update in case it exists.
+     * 
+    **/
+    where: MessagesWhereUniqueInput
+    /**
+     * In case the Messages found by the `where` argument doesn't exist, create a new Messages with this data.
+     * 
+    **/
+    create: XOR<MessagesCreateInput, MessagesUncheckedCreateInput>
+    /**
+     * In case the Messages was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<MessagesUpdateInput, MessagesUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Messages delete
+   */
+  export type MessagesDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Messages
+     * 
+    **/
+    select?: MessagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: MessagesInclude | null
+    /**
+     * Filter which Messages to delete.
+     * 
+    **/
+    where: MessagesWhereUniqueInput
+  }
+
+
+  /**
+   * Messages deleteMany
+   */
+  export type MessagesDeleteManyArgs = {
+    /**
+     * Filter which Messages to delete
+     * 
+    **/
+    where?: MessagesWhereInput
+  }
+
+
+  /**
+   * Messages.user_messages
+   */
+  export type Messages$user_messagesArgs = {
+    /**
+     * Select specific fields to fetch from the User_messages
+     * 
+    **/
+    select?: User_messagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: User_messagesInclude | null
+    where?: User_messagesWhereInput
+    orderBy?: Enumerable<User_messagesOrderByWithRelationInput>
+    cursor?: User_messagesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<User_messagesScalarFieldEnum>
+  }
+
+
+  /**
+   * Messages without action
+   */
+  export type MessagesArgs = {
+    /**
+     * Select specific fields to fetch from the Messages
+     * 
+    **/
+    select?: MessagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: MessagesInclude | null
   }
 
 
@@ -3223,6 +4392,1068 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Model User_messages
+   */
+
+
+  export type AggregateUser_messages = {
+    _count: User_messagesCountAggregateOutputType | null
+    _min: User_messagesMinAggregateOutputType | null
+    _max: User_messagesMaxAggregateOutputType | null
+  }
+
+  export type User_messagesMinAggregateOutputType = {
+    user_message_id: string | null
+    account_id: string | null
+    user_id: string | null
+    message_id: string | null
+    label_replace_by_generated_column: string | null
+    read: boolean | null
+  }
+
+  export type User_messagesMaxAggregateOutputType = {
+    user_message_id: string | null
+    account_id: string | null
+    user_id: string | null
+    message_id: string | null
+    label_replace_by_generated_column: string | null
+    read: boolean | null
+  }
+
+  export type User_messagesCountAggregateOutputType = {
+    user_message_id: number
+    account_id: number
+    user_id: number
+    message_id: number
+    label_replace_by_generated_column: number
+    read: number
+    _all: number
+  }
+
+
+  export type User_messagesMinAggregateInputType = {
+    user_message_id?: true
+    account_id?: true
+    user_id?: true
+    message_id?: true
+    label_replace_by_generated_column?: true
+    read?: true
+  }
+
+  export type User_messagesMaxAggregateInputType = {
+    user_message_id?: true
+    account_id?: true
+    user_id?: true
+    message_id?: true
+    label_replace_by_generated_column?: true
+    read?: true
+  }
+
+  export type User_messagesCountAggregateInputType = {
+    user_message_id?: true
+    account_id?: true
+    user_id?: true
+    message_id?: true
+    label_replace_by_generated_column?: true
+    read?: true
+    _all?: true
+  }
+
+  export type User_messagesAggregateArgs = {
+    /**
+     * Filter which User_messages to aggregate.
+     * 
+    **/
+    where?: User_messagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of User_messages to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<User_messagesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: User_messagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` User_messages from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` User_messages.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned User_messages
+    **/
+    _count?: true | User_messagesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: User_messagesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: User_messagesMaxAggregateInputType
+  }
+
+  export type GetUser_messagesAggregateType<T extends User_messagesAggregateArgs> = {
+        [P in keyof T & keyof AggregateUser_messages]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUser_messages[P]>
+      : GetScalarType<T[P], AggregateUser_messages[P]>
+  }
+
+
+
+
+  export type User_messagesGroupByArgs = {
+    where?: User_messagesWhereInput
+    orderBy?: Enumerable<User_messagesOrderByWithAggregationInput>
+    by: Array<User_messagesScalarFieldEnum>
+    having?: User_messagesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: User_messagesCountAggregateInputType | true
+    _min?: User_messagesMinAggregateInputType
+    _max?: User_messagesMaxAggregateInputType
+  }
+
+
+  export type User_messagesGroupByOutputType = {
+    user_message_id: string
+    account_id: string | null
+    user_id: string | null
+    message_id: string | null
+    label_replace_by_generated_column: string | null
+    read: boolean | null
+    _count: User_messagesCountAggregateOutputType | null
+    _min: User_messagesMinAggregateOutputType | null
+    _max: User_messagesMaxAggregateOutputType | null
+  }
+
+  type GetUser_messagesGroupByPayload<T extends User_messagesGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<User_messagesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof User_messagesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], User_messagesGroupByOutputType[P]>
+            : GetScalarType<T[P], User_messagesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type User_messagesSelect = {
+    user_message_id?: boolean
+    account_id?: boolean
+    user_id?: boolean
+    message_id?: boolean
+    label_replace_by_generated_column?: boolean
+    read?: boolean
+    accounts?: boolean | User_messages$accountsArgs
+    messages?: boolean | User_messages$messagesArgs
+    users?: boolean | User_messages$usersArgs
+  }
+
+
+  export type User_messagesInclude = {
+    accounts?: boolean | User_messages$accountsArgs
+    messages?: boolean | User_messages$messagesArgs
+    users?: boolean | User_messages$usersArgs
+  } 
+
+  export type User_messagesGetPayload<S extends boolean | null | undefined | User_messagesArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? User_messages :
+    S extends undefined ? never :
+    S extends { include: any } & (User_messagesArgs | User_messagesFindManyArgs)
+    ? User_messages  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'messages' ? MessagesGetPayload<S['include'][P]> | null :
+        P extends 'users' ? UsersGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (User_messagesArgs | User_messagesFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'messages' ? MessagesGetPayload<S['select'][P]> | null :
+        P extends 'users' ? UsersGetPayload<S['select'][P]> | null :  P extends keyof User_messages ? User_messages[P] : never
+  } 
+      : User_messages
+
+
+  type User_messagesCountArgs = Merge<
+    Omit<User_messagesFindManyArgs, 'select' | 'include'> & {
+      select?: User_messagesCountAggregateInputType | true
+    }
+  >
+
+  export interface User_messagesDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one User_messages that matches the filter.
+     * @param {User_messagesFindUniqueArgs} args - Arguments to find a User_messages
+     * @example
+     * // Get one User_messages
+     * const user_messages = await prisma.user_messages.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends User_messagesFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, User_messagesFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'User_messages'> extends True ? Prisma__User_messagesClient<User_messagesGetPayload<T>> : Prisma__User_messagesClient<User_messagesGetPayload<T> | null, null>
+
+    /**
+     * Find one User_messages that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {User_messagesFindUniqueOrThrowArgs} args - Arguments to find a User_messages
+     * @example
+     * // Get one User_messages
+     * const user_messages = await prisma.user_messages.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends User_messagesFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, User_messagesFindUniqueOrThrowArgs>
+    ): Prisma__User_messagesClient<User_messagesGetPayload<T>>
+
+    /**
+     * Find the first User_messages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {User_messagesFindFirstArgs} args - Arguments to find a User_messages
+     * @example
+     * // Get one User_messages
+     * const user_messages = await prisma.user_messages.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends User_messagesFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, User_messagesFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'User_messages'> extends True ? Prisma__User_messagesClient<User_messagesGetPayload<T>> : Prisma__User_messagesClient<User_messagesGetPayload<T> | null, null>
+
+    /**
+     * Find the first User_messages that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {User_messagesFindFirstOrThrowArgs} args - Arguments to find a User_messages
+     * @example
+     * // Get one User_messages
+     * const user_messages = await prisma.user_messages.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends User_messagesFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, User_messagesFindFirstOrThrowArgs>
+    ): Prisma__User_messagesClient<User_messagesGetPayload<T>>
+
+    /**
+     * Find zero or more User_messages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {User_messagesFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all User_messages
+     * const user_messages = await prisma.user_messages.findMany()
+     * 
+     * // Get first 10 User_messages
+     * const user_messages = await prisma.user_messages.findMany({ take: 10 })
+     * 
+     * // Only select the `user_message_id`
+     * const user_messagesWithUser_message_idOnly = await prisma.user_messages.findMany({ select: { user_message_id: true } })
+     * 
+    **/
+    findMany<T extends User_messagesFindManyArgs>(
+      args?: SelectSubset<T, User_messagesFindManyArgs>
+    ): PrismaPromise<Array<User_messagesGetPayload<T>>>
+
+    /**
+     * Create a User_messages.
+     * @param {User_messagesCreateArgs} args - Arguments to create a User_messages.
+     * @example
+     * // Create one User_messages
+     * const User_messages = await prisma.user_messages.create({
+     *   data: {
+     *     // ... data to create a User_messages
+     *   }
+     * })
+     * 
+    **/
+    create<T extends User_messagesCreateArgs>(
+      args: SelectSubset<T, User_messagesCreateArgs>
+    ): Prisma__User_messagesClient<User_messagesGetPayload<T>>
+
+    /**
+     * Create many User_messages.
+     *     @param {User_messagesCreateManyArgs} args - Arguments to create many User_messages.
+     *     @example
+     *     // Create many User_messages
+     *     const user_messages = await prisma.user_messages.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends User_messagesCreateManyArgs>(
+      args?: SelectSubset<T, User_messagesCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a User_messages.
+     * @param {User_messagesDeleteArgs} args - Arguments to delete one User_messages.
+     * @example
+     * // Delete one User_messages
+     * const User_messages = await prisma.user_messages.delete({
+     *   where: {
+     *     // ... filter to delete one User_messages
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends User_messagesDeleteArgs>(
+      args: SelectSubset<T, User_messagesDeleteArgs>
+    ): Prisma__User_messagesClient<User_messagesGetPayload<T>>
+
+    /**
+     * Update one User_messages.
+     * @param {User_messagesUpdateArgs} args - Arguments to update one User_messages.
+     * @example
+     * // Update one User_messages
+     * const user_messages = await prisma.user_messages.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends User_messagesUpdateArgs>(
+      args: SelectSubset<T, User_messagesUpdateArgs>
+    ): Prisma__User_messagesClient<User_messagesGetPayload<T>>
+
+    /**
+     * Delete zero or more User_messages.
+     * @param {User_messagesDeleteManyArgs} args - Arguments to filter User_messages to delete.
+     * @example
+     * // Delete a few User_messages
+     * const { count } = await prisma.user_messages.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends User_messagesDeleteManyArgs>(
+      args?: SelectSubset<T, User_messagesDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more User_messages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {User_messagesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many User_messages
+     * const user_messages = await prisma.user_messages.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends User_messagesUpdateManyArgs>(
+      args: SelectSubset<T, User_messagesUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one User_messages.
+     * @param {User_messagesUpsertArgs} args - Arguments to update or create a User_messages.
+     * @example
+     * // Update or create a User_messages
+     * const user_messages = await prisma.user_messages.upsert({
+     *   create: {
+     *     // ... data to create a User_messages
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the User_messages we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends User_messagesUpsertArgs>(
+      args: SelectSubset<T, User_messagesUpsertArgs>
+    ): Prisma__User_messagesClient<User_messagesGetPayload<T>>
+
+    /**
+     * Count the number of User_messages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {User_messagesCountArgs} args - Arguments to filter User_messages to count.
+     * @example
+     * // Count the number of User_messages
+     * const count = await prisma.user_messages.count({
+     *   where: {
+     *     // ... the filter for the User_messages we want to count
+     *   }
+     * })
+    **/
+    count<T extends User_messagesCountArgs>(
+      args?: Subset<T, User_messagesCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], User_messagesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a User_messages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {User_messagesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends User_messagesAggregateArgs>(args: Subset<T, User_messagesAggregateArgs>): PrismaPromise<GetUser_messagesAggregateType<T>>
+
+    /**
+     * Group by User_messages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {User_messagesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends User_messagesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: User_messagesGroupByArgs['orderBy'] }
+        : { orderBy?: User_messagesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, User_messagesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUser_messagesGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for User_messages.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__User_messagesClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends User_messages$accountsArgs= {}>(args?: Subset<T, User_messages$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    messages<T extends User_messages$messagesArgs= {}>(args?: Subset<T, User_messages$messagesArgs>): Prisma__MessagesClient<MessagesGetPayload<T> | Null>;
+
+    users<T extends User_messages$usersArgs= {}>(args?: Subset<T, User_messages$usersArgs>): Prisma__UsersClient<UsersGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * User_messages base type for findUnique actions
+   */
+  export type User_messagesFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the User_messages
+     * 
+    **/
+    select?: User_messagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: User_messagesInclude | null
+    /**
+     * Filter, which User_messages to fetch.
+     * 
+    **/
+    where: User_messagesWhereUniqueInput
+  }
+
+  /**
+   * User_messages findUnique
+   */
+  export interface User_messagesFindUniqueArgs extends User_messagesFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * User_messages findUniqueOrThrow
+   */
+  export type User_messagesFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the User_messages
+     * 
+    **/
+    select?: User_messagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: User_messagesInclude | null
+    /**
+     * Filter, which User_messages to fetch.
+     * 
+    **/
+    where: User_messagesWhereUniqueInput
+  }
+
+
+  /**
+   * User_messages base type for findFirst actions
+   */
+  export type User_messagesFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the User_messages
+     * 
+    **/
+    select?: User_messagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: User_messagesInclude | null
+    /**
+     * Filter, which User_messages to fetch.
+     * 
+    **/
+    where?: User_messagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of User_messages to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<User_messagesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for User_messages.
+     * 
+    **/
+    cursor?: User_messagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` User_messages from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` User_messages.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of User_messages.
+     * 
+    **/
+    distinct?: Enumerable<User_messagesScalarFieldEnum>
+  }
+
+  /**
+   * User_messages findFirst
+   */
+  export interface User_messagesFindFirstArgs extends User_messagesFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * User_messages findFirstOrThrow
+   */
+  export type User_messagesFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the User_messages
+     * 
+    **/
+    select?: User_messagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: User_messagesInclude | null
+    /**
+     * Filter, which User_messages to fetch.
+     * 
+    **/
+    where?: User_messagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of User_messages to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<User_messagesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for User_messages.
+     * 
+    **/
+    cursor?: User_messagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` User_messages from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` User_messages.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of User_messages.
+     * 
+    **/
+    distinct?: Enumerable<User_messagesScalarFieldEnum>
+  }
+
+
+  /**
+   * User_messages findMany
+   */
+  export type User_messagesFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the User_messages
+     * 
+    **/
+    select?: User_messagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: User_messagesInclude | null
+    /**
+     * Filter, which User_messages to fetch.
+     * 
+    **/
+    where?: User_messagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of User_messages to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<User_messagesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing User_messages.
+     * 
+    **/
+    cursor?: User_messagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` User_messages from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` User_messages.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<User_messagesScalarFieldEnum>
+  }
+
+
+  /**
+   * User_messages create
+   */
+  export type User_messagesCreateArgs = {
+    /**
+     * Select specific fields to fetch from the User_messages
+     * 
+    **/
+    select?: User_messagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: User_messagesInclude | null
+    /**
+     * The data needed to create a User_messages.
+     * 
+    **/
+    data: XOR<User_messagesCreateInput, User_messagesUncheckedCreateInput>
+  }
+
+
+  /**
+   * User_messages createMany
+   */
+  export type User_messagesCreateManyArgs = {
+    /**
+     * The data used to create many User_messages.
+     * 
+    **/
+    data: Enumerable<User_messagesCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * User_messages update
+   */
+  export type User_messagesUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the User_messages
+     * 
+    **/
+    select?: User_messagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: User_messagesInclude | null
+    /**
+     * The data needed to update a User_messages.
+     * 
+    **/
+    data: XOR<User_messagesUpdateInput, User_messagesUncheckedUpdateInput>
+    /**
+     * Choose, which User_messages to update.
+     * 
+    **/
+    where: User_messagesWhereUniqueInput
+  }
+
+
+  /**
+   * User_messages updateMany
+   */
+  export type User_messagesUpdateManyArgs = {
+    /**
+     * The data used to update User_messages.
+     * 
+    **/
+    data: XOR<User_messagesUpdateManyMutationInput, User_messagesUncheckedUpdateManyInput>
+    /**
+     * Filter which User_messages to update
+     * 
+    **/
+    where?: User_messagesWhereInput
+  }
+
+
+  /**
+   * User_messages upsert
+   */
+  export type User_messagesUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the User_messages
+     * 
+    **/
+    select?: User_messagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: User_messagesInclude | null
+    /**
+     * The filter to search for the User_messages to update in case it exists.
+     * 
+    **/
+    where: User_messagesWhereUniqueInput
+    /**
+     * In case the User_messages found by the `where` argument doesn't exist, create a new User_messages with this data.
+     * 
+    **/
+    create: XOR<User_messagesCreateInput, User_messagesUncheckedCreateInput>
+    /**
+     * In case the User_messages was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<User_messagesUpdateInput, User_messagesUncheckedUpdateInput>
+  }
+
+
+  /**
+   * User_messages delete
+   */
+  export type User_messagesDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the User_messages
+     * 
+    **/
+    select?: User_messagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: User_messagesInclude | null
+    /**
+     * Filter which User_messages to delete.
+     * 
+    **/
+    where: User_messagesWhereUniqueInput
+  }
+
+
+  /**
+   * User_messages deleteMany
+   */
+  export type User_messagesDeleteManyArgs = {
+    /**
+     * Filter which User_messages to delete
+     * 
+    **/
+    where?: User_messagesWhereInput
+  }
+
+
+  /**
+   * User_messages.accounts
+   */
+  export type User_messages$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * User_messages.messages
+   */
+  export type User_messages$messagesArgs = {
+    /**
+     * Select specific fields to fetch from the Messages
+     * 
+    **/
+    select?: MessagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: MessagesInclude | null
+    where?: MessagesWhereInput
+  }
+
+
+  /**
+   * User_messages.users
+   */
+  export type User_messages$usersArgs = {
+    /**
+     * Select specific fields to fetch from the Users
+     * 
+    **/
+    select?: UsersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UsersInclude | null
+    where?: UsersWhereInput
+  }
+
+
+  /**
+   * User_messages without action
+   */
+  export type User_messagesArgs = {
+    /**
+     * Select specific fields to fetch from the User_messages
+     * 
+    **/
+    select?: User_messagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: User_messagesInclude | null
+  }
+
+
+
+  /**
    * Model Users
    */
 
@@ -3394,12 +5625,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: boolean
     deleted?: boolean
     accounts?: boolean | Users$accountsArgs
+    user_messages?: boolean | Users$user_messagesArgs
     _count?: boolean | UsersCountOutputTypeArgs
   }
 
 
   export type UsersInclude = {
     accounts?: boolean | Users$accountsArgs
+    user_messages?: boolean | Users$user_messagesArgs
     _count?: boolean | UsersCountOutputTypeArgs
   } 
 
@@ -3411,12 +5644,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ? Users  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'accounts' ? Array < AccountsGetPayload<S['include'][P]>>  :
+        P extends 'user_messages' ? Array < User_messagesGetPayload<S['include'][P]>>  :
         P extends '_count' ? UsersCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (UsersArgs | UsersFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'accounts' ? Array < AccountsGetPayload<S['select'][P]>>  :
+        P extends 'user_messages' ? Array < User_messagesGetPayload<S['select'][P]>>  :
         P extends '_count' ? UsersCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Users ? Users[P] : never
   } 
       : Users
@@ -3792,6 +6027,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
     accounts<T extends Users$accountsArgs= {}>(args?: Subset<T, Users$accountsArgs>): PrismaPromise<Array<AccountsGetPayload<T>>| Null>;
+
+    user_messages<T extends Users$user_messagesArgs= {}>(args?: Subset<T, Users$user_messagesArgs>): PrismaPromise<Array<User_messagesGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -4220,6 +6457,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Users.user_messages
+   */
+  export type Users$user_messagesArgs = {
+    /**
+     * Select specific fields to fetch from the User_messages
+     * 
+    **/
+    select?: User_messagesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: User_messagesInclude | null
+    where?: User_messagesWhereInput
+    orderBy?: Enumerable<User_messagesOrderByWithRelationInput>
+    cursor?: User_messagesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<User_messagesScalarFieldEnum>
+  }
+
+
+  /**
    * Users without action
    */
   export type UsersArgs = {
@@ -4267,6 +6527,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type AccountsScalarFieldEnum = (typeof AccountsScalarFieldEnum)[keyof typeof AccountsScalarFieldEnum]
 
 
+  export const MessagesScalarFieldEnum: {
+    message_id: 'message_id',
+    label_replace_by_generated_column: 'label_replace_by_generated_column',
+    date: 'date',
+    message: 'message'
+  };
+
+  export type MessagesScalarFieldEnum = (typeof MessagesScalarFieldEnum)[keyof typeof MessagesScalarFieldEnum]
+
+
   export const ProjectsScalarFieldEnum: {
     project_id: 'project_id',
     account_id: 'account_id',
@@ -4296,6 +6566,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   };
 
   export type ProjectsScalarFieldEnum = (typeof ProjectsScalarFieldEnum)[keyof typeof ProjectsScalarFieldEnum]
+
+
+  export const User_messagesScalarFieldEnum: {
+    user_message_id: 'user_message_id',
+    account_id: 'account_id',
+    user_id: 'user_id',
+    message_id: 'message_id',
+    label_replace_by_generated_column: 'label_replace_by_generated_column',
+    read: 'read'
+  };
+
+  export type User_messagesScalarFieldEnum = (typeof User_messagesScalarFieldEnum)[keyof typeof User_messagesScalarFieldEnum]
 
 
   export const UsersScalarFieldEnum: {
@@ -4441,6 +6723,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: StringNullableFilter<"Accounts"> | string | null
     users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
     projects?: ProjectsListRelationFilter
+    user_messages?: User_messagesListRelationFilter
   }
 
   export type AccountsOrderByWithRelationInput = {
@@ -4453,6 +6736,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: SortOrderInput | SortOrder
     users?: UsersOrderByWithRelationInput
     projects?: ProjectsOrderByRelationAggregateInput
+    user_messages?: User_messagesOrderByRelationAggregateInput
   }
 
   export type AccountsWhereUniqueInput = Prisma.AtLeast<{
@@ -4468,6 +6752,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: StringNullableFilter<"Accounts"> | string | null
     users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
     projects?: ProjectsListRelationFilter
+    user_messages?: User_messagesListRelationFilter
   }, "account_id">
 
   export type AccountsOrderByWithAggregationInput = {
@@ -4494,6 +6779,56 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: DateTimeNullableWithAggregatesFilter<"Accounts"> | Date | string | null
     projects_label_by?: StringNullableWithAggregatesFilter<"Accounts"> | string | null
     label?: StringNullableWithAggregatesFilter<"Accounts"> | string | null
+  }
+
+  export type MessagesWhereInput = {
+    AND?: Enumerable<MessagesWhereInput>
+    OR?: Enumerable<MessagesWhereInput>
+    NOT?: Enumerable<MessagesWhereInput>
+    message_id?: UuidFilter<"Messages"> | string
+    label_replace_by_generated_column?: StringNullableFilter<"Messages"> | string | null
+    date?: DateTimeNullableFilter<"Messages"> | Date | string | null
+    message?: StringNullableFilter<"Messages"> | string | null
+    user_messages?: User_messagesListRelationFilter
+  }
+
+  export type MessagesOrderByWithRelationInput = {
+    message_id?: SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    date?: SortOrderInput | SortOrder
+    message?: SortOrderInput | SortOrder
+    user_messages?: User_messagesOrderByRelationAggregateInput
+  }
+
+  export type MessagesWhereUniqueInput = Prisma.AtLeast<{
+    message_id?: string
+    AND?: Enumerable<MessagesWhereInput>
+    OR?: Enumerable<MessagesWhereInput>
+    NOT?: Enumerable<MessagesWhereInput>
+    label_replace_by_generated_column?: StringNullableFilter<"Messages"> | string | null
+    date?: DateTimeNullableFilter<"Messages"> | Date | string | null
+    message?: StringNullableFilter<"Messages"> | string | null
+    user_messages?: User_messagesListRelationFilter
+  }, "message_id">
+
+  export type MessagesOrderByWithAggregationInput = {
+    message_id?: SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    date?: SortOrderInput | SortOrder
+    message?: SortOrderInput | SortOrder
+    _count?: MessagesCountOrderByAggregateInput
+    _max?: MessagesMaxOrderByAggregateInput
+    _min?: MessagesMinOrderByAggregateInput
+  }
+
+  export type MessagesScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<MessagesScalarWhereWithAggregatesInput>
+    OR?: Enumerable<MessagesScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<MessagesScalarWhereWithAggregatesInput>
+    message_id?: UuidWithAggregatesFilter<"Messages"> | string
+    label_replace_by_generated_column?: StringNullableWithAggregatesFilter<"Messages"> | string | null
+    date?: DateTimeNullableWithAggregatesFilter<"Messages"> | Date | string | null
+    message?: StringNullableWithAggregatesFilter<"Messages"> | string | null
   }
 
   export type ProjectsWhereInput = {
@@ -4651,6 +6986,72 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableWithAggregatesFilter<"Projects"> | boolean | null
   }
 
+  export type User_messagesWhereInput = {
+    AND?: Enumerable<User_messagesWhereInput>
+    OR?: Enumerable<User_messagesWhereInput>
+    NOT?: Enumerable<User_messagesWhereInput>
+    user_message_id?: UuidFilter<"User_messages"> | string
+    account_id?: UuidNullableFilter<"User_messages"> | string | null
+    user_id?: UuidNullableFilter<"User_messages"> | string | null
+    message_id?: UuidNullableFilter<"User_messages"> | string | null
+    label_replace_by_generated_column?: StringNullableFilter<"User_messages"> | string | null
+    read?: BoolNullableFilter<"User_messages"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    messages?: XOR<MessagesNullableRelationFilter, MessagesWhereInput> | null
+    users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
+  }
+
+  export type User_messagesOrderByWithRelationInput = {
+    user_message_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    user_id?: SortOrderInput | SortOrder
+    message_id?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    read?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    messages?: MessagesOrderByWithRelationInput
+    users?: UsersOrderByWithRelationInput
+  }
+
+  export type User_messagesWhereUniqueInput = Prisma.AtLeast<{
+    user_message_id?: string
+    AND?: Enumerable<User_messagesWhereInput>
+    OR?: Enumerable<User_messagesWhereInput>
+    NOT?: Enumerable<User_messagesWhereInput>
+    account_id?: UuidNullableFilter<"User_messages"> | string | null
+    user_id?: UuidNullableFilter<"User_messages"> | string | null
+    message_id?: UuidNullableFilter<"User_messages"> | string | null
+    label_replace_by_generated_column?: StringNullableFilter<"User_messages"> | string | null
+    read?: BoolNullableFilter<"User_messages"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    messages?: XOR<MessagesNullableRelationFilter, MessagesWhereInput> | null
+    users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
+  }, "user_message_id">
+
+  export type User_messagesOrderByWithAggregationInput = {
+    user_message_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    user_id?: SortOrderInput | SortOrder
+    message_id?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    read?: SortOrderInput | SortOrder
+    _count?: User_messagesCountOrderByAggregateInput
+    _max?: User_messagesMaxOrderByAggregateInput
+    _min?: User_messagesMinOrderByAggregateInput
+  }
+
+  export type User_messagesScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<User_messagesScalarWhereWithAggregatesInput>
+    OR?: Enumerable<User_messagesScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<User_messagesScalarWhereWithAggregatesInput>
+    user_message_id?: UuidWithAggregatesFilter<"User_messages"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"User_messages"> | string | null
+    user_id?: UuidNullableWithAggregatesFilter<"User_messages"> | string | null
+    message_id?: UuidNullableWithAggregatesFilter<"User_messages"> | string | null
+    label_replace_by_generated_column?: StringNullableWithAggregatesFilter<"User_messages"> | string | null
+    read?: BoolNullableWithAggregatesFilter<"User_messages"> | boolean | null
+  }
+
   export type UsersWhereInput = {
     AND?: Enumerable<UsersWhereInput>
     OR?: Enumerable<UsersWhereInput>
@@ -4661,6 +7062,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: StringNullableFilter<"Users"> | string | null
     deleted?: BoolNullableFilter<"Users"> | boolean | null
     accounts?: AccountsListRelationFilter
+    user_messages?: User_messagesListRelationFilter
   }
 
   export type UsersOrderByWithRelationInput = {
@@ -4670,6 +7072,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
     accounts?: AccountsOrderByRelationAggregateInput
+    user_messages?: User_messagesOrderByRelationAggregateInput
   }
 
   export type UsersWhereUniqueInput = Prisma.AtLeast<{
@@ -4682,6 +7085,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: StringNullableFilter<"Users"> | string | null
     deleted?: BoolNullableFilter<"Users"> | boolean | null
     accounts?: AccountsListRelationFilter
+    user_messages?: User_messagesListRelationFilter
   }, "user_id">
 
   export type UsersOrderByWithAggregationInput = {
@@ -4715,6 +7119,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateInput = {
@@ -4726,6 +7131,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUpdateInput = {
@@ -4737,6 +7143,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateInput = {
@@ -4748,6 +7155,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsCreateManyInput = {
@@ -4777,6 +7185,59 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MessagesCreateInput = {
+    message_id: string
+    label_replace_by_generated_column?: string | null
+    date?: Date | string | null
+    message?: string | null
+    user_messages?: User_messagesCreateNestedManyWithoutMessagesInput
+  }
+
+  export type MessagesUncheckedCreateInput = {
+    message_id: string
+    label_replace_by_generated_column?: string | null
+    date?: Date | string | null
+    message?: string | null
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutMessagesInput
+  }
+
+  export type MessagesUpdateInput = {
+    message_id?: StringFieldUpdateOperationsInput | string
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    user_messages?: User_messagesUpdateManyWithoutMessagesNestedInput
+  }
+
+  export type MessagesUncheckedUpdateInput = {
+    message_id?: StringFieldUpdateOperationsInput | string
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    user_messages?: User_messagesUncheckedUpdateManyWithoutMessagesNestedInput
+  }
+
+  export type MessagesCreateManyInput = {
+    message_id: string
+    label_replace_by_generated_column?: string | null
+    date?: Date | string | null
+    message?: string | null
+  }
+
+  export type MessagesUpdateManyMutationInput = {
+    message_id?: StringFieldUpdateOperationsInput | string
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MessagesUncheckedUpdateManyInput = {
+    message_id?: StringFieldUpdateOperationsInput | string
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProjectsCreateInput = {
@@ -4974,6 +7435,66 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type User_messagesCreateInput = {
+    user_message_id: string
+    label_replace_by_generated_column?: string | null
+    read?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutUser_messagesInput
+    messages?: MessagesCreateNestedOneWithoutUser_messagesInput
+    users?: UsersCreateNestedOneWithoutUser_messagesInput
+  }
+
+  export type User_messagesUncheckedCreateInput = {
+    user_message_id: string
+    account_id?: string | null
+    user_id?: string | null
+    message_id?: string | null
+    label_replace_by_generated_column?: string | null
+    read?: boolean | null
+  }
+
+  export type User_messagesUpdateInput = {
+    user_message_id?: StringFieldUpdateOperationsInput | string
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    read?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutUser_messagesNestedInput
+    messages?: MessagesUpdateOneWithoutUser_messagesNestedInput
+    users?: UsersUpdateOneWithoutUser_messagesNestedInput
+  }
+
+  export type User_messagesUncheckedUpdateInput = {
+    user_message_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    message_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    read?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type User_messagesCreateManyInput = {
+    user_message_id: string
+    account_id?: string | null
+    user_id?: string | null
+    message_id?: string | null
+    label_replace_by_generated_column?: string | null
+    read?: boolean | null
+  }
+
+  export type User_messagesUpdateManyMutationInput = {
+    user_message_id?: StringFieldUpdateOperationsInput | string
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    read?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type User_messagesUncheckedUpdateManyInput = {
+    user_message_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    message_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    read?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type UsersCreateInput = {
     user_id: string
     email?: string | null
@@ -4981,6 +7502,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
     accounts?: AccountsCreateNestedManyWithoutUsersInput
+    user_messages?: User_messagesCreateNestedManyWithoutUsersInput
   }
 
   export type UsersUncheckedCreateInput = {
@@ -4990,6 +7512,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
     accounts?: AccountsUncheckedCreateNestedManyWithoutUsersInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type UsersUpdateInput = {
@@ -4999,6 +7522,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     accounts?: AccountsUpdateManyWithoutUsersNestedInput
+    user_messages?: User_messagesUpdateManyWithoutUsersNestedInput
   }
 
   export type UsersUncheckedUpdateInput = {
@@ -5008,6 +7532,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     accounts?: AccountsUncheckedUpdateManyWithoutUsersNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type UsersCreateManyInput = {
@@ -5095,12 +7620,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     none?: ProjectsWhereInput
   }
 
+  export type User_messagesListRelationFilter = {
+    every?: User_messagesWhereInput
+    some?: User_messagesWhereInput
+    none?: User_messagesWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type ProjectsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type User_messagesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -5194,6 +7729,27 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type MessagesCountOrderByAggregateInput = {
+    message_id?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    date?: SortOrder
+    message?: SortOrder
+  }
+
+  export type MessagesMaxOrderByAggregateInput = {
+    message_id?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    date?: SortOrder
+    message?: SortOrder
+  }
+
+  export type MessagesMinOrderByAggregateInput = {
+    message_id?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    date?: SortOrder
+    message?: SortOrder
   }
 
   export type Enumproject_typeNullableFilter<$PrismaModel = never> = {
@@ -5358,6 +7914,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
+  export type MessagesNullableRelationFilter = {
+    is?: MessagesWhereInput | null
+    isNot?: MessagesWhereInput | null
+  }
+
+  export type User_messagesCountOrderByAggregateInput = {
+    user_message_id?: SortOrder
+    account_id?: SortOrder
+    user_id?: SortOrder
+    message_id?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    read?: SortOrder
+  }
+
+  export type User_messagesMaxOrderByAggregateInput = {
+    user_message_id?: SortOrder
+    account_id?: SortOrder
+    user_id?: SortOrder
+    message_id?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    read?: SortOrder
+  }
+
+  export type User_messagesMinOrderByAggregateInput = {
+    user_message_id?: SortOrder
+    account_id?: SortOrder
+    user_id?: SortOrder
+    message_id?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    read?: SortOrder
+  }
+
   export type AccountsListRelationFilter = {
     every?: AccountsWhereInput
     some?: AccountsWhereInput
@@ -5405,11 +7993,25 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<ProjectsWhereUniqueInput>
   }
 
+  export type User_messagesCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<User_messagesCreateWithoutAccountsInput>, Enumerable<User_messagesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutAccountsInput>
+    createMany?: User_messagesCreateManyAccountsInputEnvelope
+    connect?: Enumerable<User_messagesWhereUniqueInput>
+  }
+
   export type ProjectsUncheckedCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<ProjectsCreateWithoutAccountsInput>, Enumerable<ProjectsUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<ProjectsCreateOrConnectWithoutAccountsInput>
     createMany?: ProjectsCreateManyAccountsInputEnvelope
     connect?: Enumerable<ProjectsWhereUniqueInput>
+  }
+
+  export type User_messagesUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<User_messagesCreateWithoutAccountsInput>, Enumerable<User_messagesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutAccountsInput>
+    createMany?: User_messagesCreateManyAccountsInputEnvelope
+    connect?: Enumerable<User_messagesWhereUniqueInput>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -5448,6 +8050,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<ProjectsScalarWhereInput>
   }
 
+  export type User_messagesUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<User_messagesCreateWithoutAccountsInput>, Enumerable<User_messagesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<User_messagesUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: User_messagesCreateManyAccountsInputEnvelope
+    set?: Enumerable<User_messagesWhereUniqueInput>
+    disconnect?: Enumerable<User_messagesWhereUniqueInput>
+    delete?: Enumerable<User_messagesWhereUniqueInput>
+    connect?: Enumerable<User_messagesWhereUniqueInput>
+    update?: Enumerable<User_messagesUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<User_messagesUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<User_messagesScalarWhereInput>
+  }
+
   export type ProjectsUncheckedUpdateManyWithoutAccountsNestedInput = {
     create?: XOR<Enumerable<ProjectsCreateWithoutAccountsInput>, Enumerable<ProjectsUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<ProjectsCreateOrConnectWithoutAccountsInput>
@@ -5460,6 +8076,62 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<ProjectsUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<ProjectsUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<ProjectsScalarWhereInput>
+  }
+
+  export type User_messagesUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<User_messagesCreateWithoutAccountsInput>, Enumerable<User_messagesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<User_messagesUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: User_messagesCreateManyAccountsInputEnvelope
+    set?: Enumerable<User_messagesWhereUniqueInput>
+    disconnect?: Enumerable<User_messagesWhereUniqueInput>
+    delete?: Enumerable<User_messagesWhereUniqueInput>
+    connect?: Enumerable<User_messagesWhereUniqueInput>
+    update?: Enumerable<User_messagesUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<User_messagesUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<User_messagesScalarWhereInput>
+  }
+
+  export type User_messagesCreateNestedManyWithoutMessagesInput = {
+    create?: XOR<Enumerable<User_messagesCreateWithoutMessagesInput>, Enumerable<User_messagesUncheckedCreateWithoutMessagesInput>>
+    connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutMessagesInput>
+    createMany?: User_messagesCreateManyMessagesInputEnvelope
+    connect?: Enumerable<User_messagesWhereUniqueInput>
+  }
+
+  export type User_messagesUncheckedCreateNestedManyWithoutMessagesInput = {
+    create?: XOR<Enumerable<User_messagesCreateWithoutMessagesInput>, Enumerable<User_messagesUncheckedCreateWithoutMessagesInput>>
+    connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutMessagesInput>
+    createMany?: User_messagesCreateManyMessagesInputEnvelope
+    connect?: Enumerable<User_messagesWhereUniqueInput>
+  }
+
+  export type User_messagesUpdateManyWithoutMessagesNestedInput = {
+    create?: XOR<Enumerable<User_messagesCreateWithoutMessagesInput>, Enumerable<User_messagesUncheckedCreateWithoutMessagesInput>>
+    connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutMessagesInput>
+    upsert?: Enumerable<User_messagesUpsertWithWhereUniqueWithoutMessagesInput>
+    createMany?: User_messagesCreateManyMessagesInputEnvelope
+    set?: Enumerable<User_messagesWhereUniqueInput>
+    disconnect?: Enumerable<User_messagesWhereUniqueInput>
+    delete?: Enumerable<User_messagesWhereUniqueInput>
+    connect?: Enumerable<User_messagesWhereUniqueInput>
+    update?: Enumerable<User_messagesUpdateWithWhereUniqueWithoutMessagesInput>
+    updateMany?: Enumerable<User_messagesUpdateManyWithWhereWithoutMessagesInput>
+    deleteMany?: Enumerable<User_messagesScalarWhereInput>
+  }
+
+  export type User_messagesUncheckedUpdateManyWithoutMessagesNestedInput = {
+    create?: XOR<Enumerable<User_messagesCreateWithoutMessagesInput>, Enumerable<User_messagesUncheckedCreateWithoutMessagesInput>>
+    connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutMessagesInput>
+    upsert?: Enumerable<User_messagesUpsertWithWhereUniqueWithoutMessagesInput>
+    createMany?: User_messagesCreateManyMessagesInputEnvelope
+    set?: Enumerable<User_messagesWhereUniqueInput>
+    disconnect?: Enumerable<User_messagesWhereUniqueInput>
+    delete?: Enumerable<User_messagesWhereUniqueInput>
+    connect?: Enumerable<User_messagesWhereUniqueInput>
+    update?: Enumerable<User_messagesUpdateWithWhereUniqueWithoutMessagesInput>
+    updateMany?: Enumerable<User_messagesUpdateManyWithWhereWithoutMessagesInput>
+    deleteMany?: Enumerable<User_messagesScalarWhereInput>
   }
 
   export type AccountsCreateNestedOneWithoutProjectsInput = {
@@ -5486,6 +8158,54 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutProjectsInput, AccountsUpdateWithoutProjectsInput>, AccountsUncheckedUpdateWithoutProjectsInput>
   }
 
+  export type AccountsCreateNestedOneWithoutUser_messagesInput = {
+    create?: XOR<AccountsCreateWithoutUser_messagesInput, AccountsUncheckedCreateWithoutUser_messagesInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutUser_messagesInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type MessagesCreateNestedOneWithoutUser_messagesInput = {
+    create?: XOR<MessagesCreateWithoutUser_messagesInput, MessagesUncheckedCreateWithoutUser_messagesInput>
+    connectOrCreate?: MessagesCreateOrConnectWithoutUser_messagesInput
+    connect?: MessagesWhereUniqueInput
+  }
+
+  export type UsersCreateNestedOneWithoutUser_messagesInput = {
+    create?: XOR<UsersCreateWithoutUser_messagesInput, UsersUncheckedCreateWithoutUser_messagesInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutUser_messagesInput
+    connect?: UsersWhereUniqueInput
+  }
+
+  export type AccountsUpdateOneWithoutUser_messagesNestedInput = {
+    create?: XOR<AccountsCreateWithoutUser_messagesInput, AccountsUncheckedCreateWithoutUser_messagesInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutUser_messagesInput
+    upsert?: AccountsUpsertWithoutUser_messagesInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutUser_messagesInput, AccountsUpdateWithoutUser_messagesInput>, AccountsUncheckedUpdateWithoutUser_messagesInput>
+  }
+
+  export type MessagesUpdateOneWithoutUser_messagesNestedInput = {
+    create?: XOR<MessagesCreateWithoutUser_messagesInput, MessagesUncheckedCreateWithoutUser_messagesInput>
+    connectOrCreate?: MessagesCreateOrConnectWithoutUser_messagesInput
+    upsert?: MessagesUpsertWithoutUser_messagesInput
+    disconnect?: MessagesWhereInput | boolean
+    delete?: MessagesWhereInput | boolean
+    connect?: MessagesWhereUniqueInput
+    update?: XOR<XOR<MessagesUpdateToOneWithWhereWithoutUser_messagesInput, MessagesUpdateWithoutUser_messagesInput>, MessagesUncheckedUpdateWithoutUser_messagesInput>
+  }
+
+  export type UsersUpdateOneWithoutUser_messagesNestedInput = {
+    create?: XOR<UsersCreateWithoutUser_messagesInput, UsersUncheckedCreateWithoutUser_messagesInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutUser_messagesInput
+    upsert?: UsersUpsertWithoutUser_messagesInput
+    disconnect?: UsersWhereInput | boolean
+    delete?: UsersWhereInput | boolean
+    connect?: UsersWhereUniqueInput
+    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutUser_messagesInput, UsersUpdateWithoutUser_messagesInput>, UsersUncheckedUpdateWithoutUser_messagesInput>
+  }
+
   export type AccountsCreateNestedManyWithoutUsersInput = {
     create?: XOR<Enumerable<AccountsCreateWithoutUsersInput>, Enumerable<AccountsUncheckedCreateWithoutUsersInput>>
     connectOrCreate?: Enumerable<AccountsCreateOrConnectWithoutUsersInput>
@@ -5493,11 +8213,25 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<AccountsWhereUniqueInput>
   }
 
+  export type User_messagesCreateNestedManyWithoutUsersInput = {
+    create?: XOR<Enumerable<User_messagesCreateWithoutUsersInput>, Enumerable<User_messagesUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutUsersInput>
+    createMany?: User_messagesCreateManyUsersInputEnvelope
+    connect?: Enumerable<User_messagesWhereUniqueInput>
+  }
+
   export type AccountsUncheckedCreateNestedManyWithoutUsersInput = {
     create?: XOR<Enumerable<AccountsCreateWithoutUsersInput>, Enumerable<AccountsUncheckedCreateWithoutUsersInput>>
     connectOrCreate?: Enumerable<AccountsCreateOrConnectWithoutUsersInput>
     createMany?: AccountsCreateManyUsersInputEnvelope
     connect?: Enumerable<AccountsWhereUniqueInput>
+  }
+
+  export type User_messagesUncheckedCreateNestedManyWithoutUsersInput = {
+    create?: XOR<Enumerable<User_messagesCreateWithoutUsersInput>, Enumerable<User_messagesUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutUsersInput>
+    createMany?: User_messagesCreateManyUsersInputEnvelope
+    connect?: Enumerable<User_messagesWhereUniqueInput>
   }
 
   export type AccountsUpdateManyWithoutUsersNestedInput = {
@@ -5514,6 +8248,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<AccountsScalarWhereInput>
   }
 
+  export type User_messagesUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<Enumerable<User_messagesCreateWithoutUsersInput>, Enumerable<User_messagesUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutUsersInput>
+    upsert?: Enumerable<User_messagesUpsertWithWhereUniqueWithoutUsersInput>
+    createMany?: User_messagesCreateManyUsersInputEnvelope
+    set?: Enumerable<User_messagesWhereUniqueInput>
+    disconnect?: Enumerable<User_messagesWhereUniqueInput>
+    delete?: Enumerable<User_messagesWhereUniqueInput>
+    connect?: Enumerable<User_messagesWhereUniqueInput>
+    update?: Enumerable<User_messagesUpdateWithWhereUniqueWithoutUsersInput>
+    updateMany?: Enumerable<User_messagesUpdateManyWithWhereWithoutUsersInput>
+    deleteMany?: Enumerable<User_messagesScalarWhereInput>
+  }
+
   export type AccountsUncheckedUpdateManyWithoutUsersNestedInput = {
     create?: XOR<Enumerable<AccountsCreateWithoutUsersInput>, Enumerable<AccountsUncheckedCreateWithoutUsersInput>>
     connectOrCreate?: Enumerable<AccountsCreateOrConnectWithoutUsersInput>
@@ -5526,6 +8274,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<AccountsUpdateWithWhereUniqueWithoutUsersInput>
     updateMany?: Enumerable<AccountsUpdateManyWithWhereWithoutUsersInput>
     deleteMany?: Enumerable<AccountsScalarWhereInput>
+  }
+
+  export type User_messagesUncheckedUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<Enumerable<User_messagesCreateWithoutUsersInput>, Enumerable<User_messagesUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutUsersInput>
+    upsert?: Enumerable<User_messagesUpsertWithWhereUniqueWithoutUsersInput>
+    createMany?: User_messagesCreateManyUsersInputEnvelope
+    set?: Enumerable<User_messagesWhereUniqueInput>
+    disconnect?: Enumerable<User_messagesWhereUniqueInput>
+    delete?: Enumerable<User_messagesWhereUniqueInput>
+    connect?: Enumerable<User_messagesWhereUniqueInput>
+    update?: Enumerable<User_messagesUpdateWithWhereUniqueWithoutUsersInput>
+    updateMany?: Enumerable<User_messagesUpdateManyWithWhereWithoutUsersInput>
+    deleteMany?: Enumerable<User_messagesScalarWhereInput>
   }
 
   export type NestedUuidFilter<$PrismaModel = never> = {
@@ -5728,6 +8490,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     auth_id?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    user_messages?: User_messagesCreateNestedManyWithoutUsersInput
   }
 
   export type UsersUncheckedCreateWithoutAccountsInput = {
@@ -5736,6 +8499,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     auth_id?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type UsersCreateOrConnectWithoutAccountsInput = {
@@ -5807,6 +8571,32 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     skipDuplicates?: boolean
   }
 
+  export type User_messagesCreateWithoutAccountsInput = {
+    user_message_id: string
+    label_replace_by_generated_column?: string | null
+    read?: boolean | null
+    messages?: MessagesCreateNestedOneWithoutUser_messagesInput
+    users?: UsersCreateNestedOneWithoutUser_messagesInput
+  }
+
+  export type User_messagesUncheckedCreateWithoutAccountsInput = {
+    user_message_id: string
+    user_id?: string | null
+    message_id?: string | null
+    label_replace_by_generated_column?: string | null
+    read?: boolean | null
+  }
+
+  export type User_messagesCreateOrConnectWithoutAccountsInput = {
+    where: User_messagesWhereUniqueInput
+    create: XOR<User_messagesCreateWithoutAccountsInput, User_messagesUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type User_messagesCreateManyAccountsInputEnvelope = {
+    data: Enumerable<User_messagesCreateManyAccountsInput>
+    skipDuplicates?: boolean
+  }
+
   export type UsersUpsertWithoutAccountsInput = {
     update: XOR<UsersUpdateWithoutAccountsInput, UsersUncheckedUpdateWithoutAccountsInput>
     create: XOR<UsersCreateWithoutAccountsInput, UsersUncheckedCreateWithoutAccountsInput>
@@ -5824,6 +8614,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     auth_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    user_messages?: User_messagesUpdateManyWithoutUsersNestedInput
   }
 
   export type UsersUncheckedUpdateWithoutAccountsInput = {
@@ -5832,6 +8623,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     auth_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type ProjectsUpsertWithWhereUniqueWithoutAccountsInput = {
@@ -5881,6 +8673,76 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableFilter<"Projects"> | boolean | null
   }
 
+  export type User_messagesUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: User_messagesWhereUniqueInput
+    update: XOR<User_messagesUpdateWithoutAccountsInput, User_messagesUncheckedUpdateWithoutAccountsInput>
+    create: XOR<User_messagesCreateWithoutAccountsInput, User_messagesUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type User_messagesUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: User_messagesWhereUniqueInput
+    data: XOR<User_messagesUpdateWithoutAccountsInput, User_messagesUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type User_messagesUpdateManyWithWhereWithoutAccountsInput = {
+    where: User_messagesScalarWhereInput
+    data: XOR<User_messagesUpdateManyMutationInput, User_messagesUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type User_messagesScalarWhereInput = {
+    AND?: Enumerable<User_messagesScalarWhereInput>
+    OR?: Enumerable<User_messagesScalarWhereInput>
+    NOT?: Enumerable<User_messagesScalarWhereInput>
+    user_message_id?: UuidFilter<"User_messages"> | string
+    account_id?: UuidNullableFilter<"User_messages"> | string | null
+    user_id?: UuidNullableFilter<"User_messages"> | string | null
+    message_id?: UuidNullableFilter<"User_messages"> | string | null
+    label_replace_by_generated_column?: StringNullableFilter<"User_messages"> | string | null
+    read?: BoolNullableFilter<"User_messages"> | boolean | null
+  }
+
+  export type User_messagesCreateWithoutMessagesInput = {
+    user_message_id: string
+    label_replace_by_generated_column?: string | null
+    read?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutUser_messagesInput
+    users?: UsersCreateNestedOneWithoutUser_messagesInput
+  }
+
+  export type User_messagesUncheckedCreateWithoutMessagesInput = {
+    user_message_id: string
+    account_id?: string | null
+    user_id?: string | null
+    label_replace_by_generated_column?: string | null
+    read?: boolean | null
+  }
+
+  export type User_messagesCreateOrConnectWithoutMessagesInput = {
+    where: User_messagesWhereUniqueInput
+    create: XOR<User_messagesCreateWithoutMessagesInput, User_messagesUncheckedCreateWithoutMessagesInput>
+  }
+
+  export type User_messagesCreateManyMessagesInputEnvelope = {
+    data: Enumerable<User_messagesCreateManyMessagesInput>
+    skipDuplicates?: boolean
+  }
+
+  export type User_messagesUpsertWithWhereUniqueWithoutMessagesInput = {
+    where: User_messagesWhereUniqueInput
+    update: XOR<User_messagesUpdateWithoutMessagesInput, User_messagesUncheckedUpdateWithoutMessagesInput>
+    create: XOR<User_messagesCreateWithoutMessagesInput, User_messagesUncheckedCreateWithoutMessagesInput>
+  }
+
+  export type User_messagesUpdateWithWhereUniqueWithoutMessagesInput = {
+    where: User_messagesWhereUniqueInput
+    data: XOR<User_messagesUpdateWithoutMessagesInput, User_messagesUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type User_messagesUpdateManyWithWhereWithoutMessagesInput = {
+    where: User_messagesScalarWhereInput
+    data: XOR<User_messagesUpdateManyMutationInput, User_messagesUncheckedUpdateManyWithoutMessagesInput>
+  }
+
   export type AccountsCreateWithoutProjectsInput = {
     account_id: string
     type?: string | null
@@ -5889,6 +8751,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutProjectsInput = {
@@ -5899,6 +8762,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutProjectsInput = {
@@ -5925,6 +8789,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutProjectsInput = {
@@ -5935,6 +8800,163 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsCreateWithoutUser_messagesInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutUser_messagesInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutUser_messagesInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutUser_messagesInput, AccountsUncheckedCreateWithoutUser_messagesInput>
+  }
+
+  export type MessagesCreateWithoutUser_messagesInput = {
+    message_id: string
+    label_replace_by_generated_column?: string | null
+    date?: Date | string | null
+    message?: string | null
+  }
+
+  export type MessagesUncheckedCreateWithoutUser_messagesInput = {
+    message_id: string
+    label_replace_by_generated_column?: string | null
+    date?: Date | string | null
+    message?: string | null
+  }
+
+  export type MessagesCreateOrConnectWithoutUser_messagesInput = {
+    where: MessagesWhereUniqueInput
+    create: XOR<MessagesCreateWithoutUser_messagesInput, MessagesUncheckedCreateWithoutUser_messagesInput>
+  }
+
+  export type UsersCreateWithoutUser_messagesInput = {
+    user_id: string
+    email?: string | null
+    auth_id?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedManyWithoutUsersInput
+  }
+
+  export type UsersUncheckedCreateWithoutUser_messagesInput = {
+    user_id: string
+    email?: string | null
+    auth_id?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsUncheckedCreateNestedManyWithoutUsersInput
+  }
+
+  export type UsersCreateOrConnectWithoutUser_messagesInput = {
+    where: UsersWhereUniqueInput
+    create: XOR<UsersCreateWithoutUser_messagesInput, UsersUncheckedCreateWithoutUser_messagesInput>
+  }
+
+  export type AccountsUpsertWithoutUser_messagesInput = {
+    update: XOR<AccountsUpdateWithoutUser_messagesInput, AccountsUncheckedUpdateWithoutUser_messagesInput>
+    create: XOR<AccountsCreateWithoutUser_messagesInput, AccountsUncheckedCreateWithoutUser_messagesInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutUser_messagesInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutUser_messagesInput, AccountsUncheckedUpdateWithoutUser_messagesInput>
+  }
+
+  export type AccountsUpdateWithoutUser_messagesInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutUser_messagesInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type MessagesUpsertWithoutUser_messagesInput = {
+    update: XOR<MessagesUpdateWithoutUser_messagesInput, MessagesUncheckedUpdateWithoutUser_messagesInput>
+    create: XOR<MessagesCreateWithoutUser_messagesInput, MessagesUncheckedCreateWithoutUser_messagesInput>
+    where?: MessagesWhereInput
+  }
+
+  export type MessagesUpdateToOneWithWhereWithoutUser_messagesInput = {
+    where?: MessagesWhereInput
+    data: XOR<MessagesUpdateWithoutUser_messagesInput, MessagesUncheckedUpdateWithoutUser_messagesInput>
+  }
+
+  export type MessagesUpdateWithoutUser_messagesInput = {
+    message_id?: StringFieldUpdateOperationsInput | string
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MessagesUncheckedUpdateWithoutUser_messagesInput = {
+    message_id?: StringFieldUpdateOperationsInput | string
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UsersUpsertWithoutUser_messagesInput = {
+    update: XOR<UsersUpdateWithoutUser_messagesInput, UsersUncheckedUpdateWithoutUser_messagesInput>
+    create: XOR<UsersCreateWithoutUser_messagesInput, UsersUncheckedCreateWithoutUser_messagesInput>
+    where?: UsersWhereInput
+  }
+
+  export type UsersUpdateToOneWithWhereWithoutUser_messagesInput = {
+    where?: UsersWhereInput
+    data: XOR<UsersUpdateWithoutUser_messagesInput, UsersUncheckedUpdateWithoutUser_messagesInput>
+  }
+
+  export type UsersUpdateWithoutUser_messagesInput = {
+    user_id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateManyWithoutUsersNestedInput
+  }
+
+  export type UsersUncheckedUpdateWithoutUser_messagesInput = {
+    user_id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type AccountsCreateWithoutUsersInput = {
@@ -5945,6 +8967,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutUsersInput = {
@@ -5955,6 +8978,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutUsersInput = {
@@ -5964,6 +8988,32 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type AccountsCreateManyUsersInputEnvelope = {
     data: Enumerable<AccountsCreateManyUsersInput>
+    skipDuplicates?: boolean
+  }
+
+  export type User_messagesCreateWithoutUsersInput = {
+    user_message_id: string
+    label_replace_by_generated_column?: string | null
+    read?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutUser_messagesInput
+    messages?: MessagesCreateNestedOneWithoutUser_messagesInput
+  }
+
+  export type User_messagesUncheckedCreateWithoutUsersInput = {
+    user_message_id: string
+    account_id?: string | null
+    message_id?: string | null
+    label_replace_by_generated_column?: string | null
+    read?: boolean | null
+  }
+
+  export type User_messagesCreateOrConnectWithoutUsersInput = {
+    where: User_messagesWhereUniqueInput
+    create: XOR<User_messagesCreateWithoutUsersInput, User_messagesUncheckedCreateWithoutUsersInput>
+  }
+
+  export type User_messagesCreateManyUsersInputEnvelope = {
+    data: Enumerable<User_messagesCreateManyUsersInput>
     skipDuplicates?: boolean
   }
 
@@ -5996,6 +9046,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: StringNullableFilter<"Accounts"> | string | null
   }
 
+  export type User_messagesUpsertWithWhereUniqueWithoutUsersInput = {
+    where: User_messagesWhereUniqueInput
+    update: XOR<User_messagesUpdateWithoutUsersInput, User_messagesUncheckedUpdateWithoutUsersInput>
+    create: XOR<User_messagesCreateWithoutUsersInput, User_messagesUncheckedCreateWithoutUsersInput>
+  }
+
+  export type User_messagesUpdateWithWhereUniqueWithoutUsersInput = {
+    where: User_messagesWhereUniqueInput
+    data: XOR<User_messagesUpdateWithoutUsersInput, User_messagesUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type User_messagesUpdateManyWithWhereWithoutUsersInput = {
+    where: User_messagesScalarWhereInput
+    data: XOR<User_messagesUpdateManyMutationInput, User_messagesUncheckedUpdateManyWithoutUsersInput>
+  }
+
   export type ProjectsCreateManyAccountsInput = {
     project_id: string
     name?: string | null
@@ -6021,6 +9087,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+  }
+
+  export type User_messagesCreateManyAccountsInput = {
+    user_message_id: string
+    user_id?: string | null
+    message_id?: string | null
+    label_replace_by_generated_column?: string | null
+    read?: boolean | null
   }
 
   export type ProjectsUpdateWithoutAccountsInput = {
@@ -6104,6 +9178,62 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type User_messagesUpdateWithoutAccountsInput = {
+    user_message_id?: StringFieldUpdateOperationsInput | string
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    read?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    messages?: MessagesUpdateOneWithoutUser_messagesNestedInput
+    users?: UsersUpdateOneWithoutUser_messagesNestedInput
+  }
+
+  export type User_messagesUncheckedUpdateWithoutAccountsInput = {
+    user_message_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    message_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    read?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type User_messagesUncheckedUpdateManyWithoutAccountsInput = {
+    user_message_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    message_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    read?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type User_messagesCreateManyMessagesInput = {
+    user_message_id: string
+    account_id?: string | null
+    user_id?: string | null
+    label_replace_by_generated_column?: string | null
+    read?: boolean | null
+  }
+
+  export type User_messagesUpdateWithoutMessagesInput = {
+    user_message_id?: StringFieldUpdateOperationsInput | string
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    read?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutUser_messagesNestedInput
+    users?: UsersUpdateOneWithoutUser_messagesNestedInput
+  }
+
+  export type User_messagesUncheckedUpdateWithoutMessagesInput = {
+    user_message_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    read?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type User_messagesUncheckedUpdateManyWithoutMessagesInput = {
+    user_message_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    read?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type AccountsCreateManyUsersInput = {
     account_id: string
     type?: string | null
@@ -6111,6 +9241,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+  }
+
+  export type User_messagesCreateManyUsersInput = {
+    user_message_id: string
+    account_id?: string | null
+    message_id?: string | null
+    label_replace_by_generated_column?: string | null
+    read?: boolean | null
   }
 
   export type AccountsUpdateWithoutUsersInput = {
@@ -6121,6 +9259,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutUsersInput = {
@@ -6131,6 +9270,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateManyWithoutUsersInput = {
@@ -6140,6 +9280,30 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type User_messagesUpdateWithoutUsersInput = {
+    user_message_id?: StringFieldUpdateOperationsInput | string
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    read?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutUser_messagesNestedInput
+    messages?: MessagesUpdateOneWithoutUser_messagesNestedInput
+  }
+
+  export type User_messagesUncheckedUpdateWithoutUsersInput = {
+    user_message_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    message_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    read?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type User_messagesUncheckedUpdateManyWithoutUsersInput = {
+    user_message_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    message_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    read?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
 
