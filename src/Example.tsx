@@ -77,7 +77,13 @@ const ExampleComponent = () => {
                       gbif_occurrence_downloads: true,
                       subproject_users: true,
                       subproject_taxa: true,
-                      goals: { include: { goal_reports: true } },
+                      goals: {
+                        include: {
+                          goal_reports: {
+                            include: { goal_report_values: true },
+                          },
+                        },
+                      },
                     },
                   },
                   project_users: true,
@@ -111,6 +117,7 @@ const ExampleComponent = () => {
               goals: true,
               goal_reports: true,
               observation_sources: true,
+              goal_report_values: true,
             },
           },
           ui_options: true,

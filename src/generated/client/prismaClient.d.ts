@@ -133,6 +133,40 @@ export type Gbif_taxa = {
 }
 
 /**
+ * Model Goal_report_values
+ * 
+ */
+export type Goal_report_values = {
+  /**
+   * @zod.string.uuid()
+   */
+  goal_report_value_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  goal_report_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  unit_id: string | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  value_integer: number | null
+  /**
+   * @zod.custom.use(z.number().or(z.nan()))
+   */
+  value_numeric: number | null
+  value_text: string | null
+  label: string | null
+  deleted: boolean | null
+}
+
+/**
  * Model Goal_reports
  * 
  */
@@ -891,6 +925,16 @@ export class PrismaClient<
   get gbif_taxa(): Prisma.Gbif_taxaDelegate<GlobalReject>;
 
   /**
+   * `prisma.goal_report_values`: Exposes CRUD operations for the **Goal_report_values** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Goal_report_values
+    * const goal_report_values = await prisma.goal_report_values.findMany()
+    * ```
+    */
+  get goal_report_values(): Prisma.Goal_report_valuesDelegate<GlobalReject>;
+
+  /**
    * `prisma.goal_reports`: Exposes CRUD operations for the **Goal_reports** model.
     * Example usage:
     * ```ts
@@ -1588,6 +1632,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     Gbif_occurrence_downloads: 'Gbif_occurrence_downloads',
     Gbif_occurrences: 'Gbif_occurrences',
     Gbif_taxa: 'Gbif_taxa',
+    Goal_report_values: 'Goal_report_values',
     Goal_reports: 'Goal_reports',
     Goals: 'Goals',
     List_values: 'List_values',
@@ -1782,6 +1827,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads: number
     gbif_occurrences: number
     gbif_taxa: number
+    goal_report_values: number
     goal_reports: number
     goals: number
     list_values: number
@@ -1805,6 +1851,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: boolean | AccountsCountOutputTypeCountGbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | AccountsCountOutputTypeCountGbif_occurrencesArgs
     gbif_taxa?: boolean | AccountsCountOutputTypeCountGbif_taxaArgs
+    goal_report_values?: boolean | AccountsCountOutputTypeCountGoal_report_valuesArgs
     goal_reports?: boolean | AccountsCountOutputTypeCountGoal_reportsArgs
     goals?: boolean | AccountsCountOutputTypeCountGoalsArgs
     list_values?: boolean | AccountsCountOutputTypeCountList_valuesArgs
@@ -1875,6 +1922,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type AccountsCountOutputTypeCountGbif_taxaArgs = {
     where?: Gbif_taxaWhereInput
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountGoal_report_valuesArgs = {
+    where?: Goal_report_valuesWhereInput
   }
 
 
@@ -2063,6 +2118,58 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type Field_typesCountOutputTypeCountWidgets_for_fieldsArgs = {
     where?: Widgets_for_fieldsWhereInput
+  }
+
+
+
+  /**
+   * Count Type Goal_reportsCountOutputType
+   */
+
+
+  export type Goal_reportsCountOutputType = {
+    goal_report_values: number
+  }
+
+  export type Goal_reportsCountOutputTypeSelect = {
+    goal_report_values?: boolean | Goal_reportsCountOutputTypeCountGoal_report_valuesArgs
+  }
+
+  export type Goal_reportsCountOutputTypeGetPayload<S extends boolean | null | undefined | Goal_reportsCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Goal_reportsCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (Goal_reportsCountOutputTypeArgs)
+    ? Goal_reportsCountOutputType 
+    : S extends { select: any } & (Goal_reportsCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof Goal_reportsCountOutputType ? Goal_reportsCountOutputType[P] : never
+  } 
+      : Goal_reportsCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Goal_reportsCountOutputType without action
+   */
+  export type Goal_reportsCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the Goal_reportsCountOutputType
+     * 
+    **/
+    select?: Goal_reportsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * Goal_reportsCountOutputType without action
+   */
+  export type Goal_reportsCountOutputTypeCountGoal_report_valuesArgs = {
+    where?: Goal_report_valuesWhereInput
   }
 
 
@@ -2582,6 +2689,58 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Count Type UnitsCountOutputType
+   */
+
+
+  export type UnitsCountOutputType = {
+    goal_report_values: number
+  }
+
+  export type UnitsCountOutputTypeSelect = {
+    goal_report_values?: boolean | UnitsCountOutputTypeCountGoal_report_valuesArgs
+  }
+
+  export type UnitsCountOutputTypeGetPayload<S extends boolean | null | undefined | UnitsCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? UnitsCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (UnitsCountOutputTypeArgs)
+    ? UnitsCountOutputType 
+    : S extends { select: any } & (UnitsCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof UnitsCountOutputType ? UnitsCountOutputType[P] : never
+  } 
+      : UnitsCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * UnitsCountOutputType without action
+   */
+  export type UnitsCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the UnitsCountOutputType
+     * 
+    **/
+    select?: UnitsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * UnitsCountOutputType without action
+   */
+  export type UnitsCountOutputTypeCountGoal_report_valuesArgs = {
+    where?: Goal_report_valuesWhereInput
+  }
+
+
+
+  /**
    * Count Type UsersCountOutputType
    */
 
@@ -2910,6 +3069,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: boolean | Accounts$gbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | Accounts$gbif_occurrencesArgs
     gbif_taxa?: boolean | Accounts$gbif_taxaArgs
+    goal_report_values?: boolean | Accounts$goal_report_valuesArgs
     goal_reports?: boolean | Accounts$goal_reportsArgs
     goals?: boolean | Accounts$goalsArgs
     list_values?: boolean | Accounts$list_valuesArgs
@@ -2936,6 +3096,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: boolean | Accounts$gbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | Accounts$gbif_occurrencesArgs
     gbif_taxa?: boolean | Accounts$gbif_taxaArgs
+    goal_report_values?: boolean | Accounts$goal_report_valuesArgs
     goal_reports?: boolean | Accounts$goal_reportsArgs
     goals?: boolean | Accounts$goalsArgs
     list_values?: boolean | Accounts$list_valuesArgs
@@ -2967,6 +3128,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'gbif_occurrence_downloads' ? Array < Gbif_occurrence_downloadsGetPayload<S['include'][P]>>  :
         P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['include'][P]>>  :
         P extends 'gbif_taxa' ? Array < Gbif_taxaGetPayload<S['include'][P]>>  :
+        P extends 'goal_report_values' ? Array < Goal_report_valuesGetPayload<S['include'][P]>>  :
         P extends 'goal_reports' ? Array < Goal_reportsGetPayload<S['include'][P]>>  :
         P extends 'goals' ? Array < GoalsGetPayload<S['include'][P]>>  :
         P extends 'list_values' ? Array < List_valuesGetPayload<S['include'][P]>>  :
@@ -2993,6 +3155,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'gbif_occurrence_downloads' ? Array < Gbif_occurrence_downloadsGetPayload<S['select'][P]>>  :
         P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['select'][P]>>  :
         P extends 'gbif_taxa' ? Array < Gbif_taxaGetPayload<S['select'][P]>>  :
+        P extends 'goal_report_values' ? Array < Goal_report_valuesGetPayload<S['select'][P]>>  :
         P extends 'goal_reports' ? Array < Goal_reportsGetPayload<S['select'][P]>>  :
         P extends 'goals' ? Array < GoalsGetPayload<S['select'][P]>>  :
         P extends 'list_values' ? Array < List_valuesGetPayload<S['select'][P]>>  :
@@ -3391,6 +3554,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences<T extends Accounts$gbif_occurrencesArgs= {}>(args?: Subset<T, Accounts$gbif_occurrencesArgs>): PrismaPromise<Array<Gbif_occurrencesGetPayload<T>>| Null>;
 
     gbif_taxa<T extends Accounts$gbif_taxaArgs= {}>(args?: Subset<T, Accounts$gbif_taxaArgs>): PrismaPromise<Array<Gbif_taxaGetPayload<T>>| Null>;
+
+    goal_report_values<T extends Accounts$goal_report_valuesArgs= {}>(args?: Subset<T, Accounts$goal_report_valuesArgs>): PrismaPromise<Array<Goal_report_valuesGetPayload<T>>| Null>;
 
     goal_reports<T extends Accounts$goal_reportsArgs= {}>(args?: Subset<T, Accounts$goal_reportsArgs>): PrismaPromise<Array<Goal_reportsGetPayload<T>>| Null>;
 
@@ -3913,6 +4078,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<Gbif_taxaScalarFieldEnum>
+  }
+
+
+  /**
+   * Accounts.goal_report_values
+   */
+  export type Accounts$goal_report_valuesArgs = {
+    /**
+     * Select specific fields to fetch from the Goal_report_values
+     * 
+    **/
+    select?: Goal_report_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Goal_report_valuesInclude | null
+    where?: Goal_report_valuesWhereInput
+    orderBy?: Enumerable<Goal_report_valuesOrderByWithRelationInput>
+    cursor?: Goal_report_valuesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Goal_report_valuesScalarFieldEnum>
   }
 
 
@@ -8615,6 +8803,1130 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Model Goal_report_values
+   */
+
+
+  export type AggregateGoal_report_values = {
+    _count: Goal_report_valuesCountAggregateOutputType | null
+    _avg: Goal_report_valuesAvgAggregateOutputType | null
+    _sum: Goal_report_valuesSumAggregateOutputType | null
+    _min: Goal_report_valuesMinAggregateOutputType | null
+    _max: Goal_report_valuesMaxAggregateOutputType | null
+  }
+
+  export type Goal_report_valuesAvgAggregateOutputType = {
+    value_integer: number | null
+    value_numeric: number | null
+  }
+
+  export type Goal_report_valuesSumAggregateOutputType = {
+    value_integer: number | null
+    value_numeric: number | null
+  }
+
+  export type Goal_report_valuesMinAggregateOutputType = {
+    goal_report_value_id: string | null
+    account_id: string | null
+    goal_report_id: string | null
+    unit_id: string | null
+    value_integer: number | null
+    value_numeric: number | null
+    value_text: string | null
+    label: string | null
+    deleted: boolean | null
+  }
+
+  export type Goal_report_valuesMaxAggregateOutputType = {
+    goal_report_value_id: string | null
+    account_id: string | null
+    goal_report_id: string | null
+    unit_id: string | null
+    value_integer: number | null
+    value_numeric: number | null
+    value_text: string | null
+    label: string | null
+    deleted: boolean | null
+  }
+
+  export type Goal_report_valuesCountAggregateOutputType = {
+    goal_report_value_id: number
+    account_id: number
+    goal_report_id: number
+    unit_id: number
+    value_integer: number
+    value_numeric: number
+    value_text: number
+    label: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type Goal_report_valuesAvgAggregateInputType = {
+    value_integer?: true
+    value_numeric?: true
+  }
+
+  export type Goal_report_valuesSumAggregateInputType = {
+    value_integer?: true
+    value_numeric?: true
+  }
+
+  export type Goal_report_valuesMinAggregateInputType = {
+    goal_report_value_id?: true
+    account_id?: true
+    goal_report_id?: true
+    unit_id?: true
+    value_integer?: true
+    value_numeric?: true
+    value_text?: true
+    label?: true
+    deleted?: true
+  }
+
+  export type Goal_report_valuesMaxAggregateInputType = {
+    goal_report_value_id?: true
+    account_id?: true
+    goal_report_id?: true
+    unit_id?: true
+    value_integer?: true
+    value_numeric?: true
+    value_text?: true
+    label?: true
+    deleted?: true
+  }
+
+  export type Goal_report_valuesCountAggregateInputType = {
+    goal_report_value_id?: true
+    account_id?: true
+    goal_report_id?: true
+    unit_id?: true
+    value_integer?: true
+    value_numeric?: true
+    value_text?: true
+    label?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type Goal_report_valuesAggregateArgs = {
+    /**
+     * Filter which Goal_report_values to aggregate.
+     * 
+    **/
+    where?: Goal_report_valuesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Goal_report_values to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Goal_report_valuesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: Goal_report_valuesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Goal_report_values from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Goal_report_values.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Goal_report_values
+    **/
+    _count?: true | Goal_report_valuesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Goal_report_valuesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Goal_report_valuesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Goal_report_valuesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Goal_report_valuesMaxAggregateInputType
+  }
+
+  export type GetGoal_report_valuesAggregateType<T extends Goal_report_valuesAggregateArgs> = {
+        [P in keyof T & keyof AggregateGoal_report_values]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGoal_report_values[P]>
+      : GetScalarType<T[P], AggregateGoal_report_values[P]>
+  }
+
+
+
+
+  export type Goal_report_valuesGroupByArgs = {
+    where?: Goal_report_valuesWhereInput
+    orderBy?: Enumerable<Goal_report_valuesOrderByWithAggregationInput>
+    by: Array<Goal_report_valuesScalarFieldEnum>
+    having?: Goal_report_valuesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Goal_report_valuesCountAggregateInputType | true
+    _avg?: Goal_report_valuesAvgAggregateInputType
+    _sum?: Goal_report_valuesSumAggregateInputType
+    _min?: Goal_report_valuesMinAggregateInputType
+    _max?: Goal_report_valuesMaxAggregateInputType
+  }
+
+
+  export type Goal_report_valuesGroupByOutputType = {
+    goal_report_value_id: string
+    account_id: string | null
+    goal_report_id: string | null
+    unit_id: string | null
+    value_integer: number | null
+    value_numeric: number | null
+    value_text: string | null
+    label: string | null
+    deleted: boolean | null
+    _count: Goal_report_valuesCountAggregateOutputType | null
+    _avg: Goal_report_valuesAvgAggregateOutputType | null
+    _sum: Goal_report_valuesSumAggregateOutputType | null
+    _min: Goal_report_valuesMinAggregateOutputType | null
+    _max: Goal_report_valuesMaxAggregateOutputType | null
+  }
+
+  type GetGoal_report_valuesGroupByPayload<T extends Goal_report_valuesGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Goal_report_valuesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Goal_report_valuesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Goal_report_valuesGroupByOutputType[P]>
+            : GetScalarType<T[P], Goal_report_valuesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Goal_report_valuesSelect = {
+    goal_report_value_id?: boolean
+    account_id?: boolean
+    goal_report_id?: boolean
+    unit_id?: boolean
+    value_integer?: boolean
+    value_numeric?: boolean
+    value_text?: boolean
+    label?: boolean
+    deleted?: boolean
+    accounts?: boolean | Goal_report_values$accountsArgs
+    goal_reports?: boolean | Goal_report_values$goal_reportsArgs
+    units?: boolean | Goal_report_values$unitsArgs
+  }
+
+
+  export type Goal_report_valuesInclude = {
+    accounts?: boolean | Goal_report_values$accountsArgs
+    goal_reports?: boolean | Goal_report_values$goal_reportsArgs
+    units?: boolean | Goal_report_values$unitsArgs
+  } 
+
+  export type Goal_report_valuesGetPayload<S extends boolean | null | undefined | Goal_report_valuesArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Goal_report_values :
+    S extends undefined ? never :
+    S extends { include: any } & (Goal_report_valuesArgs | Goal_report_valuesFindManyArgs)
+    ? Goal_report_values  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'goal_reports' ? Goal_reportsGetPayload<S['include'][P]> | null :
+        P extends 'units' ? UnitsGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (Goal_report_valuesArgs | Goal_report_valuesFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'goal_reports' ? Goal_reportsGetPayload<S['select'][P]> | null :
+        P extends 'units' ? UnitsGetPayload<S['select'][P]> | null :  P extends keyof Goal_report_values ? Goal_report_values[P] : never
+  } 
+      : Goal_report_values
+
+
+  type Goal_report_valuesCountArgs = Merge<
+    Omit<Goal_report_valuesFindManyArgs, 'select' | 'include'> & {
+      select?: Goal_report_valuesCountAggregateInputType | true
+    }
+  >
+
+  export interface Goal_report_valuesDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Goal_report_values that matches the filter.
+     * @param {Goal_report_valuesFindUniqueArgs} args - Arguments to find a Goal_report_values
+     * @example
+     * // Get one Goal_report_values
+     * const goal_report_values = await prisma.goal_report_values.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends Goal_report_valuesFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Goal_report_valuesFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Goal_report_values'> extends True ? Prisma__Goal_report_valuesClient<Goal_report_valuesGetPayload<T>> : Prisma__Goal_report_valuesClient<Goal_report_valuesGetPayload<T> | null, null>
+
+    /**
+     * Find one Goal_report_values that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {Goal_report_valuesFindUniqueOrThrowArgs} args - Arguments to find a Goal_report_values
+     * @example
+     * // Get one Goal_report_values
+     * const goal_report_values = await prisma.goal_report_values.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends Goal_report_valuesFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, Goal_report_valuesFindUniqueOrThrowArgs>
+    ): Prisma__Goal_report_valuesClient<Goal_report_valuesGetPayload<T>>
+
+    /**
+     * Find the first Goal_report_values that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Goal_report_valuesFindFirstArgs} args - Arguments to find a Goal_report_values
+     * @example
+     * // Get one Goal_report_values
+     * const goal_report_values = await prisma.goal_report_values.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends Goal_report_valuesFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Goal_report_valuesFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Goal_report_values'> extends True ? Prisma__Goal_report_valuesClient<Goal_report_valuesGetPayload<T>> : Prisma__Goal_report_valuesClient<Goal_report_valuesGetPayload<T> | null, null>
+
+    /**
+     * Find the first Goal_report_values that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Goal_report_valuesFindFirstOrThrowArgs} args - Arguments to find a Goal_report_values
+     * @example
+     * // Get one Goal_report_values
+     * const goal_report_values = await prisma.goal_report_values.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends Goal_report_valuesFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, Goal_report_valuesFindFirstOrThrowArgs>
+    ): Prisma__Goal_report_valuesClient<Goal_report_valuesGetPayload<T>>
+
+    /**
+     * Find zero or more Goal_report_values that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Goal_report_valuesFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Goal_report_values
+     * const goal_report_values = await prisma.goal_report_values.findMany()
+     * 
+     * // Get first 10 Goal_report_values
+     * const goal_report_values = await prisma.goal_report_values.findMany({ take: 10 })
+     * 
+     * // Only select the `goal_report_value_id`
+     * const goal_report_valuesWithGoal_report_value_idOnly = await prisma.goal_report_values.findMany({ select: { goal_report_value_id: true } })
+     * 
+    **/
+    findMany<T extends Goal_report_valuesFindManyArgs>(
+      args?: SelectSubset<T, Goal_report_valuesFindManyArgs>
+    ): PrismaPromise<Array<Goal_report_valuesGetPayload<T>>>
+
+    /**
+     * Create a Goal_report_values.
+     * @param {Goal_report_valuesCreateArgs} args - Arguments to create a Goal_report_values.
+     * @example
+     * // Create one Goal_report_values
+     * const Goal_report_values = await prisma.goal_report_values.create({
+     *   data: {
+     *     // ... data to create a Goal_report_values
+     *   }
+     * })
+     * 
+    **/
+    create<T extends Goal_report_valuesCreateArgs>(
+      args: SelectSubset<T, Goal_report_valuesCreateArgs>
+    ): Prisma__Goal_report_valuesClient<Goal_report_valuesGetPayload<T>>
+
+    /**
+     * Create many Goal_report_values.
+     *     @param {Goal_report_valuesCreateManyArgs} args - Arguments to create many Goal_report_values.
+     *     @example
+     *     // Create many Goal_report_values
+     *     const goal_report_values = await prisma.goal_report_values.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends Goal_report_valuesCreateManyArgs>(
+      args?: SelectSubset<T, Goal_report_valuesCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Goal_report_values.
+     * @param {Goal_report_valuesDeleteArgs} args - Arguments to delete one Goal_report_values.
+     * @example
+     * // Delete one Goal_report_values
+     * const Goal_report_values = await prisma.goal_report_values.delete({
+     *   where: {
+     *     // ... filter to delete one Goal_report_values
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends Goal_report_valuesDeleteArgs>(
+      args: SelectSubset<T, Goal_report_valuesDeleteArgs>
+    ): Prisma__Goal_report_valuesClient<Goal_report_valuesGetPayload<T>>
+
+    /**
+     * Update one Goal_report_values.
+     * @param {Goal_report_valuesUpdateArgs} args - Arguments to update one Goal_report_values.
+     * @example
+     * // Update one Goal_report_values
+     * const goal_report_values = await prisma.goal_report_values.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends Goal_report_valuesUpdateArgs>(
+      args: SelectSubset<T, Goal_report_valuesUpdateArgs>
+    ): Prisma__Goal_report_valuesClient<Goal_report_valuesGetPayload<T>>
+
+    /**
+     * Delete zero or more Goal_report_values.
+     * @param {Goal_report_valuesDeleteManyArgs} args - Arguments to filter Goal_report_values to delete.
+     * @example
+     * // Delete a few Goal_report_values
+     * const { count } = await prisma.goal_report_values.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends Goal_report_valuesDeleteManyArgs>(
+      args?: SelectSubset<T, Goal_report_valuesDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Goal_report_values.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Goal_report_valuesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Goal_report_values
+     * const goal_report_values = await prisma.goal_report_values.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends Goal_report_valuesUpdateManyArgs>(
+      args: SelectSubset<T, Goal_report_valuesUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Goal_report_values.
+     * @param {Goal_report_valuesUpsertArgs} args - Arguments to update or create a Goal_report_values.
+     * @example
+     * // Update or create a Goal_report_values
+     * const goal_report_values = await prisma.goal_report_values.upsert({
+     *   create: {
+     *     // ... data to create a Goal_report_values
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Goal_report_values we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends Goal_report_valuesUpsertArgs>(
+      args: SelectSubset<T, Goal_report_valuesUpsertArgs>
+    ): Prisma__Goal_report_valuesClient<Goal_report_valuesGetPayload<T>>
+
+    /**
+     * Count the number of Goal_report_values.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Goal_report_valuesCountArgs} args - Arguments to filter Goal_report_values to count.
+     * @example
+     * // Count the number of Goal_report_values
+     * const count = await prisma.goal_report_values.count({
+     *   where: {
+     *     // ... the filter for the Goal_report_values we want to count
+     *   }
+     * })
+    **/
+    count<T extends Goal_report_valuesCountArgs>(
+      args?: Subset<T, Goal_report_valuesCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Goal_report_valuesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Goal_report_values.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Goal_report_valuesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Goal_report_valuesAggregateArgs>(args: Subset<T, Goal_report_valuesAggregateArgs>): PrismaPromise<GetGoal_report_valuesAggregateType<T>>
+
+    /**
+     * Group by Goal_report_values.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Goal_report_valuesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Goal_report_valuesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Goal_report_valuesGroupByArgs['orderBy'] }
+        : { orderBy?: Goal_report_valuesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Goal_report_valuesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGoal_report_valuesGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Goal_report_values.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__Goal_report_valuesClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Goal_report_values$accountsArgs= {}>(args?: Subset<T, Goal_report_values$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    goal_reports<T extends Goal_report_values$goal_reportsArgs= {}>(args?: Subset<T, Goal_report_values$goal_reportsArgs>): Prisma__Goal_reportsClient<Goal_reportsGetPayload<T> | Null>;
+
+    units<T extends Goal_report_values$unitsArgs= {}>(args?: Subset<T, Goal_report_values$unitsArgs>): Prisma__UnitsClient<UnitsGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Goal_report_values base type for findUnique actions
+   */
+  export type Goal_report_valuesFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Goal_report_values
+     * 
+    **/
+    select?: Goal_report_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Goal_report_valuesInclude | null
+    /**
+     * Filter, which Goal_report_values to fetch.
+     * 
+    **/
+    where: Goal_report_valuesWhereUniqueInput
+  }
+
+  /**
+   * Goal_report_values findUnique
+   */
+  export interface Goal_report_valuesFindUniqueArgs extends Goal_report_valuesFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Goal_report_values findUniqueOrThrow
+   */
+  export type Goal_report_valuesFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Goal_report_values
+     * 
+    **/
+    select?: Goal_report_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Goal_report_valuesInclude | null
+    /**
+     * Filter, which Goal_report_values to fetch.
+     * 
+    **/
+    where: Goal_report_valuesWhereUniqueInput
+  }
+
+
+  /**
+   * Goal_report_values base type for findFirst actions
+   */
+  export type Goal_report_valuesFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Goal_report_values
+     * 
+    **/
+    select?: Goal_report_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Goal_report_valuesInclude | null
+    /**
+     * Filter, which Goal_report_values to fetch.
+     * 
+    **/
+    where?: Goal_report_valuesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Goal_report_values to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Goal_report_valuesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Goal_report_values.
+     * 
+    **/
+    cursor?: Goal_report_valuesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Goal_report_values from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Goal_report_values.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Goal_report_values.
+     * 
+    **/
+    distinct?: Enumerable<Goal_report_valuesScalarFieldEnum>
+  }
+
+  /**
+   * Goal_report_values findFirst
+   */
+  export interface Goal_report_valuesFindFirstArgs extends Goal_report_valuesFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Goal_report_values findFirstOrThrow
+   */
+  export type Goal_report_valuesFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Goal_report_values
+     * 
+    **/
+    select?: Goal_report_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Goal_report_valuesInclude | null
+    /**
+     * Filter, which Goal_report_values to fetch.
+     * 
+    **/
+    where?: Goal_report_valuesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Goal_report_values to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Goal_report_valuesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Goal_report_values.
+     * 
+    **/
+    cursor?: Goal_report_valuesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Goal_report_values from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Goal_report_values.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Goal_report_values.
+     * 
+    **/
+    distinct?: Enumerable<Goal_report_valuesScalarFieldEnum>
+  }
+
+
+  /**
+   * Goal_report_values findMany
+   */
+  export type Goal_report_valuesFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Goal_report_values
+     * 
+    **/
+    select?: Goal_report_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Goal_report_valuesInclude | null
+    /**
+     * Filter, which Goal_report_values to fetch.
+     * 
+    **/
+    where?: Goal_report_valuesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Goal_report_values to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Goal_report_valuesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Goal_report_values.
+     * 
+    **/
+    cursor?: Goal_report_valuesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Goal_report_values from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Goal_report_values.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Goal_report_valuesScalarFieldEnum>
+  }
+
+
+  /**
+   * Goal_report_values create
+   */
+  export type Goal_report_valuesCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Goal_report_values
+     * 
+    **/
+    select?: Goal_report_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Goal_report_valuesInclude | null
+    /**
+     * The data needed to create a Goal_report_values.
+     * 
+    **/
+    data: XOR<Goal_report_valuesCreateInput, Goal_report_valuesUncheckedCreateInput>
+  }
+
+
+  /**
+   * Goal_report_values createMany
+   */
+  export type Goal_report_valuesCreateManyArgs = {
+    /**
+     * The data used to create many Goal_report_values.
+     * 
+    **/
+    data: Enumerable<Goal_report_valuesCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Goal_report_values update
+   */
+  export type Goal_report_valuesUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Goal_report_values
+     * 
+    **/
+    select?: Goal_report_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Goal_report_valuesInclude | null
+    /**
+     * The data needed to update a Goal_report_values.
+     * 
+    **/
+    data: XOR<Goal_report_valuesUpdateInput, Goal_report_valuesUncheckedUpdateInput>
+    /**
+     * Choose, which Goal_report_values to update.
+     * 
+    **/
+    where: Goal_report_valuesWhereUniqueInput
+  }
+
+
+  /**
+   * Goal_report_values updateMany
+   */
+  export type Goal_report_valuesUpdateManyArgs = {
+    /**
+     * The data used to update Goal_report_values.
+     * 
+    **/
+    data: XOR<Goal_report_valuesUpdateManyMutationInput, Goal_report_valuesUncheckedUpdateManyInput>
+    /**
+     * Filter which Goal_report_values to update
+     * 
+    **/
+    where?: Goal_report_valuesWhereInput
+  }
+
+
+  /**
+   * Goal_report_values upsert
+   */
+  export type Goal_report_valuesUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Goal_report_values
+     * 
+    **/
+    select?: Goal_report_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Goal_report_valuesInclude | null
+    /**
+     * The filter to search for the Goal_report_values to update in case it exists.
+     * 
+    **/
+    where: Goal_report_valuesWhereUniqueInput
+    /**
+     * In case the Goal_report_values found by the `where` argument doesn't exist, create a new Goal_report_values with this data.
+     * 
+    **/
+    create: XOR<Goal_report_valuesCreateInput, Goal_report_valuesUncheckedCreateInput>
+    /**
+     * In case the Goal_report_values was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<Goal_report_valuesUpdateInput, Goal_report_valuesUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Goal_report_values delete
+   */
+  export type Goal_report_valuesDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Goal_report_values
+     * 
+    **/
+    select?: Goal_report_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Goal_report_valuesInclude | null
+    /**
+     * Filter which Goal_report_values to delete.
+     * 
+    **/
+    where: Goal_report_valuesWhereUniqueInput
+  }
+
+
+  /**
+   * Goal_report_values deleteMany
+   */
+  export type Goal_report_valuesDeleteManyArgs = {
+    /**
+     * Filter which Goal_report_values to delete
+     * 
+    **/
+    where?: Goal_report_valuesWhereInput
+  }
+
+
+  /**
+   * Goal_report_values.accounts
+   */
+  export type Goal_report_values$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Goal_report_values.goal_reports
+   */
+  export type Goal_report_values$goal_reportsArgs = {
+    /**
+     * Select specific fields to fetch from the Goal_reports
+     * 
+    **/
+    select?: Goal_reportsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Goal_reportsInclude | null
+    where?: Goal_reportsWhereInput
+  }
+
+
+  /**
+   * Goal_report_values.units
+   */
+  export type Goal_report_values$unitsArgs = {
+    /**
+     * Select specific fields to fetch from the Units
+     * 
+    **/
+    select?: UnitsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UnitsInclude | null
+    where?: UnitsWhereInput
+  }
+
+
+  /**
+   * Goal_report_values without action
+   */
+  export type Goal_report_valuesArgs = {
+    /**
+     * Select specific fields to fetch from the Goal_report_values
+     * 
+    **/
+    select?: Goal_report_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Goal_report_valuesInclude | null
+  }
+
+
+
+  /**
    * Model Goal_reports
    */
 
@@ -8789,14 +10101,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: boolean
     label?: boolean
     deleted?: boolean
+    goal_report_values?: boolean | Goal_reports$goal_report_valuesArgs
     accounts?: boolean | Goal_reports$accountsArgs
     goals?: boolean | Goal_reports$goalsArgs
+    _count?: boolean | Goal_reportsCountOutputTypeArgs
   }
 
 
   export type Goal_reportsInclude = {
+    goal_report_values?: boolean | Goal_reports$goal_report_valuesArgs
     accounts?: boolean | Goal_reports$accountsArgs
     goals?: boolean | Goal_reports$goalsArgs
+    _count?: boolean | Goal_reportsCountOutputTypeArgs
   } 
 
   export type Goal_reportsGetPayload<S extends boolean | null | undefined | Goal_reportsArgs> =
@@ -8806,14 +10122,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (Goal_reportsArgs | Goal_reportsFindManyArgs)
     ? Goal_reports  & {
     [P in TruthyKeys<S['include']>]:
+        P extends 'goal_report_values' ? Array < Goal_report_valuesGetPayload<S['include'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
-        P extends 'goals' ? GoalsGetPayload<S['include'][P]> | null :  never
+        P extends 'goals' ? GoalsGetPayload<S['include'][P]> | null :
+        P extends '_count' ? Goal_reportsCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (Goal_reportsArgs | Goal_reportsFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
+        P extends 'goal_report_values' ? Array < Goal_report_valuesGetPayload<S['select'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
-        P extends 'goals' ? GoalsGetPayload<S['select'][P]> | null :  P extends keyof Goal_reports ? Goal_reports[P] : never
+        P extends 'goals' ? GoalsGetPayload<S['select'][P]> | null :
+        P extends '_count' ? Goal_reportsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Goal_reports ? Goal_reports[P] : never
   } 
       : Goal_reports
 
@@ -9186,6 +10506,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _requestPromise?;
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    goal_report_values<T extends Goal_reports$goal_report_valuesArgs= {}>(args?: Subset<T, Goal_reports$goal_report_valuesArgs>): PrismaPromise<Array<Goal_report_valuesGetPayload<T>>| Null>;
 
     accounts<T extends Goal_reports$accountsArgs= {}>(args?: Subset<T, Goal_reports$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
 
@@ -9591,6 +10913,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     where?: Goal_reportsWhereInput
+  }
+
+
+  /**
+   * Goal_reports.goal_report_values
+   */
+  export type Goal_reports$goal_report_valuesArgs = {
+    /**
+     * Select specific fields to fetch from the Goal_report_values
+     * 
+    **/
+    select?: Goal_report_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Goal_report_valuesInclude | null
+    where?: Goal_report_valuesWhereInput
+    orderBy?: Enumerable<Goal_report_valuesOrderByWithRelationInput>
+    cursor?: Goal_report_valuesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Goal_report_valuesScalarFieldEnum>
   }
 
 
@@ -26685,16 +28030,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: boolean
     label_replace_by_generated_column?: boolean
     deleted?: boolean
+    goal_report_values?: boolean | Units$goal_report_valuesArgs
     accounts?: boolean | Units$accountsArgs
     lists?: boolean | Units$listsArgs
     projects?: boolean | Units$projectsArgs
+    _count?: boolean | UnitsCountOutputTypeArgs
   }
 
 
   export type UnitsInclude = {
+    goal_report_values?: boolean | Units$goal_report_valuesArgs
     accounts?: boolean | Units$accountsArgs
     lists?: boolean | Units$listsArgs
     projects?: boolean | Units$projectsArgs
+    _count?: boolean | UnitsCountOutputTypeArgs
   } 
 
   export type UnitsGetPayload<S extends boolean | null | undefined | UnitsArgs> =
@@ -26704,16 +28053,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (UnitsArgs | UnitsFindManyArgs)
     ? Units  & {
     [P in TruthyKeys<S['include']>]:
+        P extends 'goal_report_values' ? Array < Goal_report_valuesGetPayload<S['include'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
         P extends 'lists' ? ListsGetPayload<S['include'][P]> | null :
-        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> | null :  never
+        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> | null :
+        P extends '_count' ? UnitsCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (UnitsArgs | UnitsFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
+        P extends 'goal_report_values' ? Array < Goal_report_valuesGetPayload<S['select'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
         P extends 'lists' ? ListsGetPayload<S['select'][P]> | null :
-        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> | null :  P extends keyof Units ? Units[P] : never
+        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> | null :
+        P extends '_count' ? UnitsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Units ? Units[P] : never
   } 
       : Units
 
@@ -27086,6 +28439,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _requestPromise?;
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    goal_report_values<T extends Units$goal_report_valuesArgs= {}>(args?: Subset<T, Units$goal_report_valuesArgs>): PrismaPromise<Array<Goal_report_valuesGetPayload<T>>| Null>;
 
     accounts<T extends Units$accountsArgs= {}>(args?: Subset<T, Units$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
 
@@ -27493,6 +28848,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     where?: UnitsWhereInput
+  }
+
+
+  /**
+   * Units.goal_report_values
+   */
+  export type Units$goal_report_valuesArgs = {
+    /**
+     * Select specific fields to fetch from the Goal_report_values
+     * 
+    **/
+    select?: Goal_report_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Goal_report_valuesInclude | null
+    where?: Goal_report_valuesWhereInput
+    orderBy?: Enumerable<Goal_report_valuesOrderByWithRelationInput>
+    cursor?: Goal_report_valuesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Goal_report_valuesScalarFieldEnum>
   }
 
 
@@ -31935,6 +33313,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Gbif_taxaScalarFieldEnum = (typeof Gbif_taxaScalarFieldEnum)[keyof typeof Gbif_taxaScalarFieldEnum]
 
 
+  export const Goal_report_valuesScalarFieldEnum: {
+    goal_report_value_id: 'goal_report_value_id',
+    account_id: 'account_id',
+    goal_report_id: 'goal_report_id',
+    unit_id: 'unit_id',
+    value_integer: 'value_integer',
+    value_numeric: 'value_numeric',
+    value_text: 'value_text',
+    label: 'label',
+    deleted: 'deleted'
+  };
+
+  export type Goal_report_valuesScalarFieldEnum = (typeof Goal_report_valuesScalarFieldEnum)[keyof typeof Goal_report_valuesScalarFieldEnum]
+
+
   export const Goal_reportsScalarFieldEnum: {
     goal_report_id: 'goal_report_id',
     account_id: 'account_id',
@@ -32371,6 +33764,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
    * Reference to a field of type 'project_type'
    */
   export type Enumproject_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'project_type'>
@@ -32410,20 +33817,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type ListEnumunit_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'unit_type[]'>
     
-
-
-  /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
   /**
    * Deep Input Types
    */
@@ -32444,6 +33837,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsListRelationFilter
     gbif_occurrences?: Gbif_occurrencesListRelationFilter
     gbif_taxa?: Gbif_taxaListRelationFilter
+    goal_report_values?: Goal_report_valuesListRelationFilter
     goal_reports?: Goal_reportsListRelationFilter
     goals?: GoalsListRelationFilter
     list_values?: List_valuesListRelationFilter
@@ -32475,6 +33869,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsOrderByRelationAggregateInput
     gbif_occurrences?: Gbif_occurrencesOrderByRelationAggregateInput
     gbif_taxa?: Gbif_taxaOrderByRelationAggregateInput
+    goal_report_values?: Goal_report_valuesOrderByRelationAggregateInput
     goal_reports?: Goal_reportsOrderByRelationAggregateInput
     goals?: GoalsOrderByRelationAggregateInput
     list_values?: List_valuesOrderByRelationAggregateInput
@@ -32509,6 +33904,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsListRelationFilter
     gbif_occurrences?: Gbif_occurrencesListRelationFilter
     gbif_taxa?: Gbif_taxaListRelationFilter
+    goal_report_values?: Goal_report_valuesListRelationFilter
     goal_reports?: Goal_reportsListRelationFilter
     goals?: GoalsListRelationFilter
     list_values?: List_valuesListRelationFilter
@@ -32843,6 +34239,89 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: StringNullableWithAggregatesFilter<"Gbif_taxa"> | string | null
   }
 
+  export type Goal_report_valuesWhereInput = {
+    AND?: Enumerable<Goal_report_valuesWhereInput>
+    OR?: Enumerable<Goal_report_valuesWhereInput>
+    NOT?: Enumerable<Goal_report_valuesWhereInput>
+    goal_report_value_id?: UuidFilter<"Goal_report_values"> | string
+    account_id?: UuidNullableFilter<"Goal_report_values"> | string | null
+    goal_report_id?: UuidNullableFilter<"Goal_report_values"> | string | null
+    unit_id?: UuidNullableFilter<"Goal_report_values"> | string | null
+    value_integer?: IntNullableFilter<"Goal_report_values"> | number | null
+    value_numeric?: FloatNullableFilter<"Goal_report_values"> | number | null
+    value_text?: StringNullableFilter<"Goal_report_values"> | string | null
+    label?: StringNullableFilter<"Goal_report_values"> | string | null
+    deleted?: BoolNullableFilter<"Goal_report_values"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    goal_reports?: XOR<Goal_reportsNullableRelationFilter, Goal_reportsWhereInput> | null
+    units?: XOR<UnitsNullableRelationFilter, UnitsWhereInput> | null
+  }
+
+  export type Goal_report_valuesOrderByWithRelationInput = {
+    goal_report_value_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    goal_report_id?: SortOrderInput | SortOrder
+    unit_id?: SortOrderInput | SortOrder
+    value_integer?: SortOrderInput | SortOrder
+    value_numeric?: SortOrderInput | SortOrder
+    value_text?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    goal_reports?: Goal_reportsOrderByWithRelationInput
+    units?: UnitsOrderByWithRelationInput
+  }
+
+  export type Goal_report_valuesWhereUniqueInput = Prisma.AtLeast<{
+    goal_report_value_id?: string
+    AND?: Enumerable<Goal_report_valuesWhereInput>
+    OR?: Enumerable<Goal_report_valuesWhereInput>
+    NOT?: Enumerable<Goal_report_valuesWhereInput>
+    account_id?: UuidNullableFilter<"Goal_report_values"> | string | null
+    goal_report_id?: UuidNullableFilter<"Goal_report_values"> | string | null
+    unit_id?: UuidNullableFilter<"Goal_report_values"> | string | null
+    value_integer?: IntNullableFilter<"Goal_report_values"> | number | null
+    value_numeric?: FloatNullableFilter<"Goal_report_values"> | number | null
+    value_text?: StringNullableFilter<"Goal_report_values"> | string | null
+    label?: StringNullableFilter<"Goal_report_values"> | string | null
+    deleted?: BoolNullableFilter<"Goal_report_values"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    goal_reports?: XOR<Goal_reportsNullableRelationFilter, Goal_reportsWhereInput> | null
+    units?: XOR<UnitsNullableRelationFilter, UnitsWhereInput> | null
+  }, "goal_report_value_id">
+
+  export type Goal_report_valuesOrderByWithAggregationInput = {
+    goal_report_value_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    goal_report_id?: SortOrderInput | SortOrder
+    unit_id?: SortOrderInput | SortOrder
+    value_integer?: SortOrderInput | SortOrder
+    value_numeric?: SortOrderInput | SortOrder
+    value_text?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    _count?: Goal_report_valuesCountOrderByAggregateInput
+    _avg?: Goal_report_valuesAvgOrderByAggregateInput
+    _max?: Goal_report_valuesMaxOrderByAggregateInput
+    _min?: Goal_report_valuesMinOrderByAggregateInput
+    _sum?: Goal_report_valuesSumOrderByAggregateInput
+  }
+
+  export type Goal_report_valuesScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<Goal_report_valuesScalarWhereWithAggregatesInput>
+    OR?: Enumerable<Goal_report_valuesScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<Goal_report_valuesScalarWhereWithAggregatesInput>
+    goal_report_value_id?: UuidWithAggregatesFilter<"Goal_report_values"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"Goal_report_values"> | string | null
+    goal_report_id?: UuidNullableWithAggregatesFilter<"Goal_report_values"> | string | null
+    unit_id?: UuidNullableWithAggregatesFilter<"Goal_report_values"> | string | null
+    value_integer?: IntNullableWithAggregatesFilter<"Goal_report_values"> | number | null
+    value_numeric?: FloatNullableWithAggregatesFilter<"Goal_report_values"> | number | null
+    value_text?: StringNullableWithAggregatesFilter<"Goal_report_values"> | string | null
+    label?: StringNullableWithAggregatesFilter<"Goal_report_values"> | string | null
+    deleted?: BoolNullableWithAggregatesFilter<"Goal_report_values"> | boolean | null
+  }
+
   export type Goal_reportsWhereInput = {
     AND?: Enumerable<Goal_reportsWhereInput>
     OR?: Enumerable<Goal_reportsWhereInput>
@@ -32853,6 +34332,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: JsonNullableFilter<"Goal_reports">
     label?: StringNullableFilter<"Goal_reports"> | string | null
     deleted?: BoolNullableFilter<"Goal_reports"> | boolean | null
+    goal_report_values?: Goal_report_valuesListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     goals?: XOR<GoalsNullableRelationFilter, GoalsWhereInput> | null
   }
@@ -32864,6 +34344,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: SortOrderInput | SortOrder
     label?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    goal_report_values?: Goal_report_valuesOrderByRelationAggregateInput
     accounts?: AccountsOrderByWithRelationInput
     goals?: GoalsOrderByWithRelationInput
   }
@@ -32878,6 +34359,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: JsonNullableFilter<"Goal_reports">
     label?: StringNullableFilter<"Goal_reports"> | string | null
     deleted?: BoolNullableFilter<"Goal_reports"> | boolean | null
+    goal_report_values?: Goal_report_valuesListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     goals?: XOR<GoalsNullableRelationFilter, GoalsWhereInput> | null
   }, "goal_report_id">
@@ -34229,6 +35711,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: UuidNullableFilter<"Units"> | string | null
     label_replace_by_generated_column?: StringNullableFilter<"Units"> | string | null
     deleted?: BoolNullableFilter<"Units"> | boolean | null
+    goal_report_values?: Goal_report_valuesListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     lists?: XOR<ListsNullableRelationFilter, ListsWhereInput> | null
     projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
@@ -34252,6 +35735,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: SortOrderInput | SortOrder
     label_replace_by_generated_column?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    goal_report_values?: Goal_report_valuesOrderByRelationAggregateInput
     accounts?: AccountsOrderByWithRelationInput
     lists?: ListsOrderByWithRelationInput
     projects?: ProjectsOrderByWithRelationInput
@@ -34278,6 +35762,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: UuidNullableFilter<"Units"> | string | null
     label_replace_by_generated_column?: StringNullableFilter<"Units"> | string | null
     deleted?: BoolNullableFilter<"Units"> | boolean | null
+    goal_report_values?: Goal_report_valuesListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     lists?: XOR<ListsNullableRelationFilter, ListsWhereInput> | null
     projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
@@ -34600,6 +36085,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -34630,6 +36116,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -34660,6 +36147,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -34690,6 +36178,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -35028,11 +36517,93 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type Goal_report_valuesCreateInput = {
+    goal_report_value_id: string
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutGoal_report_valuesInput
+    goal_reports?: Goal_reportsCreateNestedOneWithoutGoal_report_valuesInput
+    units?: UnitsCreateNestedOneWithoutGoal_report_valuesInput
+  }
+
+  export type Goal_report_valuesUncheckedCreateInput = {
+    goal_report_value_id: string
+    account_id?: string | null
+    goal_report_id?: string | null
+    unit_id?: string | null
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Goal_report_valuesUpdateInput = {
+    goal_report_value_id?: StringFieldUpdateOperationsInput | string
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutGoal_report_valuesNestedInput
+    goal_reports?: Goal_reportsUpdateOneWithoutGoal_report_valuesNestedInput
+    units?: UnitsUpdateOneWithoutGoal_report_valuesNestedInput
+  }
+
+  export type Goal_report_valuesUncheckedUpdateInput = {
+    goal_report_value_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_report_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_id?: NullableStringFieldUpdateOperationsInput | string | null
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Goal_report_valuesCreateManyInput = {
+    goal_report_value_id: string
+    account_id?: string | null
+    goal_report_id?: string | null
+    unit_id?: string | null
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Goal_report_valuesUpdateManyMutationInput = {
+    goal_report_value_id?: StringFieldUpdateOperationsInput | string
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Goal_report_valuesUncheckedUpdateManyInput = {
+    goal_report_value_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_report_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_id?: NullableStringFieldUpdateOperationsInput | string | null
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type Goal_reportsCreateInput = {
     goal_report_id: string
     data?: NullableJsonNullValueInput | InputJsonValue
     label?: string | null
     deleted?: boolean | null
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutGoal_reportsInput
     accounts?: AccountsCreateNestedOneWithoutGoal_reportsInput
     goals?: GoalsCreateNestedOneWithoutGoal_reportsInput
   }
@@ -35044,6 +36615,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label?: string | null
     deleted?: boolean | null
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutGoal_reportsInput
   }
 
   export type Goal_reportsUpdateInput = {
@@ -35051,6 +36623,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutGoal_reportsNestedInput
     accounts?: AccountsUpdateOneWithoutGoal_reportsNestedInput
     goals?: GoalsUpdateOneWithoutGoal_reportsNestedInput
   }
@@ -35062,6 +36635,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutGoal_reportsNestedInput
   }
 
   export type Goal_reportsCreateManyInput = {
@@ -36506,6 +38080,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: unit_type | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutUnitsInput
     accounts?: AccountsCreateNestedOneWithoutUnitsInput
     lists?: ListsCreateNestedOneWithoutUnitsInput
     projects?: ProjectsCreateNestedOneWithoutUnitsInput
@@ -36529,6 +38104,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
   }
 
   export type UnitsUpdateInput = {
@@ -36546,6 +38122,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutUnitsNestedInput
     accounts?: AccountsUpdateOneWithoutUnitsNestedInput
     lists?: ListsUpdateOneWithoutUnitsNestedInput
     projects?: ProjectsUpdateOneWithoutUnitsNestedInput
@@ -36569,6 +38146,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
   }
 
   export type UnitsCreateManyInput = {
@@ -36965,6 +38543,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     none?: Gbif_taxaWhereInput
   }
 
+  export type Goal_report_valuesListRelationFilter = {
+    every?: Goal_report_valuesWhereInput
+    some?: Goal_report_valuesWhereInput
+    none?: Goal_report_valuesWhereInput
+  }
+
   export type Goal_reportsListRelationFilter = {
     every?: Goal_reportsWhereInput
     some?: Goal_reportsWhereInput
@@ -37081,6 +38665,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Gbif_taxaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type Goal_report_valuesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -37507,6 +39095,89 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     account_id?: SortOrder
     project_id?: SortOrder
     label?: SortOrder
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type Goal_reportsNullableRelationFilter = {
+    is?: Goal_reportsWhereInput | null
+    isNot?: Goal_reportsWhereInput | null
+  }
+
+  export type UnitsNullableRelationFilter = {
+    is?: UnitsWhereInput | null
+    isNot?: UnitsWhereInput | null
+  }
+
+  export type Goal_report_valuesCountOrderByAggregateInput = {
+    goal_report_value_id?: SortOrder
+    account_id?: SortOrder
+    goal_report_id?: SortOrder
+    unit_id?: SortOrder
+    value_integer?: SortOrder
+    value_numeric?: SortOrder
+    value_text?: SortOrder
+    label?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Goal_report_valuesAvgOrderByAggregateInput = {
+    value_integer?: SortOrder
+    value_numeric?: SortOrder
+  }
+
+  export type Goal_report_valuesMaxOrderByAggregateInput = {
+    goal_report_value_id?: SortOrder
+    account_id?: SortOrder
+    goal_report_id?: SortOrder
+    unit_id?: SortOrder
+    value_integer?: SortOrder
+    value_numeric?: SortOrder
+    value_text?: SortOrder
+    label?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Goal_report_valuesMinOrderByAggregateInput = {
+    goal_report_value_id?: SortOrder
+    account_id?: SortOrder
+    goal_report_id?: SortOrder
+    unit_id?: SortOrder
+    value_integer?: SortOrder
+    value_numeric?: SortOrder
+    value_text?: SortOrder
+    label?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Goal_report_valuesSumOrderByAggregateInput = {
+    value_integer?: SortOrder
+    value_numeric?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type GoalsNullableRelationFilter = {
@@ -38428,6 +40099,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<Gbif_taxaWhereUniqueInput>
   }
 
+  export type Goal_report_valuesCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Goal_report_valuesCreateWithoutAccountsInput>, Enumerable<Goal_report_valuesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Goal_report_valuesCreateOrConnectWithoutAccountsInput>
+    createMany?: Goal_report_valuesCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+  }
+
   export type Goal_reportsCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<Goal_reportsCreateWithoutAccountsInput>, Enumerable<Goal_reportsUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<Goal_reportsCreateOrConnectWithoutAccountsInput>
@@ -38566,6 +40244,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<Gbif_taxaCreateOrConnectWithoutAccountsInput>
     createMany?: Gbif_taxaCreateManyAccountsInputEnvelope
     connect?: Enumerable<Gbif_taxaWhereUniqueInput>
+  }
+
+  export type Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Goal_report_valuesCreateWithoutAccountsInput>, Enumerable<Goal_report_valuesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Goal_report_valuesCreateOrConnectWithoutAccountsInput>
+    createMany?: Goal_report_valuesCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Goal_report_valuesWhereUniqueInput>
   }
 
   export type Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput = {
@@ -38749,6 +40434,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<Gbif_taxaUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<Gbif_taxaUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<Gbif_taxaScalarWhereInput>
+  }
+
+  export type Goal_report_valuesUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Goal_report_valuesCreateWithoutAccountsInput>, Enumerable<Goal_report_valuesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Goal_report_valuesCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Goal_report_valuesUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Goal_report_valuesCreateManyAccountsInputEnvelope
+    set?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    disconnect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    delete?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    connect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    update?: Enumerable<Goal_report_valuesUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Goal_report_valuesUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Goal_report_valuesScalarWhereInput>
   }
 
   export type Goal_reportsUpdateManyWithoutAccountsNestedInput = {
@@ -39029,6 +40728,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<Gbif_taxaUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<Gbif_taxaUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<Gbif_taxaScalarWhereInput>
+  }
+
+  export type Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Goal_report_valuesCreateWithoutAccountsInput>, Enumerable<Goal_report_valuesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Goal_report_valuesCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Goal_report_valuesUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Goal_report_valuesCreateManyAccountsInputEnvelope
+    set?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    disconnect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    delete?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    connect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    update?: Enumerable<Goal_report_valuesUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Goal_report_valuesUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Goal_report_valuesScalarWhereInput>
   }
 
   export type Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput = {
@@ -39455,6 +41168,69 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutGbif_taxaInput, ProjectsUpdateWithoutGbif_taxaInput>, ProjectsUncheckedUpdateWithoutGbif_taxaInput>
   }
 
+  export type AccountsCreateNestedOneWithoutGoal_report_valuesInput = {
+    create?: XOR<AccountsCreateWithoutGoal_report_valuesInput, AccountsUncheckedCreateWithoutGoal_report_valuesInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutGoal_report_valuesInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type Goal_reportsCreateNestedOneWithoutGoal_report_valuesInput = {
+    create?: XOR<Goal_reportsCreateWithoutGoal_report_valuesInput, Goal_reportsUncheckedCreateWithoutGoal_report_valuesInput>
+    connectOrCreate?: Goal_reportsCreateOrConnectWithoutGoal_report_valuesInput
+    connect?: Goal_reportsWhereUniqueInput
+  }
+
+  export type UnitsCreateNestedOneWithoutGoal_report_valuesInput = {
+    create?: XOR<UnitsCreateWithoutGoal_report_valuesInput, UnitsUncheckedCreateWithoutGoal_report_valuesInput>
+    connectOrCreate?: UnitsCreateOrConnectWithoutGoal_report_valuesInput
+    connect?: UnitsWhereUniqueInput
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type AccountsUpdateOneWithoutGoal_report_valuesNestedInput = {
+    create?: XOR<AccountsCreateWithoutGoal_report_valuesInput, AccountsUncheckedCreateWithoutGoal_report_valuesInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutGoal_report_valuesInput
+    upsert?: AccountsUpsertWithoutGoal_report_valuesInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutGoal_report_valuesInput, AccountsUpdateWithoutGoal_report_valuesInput>, AccountsUncheckedUpdateWithoutGoal_report_valuesInput>
+  }
+
+  export type Goal_reportsUpdateOneWithoutGoal_report_valuesNestedInput = {
+    create?: XOR<Goal_reportsCreateWithoutGoal_report_valuesInput, Goal_reportsUncheckedCreateWithoutGoal_report_valuesInput>
+    connectOrCreate?: Goal_reportsCreateOrConnectWithoutGoal_report_valuesInput
+    upsert?: Goal_reportsUpsertWithoutGoal_report_valuesInput
+    disconnect?: Goal_reportsWhereInput | boolean
+    delete?: Goal_reportsWhereInput | boolean
+    connect?: Goal_reportsWhereUniqueInput
+    update?: XOR<XOR<Goal_reportsUpdateToOneWithWhereWithoutGoal_report_valuesInput, Goal_reportsUpdateWithoutGoal_report_valuesInput>, Goal_reportsUncheckedUpdateWithoutGoal_report_valuesInput>
+  }
+
+  export type UnitsUpdateOneWithoutGoal_report_valuesNestedInput = {
+    create?: XOR<UnitsCreateWithoutGoal_report_valuesInput, UnitsUncheckedCreateWithoutGoal_report_valuesInput>
+    connectOrCreate?: UnitsCreateOrConnectWithoutGoal_report_valuesInput
+    upsert?: UnitsUpsertWithoutGoal_report_valuesInput
+    disconnect?: UnitsWhereInput | boolean
+    delete?: UnitsWhereInput | boolean
+    connect?: UnitsWhereUniqueInput
+    update?: XOR<XOR<UnitsUpdateToOneWithWhereWithoutGoal_report_valuesInput, UnitsUpdateWithoutGoal_report_valuesInput>, UnitsUncheckedUpdateWithoutGoal_report_valuesInput>
+  }
+
+  export type Goal_report_valuesCreateNestedManyWithoutGoal_reportsInput = {
+    create?: XOR<Enumerable<Goal_report_valuesCreateWithoutGoal_reportsInput>, Enumerable<Goal_report_valuesUncheckedCreateWithoutGoal_reportsInput>>
+    connectOrCreate?: Enumerable<Goal_report_valuesCreateOrConnectWithoutGoal_reportsInput>
+    createMany?: Goal_report_valuesCreateManyGoal_reportsInputEnvelope
+    connect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+  }
+
   export type AccountsCreateNestedOneWithoutGoal_reportsInput = {
     create?: XOR<AccountsCreateWithoutGoal_reportsInput, AccountsUncheckedCreateWithoutGoal_reportsInput>
     connectOrCreate?: AccountsCreateOrConnectWithoutGoal_reportsInput
@@ -39465,6 +41241,27 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     create?: XOR<GoalsCreateWithoutGoal_reportsInput, GoalsUncheckedCreateWithoutGoal_reportsInput>
     connectOrCreate?: GoalsCreateOrConnectWithoutGoal_reportsInput
     connect?: GoalsWhereUniqueInput
+  }
+
+  export type Goal_report_valuesUncheckedCreateNestedManyWithoutGoal_reportsInput = {
+    create?: XOR<Enumerable<Goal_report_valuesCreateWithoutGoal_reportsInput>, Enumerable<Goal_report_valuesUncheckedCreateWithoutGoal_reportsInput>>
+    connectOrCreate?: Enumerable<Goal_report_valuesCreateOrConnectWithoutGoal_reportsInput>
+    createMany?: Goal_report_valuesCreateManyGoal_reportsInputEnvelope
+    connect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+  }
+
+  export type Goal_report_valuesUpdateManyWithoutGoal_reportsNestedInput = {
+    create?: XOR<Enumerable<Goal_report_valuesCreateWithoutGoal_reportsInput>, Enumerable<Goal_report_valuesUncheckedCreateWithoutGoal_reportsInput>>
+    connectOrCreate?: Enumerable<Goal_report_valuesCreateOrConnectWithoutGoal_reportsInput>
+    upsert?: Enumerable<Goal_report_valuesUpsertWithWhereUniqueWithoutGoal_reportsInput>
+    createMany?: Goal_report_valuesCreateManyGoal_reportsInputEnvelope
+    set?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    disconnect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    delete?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    connect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    update?: Enumerable<Goal_report_valuesUpdateWithWhereUniqueWithoutGoal_reportsInput>
+    updateMany?: Enumerable<Goal_report_valuesUpdateManyWithWhereWithoutGoal_reportsInput>
+    deleteMany?: Enumerable<Goal_report_valuesScalarWhereInput>
   }
 
   export type AccountsUpdateOneWithoutGoal_reportsNestedInput = {
@@ -39485,6 +41282,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     delete?: GoalsWhereInput | boolean
     connect?: GoalsWhereUniqueInput
     update?: XOR<XOR<GoalsUpdateToOneWithWhereWithoutGoal_reportsInput, GoalsUpdateWithoutGoal_reportsInput>, GoalsUncheckedUpdateWithoutGoal_reportsInput>
+  }
+
+  export type Goal_report_valuesUncheckedUpdateManyWithoutGoal_reportsNestedInput = {
+    create?: XOR<Enumerable<Goal_report_valuesCreateWithoutGoal_reportsInput>, Enumerable<Goal_report_valuesUncheckedCreateWithoutGoal_reportsInput>>
+    connectOrCreate?: Enumerable<Goal_report_valuesCreateOrConnectWithoutGoal_reportsInput>
+    upsert?: Enumerable<Goal_report_valuesUpsertWithWhereUniqueWithoutGoal_reportsInput>
+    createMany?: Goal_report_valuesCreateManyGoal_reportsInputEnvelope
+    set?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    disconnect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    delete?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    connect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    update?: Enumerable<Goal_report_valuesUpdateWithWhereUniqueWithoutGoal_reportsInput>
+    updateMany?: Enumerable<Goal_report_valuesUpdateManyWithWhereWithoutGoal_reportsInput>
+    deleteMany?: Enumerable<Goal_report_valuesScalarWhereInput>
   }
 
   export type Goal_reportsCreateNestedManyWithoutGoalsInput = {
@@ -40897,6 +42708,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutUi_optionsInput, UsersUpdateWithoutUi_optionsInput>, UsersUncheckedUpdateWithoutUi_optionsInput>
   }
 
+  export type Goal_report_valuesCreateNestedManyWithoutUnitsInput = {
+    create?: XOR<Enumerable<Goal_report_valuesCreateWithoutUnitsInput>, Enumerable<Goal_report_valuesUncheckedCreateWithoutUnitsInput>>
+    connectOrCreate?: Enumerable<Goal_report_valuesCreateOrConnectWithoutUnitsInput>
+    createMany?: Goal_report_valuesCreateManyUnitsInputEnvelope
+    connect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+  }
+
   export type AccountsCreateNestedOneWithoutUnitsInput = {
     create?: XOR<AccountsCreateWithoutUnitsInput, AccountsUncheckedCreateWithoutUnitsInput>
     connectOrCreate?: AccountsCreateOrConnectWithoutUnitsInput
@@ -40915,8 +42733,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: ProjectsWhereUniqueInput
   }
 
+  export type Goal_report_valuesUncheckedCreateNestedManyWithoutUnitsInput = {
+    create?: XOR<Enumerable<Goal_report_valuesCreateWithoutUnitsInput>, Enumerable<Goal_report_valuesUncheckedCreateWithoutUnitsInput>>
+    connectOrCreate?: Enumerable<Goal_report_valuesCreateOrConnectWithoutUnitsInput>
+    createMany?: Goal_report_valuesCreateManyUnitsInputEnvelope
+    connect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+  }
+
   export type NullableEnumunit_typeFieldUpdateOperationsInput = {
     set?: unit_type | null
+  }
+
+  export type Goal_report_valuesUpdateManyWithoutUnitsNestedInput = {
+    create?: XOR<Enumerable<Goal_report_valuesCreateWithoutUnitsInput>, Enumerable<Goal_report_valuesUncheckedCreateWithoutUnitsInput>>
+    connectOrCreate?: Enumerable<Goal_report_valuesCreateOrConnectWithoutUnitsInput>
+    upsert?: Enumerable<Goal_report_valuesUpsertWithWhereUniqueWithoutUnitsInput>
+    createMany?: Goal_report_valuesCreateManyUnitsInputEnvelope
+    set?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    disconnect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    delete?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    connect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    update?: Enumerable<Goal_report_valuesUpdateWithWhereUniqueWithoutUnitsInput>
+    updateMany?: Enumerable<Goal_report_valuesUpdateManyWithWhereWithoutUnitsInput>
+    deleteMany?: Enumerable<Goal_report_valuesScalarWhereInput>
   }
 
   export type AccountsUpdateOneWithoutUnitsNestedInput = {
@@ -40947,6 +42786,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     delete?: ProjectsWhereInput | boolean
     connect?: ProjectsWhereUniqueInput
     update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutUnitsInput, ProjectsUpdateWithoutUnitsInput>, ProjectsUncheckedUpdateWithoutUnitsInput>
+  }
+
+  export type Goal_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput = {
+    create?: XOR<Enumerable<Goal_report_valuesCreateWithoutUnitsInput>, Enumerable<Goal_report_valuesUncheckedCreateWithoutUnitsInput>>
+    connectOrCreate?: Enumerable<Goal_report_valuesCreateOrConnectWithoutUnitsInput>
+    upsert?: Enumerable<Goal_report_valuesUpsertWithWhereUniqueWithoutUnitsInput>
+    createMany?: Goal_report_valuesCreateManyUnitsInputEnvelope
+    set?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    disconnect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    delete?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    connect?: Enumerable<Goal_report_valuesWhereUniqueInput>
+    update?: Enumerable<Goal_report_valuesUpdateWithWhereUniqueWithoutUnitsInput>
+    updateMany?: Enumerable<Goal_report_valuesUpdateManyWithWhereWithoutUnitsInput>
+    deleteMany?: Enumerable<Goal_report_valuesScalarWhereInput>
   }
 
   export type AccountsCreateNestedOneWithoutUser_messagesInput = {
@@ -41492,6 +43345,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumproject_typeNullableFilter<$PrismaModel = never> = {
     equals?: project_type | Enumproject_typeFieldRefInput<$PrismaModel> | null
     in?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
@@ -41662,11 +43531,44 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     skipDuplicates?: boolean
   }
 
+  export type Goal_report_valuesCreateWithoutAccountsInput = {
+    goal_report_value_id: string
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+    goal_reports?: Goal_reportsCreateNestedOneWithoutGoal_report_valuesInput
+    units?: UnitsCreateNestedOneWithoutGoal_report_valuesInput
+  }
+
+  export type Goal_report_valuesUncheckedCreateWithoutAccountsInput = {
+    goal_report_value_id: string
+    goal_report_id?: string | null
+    unit_id?: string | null
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Goal_report_valuesCreateOrConnectWithoutAccountsInput = {
+    where: Goal_report_valuesWhereUniqueInput
+    create: XOR<Goal_report_valuesCreateWithoutAccountsInput, Goal_report_valuesUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Goal_report_valuesCreateManyAccountsInputEnvelope = {
+    data: Enumerable<Goal_report_valuesCreateManyAccountsInput>
+    skipDuplicates?: boolean
+  }
+
   export type Goal_reportsCreateWithoutAccountsInput = {
     goal_report_id: string
     data?: NullableJsonNullValueInput | InputJsonValue
     label?: string | null
     deleted?: boolean | null
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutGoal_reportsInput
     goals?: GoalsCreateNestedOneWithoutGoal_reportsInput
   }
 
@@ -41676,6 +43578,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label?: string | null
     deleted?: boolean | null
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutGoal_reportsInput
   }
 
   export type Goal_reportsCreateOrConnectWithoutAccountsInput = {
@@ -42227,6 +44130,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: unit_type | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutUnitsInput
     lists?: ListsCreateNestedOneWithoutUnitsInput
     projects?: ProjectsCreateNestedOneWithoutUnitsInput
   }
@@ -42248,6 +44152,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
   }
 
   export type UnitsCreateOrConnectWithoutAccountsInput = {
@@ -42409,6 +44314,37 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_id?: UuidNullableFilter<"Gbif_taxa"> | string | null
     gbif_data?: JsonNullableFilter<"Gbif_taxa">
     label?: StringNullableFilter<"Gbif_taxa"> | string | null
+  }
+
+  export type Goal_report_valuesUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: Goal_report_valuesWhereUniqueInput
+    update: XOR<Goal_report_valuesUpdateWithoutAccountsInput, Goal_report_valuesUncheckedUpdateWithoutAccountsInput>
+    create: XOR<Goal_report_valuesCreateWithoutAccountsInput, Goal_report_valuesUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Goal_report_valuesUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: Goal_report_valuesWhereUniqueInput
+    data: XOR<Goal_report_valuesUpdateWithoutAccountsInput, Goal_report_valuesUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type Goal_report_valuesUpdateManyWithWhereWithoutAccountsInput = {
+    where: Goal_report_valuesScalarWhereInput
+    data: XOR<Goal_report_valuesUpdateManyMutationInput, Goal_report_valuesUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type Goal_report_valuesScalarWhereInput = {
+    AND?: Enumerable<Goal_report_valuesScalarWhereInput>
+    OR?: Enumerable<Goal_report_valuesScalarWhereInput>
+    NOT?: Enumerable<Goal_report_valuesScalarWhereInput>
+    goal_report_value_id?: UuidFilter<"Goal_report_values"> | string
+    account_id?: UuidNullableFilter<"Goal_report_values"> | string | null
+    goal_report_id?: UuidNullableFilter<"Goal_report_values"> | string | null
+    unit_id?: UuidNullableFilter<"Goal_report_values"> | string | null
+    value_integer?: IntNullableFilter<"Goal_report_values"> | number | null
+    value_numeric?: FloatNullableFilter<"Goal_report_values"> | number | null
+    value_text?: StringNullableFilter<"Goal_report_values"> | string | null
+    label?: StringNullableFilter<"Goal_report_values"> | string | null
+    deleted?: BoolNullableFilter<"Goal_report_values"> | boolean | null
   }
 
   export type Goal_reportsUpsertWithWhereUniqueWithoutAccountsInput = {
@@ -43018,6 +44954,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     users?: UsersCreateNestedOneWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -43047,6 +44984,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -43210,6 +45148,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     users?: UsersUpdateOneWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -43239,6 +45178,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -43398,6 +45338,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     users?: UsersCreateNestedOneWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -43427,6 +45368,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -43590,6 +45532,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     users?: UsersUpdateOneWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -43619,6 +45562,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -43778,6 +45722,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     users?: UsersCreateNestedOneWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -43807,6 +45752,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -43933,6 +45879,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     users?: UsersUpdateOneWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -43962,6 +45909,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -44068,6 +46016,322 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
+  export type AccountsCreateWithoutGoal_report_valuesInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesCreateNestedManyWithoutAccountsInput
+    lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutGoal_report_valuesInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutGoal_report_valuesInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutGoal_report_valuesInput, AccountsUncheckedCreateWithoutGoal_report_valuesInput>
+  }
+
+  export type Goal_reportsCreateWithoutGoal_report_valuesInput = {
+    goal_report_id: string
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutGoal_reportsInput
+    goals?: GoalsCreateNestedOneWithoutGoal_reportsInput
+  }
+
+  export type Goal_reportsUncheckedCreateWithoutGoal_report_valuesInput = {
+    goal_report_id: string
+    account_id?: string | null
+    goal_id?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Goal_reportsCreateOrConnectWithoutGoal_report_valuesInput = {
+    where: Goal_reportsWhereUniqueInput
+    create: XOR<Goal_reportsCreateWithoutGoal_report_valuesInput, Goal_reportsUncheckedCreateWithoutGoal_report_valuesInput>
+  }
+
+  export type UnitsCreateWithoutGoal_report_valuesInput = {
+    unit_id: string
+    use_for_action_values?: boolean | null
+    use_for_action_report_values?: boolean | null
+    use_for_check_values?: boolean | null
+    use_for_place_report_values?: boolean | null
+    use_for_goal_report_values?: boolean | null
+    use_for_subproject_taxa?: boolean | null
+    use_for_check_taxa?: boolean | null
+    name?: string | null
+    summable?: boolean | null
+    sort?: number | null
+    type?: unit_type | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutUnitsInput
+    lists?: ListsCreateNestedOneWithoutUnitsInput
+    projects?: ProjectsCreateNestedOneWithoutUnitsInput
+  }
+
+  export type UnitsUncheckedCreateWithoutGoal_report_valuesInput = {
+    unit_id: string
+    account_id?: string | null
+    project_id?: string | null
+    use_for_action_values?: boolean | null
+    use_for_action_report_values?: boolean | null
+    use_for_check_values?: boolean | null
+    use_for_place_report_values?: boolean | null
+    use_for_goal_report_values?: boolean | null
+    use_for_subproject_taxa?: boolean | null
+    use_for_check_taxa?: boolean | null
+    name?: string | null
+    summable?: boolean | null
+    sort?: number | null
+    type?: unit_type | null
+    list_id?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type UnitsCreateOrConnectWithoutGoal_report_valuesInput = {
+    where: UnitsWhereUniqueInput
+    create: XOR<UnitsCreateWithoutGoal_report_valuesInput, UnitsUncheckedCreateWithoutGoal_report_valuesInput>
+  }
+
+  export type AccountsUpsertWithoutGoal_report_valuesInput = {
+    update: XOR<AccountsUpdateWithoutGoal_report_valuesInput, AccountsUncheckedUpdateWithoutGoal_report_valuesInput>
+    create: XOR<AccountsCreateWithoutGoal_report_valuesInput, AccountsUncheckedCreateWithoutGoal_report_valuesInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutGoal_report_valuesInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutGoal_report_valuesInput, AccountsUncheckedUpdateWithoutGoal_report_valuesInput>
+  }
+
+  export type AccountsUpdateWithoutGoal_report_valuesInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutGoal_report_valuesInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type Goal_reportsUpsertWithoutGoal_report_valuesInput = {
+    update: XOR<Goal_reportsUpdateWithoutGoal_report_valuesInput, Goal_reportsUncheckedUpdateWithoutGoal_report_valuesInput>
+    create: XOR<Goal_reportsCreateWithoutGoal_report_valuesInput, Goal_reportsUncheckedCreateWithoutGoal_report_valuesInput>
+    where?: Goal_reportsWhereInput
+  }
+
+  export type Goal_reportsUpdateToOneWithWhereWithoutGoal_report_valuesInput = {
+    where?: Goal_reportsWhereInput
+    data: XOR<Goal_reportsUpdateWithoutGoal_report_valuesInput, Goal_reportsUncheckedUpdateWithoutGoal_report_valuesInput>
+  }
+
+  export type Goal_reportsUpdateWithoutGoal_report_valuesInput = {
+    goal_report_id?: StringFieldUpdateOperationsInput | string
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutGoal_reportsNestedInput
+    goals?: GoalsUpdateOneWithoutGoal_reportsNestedInput
+  }
+
+  export type Goal_reportsUncheckedUpdateWithoutGoal_report_valuesInput = {
+    goal_report_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_id?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type UnitsUpsertWithoutGoal_report_valuesInput = {
+    update: XOR<UnitsUpdateWithoutGoal_report_valuesInput, UnitsUncheckedUpdateWithoutGoal_report_valuesInput>
+    create: XOR<UnitsCreateWithoutGoal_report_valuesInput, UnitsUncheckedCreateWithoutGoal_report_valuesInput>
+    where?: UnitsWhereInput
+  }
+
+  export type UnitsUpdateToOneWithWhereWithoutGoal_report_valuesInput = {
+    where?: UnitsWhereInput
+    data: XOR<UnitsUpdateWithoutGoal_report_valuesInput, UnitsUncheckedUpdateWithoutGoal_report_valuesInput>
+  }
+
+  export type UnitsUpdateWithoutGoal_report_valuesInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutUnitsNestedInput
+    lists?: ListsUpdateOneWithoutUnitsNestedInput
+    projects?: ProjectsUpdateOneWithoutUnitsNestedInput
+  }
+
+  export type UnitsUncheckedUpdateWithoutGoal_report_valuesInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
+    list_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Goal_report_valuesCreateWithoutGoal_reportsInput = {
+    goal_report_value_id: string
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutGoal_report_valuesInput
+    units?: UnitsCreateNestedOneWithoutGoal_report_valuesInput
+  }
+
+  export type Goal_report_valuesUncheckedCreateWithoutGoal_reportsInput = {
+    goal_report_value_id: string
+    account_id?: string | null
+    unit_id?: string | null
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Goal_report_valuesCreateOrConnectWithoutGoal_reportsInput = {
+    where: Goal_report_valuesWhereUniqueInput
+    create: XOR<Goal_report_valuesCreateWithoutGoal_reportsInput, Goal_report_valuesUncheckedCreateWithoutGoal_reportsInput>
+  }
+
+  export type Goal_report_valuesCreateManyGoal_reportsInputEnvelope = {
+    data: Enumerable<Goal_report_valuesCreateManyGoal_reportsInput>
+    skipDuplicates?: boolean
+  }
+
   export type AccountsCreateWithoutGoal_reportsInput = {
     account_id: string
     type?: string | null
@@ -44079,6 +46343,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
@@ -44108,6 +46373,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
@@ -44158,6 +46424,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     create: XOR<GoalsCreateWithoutGoal_reportsInput, GoalsUncheckedCreateWithoutGoal_reportsInput>
   }
 
+  export type Goal_report_valuesUpsertWithWhereUniqueWithoutGoal_reportsInput = {
+    where: Goal_report_valuesWhereUniqueInput
+    update: XOR<Goal_report_valuesUpdateWithoutGoal_reportsInput, Goal_report_valuesUncheckedUpdateWithoutGoal_reportsInput>
+    create: XOR<Goal_report_valuesCreateWithoutGoal_reportsInput, Goal_report_valuesUncheckedCreateWithoutGoal_reportsInput>
+  }
+
+  export type Goal_report_valuesUpdateWithWhereUniqueWithoutGoal_reportsInput = {
+    where: Goal_report_valuesWhereUniqueInput
+    data: XOR<Goal_report_valuesUpdateWithoutGoal_reportsInput, Goal_report_valuesUncheckedUpdateWithoutGoal_reportsInput>
+  }
+
+  export type Goal_report_valuesUpdateManyWithWhereWithoutGoal_reportsInput = {
+    where: Goal_report_valuesScalarWhereInput
+    data: XOR<Goal_report_valuesUpdateManyMutationInput, Goal_report_valuesUncheckedUpdateManyWithoutGoal_reportsInput>
+  }
+
   export type AccountsUpsertWithoutGoal_reportsInput = {
     update: XOR<AccountsUpdateWithoutGoal_reportsInput, AccountsUncheckedUpdateWithoutGoal_reportsInput>
     create: XOR<AccountsCreateWithoutGoal_reportsInput, AccountsUncheckedCreateWithoutGoal_reportsInput>
@@ -44180,6 +46462,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
@@ -44209,6 +46492,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -44265,6 +46549,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label?: string | null
     deleted?: boolean | null
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutGoal_reportsInput
     accounts?: AccountsCreateNestedOneWithoutGoal_reportsInput
   }
 
@@ -44274,6 +46559,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label?: string | null
     deleted?: boolean | null
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutGoal_reportsInput
   }
 
   export type Goal_reportsCreateOrConnectWithoutGoalsInput = {
@@ -44297,6 +46583,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
@@ -44326,6 +46613,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
@@ -44424,6 +46712,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
@@ -44453,6 +46742,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -44525,6 +46815,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
@@ -44554,6 +46845,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
@@ -44628,6 +46920,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
@@ -44657,6 +46950,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -44749,6 +47043,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -44778,6 +47073,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -44897,6 +47193,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: unit_type | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutUnitsInput
     accounts?: AccountsCreateNestedOneWithoutUnitsInput
     projects?: ProjectsCreateNestedOneWithoutUnitsInput
   }
@@ -44918,6 +47215,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: unit_type | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
   }
 
   export type UnitsCreateOrConnectWithoutListsInput = {
@@ -44968,6 +47266,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -44997,6 +47296,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -45171,6 +47471,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -45200,6 +47501,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -45326,6 +47628,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -45355,6 +47658,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -45471,6 +47775,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -45500,6 +47805,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -45626,6 +47932,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -45655,6 +47962,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -45771,6 +48079,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -45800,6 +48109,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -45926,6 +48236,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -45955,6 +48266,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -46071,6 +48383,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -46100,6 +48413,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -46255,6 +48569,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -46284,6 +48599,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -46695,6 +49011,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -46724,6 +49041,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -46840,6 +49158,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: unit_type | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutUnitsInput
     accounts?: AccountsCreateNestedOneWithoutUnitsInput
     lists?: ListsCreateNestedOneWithoutUnitsInput
   }
@@ -46861,6 +49180,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
   }
 
   export type UnitsCreateOrConnectWithoutProjectsInput = {
@@ -47023,6 +49343,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -47052,6 +49373,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -47129,6 +49451,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -47158,6 +49481,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -47267,6 +49591,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -47296,6 +49621,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -47401,6 +49727,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -47430,6 +49757,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -47541,6 +49869,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -47570,6 +49899,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -47829,6 +50159,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -47858,6 +50189,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -48064,6 +50396,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -48093,6 +50426,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -48235,6 +50569,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -48264,6 +50599,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -48356,6 +50692,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -48385,6 +50722,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -48483,6 +50821,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -48512,6 +50851,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -48654,6 +50994,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -48683,6 +51024,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -48799,6 +51141,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -48828,6 +51171,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -48902,6 +51246,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -48931,6 +51276,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -48984,6 +51330,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
   }
 
+  export type Goal_report_valuesCreateWithoutUnitsInput = {
+    goal_report_value_id: string
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutGoal_report_valuesInput
+    goal_reports?: Goal_reportsCreateNestedOneWithoutGoal_report_valuesInput
+  }
+
+  export type Goal_report_valuesUncheckedCreateWithoutUnitsInput = {
+    goal_report_value_id: string
+    account_id?: string | null
+    goal_report_id?: string | null
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Goal_report_valuesCreateOrConnectWithoutUnitsInput = {
+    where: Goal_report_valuesWhereUniqueInput
+    create: XOR<Goal_report_valuesCreateWithoutUnitsInput, Goal_report_valuesUncheckedCreateWithoutUnitsInput>
+  }
+
+  export type Goal_report_valuesCreateManyUnitsInputEnvelope = {
+    data: Enumerable<Goal_report_valuesCreateManyUnitsInput>
+    skipDuplicates?: boolean
+  }
+
   export type AccountsCreateWithoutUnitsInput = {
     account_id: string
     type?: string | null
@@ -48995,6 +51373,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -49024,6 +51403,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -49157,6 +51537,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     create: XOR<ProjectsCreateWithoutUnitsInput, ProjectsUncheckedCreateWithoutUnitsInput>
   }
 
+  export type Goal_report_valuesUpsertWithWhereUniqueWithoutUnitsInput = {
+    where: Goal_report_valuesWhereUniqueInput
+    update: XOR<Goal_report_valuesUpdateWithoutUnitsInput, Goal_report_valuesUncheckedUpdateWithoutUnitsInput>
+    create: XOR<Goal_report_valuesCreateWithoutUnitsInput, Goal_report_valuesUncheckedCreateWithoutUnitsInput>
+  }
+
+  export type Goal_report_valuesUpdateWithWhereUniqueWithoutUnitsInput = {
+    where: Goal_report_valuesWhereUniqueInput
+    data: XOR<Goal_report_valuesUpdateWithoutUnitsInput, Goal_report_valuesUncheckedUpdateWithoutUnitsInput>
+  }
+
+  export type Goal_report_valuesUpdateManyWithWhereWithoutUnitsInput = {
+    where: Goal_report_valuesScalarWhereInput
+    data: XOR<Goal_report_valuesUpdateManyMutationInput, Goal_report_valuesUncheckedUpdateManyWithoutUnitsInput>
+  }
+
   export type AccountsUpsertWithoutUnitsInput = {
     update: XOR<AccountsUpdateWithoutUnitsInput, AccountsUncheckedUpdateWithoutUnitsInput>
     create: XOR<AccountsCreateWithoutUnitsInput, AccountsUncheckedCreateWithoutUnitsInput>
@@ -49179,6 +51575,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -49208,6 +51605,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -49359,6 +51757,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -49388,6 +51787,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -49481,6 +51881,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -49510,6 +51911,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -49598,6 +52000,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
     goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
@@ -49627,6 +52030,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
     goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
@@ -50077,6 +52481,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
   }
 
+  export type Goal_report_valuesCreateManyAccountsInput = {
+    goal_report_value_id: string
+    goal_report_id?: string | null
+    unit_id?: string | null
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
   export type Goal_reportsCreateManyAccountsInput = {
     goal_report_id: string
     goal_id?: string | null
@@ -50373,11 +52788,45 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type Goal_report_valuesUpdateWithoutAccountsInput = {
+    goal_report_value_id?: StringFieldUpdateOperationsInput | string
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    goal_reports?: Goal_reportsUpdateOneWithoutGoal_report_valuesNestedInput
+    units?: UnitsUpdateOneWithoutGoal_report_valuesNestedInput
+  }
+
+  export type Goal_report_valuesUncheckedUpdateWithoutAccountsInput = {
+    goal_report_value_id?: StringFieldUpdateOperationsInput | string
+    goal_report_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_id?: NullableStringFieldUpdateOperationsInput | string | null
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Goal_report_valuesUncheckedUpdateManyWithoutAccountsInput = {
+    goal_report_value_id?: StringFieldUpdateOperationsInput | string
+    goal_report_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_id?: NullableStringFieldUpdateOperationsInput | string | null
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type Goal_reportsUpdateWithoutAccountsInput = {
     goal_report_id?: StringFieldUpdateOperationsInput | string
     data?: NullableJsonNullValueInput | InputJsonValue
     label?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutGoal_reportsNestedInput
     goals?: GoalsUpdateOneWithoutGoal_reportsNestedInput
   }
 
@@ -50387,6 +52836,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutGoal_reportsNestedInput
   }
 
   export type Goal_reportsUncheckedUpdateManyWithoutAccountsInput = {
@@ -50967,6 +53417,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutUnitsNestedInput
     lists?: ListsUpdateOneWithoutUnitsNestedInput
     projects?: ProjectsUpdateOneWithoutUnitsNestedInput
   }
@@ -50988,6 +53439,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
   }
 
   export type UnitsUncheckedUpdateManyWithoutAccountsInput = {
@@ -51061,6 +53513,50 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Goal_report_valuesCreateManyGoal_reportsInput = {
+    goal_report_value_id: string
+    account_id?: string | null
+    unit_id?: string | null
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Goal_report_valuesUpdateWithoutGoal_reportsInput = {
+    goal_report_value_id?: StringFieldUpdateOperationsInput | string
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutGoal_report_valuesNestedInput
+    units?: UnitsUpdateOneWithoutGoal_report_valuesNestedInput
+  }
+
+  export type Goal_report_valuesUncheckedUpdateWithoutGoal_reportsInput = {
+    goal_report_value_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_id?: NullableStringFieldUpdateOperationsInput | string | null
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Goal_report_valuesUncheckedUpdateManyWithoutGoal_reportsInput = {
+    goal_report_value_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_id?: NullableStringFieldUpdateOperationsInput | string | null
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type Goal_reportsCreateManyGoalsInput = {
     goal_report_id: string
     account_id?: string | null
@@ -51074,6 +53570,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutGoal_reportsNestedInput
     accounts?: AccountsUpdateOneWithoutGoal_reportsNestedInput
   }
 
@@ -51083,6 +53580,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutGoal_reportsNestedInput
   }
 
   export type Goal_reportsUncheckedUpdateManyWithoutGoalsInput = {
@@ -51163,6 +53661,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutUnitsNestedInput
     accounts?: AccountsUpdateOneWithoutUnitsNestedInput
     projects?: ProjectsUpdateOneWithoutUnitsNestedInput
   }
@@ -51184,6 +53683,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
   }
 
   export type UnitsUncheckedUpdateManyWithoutListsInput = {
@@ -51731,6 +54231,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutUnitsNestedInput
     accounts?: AccountsUpdateOneWithoutUnitsNestedInput
     lists?: ListsUpdateOneWithoutUnitsNestedInput
   }
@@ -51752,6 +54253,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
   }
 
   export type UnitsUncheckedUpdateManyWithoutProjectsInput = {
@@ -52049,6 +54551,50 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Goal_report_valuesCreateManyUnitsInput = {
+    goal_report_value_id: string
+    account_id?: string | null
+    goal_report_id?: string | null
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Goal_report_valuesUpdateWithoutUnitsInput = {
+    goal_report_value_id?: StringFieldUpdateOperationsInput | string
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutGoal_report_valuesNestedInput
+    goal_reports?: Goal_reportsUpdateOneWithoutGoal_report_valuesNestedInput
+  }
+
+  export type Goal_report_valuesUncheckedUpdateWithoutUnitsInput = {
+    goal_report_value_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_report_id?: NullableStringFieldUpdateOperationsInput | string | null
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Goal_report_valuesUncheckedUpdateManyWithoutUnitsInput = {
+    goal_report_value_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_report_id?: NullableStringFieldUpdateOperationsInput | string | null
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type AccountsCreateManyUsersInput = {
     account_id: string
     type?: string | null
@@ -52094,6 +54640,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
@@ -52123,6 +54670,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
