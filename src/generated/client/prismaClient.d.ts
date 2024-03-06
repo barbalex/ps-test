@@ -198,6 +198,30 @@ export type Subprojects = {
 }
 
 /**
+ * Model Taxa
+ * 
+ */
+export type Taxa = {
+  /**
+   * @zod.string.uuid()
+   */
+  taxon_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  taxonomy_id: string | null
+  name: string | null
+  id_in_source: string | null
+  url: string | null
+  label: string | null
+  deleted: boolean | null
+}
+
+/**
  * Model Taxonomies
  * 
  */
@@ -554,6 +578,16 @@ export class PrismaClient<
     * ```
     */
   get subprojects(): Prisma.SubprojectsDelegate<GlobalReject>;
+
+  /**
+   * `prisma.taxa`: Exposes CRUD operations for the **Taxa** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Taxas
+    * const taxas = await prisma.taxa.findMany()
+    * ```
+    */
+  get taxa(): Prisma.TaxaDelegate<GlobalReject>;
 
   /**
    * `prisma.taxonomies`: Exposes CRUD operations for the **Taxonomies** model.
@@ -1105,6 +1139,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     Project_users: 'Project_users',
     Projects: 'Projects',
     Subprojects: 'Subprojects',
+    Taxa: 'Taxa',
     Taxonomies: 'Taxonomies',
     Ui_options: 'Ui_options',
     User_messages: 'User_messages',
@@ -1285,6 +1320,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users: number
     projects: number
     subprojects: number
+    taxa: number
     taxonomies: number
     ui_options: number
     user_messages: number
@@ -1295,6 +1331,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: boolean | AccountsCountOutputTypeCountProject_usersArgs
     projects?: boolean | AccountsCountOutputTypeCountProjectsArgs
     subprojects?: boolean | AccountsCountOutputTypeCountSubprojectsArgs
+    taxa?: boolean | AccountsCountOutputTypeCountTaxaArgs
     taxonomies?: boolean | AccountsCountOutputTypeCountTaxonomiesArgs
     ui_options?: boolean | AccountsCountOutputTypeCountUi_optionsArgs
     user_messages?: boolean | AccountsCountOutputTypeCountUser_messagesArgs
@@ -1359,6 +1396,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type AccountsCountOutputTypeCountSubprojectsArgs = {
     where?: SubprojectsWhereInput
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountTaxaArgs = {
+    where?: TaxaWhereInput
   }
 
 
@@ -1569,6 +1614,58 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type ProjectsCountOutputTypeCountTaxonomiesArgs = {
     where?: TaxonomiesWhereInput
+  }
+
+
+
+  /**
+   * Count Type TaxonomiesCountOutputType
+   */
+
+
+  export type TaxonomiesCountOutputType = {
+    taxa: number
+  }
+
+  export type TaxonomiesCountOutputTypeSelect = {
+    taxa?: boolean | TaxonomiesCountOutputTypeCountTaxaArgs
+  }
+
+  export type TaxonomiesCountOutputTypeGetPayload<S extends boolean | null | undefined | TaxonomiesCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? TaxonomiesCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (TaxonomiesCountOutputTypeArgs)
+    ? TaxonomiesCountOutputType 
+    : S extends { select: any } & (TaxonomiesCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof TaxonomiesCountOutputType ? TaxonomiesCountOutputType[P] : never
+  } 
+      : TaxonomiesCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * TaxonomiesCountOutputType without action
+   */
+  export type TaxonomiesCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the TaxonomiesCountOutputType
+     * 
+    **/
+    select?: TaxonomiesCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * TaxonomiesCountOutputType without action
+   */
+  export type TaxonomiesCountOutputTypeCountTaxaArgs = {
+    where?: TaxaWhereInput
   }
 
 
@@ -1893,6 +1990,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: boolean | Accounts$project_usersArgs
     projects?: boolean | Accounts$projectsArgs
     subprojects?: boolean | Accounts$subprojectsArgs
+    taxa?: boolean | Accounts$taxaArgs
     taxonomies?: boolean | Accounts$taxonomiesArgs
     ui_options?: boolean | Accounts$ui_optionsArgs
     user_messages?: boolean | Accounts$user_messagesArgs
@@ -1906,6 +2004,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: boolean | Accounts$project_usersArgs
     projects?: boolean | Accounts$projectsArgs
     subprojects?: boolean | Accounts$subprojectsArgs
+    taxa?: boolean | Accounts$taxaArgs
     taxonomies?: boolean | Accounts$taxonomiesArgs
     ui_options?: boolean | Accounts$ui_optionsArgs
     user_messages?: boolean | Accounts$user_messagesArgs
@@ -1924,6 +2023,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'project_users' ? Array < Project_usersGetPayload<S['include'][P]>>  :
         P extends 'projects' ? Array < ProjectsGetPayload<S['include'][P]>>  :
         P extends 'subprojects' ? Array < SubprojectsGetPayload<S['include'][P]>>  :
+        P extends 'taxa' ? Array < TaxaGetPayload<S['include'][P]>>  :
         P extends 'taxonomies' ? Array < TaxonomiesGetPayload<S['include'][P]>>  :
         P extends 'ui_options' ? Array < Ui_optionsGetPayload<S['include'][P]>>  :
         P extends 'user_messages' ? Array < User_messagesGetPayload<S['include'][P]>>  :
@@ -1937,6 +2037,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'project_users' ? Array < Project_usersGetPayload<S['select'][P]>>  :
         P extends 'projects' ? Array < ProjectsGetPayload<S['select'][P]>>  :
         P extends 'subprojects' ? Array < SubprojectsGetPayload<S['select'][P]>>  :
+        P extends 'taxa' ? Array < TaxaGetPayload<S['select'][P]>>  :
         P extends 'taxonomies' ? Array < TaxonomiesGetPayload<S['select'][P]>>  :
         P extends 'ui_options' ? Array < Ui_optionsGetPayload<S['select'][P]>>  :
         P extends 'user_messages' ? Array < User_messagesGetPayload<S['select'][P]>>  :
@@ -2323,6 +2424,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects<T extends Accounts$projectsArgs= {}>(args?: Subset<T, Accounts$projectsArgs>): PrismaPromise<Array<ProjectsGetPayload<T>>| Null>;
 
     subprojects<T extends Accounts$subprojectsArgs= {}>(args?: Subset<T, Accounts$subprojectsArgs>): PrismaPromise<Array<SubprojectsGetPayload<T>>| Null>;
+
+    taxa<T extends Accounts$taxaArgs= {}>(args?: Subset<T, Accounts$taxaArgs>): PrismaPromise<Array<TaxaGetPayload<T>>| Null>;
 
     taxonomies<T extends Accounts$taxonomiesArgs= {}>(args?: Subset<T, Accounts$taxonomiesArgs>): PrismaPromise<Array<TaxonomiesGetPayload<T>>| Null>;
 
@@ -2840,6 +2943,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<SubprojectsScalarFieldEnum>
+  }
+
+
+  /**
+   * Accounts.taxa
+   */
+  export type Accounts$taxaArgs = {
+    /**
+     * Select specific fields to fetch from the Taxa
+     * 
+    **/
+    select?: TaxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: TaxaInclude | null
+    where?: TaxaWhereInput
+    orderBy?: Enumerable<TaxaOrderByWithRelationInput>
+    cursor?: TaxaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<TaxaScalarFieldEnum>
   }
 
 
@@ -9607,6 +9733,1060 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Model Taxa
+   */
+
+
+  export type AggregateTaxa = {
+    _count: TaxaCountAggregateOutputType | null
+    _min: TaxaMinAggregateOutputType | null
+    _max: TaxaMaxAggregateOutputType | null
+  }
+
+  export type TaxaMinAggregateOutputType = {
+    taxon_id: string | null
+    account_id: string | null
+    taxonomy_id: string | null
+    name: string | null
+    id_in_source: string | null
+    url: string | null
+    label: string | null
+    deleted: boolean | null
+  }
+
+  export type TaxaMaxAggregateOutputType = {
+    taxon_id: string | null
+    account_id: string | null
+    taxonomy_id: string | null
+    name: string | null
+    id_in_source: string | null
+    url: string | null
+    label: string | null
+    deleted: boolean | null
+  }
+
+  export type TaxaCountAggregateOutputType = {
+    taxon_id: number
+    account_id: number
+    taxonomy_id: number
+    name: number
+    id_in_source: number
+    url: number
+    label: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type TaxaMinAggregateInputType = {
+    taxon_id?: true
+    account_id?: true
+    taxonomy_id?: true
+    name?: true
+    id_in_source?: true
+    url?: true
+    label?: true
+    deleted?: true
+  }
+
+  export type TaxaMaxAggregateInputType = {
+    taxon_id?: true
+    account_id?: true
+    taxonomy_id?: true
+    name?: true
+    id_in_source?: true
+    url?: true
+    label?: true
+    deleted?: true
+  }
+
+  export type TaxaCountAggregateInputType = {
+    taxon_id?: true
+    account_id?: true
+    taxonomy_id?: true
+    name?: true
+    id_in_source?: true
+    url?: true
+    label?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type TaxaAggregateArgs = {
+    /**
+     * Filter which Taxa to aggregate.
+     * 
+    **/
+    where?: TaxaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Taxas to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<TaxaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: TaxaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Taxas from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Taxas.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Taxas
+    **/
+    _count?: true | TaxaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TaxaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TaxaMaxAggregateInputType
+  }
+
+  export type GetTaxaAggregateType<T extends TaxaAggregateArgs> = {
+        [P in keyof T & keyof AggregateTaxa]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTaxa[P]>
+      : GetScalarType<T[P], AggregateTaxa[P]>
+  }
+
+
+
+
+  export type TaxaGroupByArgs = {
+    where?: TaxaWhereInput
+    orderBy?: Enumerable<TaxaOrderByWithAggregationInput>
+    by: Array<TaxaScalarFieldEnum>
+    having?: TaxaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TaxaCountAggregateInputType | true
+    _min?: TaxaMinAggregateInputType
+    _max?: TaxaMaxAggregateInputType
+  }
+
+
+  export type TaxaGroupByOutputType = {
+    taxon_id: string
+    account_id: string | null
+    taxonomy_id: string | null
+    name: string | null
+    id_in_source: string | null
+    url: string | null
+    label: string | null
+    deleted: boolean | null
+    _count: TaxaCountAggregateOutputType | null
+    _min: TaxaMinAggregateOutputType | null
+    _max: TaxaMaxAggregateOutputType | null
+  }
+
+  type GetTaxaGroupByPayload<T extends TaxaGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<TaxaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TaxaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TaxaGroupByOutputType[P]>
+            : GetScalarType<T[P], TaxaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TaxaSelect = {
+    taxon_id?: boolean
+    account_id?: boolean
+    taxonomy_id?: boolean
+    name?: boolean
+    id_in_source?: boolean
+    url?: boolean
+    label?: boolean
+    deleted?: boolean
+    accounts?: boolean | Taxa$accountsArgs
+    taxonomies?: boolean | Taxa$taxonomiesArgs
+  }
+
+
+  export type TaxaInclude = {
+    accounts?: boolean | Taxa$accountsArgs
+    taxonomies?: boolean | Taxa$taxonomiesArgs
+  } 
+
+  export type TaxaGetPayload<S extends boolean | null | undefined | TaxaArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Taxa :
+    S extends undefined ? never :
+    S extends { include: any } & (TaxaArgs | TaxaFindManyArgs)
+    ? Taxa  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'taxonomies' ? TaxonomiesGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (TaxaArgs | TaxaFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'taxonomies' ? TaxonomiesGetPayload<S['select'][P]> | null :  P extends keyof Taxa ? Taxa[P] : never
+  } 
+      : Taxa
+
+
+  type TaxaCountArgs = Merge<
+    Omit<TaxaFindManyArgs, 'select' | 'include'> & {
+      select?: TaxaCountAggregateInputType | true
+    }
+  >
+
+  export interface TaxaDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Taxa that matches the filter.
+     * @param {TaxaFindUniqueArgs} args - Arguments to find a Taxa
+     * @example
+     * // Get one Taxa
+     * const taxa = await prisma.taxa.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends TaxaFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, TaxaFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Taxa'> extends True ? Prisma__TaxaClient<TaxaGetPayload<T>> : Prisma__TaxaClient<TaxaGetPayload<T> | null, null>
+
+    /**
+     * Find one Taxa that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {TaxaFindUniqueOrThrowArgs} args - Arguments to find a Taxa
+     * @example
+     * // Get one Taxa
+     * const taxa = await prisma.taxa.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends TaxaFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, TaxaFindUniqueOrThrowArgs>
+    ): Prisma__TaxaClient<TaxaGetPayload<T>>
+
+    /**
+     * Find the first Taxa that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaxaFindFirstArgs} args - Arguments to find a Taxa
+     * @example
+     * // Get one Taxa
+     * const taxa = await prisma.taxa.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends TaxaFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, TaxaFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Taxa'> extends True ? Prisma__TaxaClient<TaxaGetPayload<T>> : Prisma__TaxaClient<TaxaGetPayload<T> | null, null>
+
+    /**
+     * Find the first Taxa that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaxaFindFirstOrThrowArgs} args - Arguments to find a Taxa
+     * @example
+     * // Get one Taxa
+     * const taxa = await prisma.taxa.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends TaxaFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, TaxaFindFirstOrThrowArgs>
+    ): Prisma__TaxaClient<TaxaGetPayload<T>>
+
+    /**
+     * Find zero or more Taxas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaxaFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Taxas
+     * const taxas = await prisma.taxa.findMany()
+     * 
+     * // Get first 10 Taxas
+     * const taxas = await prisma.taxa.findMany({ take: 10 })
+     * 
+     * // Only select the `taxon_id`
+     * const taxaWithTaxon_idOnly = await prisma.taxa.findMany({ select: { taxon_id: true } })
+     * 
+    **/
+    findMany<T extends TaxaFindManyArgs>(
+      args?: SelectSubset<T, TaxaFindManyArgs>
+    ): PrismaPromise<Array<TaxaGetPayload<T>>>
+
+    /**
+     * Create a Taxa.
+     * @param {TaxaCreateArgs} args - Arguments to create a Taxa.
+     * @example
+     * // Create one Taxa
+     * const Taxa = await prisma.taxa.create({
+     *   data: {
+     *     // ... data to create a Taxa
+     *   }
+     * })
+     * 
+    **/
+    create<T extends TaxaCreateArgs>(
+      args: SelectSubset<T, TaxaCreateArgs>
+    ): Prisma__TaxaClient<TaxaGetPayload<T>>
+
+    /**
+     * Create many Taxas.
+     *     @param {TaxaCreateManyArgs} args - Arguments to create many Taxas.
+     *     @example
+     *     // Create many Taxas
+     *     const taxa = await prisma.taxa.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends TaxaCreateManyArgs>(
+      args?: SelectSubset<T, TaxaCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Taxa.
+     * @param {TaxaDeleteArgs} args - Arguments to delete one Taxa.
+     * @example
+     * // Delete one Taxa
+     * const Taxa = await prisma.taxa.delete({
+     *   where: {
+     *     // ... filter to delete one Taxa
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends TaxaDeleteArgs>(
+      args: SelectSubset<T, TaxaDeleteArgs>
+    ): Prisma__TaxaClient<TaxaGetPayload<T>>
+
+    /**
+     * Update one Taxa.
+     * @param {TaxaUpdateArgs} args - Arguments to update one Taxa.
+     * @example
+     * // Update one Taxa
+     * const taxa = await prisma.taxa.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends TaxaUpdateArgs>(
+      args: SelectSubset<T, TaxaUpdateArgs>
+    ): Prisma__TaxaClient<TaxaGetPayload<T>>
+
+    /**
+     * Delete zero or more Taxas.
+     * @param {TaxaDeleteManyArgs} args - Arguments to filter Taxas to delete.
+     * @example
+     * // Delete a few Taxas
+     * const { count } = await prisma.taxa.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends TaxaDeleteManyArgs>(
+      args?: SelectSubset<T, TaxaDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Taxas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaxaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Taxas
+     * const taxa = await prisma.taxa.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends TaxaUpdateManyArgs>(
+      args: SelectSubset<T, TaxaUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Taxa.
+     * @param {TaxaUpsertArgs} args - Arguments to update or create a Taxa.
+     * @example
+     * // Update or create a Taxa
+     * const taxa = await prisma.taxa.upsert({
+     *   create: {
+     *     // ... data to create a Taxa
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Taxa we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends TaxaUpsertArgs>(
+      args: SelectSubset<T, TaxaUpsertArgs>
+    ): Prisma__TaxaClient<TaxaGetPayload<T>>
+
+    /**
+     * Count the number of Taxas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaxaCountArgs} args - Arguments to filter Taxas to count.
+     * @example
+     * // Count the number of Taxas
+     * const count = await prisma.taxa.count({
+     *   where: {
+     *     // ... the filter for the Taxas we want to count
+     *   }
+     * })
+    **/
+    count<T extends TaxaCountArgs>(
+      args?: Subset<T, TaxaCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TaxaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Taxa.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaxaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TaxaAggregateArgs>(args: Subset<T, TaxaAggregateArgs>): PrismaPromise<GetTaxaAggregateType<T>>
+
+    /**
+     * Group by Taxa.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaxaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TaxaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TaxaGroupByArgs['orderBy'] }
+        : { orderBy?: TaxaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TaxaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTaxaGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Taxa.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__TaxaClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Taxa$accountsArgs= {}>(args?: Subset<T, Taxa$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    taxonomies<T extends Taxa$taxonomiesArgs= {}>(args?: Subset<T, Taxa$taxonomiesArgs>): Prisma__TaxonomiesClient<TaxonomiesGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Taxa base type for findUnique actions
+   */
+  export type TaxaFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Taxa
+     * 
+    **/
+    select?: TaxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: TaxaInclude | null
+    /**
+     * Filter, which Taxa to fetch.
+     * 
+    **/
+    where: TaxaWhereUniqueInput
+  }
+
+  /**
+   * Taxa findUnique
+   */
+  export interface TaxaFindUniqueArgs extends TaxaFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Taxa findUniqueOrThrow
+   */
+  export type TaxaFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Taxa
+     * 
+    **/
+    select?: TaxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: TaxaInclude | null
+    /**
+     * Filter, which Taxa to fetch.
+     * 
+    **/
+    where: TaxaWhereUniqueInput
+  }
+
+
+  /**
+   * Taxa base type for findFirst actions
+   */
+  export type TaxaFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Taxa
+     * 
+    **/
+    select?: TaxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: TaxaInclude | null
+    /**
+     * Filter, which Taxa to fetch.
+     * 
+    **/
+    where?: TaxaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Taxas to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<TaxaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Taxas.
+     * 
+    **/
+    cursor?: TaxaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Taxas from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Taxas.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Taxas.
+     * 
+    **/
+    distinct?: Enumerable<TaxaScalarFieldEnum>
+  }
+
+  /**
+   * Taxa findFirst
+   */
+  export interface TaxaFindFirstArgs extends TaxaFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Taxa findFirstOrThrow
+   */
+  export type TaxaFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Taxa
+     * 
+    **/
+    select?: TaxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: TaxaInclude | null
+    /**
+     * Filter, which Taxa to fetch.
+     * 
+    **/
+    where?: TaxaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Taxas to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<TaxaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Taxas.
+     * 
+    **/
+    cursor?: TaxaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Taxas from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Taxas.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Taxas.
+     * 
+    **/
+    distinct?: Enumerable<TaxaScalarFieldEnum>
+  }
+
+
+  /**
+   * Taxa findMany
+   */
+  export type TaxaFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Taxa
+     * 
+    **/
+    select?: TaxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: TaxaInclude | null
+    /**
+     * Filter, which Taxas to fetch.
+     * 
+    **/
+    where?: TaxaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Taxas to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<TaxaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Taxas.
+     * 
+    **/
+    cursor?: TaxaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Taxas from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Taxas.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<TaxaScalarFieldEnum>
+  }
+
+
+  /**
+   * Taxa create
+   */
+  export type TaxaCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Taxa
+     * 
+    **/
+    select?: TaxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: TaxaInclude | null
+    /**
+     * The data needed to create a Taxa.
+     * 
+    **/
+    data: XOR<TaxaCreateInput, TaxaUncheckedCreateInput>
+  }
+
+
+  /**
+   * Taxa createMany
+   */
+  export type TaxaCreateManyArgs = {
+    /**
+     * The data used to create many Taxas.
+     * 
+    **/
+    data: Enumerable<TaxaCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Taxa update
+   */
+  export type TaxaUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Taxa
+     * 
+    **/
+    select?: TaxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: TaxaInclude | null
+    /**
+     * The data needed to update a Taxa.
+     * 
+    **/
+    data: XOR<TaxaUpdateInput, TaxaUncheckedUpdateInput>
+    /**
+     * Choose, which Taxa to update.
+     * 
+    **/
+    where: TaxaWhereUniqueInput
+  }
+
+
+  /**
+   * Taxa updateMany
+   */
+  export type TaxaUpdateManyArgs = {
+    /**
+     * The data used to update Taxas.
+     * 
+    **/
+    data: XOR<TaxaUpdateManyMutationInput, TaxaUncheckedUpdateManyInput>
+    /**
+     * Filter which Taxas to update
+     * 
+    **/
+    where?: TaxaWhereInput
+  }
+
+
+  /**
+   * Taxa upsert
+   */
+  export type TaxaUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Taxa
+     * 
+    **/
+    select?: TaxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: TaxaInclude | null
+    /**
+     * The filter to search for the Taxa to update in case it exists.
+     * 
+    **/
+    where: TaxaWhereUniqueInput
+    /**
+     * In case the Taxa found by the `where` argument doesn't exist, create a new Taxa with this data.
+     * 
+    **/
+    create: XOR<TaxaCreateInput, TaxaUncheckedCreateInput>
+    /**
+     * In case the Taxa was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<TaxaUpdateInput, TaxaUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Taxa delete
+   */
+  export type TaxaDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Taxa
+     * 
+    **/
+    select?: TaxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: TaxaInclude | null
+    /**
+     * Filter which Taxa to delete.
+     * 
+    **/
+    where: TaxaWhereUniqueInput
+  }
+
+
+  /**
+   * Taxa deleteMany
+   */
+  export type TaxaDeleteManyArgs = {
+    /**
+     * Filter which Taxas to delete
+     * 
+    **/
+    where?: TaxaWhereInput
+  }
+
+
+  /**
+   * Taxa.accounts
+   */
+  export type Taxa$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Taxa.taxonomies
+   */
+  export type Taxa$taxonomiesArgs = {
+    /**
+     * Select specific fields to fetch from the Taxonomies
+     * 
+    **/
+    select?: TaxonomiesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: TaxonomiesInclude | null
+    where?: TaxonomiesWhereInput
+  }
+
+
+  /**
+   * Taxa without action
+   */
+  export type TaxaArgs = {
+    /**
+     * Select specific fields to fetch from the Taxa
+     * 
+    **/
+    select?: TaxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: TaxaInclude | null
+  }
+
+
+
+  /**
    * Model Taxonomies
    */
 
@@ -9813,14 +10993,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: boolean
     label_replace_by_generated_column?: boolean
     deleted?: boolean
+    taxa?: boolean | Taxonomies$taxaArgs
     accounts?: boolean | Taxonomies$accountsArgs
     projects?: boolean | Taxonomies$projectsArgs
+    _count?: boolean | TaxonomiesCountOutputTypeArgs
   }
 
 
   export type TaxonomiesInclude = {
+    taxa?: boolean | Taxonomies$taxaArgs
     accounts?: boolean | Taxonomies$accountsArgs
     projects?: boolean | Taxonomies$projectsArgs
+    _count?: boolean | TaxonomiesCountOutputTypeArgs
   } 
 
   export type TaxonomiesGetPayload<S extends boolean | null | undefined | TaxonomiesArgs> =
@@ -9830,14 +11014,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (TaxonomiesArgs | TaxonomiesFindManyArgs)
     ? Taxonomies  & {
     [P in TruthyKeys<S['include']>]:
+        P extends 'taxa' ? Array < TaxaGetPayload<S['include'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
-        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> | null :  never
+        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> | null :
+        P extends '_count' ? TaxonomiesCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (TaxonomiesArgs | TaxonomiesFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
+        P extends 'taxa' ? Array < TaxaGetPayload<S['select'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
-        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> | null :  P extends keyof Taxonomies ? Taxonomies[P] : never
+        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> | null :
+        P extends '_count' ? TaxonomiesCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Taxonomies ? Taxonomies[P] : never
   } 
       : Taxonomies
 
@@ -10210,6 +11398,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _requestPromise?;
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    taxa<T extends Taxonomies$taxaArgs= {}>(args?: Subset<T, Taxonomies$taxaArgs>): PrismaPromise<Array<TaxaGetPayload<T>>| Null>;
 
     accounts<T extends Taxonomies$accountsArgs= {}>(args?: Subset<T, Taxonomies$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
 
@@ -10615,6 +11805,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     where?: TaxonomiesWhereInput
+  }
+
+
+  /**
+   * Taxonomies.taxa
+   */
+  export type Taxonomies$taxaArgs = {
+    /**
+     * Select specific fields to fetch from the Taxa
+     * 
+    **/
+    select?: TaxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: TaxaInclude | null
+    where?: TaxaWhereInput
+    orderBy?: Enumerable<TaxaOrderByWithRelationInput>
+    cursor?: TaxaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<TaxaScalarFieldEnum>
   }
 
 
@@ -16141,6 +17354,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type SubprojectsScalarFieldEnum = (typeof SubprojectsScalarFieldEnum)[keyof typeof SubprojectsScalarFieldEnum]
 
 
+  export const TaxaScalarFieldEnum: {
+    taxon_id: 'taxon_id',
+    account_id: 'account_id',
+    taxonomy_id: 'taxonomy_id',
+    name: 'name',
+    id_in_source: 'id_in_source',
+    url: 'url',
+    label: 'label',
+    deleted: 'deleted'
+  };
+
+  export type TaxaScalarFieldEnum = (typeof TaxaScalarFieldEnum)[keyof typeof TaxaScalarFieldEnum]
+
+
   export const TaxonomiesScalarFieldEnum: {
     taxonomy_id: 'taxonomy_id',
     account_id: 'account_id',
@@ -16388,6 +17615,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersListRelationFilter
     projects?: ProjectsListRelationFilter
     subprojects?: SubprojectsListRelationFilter
+    taxa?: TaxaListRelationFilter
     taxonomies?: TaxonomiesListRelationFilter
     ui_options?: Ui_optionsListRelationFilter
     user_messages?: User_messagesListRelationFilter
@@ -16406,6 +17634,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersOrderByRelationAggregateInput
     projects?: ProjectsOrderByRelationAggregateInput
     subprojects?: SubprojectsOrderByRelationAggregateInput
+    taxa?: TaxaOrderByRelationAggregateInput
     taxonomies?: TaxonomiesOrderByRelationAggregateInput
     ui_options?: Ui_optionsOrderByRelationAggregateInput
     user_messages?: User_messagesOrderByRelationAggregateInput
@@ -16427,6 +17656,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersListRelationFilter
     projects?: ProjectsListRelationFilter
     subprojects?: SubprojectsListRelationFilter
+    taxa?: TaxaListRelationFilter
     taxonomies?: TaxonomiesListRelationFilter
     ui_options?: Ui_optionsListRelationFilter
     user_messages?: User_messagesListRelationFilter
@@ -17013,6 +18243,79 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableWithAggregatesFilter<"Subprojects"> | boolean | null
   }
 
+  export type TaxaWhereInput = {
+    AND?: Enumerable<TaxaWhereInput>
+    OR?: Enumerable<TaxaWhereInput>
+    NOT?: Enumerable<TaxaWhereInput>
+    taxon_id?: UuidFilter<"Taxa"> | string
+    account_id?: UuidNullableFilter<"Taxa"> | string | null
+    taxonomy_id?: UuidNullableFilter<"Taxa"> | string | null
+    name?: StringNullableFilter<"Taxa"> | string | null
+    id_in_source?: StringNullableFilter<"Taxa"> | string | null
+    url?: StringNullableFilter<"Taxa"> | string | null
+    label?: StringNullableFilter<"Taxa"> | string | null
+    deleted?: BoolNullableFilter<"Taxa"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    taxonomies?: XOR<TaxonomiesNullableRelationFilter, TaxonomiesWhereInput> | null
+  }
+
+  export type TaxaOrderByWithRelationInput = {
+    taxon_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    taxonomy_id?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    id_in_source?: SortOrderInput | SortOrder
+    url?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    taxonomies?: TaxonomiesOrderByWithRelationInput
+  }
+
+  export type TaxaWhereUniqueInput = Prisma.AtLeast<{
+    taxon_id?: string
+    AND?: Enumerable<TaxaWhereInput>
+    OR?: Enumerable<TaxaWhereInput>
+    NOT?: Enumerable<TaxaWhereInput>
+    account_id?: UuidNullableFilter<"Taxa"> | string | null
+    taxonomy_id?: UuidNullableFilter<"Taxa"> | string | null
+    name?: StringNullableFilter<"Taxa"> | string | null
+    id_in_source?: StringNullableFilter<"Taxa"> | string | null
+    url?: StringNullableFilter<"Taxa"> | string | null
+    label?: StringNullableFilter<"Taxa"> | string | null
+    deleted?: BoolNullableFilter<"Taxa"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    taxonomies?: XOR<TaxonomiesNullableRelationFilter, TaxonomiesWhereInput> | null
+  }, "taxon_id">
+
+  export type TaxaOrderByWithAggregationInput = {
+    taxon_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    taxonomy_id?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    id_in_source?: SortOrderInput | SortOrder
+    url?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    _count?: TaxaCountOrderByAggregateInput
+    _max?: TaxaMaxOrderByAggregateInput
+    _min?: TaxaMinOrderByAggregateInput
+  }
+
+  export type TaxaScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<TaxaScalarWhereWithAggregatesInput>
+    OR?: Enumerable<TaxaScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<TaxaScalarWhereWithAggregatesInput>
+    taxon_id?: UuidWithAggregatesFilter<"Taxa"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"Taxa"> | string | null
+    taxonomy_id?: UuidNullableWithAggregatesFilter<"Taxa"> | string | null
+    name?: StringNullableWithAggregatesFilter<"Taxa"> | string | null
+    id_in_source?: StringNullableWithAggregatesFilter<"Taxa"> | string | null
+    url?: StringNullableWithAggregatesFilter<"Taxa"> | string | null
+    label?: StringNullableWithAggregatesFilter<"Taxa"> | string | null
+    deleted?: BoolNullableWithAggregatesFilter<"Taxa"> | boolean | null
+  }
+
   export type TaxonomiesWhereInput = {
     AND?: Enumerable<TaxonomiesWhereInput>
     OR?: Enumerable<TaxonomiesWhereInput>
@@ -17027,6 +18330,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: JsonNullableFilter<"Taxonomies">
     label_replace_by_generated_column?: StringNullableFilter<"Taxonomies"> | string | null
     deleted?: BoolNullableFilter<"Taxonomies"> | boolean | null
+    taxa?: TaxaListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
   }
@@ -17042,6 +18346,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: SortOrderInput | SortOrder
     label_replace_by_generated_column?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    taxa?: TaxaOrderByRelationAggregateInput
     accounts?: AccountsOrderByWithRelationInput
     projects?: ProjectsOrderByWithRelationInput
   }
@@ -17060,6 +18365,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: JsonNullableFilter<"Taxonomies">
     label_replace_by_generated_column?: StringNullableFilter<"Taxonomies"> | string | null
     deleted?: BoolNullableFilter<"Taxonomies"> | boolean | null
+    taxa?: TaxaListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
   }, "taxonomy_id">
@@ -17471,6 +18777,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -17488,6 +18795,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -17505,6 +18813,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -17522,6 +18831,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -18181,6 +19491,81 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type TaxaCreateInput = {
+    taxon_id: string
+    name?: string | null
+    id_in_source?: string | null
+    url?: string | null
+    label?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutTaxaInput
+    taxonomies?: TaxonomiesCreateNestedOneWithoutTaxaInput
+  }
+
+  export type TaxaUncheckedCreateInput = {
+    taxon_id: string
+    account_id?: string | null
+    taxonomy_id?: string | null
+    name?: string | null
+    id_in_source?: string | null
+    url?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type TaxaUpdateInput = {
+    taxon_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    id_in_source?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutTaxaNestedInput
+    taxonomies?: TaxonomiesUpdateOneWithoutTaxaNestedInput
+  }
+
+  export type TaxaUncheckedUpdateInput = {
+    taxon_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    taxonomy_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    id_in_source?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type TaxaCreateManyInput = {
+    taxon_id: string
+    account_id?: string | null
+    taxonomy_id?: string | null
+    name?: string | null
+    id_in_source?: string | null
+    url?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type TaxaUpdateManyMutationInput = {
+    taxon_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    id_in_source?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type TaxaUncheckedUpdateManyInput = {
+    taxon_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    taxonomy_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    id_in_source?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type TaxonomiesCreateInput = {
     taxonomy_id: string
     type?: taxonomy_type | null
@@ -18190,6 +19575,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    taxa?: TaxaCreateNestedManyWithoutTaxonomiesInput
     accounts?: AccountsCreateNestedOneWithoutTaxonomiesInput
     projects?: ProjectsCreateNestedOneWithoutTaxonomiesInput
   }
@@ -18205,6 +19591,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    taxa?: TaxaUncheckedCreateNestedManyWithoutTaxonomiesInput
   }
 
   export type TaxonomiesUpdateInput = {
@@ -18216,6 +19603,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    taxa?: TaxaUpdateManyWithoutTaxonomiesNestedInput
     accounts?: AccountsUpdateOneWithoutTaxonomiesNestedInput
     projects?: ProjectsUpdateOneWithoutTaxonomiesNestedInput
   }
@@ -18231,6 +19619,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    taxa?: TaxaUncheckedUpdateManyWithoutTaxonomiesNestedInput
   }
 
   export type TaxonomiesCreateManyInput = {
@@ -18733,6 +20122,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     none?: SubprojectsWhereInput
   }
 
+  export type TaxaListRelationFilter = {
+    every?: TaxaWhereInput
+    some?: TaxaWhereInput
+    none?: TaxaWhereInput
+  }
+
   export type TaxonomiesListRelationFilter = {
     every?: TaxonomiesWhereInput
     some?: TaxonomiesWhereInput
@@ -18769,6 +20164,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type SubprojectsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TaxaOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -19281,6 +20680,44 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: SortOrder
   }
 
+  export type TaxonomiesNullableRelationFilter = {
+    is?: TaxonomiesWhereInput | null
+    isNot?: TaxonomiesWhereInput | null
+  }
+
+  export type TaxaCountOrderByAggregateInput = {
+    taxon_id?: SortOrder
+    account_id?: SortOrder
+    taxonomy_id?: SortOrder
+    name?: SortOrder
+    id_in_source?: SortOrder
+    url?: SortOrder
+    label?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type TaxaMaxOrderByAggregateInput = {
+    taxon_id?: SortOrder
+    account_id?: SortOrder
+    taxonomy_id?: SortOrder
+    name?: SortOrder
+    id_in_source?: SortOrder
+    url?: SortOrder
+    label?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type TaxaMinOrderByAggregateInput = {
+    taxon_id?: SortOrder
+    account_id?: SortOrder
+    taxonomy_id?: SortOrder
+    name?: SortOrder
+    id_in_source?: SortOrder
+    url?: SortOrder
+    label?: SortOrder
+    deleted?: SortOrder
+  }
+
   export type Enumtaxonomy_typeNullableFilter<$PrismaModel = never> = {
     equals?: taxonomy_type | Enumtaxonomy_typeFieldRefInput<$PrismaModel> | null
     in?: Enumerable<taxonomy_type> | ListEnumtaxonomy_typeFieldRefInput<$PrismaModel> | null
@@ -19565,6 +21002,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<SubprojectsWhereUniqueInput>
   }
 
+  export type TaxaCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<TaxaCreateWithoutAccountsInput>, Enumerable<TaxaUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<TaxaCreateOrConnectWithoutAccountsInput>
+    createMany?: TaxaCreateManyAccountsInputEnvelope
+    connect?: Enumerable<TaxaWhereUniqueInput>
+  }
+
   export type TaxonomiesCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<TaxonomiesCreateWithoutAccountsInput>, Enumerable<TaxonomiesUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<TaxonomiesCreateOrConnectWithoutAccountsInput>
@@ -19612,6 +21056,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<SubprojectsCreateOrConnectWithoutAccountsInput>
     createMany?: SubprojectsCreateManyAccountsInputEnvelope
     connect?: Enumerable<SubprojectsWhereUniqueInput>
+  }
+
+  export type TaxaUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<TaxaCreateWithoutAccountsInput>, Enumerable<TaxaUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<TaxaCreateOrConnectWithoutAccountsInput>
+    createMany?: TaxaCreateManyAccountsInputEnvelope
+    connect?: Enumerable<TaxaWhereUniqueInput>
   }
 
   export type TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput = {
@@ -19713,6 +21164,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<SubprojectsScalarWhereInput>
   }
 
+  export type TaxaUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<TaxaCreateWithoutAccountsInput>, Enumerable<TaxaUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<TaxaCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<TaxaUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: TaxaCreateManyAccountsInputEnvelope
+    set?: Enumerable<TaxaWhereUniqueInput>
+    disconnect?: Enumerable<TaxaWhereUniqueInput>
+    delete?: Enumerable<TaxaWhereUniqueInput>
+    connect?: Enumerable<TaxaWhereUniqueInput>
+    update?: Enumerable<TaxaUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<TaxaUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<TaxaScalarWhereInput>
+  }
+
   export type TaxonomiesUpdateManyWithoutAccountsNestedInput = {
     create?: XOR<Enumerable<TaxonomiesCreateWithoutAccountsInput>, Enumerable<TaxonomiesUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<TaxonomiesCreateOrConnectWithoutAccountsInput>
@@ -19809,6 +21274,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<SubprojectsUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<SubprojectsUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<SubprojectsScalarWhereInput>
+  }
+
+  export type TaxaUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<TaxaCreateWithoutAccountsInput>, Enumerable<TaxaUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<TaxaCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<TaxaUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: TaxaCreateManyAccountsInputEnvelope
+    set?: Enumerable<TaxaWhereUniqueInput>
+    disconnect?: Enumerable<TaxaWhereUniqueInput>
+    delete?: Enumerable<TaxaWhereUniqueInput>
+    connect?: Enumerable<TaxaWhereUniqueInput>
+    update?: Enumerable<TaxaUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<TaxaUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<TaxaScalarWhereInput>
   }
 
   export type TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput = {
@@ -20249,6 +21728,45 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutSubprojectsInput, ProjectsUpdateWithoutSubprojectsInput>, ProjectsUncheckedUpdateWithoutSubprojectsInput>
   }
 
+  export type AccountsCreateNestedOneWithoutTaxaInput = {
+    create?: XOR<AccountsCreateWithoutTaxaInput, AccountsUncheckedCreateWithoutTaxaInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutTaxaInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type TaxonomiesCreateNestedOneWithoutTaxaInput = {
+    create?: XOR<TaxonomiesCreateWithoutTaxaInput, TaxonomiesUncheckedCreateWithoutTaxaInput>
+    connectOrCreate?: TaxonomiesCreateOrConnectWithoutTaxaInput
+    connect?: TaxonomiesWhereUniqueInput
+  }
+
+  export type AccountsUpdateOneWithoutTaxaNestedInput = {
+    create?: XOR<AccountsCreateWithoutTaxaInput, AccountsUncheckedCreateWithoutTaxaInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutTaxaInput
+    upsert?: AccountsUpsertWithoutTaxaInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutTaxaInput, AccountsUpdateWithoutTaxaInput>, AccountsUncheckedUpdateWithoutTaxaInput>
+  }
+
+  export type TaxonomiesUpdateOneWithoutTaxaNestedInput = {
+    create?: XOR<TaxonomiesCreateWithoutTaxaInput, TaxonomiesUncheckedCreateWithoutTaxaInput>
+    connectOrCreate?: TaxonomiesCreateOrConnectWithoutTaxaInput
+    upsert?: TaxonomiesUpsertWithoutTaxaInput
+    disconnect?: TaxonomiesWhereInput | boolean
+    delete?: TaxonomiesWhereInput | boolean
+    connect?: TaxonomiesWhereUniqueInput
+    update?: XOR<XOR<TaxonomiesUpdateToOneWithWhereWithoutTaxaInput, TaxonomiesUpdateWithoutTaxaInput>, TaxonomiesUncheckedUpdateWithoutTaxaInput>
+  }
+
+  export type TaxaCreateNestedManyWithoutTaxonomiesInput = {
+    create?: XOR<Enumerable<TaxaCreateWithoutTaxonomiesInput>, Enumerable<TaxaUncheckedCreateWithoutTaxonomiesInput>>
+    connectOrCreate?: Enumerable<TaxaCreateOrConnectWithoutTaxonomiesInput>
+    createMany?: TaxaCreateManyTaxonomiesInputEnvelope
+    connect?: Enumerable<TaxaWhereUniqueInput>
+  }
+
   export type AccountsCreateNestedOneWithoutTaxonomiesInput = {
     create?: XOR<AccountsCreateWithoutTaxonomiesInput, AccountsUncheckedCreateWithoutTaxonomiesInput>
     connectOrCreate?: AccountsCreateOrConnectWithoutTaxonomiesInput
@@ -20261,8 +21779,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: ProjectsWhereUniqueInput
   }
 
+  export type TaxaUncheckedCreateNestedManyWithoutTaxonomiesInput = {
+    create?: XOR<Enumerable<TaxaCreateWithoutTaxonomiesInput>, Enumerable<TaxaUncheckedCreateWithoutTaxonomiesInput>>
+    connectOrCreate?: Enumerable<TaxaCreateOrConnectWithoutTaxonomiesInput>
+    createMany?: TaxaCreateManyTaxonomiesInputEnvelope
+    connect?: Enumerable<TaxaWhereUniqueInput>
+  }
+
   export type NullableEnumtaxonomy_typeFieldUpdateOperationsInput = {
     set?: taxonomy_type | null
+  }
+
+  export type TaxaUpdateManyWithoutTaxonomiesNestedInput = {
+    create?: XOR<Enumerable<TaxaCreateWithoutTaxonomiesInput>, Enumerable<TaxaUncheckedCreateWithoutTaxonomiesInput>>
+    connectOrCreate?: Enumerable<TaxaCreateOrConnectWithoutTaxonomiesInput>
+    upsert?: Enumerable<TaxaUpsertWithWhereUniqueWithoutTaxonomiesInput>
+    createMany?: TaxaCreateManyTaxonomiesInputEnvelope
+    set?: Enumerable<TaxaWhereUniqueInput>
+    disconnect?: Enumerable<TaxaWhereUniqueInput>
+    delete?: Enumerable<TaxaWhereUniqueInput>
+    connect?: Enumerable<TaxaWhereUniqueInput>
+    update?: Enumerable<TaxaUpdateWithWhereUniqueWithoutTaxonomiesInput>
+    updateMany?: Enumerable<TaxaUpdateManyWithWhereWithoutTaxonomiesInput>
+    deleteMany?: Enumerable<TaxaScalarWhereInput>
   }
 
   export type AccountsUpdateOneWithoutTaxonomiesNestedInput = {
@@ -20283,6 +21822,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     delete?: ProjectsWhereInput | boolean
     connect?: ProjectsWhereUniqueInput
     update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutTaxonomiesInput, ProjectsUpdateWithoutTaxonomiesInput>, ProjectsUncheckedUpdateWithoutTaxonomiesInput>
+  }
+
+  export type TaxaUncheckedUpdateManyWithoutTaxonomiesNestedInput = {
+    create?: XOR<Enumerable<TaxaCreateWithoutTaxonomiesInput>, Enumerable<TaxaUncheckedCreateWithoutTaxonomiesInput>>
+    connectOrCreate?: Enumerable<TaxaCreateOrConnectWithoutTaxonomiesInput>
+    upsert?: Enumerable<TaxaUpsertWithWhereUniqueWithoutTaxonomiesInput>
+    createMany?: TaxaCreateManyTaxonomiesInputEnvelope
+    set?: Enumerable<TaxaWhereUniqueInput>
+    disconnect?: Enumerable<TaxaWhereUniqueInput>
+    delete?: Enumerable<TaxaWhereUniqueInput>
+    connect?: Enumerable<TaxaWhereUniqueInput>
+    update?: Enumerable<TaxaUpdateWithWhereUniqueWithoutTaxonomiesInput>
+    updateMany?: Enumerable<TaxaUpdateManyWithWhereWithoutTaxonomiesInput>
+    deleteMany?: Enumerable<TaxaScalarWhereInput>
   }
 
   export type AccountsCreateNestedOneWithoutUi_optionsInput = {
@@ -21042,6 +22595,36 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     skipDuplicates?: boolean
   }
 
+  export type TaxaCreateWithoutAccountsInput = {
+    taxon_id: string
+    name?: string | null
+    id_in_source?: string | null
+    url?: string | null
+    label?: string | null
+    deleted?: boolean | null
+    taxonomies?: TaxonomiesCreateNestedOneWithoutTaxaInput
+  }
+
+  export type TaxaUncheckedCreateWithoutAccountsInput = {
+    taxon_id: string
+    taxonomy_id?: string | null
+    name?: string | null
+    id_in_source?: string | null
+    url?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type TaxaCreateOrConnectWithoutAccountsInput = {
+    where: TaxaWhereUniqueInput
+    create: XOR<TaxaCreateWithoutAccountsInput, TaxaUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type TaxaCreateManyAccountsInputEnvelope = {
+    data: Enumerable<TaxaCreateManyAccountsInput>
+    skipDuplicates?: boolean
+  }
+
   export type TaxonomiesCreateWithoutAccountsInput = {
     taxonomy_id: string
     type?: taxonomy_type | null
@@ -21051,6 +22634,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    taxa?: TaxaCreateNestedManyWithoutTaxonomiesInput
     projects?: ProjectsCreateNestedOneWithoutTaxonomiesInput
   }
 
@@ -21064,6 +22648,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    taxa?: TaxaUncheckedCreateNestedManyWithoutTaxonomiesInput
   }
 
   export type TaxonomiesCreateOrConnectWithoutAccountsInput = {
@@ -21326,6 +22911,36 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableFilter<"Subprojects"> | boolean | null
   }
 
+  export type TaxaUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: TaxaWhereUniqueInput
+    update: XOR<TaxaUpdateWithoutAccountsInput, TaxaUncheckedUpdateWithoutAccountsInput>
+    create: XOR<TaxaCreateWithoutAccountsInput, TaxaUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type TaxaUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: TaxaWhereUniqueInput
+    data: XOR<TaxaUpdateWithoutAccountsInput, TaxaUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type TaxaUpdateManyWithWhereWithoutAccountsInput = {
+    where: TaxaScalarWhereInput
+    data: XOR<TaxaUpdateManyMutationInput, TaxaUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type TaxaScalarWhereInput = {
+    AND?: Enumerable<TaxaScalarWhereInput>
+    OR?: Enumerable<TaxaScalarWhereInput>
+    NOT?: Enumerable<TaxaScalarWhereInput>
+    taxon_id?: UuidFilter<"Taxa"> | string
+    account_id?: UuidNullableFilter<"Taxa"> | string | null
+    taxonomy_id?: UuidNullableFilter<"Taxa"> | string | null
+    name?: StringNullableFilter<"Taxa"> | string | null
+    id_in_source?: StringNullableFilter<"Taxa"> | string | null
+    url?: StringNullableFilter<"Taxa"> | string | null
+    label?: StringNullableFilter<"Taxa"> | string | null
+    deleted?: BoolNullableFilter<"Taxa"> | boolean | null
+  }
+
   export type TaxonomiesUpsertWithWhereUniqueWithoutAccountsInput = {
     where: TaxonomiesWhereUniqueInput
     update: XOR<TaxonomiesUpdateWithoutAccountsInput, TaxonomiesUncheckedUpdateWithoutAccountsInput>
@@ -21527,6 +23142,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -21543,6 +23159,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -21642,6 +23259,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -21658,6 +23276,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -21747,6 +23366,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -21763,6 +23383,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -21889,6 +23510,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -21905,6 +23527,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -22105,6 +23728,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -22121,6 +23745,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -22172,6 +23797,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    taxa?: TaxaCreateNestedManyWithoutTaxonomiesInput
     accounts?: AccountsCreateNestedOneWithoutTaxonomiesInput
   }
 
@@ -22185,6 +23811,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    taxa?: TaxaUncheckedCreateNestedManyWithoutTaxonomiesInput
   }
 
   export type TaxonomiesCreateOrConnectWithoutProjectsInput = {
@@ -22251,6 +23878,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -22267,6 +23895,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -22315,6 +23944,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -22331,6 +23961,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -22430,6 +24061,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -22446,6 +24078,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -22524,6 +24157,188 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
+  export type AccountsCreateWithoutTaxaInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutTaxaInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutTaxaInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutTaxaInput, AccountsUncheckedCreateWithoutTaxaInput>
+  }
+
+  export type TaxonomiesCreateWithoutTaxaInput = {
+    taxonomy_id: string
+    type?: taxonomy_type | null
+    name?: string | null
+    url?: string | null
+    obsolete?: boolean | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutTaxonomiesInput
+    projects?: ProjectsCreateNestedOneWithoutTaxonomiesInput
+  }
+
+  export type TaxonomiesUncheckedCreateWithoutTaxaInput = {
+    taxonomy_id: string
+    account_id?: string | null
+    project_id?: string | null
+    type?: taxonomy_type | null
+    name?: string | null
+    url?: string | null
+    obsolete?: boolean | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type TaxonomiesCreateOrConnectWithoutTaxaInput = {
+    where: TaxonomiesWhereUniqueInput
+    create: XOR<TaxonomiesCreateWithoutTaxaInput, TaxonomiesUncheckedCreateWithoutTaxaInput>
+  }
+
+  export type AccountsUpsertWithoutTaxaInput = {
+    update: XOR<AccountsUpdateWithoutTaxaInput, AccountsUncheckedUpdateWithoutTaxaInput>
+    create: XOR<AccountsCreateWithoutTaxaInput, AccountsUncheckedCreateWithoutTaxaInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutTaxaInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutTaxaInput, AccountsUncheckedUpdateWithoutTaxaInput>
+  }
+
+  export type AccountsUpdateWithoutTaxaInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutTaxaInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type TaxonomiesUpsertWithoutTaxaInput = {
+    update: XOR<TaxonomiesUpdateWithoutTaxaInput, TaxonomiesUncheckedUpdateWithoutTaxaInput>
+    create: XOR<TaxonomiesCreateWithoutTaxaInput, TaxonomiesUncheckedCreateWithoutTaxaInput>
+    where?: TaxonomiesWhereInput
+  }
+
+  export type TaxonomiesUpdateToOneWithWhereWithoutTaxaInput = {
+    where?: TaxonomiesWhereInput
+    data: XOR<TaxonomiesUpdateWithoutTaxaInput, TaxonomiesUncheckedUpdateWithoutTaxaInput>
+  }
+
+  export type TaxonomiesUpdateWithoutTaxaInput = {
+    taxonomy_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumtaxonomy_typeFieldUpdateOperationsInput | taxonomy_type | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    obsolete?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutTaxonomiesNestedInput
+    projects?: ProjectsUpdateOneWithoutTaxonomiesNestedInput
+  }
+
+  export type TaxonomiesUncheckedUpdateWithoutTaxaInput = {
+    taxonomy_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumtaxonomy_typeFieldUpdateOperationsInput | taxonomy_type | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    obsolete?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type TaxaCreateWithoutTaxonomiesInput = {
+    taxon_id: string
+    name?: string | null
+    id_in_source?: string | null
+    url?: string | null
+    label?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutTaxaInput
+  }
+
+  export type TaxaUncheckedCreateWithoutTaxonomiesInput = {
+    taxon_id: string
+    account_id?: string | null
+    name?: string | null
+    id_in_source?: string | null
+    url?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type TaxaCreateOrConnectWithoutTaxonomiesInput = {
+    where: TaxaWhereUniqueInput
+    create: XOR<TaxaCreateWithoutTaxonomiesInput, TaxaUncheckedCreateWithoutTaxonomiesInput>
+  }
+
+  export type TaxaCreateManyTaxonomiesInputEnvelope = {
+    data: Enumerable<TaxaCreateManyTaxonomiesInput>
+    skipDuplicates?: boolean
+  }
+
   export type AccountsCreateWithoutTaxonomiesInput = {
     account_id: string
     type?: string | null
@@ -22536,6 +24351,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
@@ -22552,6 +24368,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
@@ -22628,6 +24445,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     create: XOR<ProjectsCreateWithoutTaxonomiesInput, ProjectsUncheckedCreateWithoutTaxonomiesInput>
   }
 
+  export type TaxaUpsertWithWhereUniqueWithoutTaxonomiesInput = {
+    where: TaxaWhereUniqueInput
+    update: XOR<TaxaUpdateWithoutTaxonomiesInput, TaxaUncheckedUpdateWithoutTaxonomiesInput>
+    create: XOR<TaxaCreateWithoutTaxonomiesInput, TaxaUncheckedCreateWithoutTaxonomiesInput>
+  }
+
+  export type TaxaUpdateWithWhereUniqueWithoutTaxonomiesInput = {
+    where: TaxaWhereUniqueInput
+    data: XOR<TaxaUpdateWithoutTaxonomiesInput, TaxaUncheckedUpdateWithoutTaxonomiesInput>
+  }
+
+  export type TaxaUpdateManyWithWhereWithoutTaxonomiesInput = {
+    where: TaxaScalarWhereInput
+    data: XOR<TaxaUpdateManyMutationInput, TaxaUncheckedUpdateManyWithoutTaxonomiesInput>
+  }
+
   export type AccountsUpsertWithoutTaxonomiesInput = {
     update: XOR<AccountsUpdateWithoutTaxonomiesInput, AccountsUncheckedUpdateWithoutTaxonomiesInput>
     create: XOR<AccountsCreateWithoutTaxonomiesInput, AccountsUncheckedCreateWithoutTaxonomiesInput>
@@ -22651,6 +24484,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
@@ -22667,6 +24501,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
@@ -22756,6 +24591,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
@@ -22772,6 +24608,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
@@ -22831,6 +24668,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
@@ -22847,6 +24685,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
@@ -22896,6 +24735,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
   }
@@ -22912,6 +24752,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
   }
@@ -22990,6 +24831,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
   }
@@ -23006,6 +24848,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
   }
@@ -23079,6 +24922,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -23095,6 +24939,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -23524,6 +25369,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
   }
 
+  export type TaxaCreateManyAccountsInput = {
+    taxon_id: string
+    taxonomy_id?: string | null
+    name?: string | null
+    id_in_source?: string | null
+    url?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
   export type TaxonomiesCreateManyAccountsInput = {
     taxonomy_id: string
     project_id?: string | null
@@ -23770,6 +25625,36 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type TaxaUpdateWithoutAccountsInput = {
+    taxon_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    id_in_source?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    taxonomies?: TaxonomiesUpdateOneWithoutTaxaNestedInput
+  }
+
+  export type TaxaUncheckedUpdateWithoutAccountsInput = {
+    taxon_id?: StringFieldUpdateOperationsInput | string
+    taxonomy_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    id_in_source?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type TaxaUncheckedUpdateManyWithoutAccountsInput = {
+    taxon_id?: StringFieldUpdateOperationsInput | string
+    taxonomy_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    id_in_source?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type TaxonomiesUpdateWithoutAccountsInput = {
     taxonomy_id?: StringFieldUpdateOperationsInput | string
     type?: NullableEnumtaxonomy_typeFieldUpdateOperationsInput | taxonomy_type | null
@@ -23779,6 +25664,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    taxa?: TaxaUpdateManyWithoutTaxonomiesNestedInput
     projects?: ProjectsUpdateOneWithoutTaxonomiesNestedInput
   }
 
@@ -23792,6 +25678,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    taxa?: TaxaUncheckedUpdateManyWithoutTaxonomiesNestedInput
   }
 
   export type TaxonomiesUncheckedUpdateManyWithoutAccountsInput = {
@@ -24122,6 +26009,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    taxa?: TaxaUpdateManyWithoutTaxonomiesNestedInput
     accounts?: AccountsUpdateOneWithoutTaxonomiesNestedInput
   }
 
@@ -24135,6 +26023,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    taxa?: TaxaUncheckedUpdateManyWithoutTaxonomiesNestedInput
   }
 
   export type TaxonomiesUncheckedUpdateManyWithoutProjectsInput = {
@@ -24146,6 +26035,46 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     obsolete?: NullableBoolFieldUpdateOperationsInput | boolean | null
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type TaxaCreateManyTaxonomiesInput = {
+    taxon_id: string
+    account_id?: string | null
+    name?: string | null
+    id_in_source?: string | null
+    url?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type TaxaUpdateWithoutTaxonomiesInput = {
+    taxon_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    id_in_source?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutTaxaNestedInput
+  }
+
+  export type TaxaUncheckedUpdateWithoutTaxonomiesInput = {
+    taxon_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    id_in_source?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type TaxaUncheckedUpdateManyWithoutTaxonomiesInput = {
+    taxon_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    id_in_source?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
@@ -24186,6 +26115,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -24202,6 +26132,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
