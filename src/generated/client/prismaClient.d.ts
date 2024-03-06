@@ -487,6 +487,45 @@ export type Ui_options = {
 }
 
 /**
+ * Model Units
+ * 
+ */
+export type Units = {
+  /**
+   * @zod.string.uuid()
+   */
+  unit_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  project_id: string | null
+  use_for_action_values: boolean | null
+  use_for_action_report_values: boolean | null
+  use_for_check_values: boolean | null
+  use_for_place_report_values: boolean | null
+  use_for_goal_report_values: boolean | null
+  use_for_subproject_taxa: boolean | null
+  use_for_check_taxa: boolean | null
+  name: string | null
+  summable: boolean | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  sort: number | null
+  type: unit_type | null
+  /**
+   * @zod.string.uuid()
+   */
+  list_id: string | null
+  label_replace_by_generated_column: string | null
+  deleted: boolean | null
+}
+
+/**
  * Model User_messages
  * 
  */
@@ -600,6 +639,15 @@ export const taxonomy_type: {
 };
 
 export type taxonomy_type = (typeof taxonomy_type)[keyof typeof taxonomy_type]
+
+
+export const unit_type: {
+  integer: 'integer',
+  numeric: 'numeric',
+  text: 'text'
+};
+
+export type unit_type = (typeof unit_type)[keyof typeof unit_type]
 
 
 /**
@@ -898,6 +946,16 @@ export class PrismaClient<
     * ```
     */
   get ui_options(): Prisma.Ui_optionsDelegate<GlobalReject>;
+
+  /**
+   * `prisma.units`: Exposes CRUD operations for the **Units** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Units
+    * const units = await prisma.units.findMany()
+    * ```
+    */
+  get units(): Prisma.UnitsDelegate<GlobalReject>;
 
   /**
    * `prisma.user_messages`: Exposes CRUD operations for the **User_messages** model.
@@ -1440,6 +1498,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     Taxa: 'Taxa',
     Taxonomies: 'Taxonomies',
     Ui_options: 'Ui_options',
+    Units: 'Units',
     User_messages: 'User_messages',
     Users: 'Users',
     Widget_types: 'Widget_types',
@@ -1629,6 +1688,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa: number
     taxonomies: number
     ui_options: number
+    units: number
     user_messages: number
   }
 
@@ -1648,6 +1708,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: boolean | AccountsCountOutputTypeCountTaxaArgs
     taxonomies?: boolean | AccountsCountOutputTypeCountTaxonomiesArgs
     ui_options?: boolean | AccountsCountOutputTypeCountUi_optionsArgs
+    units?: boolean | AccountsCountOutputTypeCountUnitsArgs
     user_messages?: boolean | AccountsCountOutputTypeCountUser_messagesArgs
   }
 
@@ -1804,6 +1865,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * AccountsCountOutputType without action
    */
+  export type AccountsCountOutputTypeCountUnitsArgs = {
+    where?: UnitsWhereInput
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
   export type AccountsCountOutputTypeCountUser_messagesArgs = {
     where?: User_messagesWhereInput
   }
@@ -1869,10 +1938,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type ListsCountOutputType = {
     list_values: number
+    units: number
   }
 
   export type ListsCountOutputTypeSelect = {
     list_values?: boolean | ListsCountOutputTypeCountList_valuesArgs
+    units?: boolean | ListsCountOutputTypeCountUnitsArgs
   }
 
   export type ListsCountOutputTypeGetPayload<S extends boolean | null | undefined | ListsCountOutputTypeArgs> =
@@ -1910,6 +1981,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type ListsCountOutputTypeCountList_valuesArgs = {
     where?: List_valuesWhereInput
+  }
+
+
+  /**
+   * ListsCountOutputType without action
+   */
+  export type ListsCountOutputTypeCountUnitsArgs = {
+    where?: UnitsWhereInput
   }
 
 
@@ -1981,6 +2060,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users: number
     subprojects: number
     taxonomies: number
+    units: number
   }
 
   export type ProjectsCountOutputTypeSelect = {
@@ -1993,6 +2073,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: boolean | ProjectsCountOutputTypeCountProject_usersArgs
     subprojects?: boolean | ProjectsCountOutputTypeCountSubprojectsArgs
     taxonomies?: boolean | ProjectsCountOutputTypeCountTaxonomiesArgs
+    units?: boolean | ProjectsCountOutputTypeCountUnitsArgs
   }
 
   export type ProjectsCountOutputTypeGetPayload<S extends boolean | null | undefined | ProjectsCountOutputTypeArgs> =
@@ -2094,6 +2175,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type ProjectsCountOutputTypeCountTaxonomiesArgs = {
     where?: TaxonomiesWhereInput
+  }
+
+
+  /**
+   * ProjectsCountOutputType without action
+   */
+  export type ProjectsCountOutputTypeCountUnitsArgs = {
+    where?: UnitsWhereInput
   }
 
 
@@ -2625,6 +2714,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: boolean | Accounts$taxaArgs
     taxonomies?: boolean | Accounts$taxonomiesArgs
     ui_options?: boolean | Accounts$ui_optionsArgs
+    units?: boolean | Accounts$unitsArgs
     user_messages?: boolean | Accounts$user_messagesArgs
     _count?: boolean | AccountsCountOutputTypeArgs
   }
@@ -2647,6 +2737,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: boolean | Accounts$taxaArgs
     taxonomies?: boolean | Accounts$taxonomiesArgs
     ui_options?: boolean | Accounts$ui_optionsArgs
+    units?: boolean | Accounts$unitsArgs
     user_messages?: boolean | Accounts$user_messagesArgs
     _count?: boolean | AccountsCountOutputTypeArgs
   } 
@@ -2674,6 +2765,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'taxa' ? Array < TaxaGetPayload<S['include'][P]>>  :
         P extends 'taxonomies' ? Array < TaxonomiesGetPayload<S['include'][P]>>  :
         P extends 'ui_options' ? Array < Ui_optionsGetPayload<S['include'][P]>>  :
+        P extends 'units' ? Array < UnitsGetPayload<S['include'][P]>>  :
         P extends 'user_messages' ? Array < User_messagesGetPayload<S['include'][P]>>  :
         P extends '_count' ? AccountsCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
@@ -2696,6 +2788,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'taxa' ? Array < TaxaGetPayload<S['select'][P]>>  :
         P extends 'taxonomies' ? Array < TaxonomiesGetPayload<S['select'][P]>>  :
         P extends 'ui_options' ? Array < Ui_optionsGetPayload<S['select'][P]>>  :
+        P extends 'units' ? Array < UnitsGetPayload<S['select'][P]>>  :
         P extends 'user_messages' ? Array < User_messagesGetPayload<S['select'][P]>>  :
         P extends '_count' ? AccountsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Accounts ? Accounts[P] : never
   } 
@@ -3102,6 +3195,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxonomies<T extends Accounts$taxonomiesArgs= {}>(args?: Subset<T, Accounts$taxonomiesArgs>): PrismaPromise<Array<TaxonomiesGetPayload<T>>| Null>;
 
     ui_options<T extends Accounts$ui_optionsArgs= {}>(args?: Subset<T, Accounts$ui_optionsArgs>): PrismaPromise<Array<Ui_optionsGetPayload<T>>| Null>;
+
+    units<T extends Accounts$unitsArgs= {}>(args?: Subset<T, Accounts$unitsArgs>): PrismaPromise<Array<UnitsGetPayload<T>>| Null>;
 
     user_messages<T extends Accounts$user_messagesArgs= {}>(args?: Subset<T, Accounts$user_messagesArgs>): PrismaPromise<Array<User_messagesGetPayload<T>>| Null>;
 
@@ -3868,6 +3963,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<Ui_optionsScalarFieldEnum>
+  }
+
+
+  /**
+   * Accounts.units
+   */
+  export type Accounts$unitsArgs = {
+    /**
+     * Select specific fields to fetch from the Units
+     * 
+    **/
+    select?: UnitsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UnitsInclude | null
+    where?: UnitsWhereInput
+    orderBy?: Enumerable<UnitsOrderByWithRelationInput>
+    cursor?: UnitsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<UnitsScalarFieldEnum>
   }
 
 
@@ -9441,6 +9559,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_values?: boolean | Lists$list_valuesArgs
     accounts?: boolean | Lists$accountsArgs
     projects?: boolean | Lists$projectsArgs
+    units?: boolean | Lists$unitsArgs
     _count?: boolean | ListsCountOutputTypeArgs
   }
 
@@ -9449,6 +9568,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_values?: boolean | Lists$list_valuesArgs
     accounts?: boolean | Lists$accountsArgs
     projects?: boolean | Lists$projectsArgs
+    units?: boolean | Lists$unitsArgs
     _count?: boolean | ListsCountOutputTypeArgs
   } 
 
@@ -9462,6 +9582,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'list_values' ? Array < List_valuesGetPayload<S['include'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
         P extends 'projects' ? ProjectsGetPayload<S['include'][P]> | null :
+        P extends 'units' ? Array < UnitsGetPayload<S['include'][P]>>  :
         P extends '_count' ? ListsCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (ListsArgs | ListsFindManyArgs)
@@ -9470,6 +9591,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'list_values' ? Array < List_valuesGetPayload<S['select'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
         P extends 'projects' ? ProjectsGetPayload<S['select'][P]> | null :
+        P extends 'units' ? Array < UnitsGetPayload<S['select'][P]>>  :
         P extends '_count' ? ListsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Lists ? Lists[P] : never
   } 
       : Lists
@@ -9849,6 +9971,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts<T extends Lists$accountsArgs= {}>(args?: Subset<T, Lists$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
 
     projects<T extends Lists$projectsArgs= {}>(args?: Subset<T, Lists$projectsArgs>): Prisma__ProjectsClient<ProjectsGetPayload<T> | Null>;
+
+    units<T extends Lists$unitsArgs= {}>(args?: Subset<T, Lists$unitsArgs>): PrismaPromise<Array<UnitsGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -10309,6 +10433,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     include?: ProjectsInclude | null
     where?: ProjectsWhereInput
+  }
+
+
+  /**
+   * Lists.units
+   */
+  export type Lists$unitsArgs = {
+    /**
+     * Select specific fields to fetch from the Units
+     * 
+    **/
+    select?: UnitsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UnitsInclude | null
+    where?: UnitsWhereInput
+    orderBy?: Enumerable<UnitsOrderByWithRelationInput>
+    cursor?: UnitsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<UnitsScalarFieldEnum>
   }
 
 
@@ -14950,6 +15097,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: boolean | Projects$accountsArgs
     subprojects?: boolean | Projects$subprojectsArgs
     taxonomies?: boolean | Projects$taxonomiesArgs
+    units?: boolean | Projects$unitsArgs
     _count?: boolean | ProjectsCountOutputTypeArgs
   }
 
@@ -14965,6 +15113,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: boolean | Projects$accountsArgs
     subprojects?: boolean | Projects$subprojectsArgs
     taxonomies?: boolean | Projects$taxonomiesArgs
+    units?: boolean | Projects$unitsArgs
     _count?: boolean | ProjectsCountOutputTypeArgs
   } 
 
@@ -14985,6 +15134,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
         P extends 'subprojects' ? Array < SubprojectsGetPayload<S['include'][P]>>  :
         P extends 'taxonomies' ? Array < TaxonomiesGetPayload<S['include'][P]>>  :
+        P extends 'units' ? Array < UnitsGetPayload<S['include'][P]>>  :
         P extends '_count' ? ProjectsCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (ProjectsArgs | ProjectsFindManyArgs)
@@ -15000,6 +15150,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
         P extends 'subprojects' ? Array < SubprojectsGetPayload<S['select'][P]>>  :
         P extends 'taxonomies' ? Array < TaxonomiesGetPayload<S['select'][P]>>  :
+        P extends 'units' ? Array < UnitsGetPayload<S['select'][P]>>  :
         P extends '_count' ? ProjectsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Projects ? Projects[P] : never
   } 
       : Projects
@@ -15393,6 +15544,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects<T extends Projects$subprojectsArgs= {}>(args?: Subset<T, Projects$subprojectsArgs>): PrismaPromise<Array<SubprojectsGetPayload<T>>| Null>;
 
     taxonomies<T extends Projects$taxonomiesArgs= {}>(args?: Subset<T, Projects$taxonomiesArgs>): PrismaPromise<Array<TaxonomiesGetPayload<T>>| Null>;
+
+    units<T extends Projects$unitsArgs= {}>(args?: Subset<T, Projects$unitsArgs>): PrismaPromise<Array<UnitsGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -16019,6 +16172,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<TaxonomiesScalarFieldEnum>
+  }
+
+
+  /**
+   * Projects.units
+   */
+  export type Projects$unitsArgs = {
+    /**
+     * Select specific fields to fetch from the Units
+     * 
+    **/
+    select?: UnitsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UnitsInclude | null
+    where?: UnitsWhereInput
+    orderBy?: Enumerable<UnitsOrderByWithRelationInput>
+    cursor?: UnitsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<UnitsScalarFieldEnum>
   }
 
 
@@ -22655,6 +22831,1190 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Model Units
+   */
+
+
+  export type AggregateUnits = {
+    _count: UnitsCountAggregateOutputType | null
+    _avg: UnitsAvgAggregateOutputType | null
+    _sum: UnitsSumAggregateOutputType | null
+    _min: UnitsMinAggregateOutputType | null
+    _max: UnitsMaxAggregateOutputType | null
+  }
+
+  export type UnitsAvgAggregateOutputType = {
+    sort: number | null
+  }
+
+  export type UnitsSumAggregateOutputType = {
+    sort: number | null
+  }
+
+  export type UnitsMinAggregateOutputType = {
+    unit_id: string | null
+    account_id: string | null
+    project_id: string | null
+    use_for_action_values: boolean | null
+    use_for_action_report_values: boolean | null
+    use_for_check_values: boolean | null
+    use_for_place_report_values: boolean | null
+    use_for_goal_report_values: boolean | null
+    use_for_subproject_taxa: boolean | null
+    use_for_check_taxa: boolean | null
+    name: string | null
+    summable: boolean | null
+    sort: number | null
+    type: unit_type | null
+    list_id: string | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+  }
+
+  export type UnitsMaxAggregateOutputType = {
+    unit_id: string | null
+    account_id: string | null
+    project_id: string | null
+    use_for_action_values: boolean | null
+    use_for_action_report_values: boolean | null
+    use_for_check_values: boolean | null
+    use_for_place_report_values: boolean | null
+    use_for_goal_report_values: boolean | null
+    use_for_subproject_taxa: boolean | null
+    use_for_check_taxa: boolean | null
+    name: string | null
+    summable: boolean | null
+    sort: number | null
+    type: unit_type | null
+    list_id: string | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+  }
+
+  export type UnitsCountAggregateOutputType = {
+    unit_id: number
+    account_id: number
+    project_id: number
+    use_for_action_values: number
+    use_for_action_report_values: number
+    use_for_check_values: number
+    use_for_place_report_values: number
+    use_for_goal_report_values: number
+    use_for_subproject_taxa: number
+    use_for_check_taxa: number
+    name: number
+    summable: number
+    sort: number
+    type: number
+    list_id: number
+    label_replace_by_generated_column: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type UnitsAvgAggregateInputType = {
+    sort?: true
+  }
+
+  export type UnitsSumAggregateInputType = {
+    sort?: true
+  }
+
+  export type UnitsMinAggregateInputType = {
+    unit_id?: true
+    account_id?: true
+    project_id?: true
+    use_for_action_values?: true
+    use_for_action_report_values?: true
+    use_for_check_values?: true
+    use_for_place_report_values?: true
+    use_for_goal_report_values?: true
+    use_for_subproject_taxa?: true
+    use_for_check_taxa?: true
+    name?: true
+    summable?: true
+    sort?: true
+    type?: true
+    list_id?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+  }
+
+  export type UnitsMaxAggregateInputType = {
+    unit_id?: true
+    account_id?: true
+    project_id?: true
+    use_for_action_values?: true
+    use_for_action_report_values?: true
+    use_for_check_values?: true
+    use_for_place_report_values?: true
+    use_for_goal_report_values?: true
+    use_for_subproject_taxa?: true
+    use_for_check_taxa?: true
+    name?: true
+    summable?: true
+    sort?: true
+    type?: true
+    list_id?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+  }
+
+  export type UnitsCountAggregateInputType = {
+    unit_id?: true
+    account_id?: true
+    project_id?: true
+    use_for_action_values?: true
+    use_for_action_report_values?: true
+    use_for_check_values?: true
+    use_for_place_report_values?: true
+    use_for_goal_report_values?: true
+    use_for_subproject_taxa?: true
+    use_for_check_taxa?: true
+    name?: true
+    summable?: true
+    sort?: true
+    type?: true
+    list_id?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type UnitsAggregateArgs = {
+    /**
+     * Filter which Units to aggregate.
+     * 
+    **/
+    where?: UnitsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Units to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<UnitsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: UnitsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Units from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Units.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Units
+    **/
+    _count?: true | UnitsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UnitsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UnitsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UnitsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UnitsMaxAggregateInputType
+  }
+
+  export type GetUnitsAggregateType<T extends UnitsAggregateArgs> = {
+        [P in keyof T & keyof AggregateUnits]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUnits[P]>
+      : GetScalarType<T[P], AggregateUnits[P]>
+  }
+
+
+
+
+  export type UnitsGroupByArgs = {
+    where?: UnitsWhereInput
+    orderBy?: Enumerable<UnitsOrderByWithAggregationInput>
+    by: Array<UnitsScalarFieldEnum>
+    having?: UnitsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UnitsCountAggregateInputType | true
+    _avg?: UnitsAvgAggregateInputType
+    _sum?: UnitsSumAggregateInputType
+    _min?: UnitsMinAggregateInputType
+    _max?: UnitsMaxAggregateInputType
+  }
+
+
+  export type UnitsGroupByOutputType = {
+    unit_id: string
+    account_id: string | null
+    project_id: string | null
+    use_for_action_values: boolean | null
+    use_for_action_report_values: boolean | null
+    use_for_check_values: boolean | null
+    use_for_place_report_values: boolean | null
+    use_for_goal_report_values: boolean | null
+    use_for_subproject_taxa: boolean | null
+    use_for_check_taxa: boolean | null
+    name: string | null
+    summable: boolean | null
+    sort: number | null
+    type: unit_type | null
+    list_id: string | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+    _count: UnitsCountAggregateOutputType | null
+    _avg: UnitsAvgAggregateOutputType | null
+    _sum: UnitsSumAggregateOutputType | null
+    _min: UnitsMinAggregateOutputType | null
+    _max: UnitsMaxAggregateOutputType | null
+  }
+
+  type GetUnitsGroupByPayload<T extends UnitsGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<UnitsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UnitsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UnitsGroupByOutputType[P]>
+            : GetScalarType<T[P], UnitsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UnitsSelect = {
+    unit_id?: boolean
+    account_id?: boolean
+    project_id?: boolean
+    use_for_action_values?: boolean
+    use_for_action_report_values?: boolean
+    use_for_check_values?: boolean
+    use_for_place_report_values?: boolean
+    use_for_goal_report_values?: boolean
+    use_for_subproject_taxa?: boolean
+    use_for_check_taxa?: boolean
+    name?: boolean
+    summable?: boolean
+    sort?: boolean
+    type?: boolean
+    list_id?: boolean
+    label_replace_by_generated_column?: boolean
+    deleted?: boolean
+    accounts?: boolean | Units$accountsArgs
+    lists?: boolean | Units$listsArgs
+    projects?: boolean | Units$projectsArgs
+  }
+
+
+  export type UnitsInclude = {
+    accounts?: boolean | Units$accountsArgs
+    lists?: boolean | Units$listsArgs
+    projects?: boolean | Units$projectsArgs
+  } 
+
+  export type UnitsGetPayload<S extends boolean | null | undefined | UnitsArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Units :
+    S extends undefined ? never :
+    S extends { include: any } & (UnitsArgs | UnitsFindManyArgs)
+    ? Units  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'lists' ? ListsGetPayload<S['include'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (UnitsArgs | UnitsFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'lists' ? ListsGetPayload<S['select'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> | null :  P extends keyof Units ? Units[P] : never
+  } 
+      : Units
+
+
+  type UnitsCountArgs = Merge<
+    Omit<UnitsFindManyArgs, 'select' | 'include'> & {
+      select?: UnitsCountAggregateInputType | true
+    }
+  >
+
+  export interface UnitsDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Units that matches the filter.
+     * @param {UnitsFindUniqueArgs} args - Arguments to find a Units
+     * @example
+     * // Get one Units
+     * const units = await prisma.units.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends UnitsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, UnitsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Units'> extends True ? Prisma__UnitsClient<UnitsGetPayload<T>> : Prisma__UnitsClient<UnitsGetPayload<T> | null, null>
+
+    /**
+     * Find one Units that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {UnitsFindUniqueOrThrowArgs} args - Arguments to find a Units
+     * @example
+     * // Get one Units
+     * const units = await prisma.units.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends UnitsFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, UnitsFindUniqueOrThrowArgs>
+    ): Prisma__UnitsClient<UnitsGetPayload<T>>
+
+    /**
+     * Find the first Units that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnitsFindFirstArgs} args - Arguments to find a Units
+     * @example
+     * // Get one Units
+     * const units = await prisma.units.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends UnitsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, UnitsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Units'> extends True ? Prisma__UnitsClient<UnitsGetPayload<T>> : Prisma__UnitsClient<UnitsGetPayload<T> | null, null>
+
+    /**
+     * Find the first Units that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnitsFindFirstOrThrowArgs} args - Arguments to find a Units
+     * @example
+     * // Get one Units
+     * const units = await prisma.units.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends UnitsFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, UnitsFindFirstOrThrowArgs>
+    ): Prisma__UnitsClient<UnitsGetPayload<T>>
+
+    /**
+     * Find zero or more Units that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnitsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Units
+     * const units = await prisma.units.findMany()
+     * 
+     * // Get first 10 Units
+     * const units = await prisma.units.findMany({ take: 10 })
+     * 
+     * // Only select the `unit_id`
+     * const unitsWithUnit_idOnly = await prisma.units.findMany({ select: { unit_id: true } })
+     * 
+    **/
+    findMany<T extends UnitsFindManyArgs>(
+      args?: SelectSubset<T, UnitsFindManyArgs>
+    ): PrismaPromise<Array<UnitsGetPayload<T>>>
+
+    /**
+     * Create a Units.
+     * @param {UnitsCreateArgs} args - Arguments to create a Units.
+     * @example
+     * // Create one Units
+     * const Units = await prisma.units.create({
+     *   data: {
+     *     // ... data to create a Units
+     *   }
+     * })
+     * 
+    **/
+    create<T extends UnitsCreateArgs>(
+      args: SelectSubset<T, UnitsCreateArgs>
+    ): Prisma__UnitsClient<UnitsGetPayload<T>>
+
+    /**
+     * Create many Units.
+     *     @param {UnitsCreateManyArgs} args - Arguments to create many Units.
+     *     @example
+     *     // Create many Units
+     *     const units = await prisma.units.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends UnitsCreateManyArgs>(
+      args?: SelectSubset<T, UnitsCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Units.
+     * @param {UnitsDeleteArgs} args - Arguments to delete one Units.
+     * @example
+     * // Delete one Units
+     * const Units = await prisma.units.delete({
+     *   where: {
+     *     // ... filter to delete one Units
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends UnitsDeleteArgs>(
+      args: SelectSubset<T, UnitsDeleteArgs>
+    ): Prisma__UnitsClient<UnitsGetPayload<T>>
+
+    /**
+     * Update one Units.
+     * @param {UnitsUpdateArgs} args - Arguments to update one Units.
+     * @example
+     * // Update one Units
+     * const units = await prisma.units.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends UnitsUpdateArgs>(
+      args: SelectSubset<T, UnitsUpdateArgs>
+    ): Prisma__UnitsClient<UnitsGetPayload<T>>
+
+    /**
+     * Delete zero or more Units.
+     * @param {UnitsDeleteManyArgs} args - Arguments to filter Units to delete.
+     * @example
+     * // Delete a few Units
+     * const { count } = await prisma.units.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends UnitsDeleteManyArgs>(
+      args?: SelectSubset<T, UnitsDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Units.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnitsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Units
+     * const units = await prisma.units.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends UnitsUpdateManyArgs>(
+      args: SelectSubset<T, UnitsUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Units.
+     * @param {UnitsUpsertArgs} args - Arguments to update or create a Units.
+     * @example
+     * // Update or create a Units
+     * const units = await prisma.units.upsert({
+     *   create: {
+     *     // ... data to create a Units
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Units we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends UnitsUpsertArgs>(
+      args: SelectSubset<T, UnitsUpsertArgs>
+    ): Prisma__UnitsClient<UnitsGetPayload<T>>
+
+    /**
+     * Count the number of Units.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnitsCountArgs} args - Arguments to filter Units to count.
+     * @example
+     * // Count the number of Units
+     * const count = await prisma.units.count({
+     *   where: {
+     *     // ... the filter for the Units we want to count
+     *   }
+     * })
+    **/
+    count<T extends UnitsCountArgs>(
+      args?: Subset<T, UnitsCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UnitsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Units.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnitsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UnitsAggregateArgs>(args: Subset<T, UnitsAggregateArgs>): PrismaPromise<GetUnitsAggregateType<T>>
+
+    /**
+     * Group by Units.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnitsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UnitsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UnitsGroupByArgs['orderBy'] }
+        : { orderBy?: UnitsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UnitsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUnitsGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Units.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__UnitsClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Units$accountsArgs= {}>(args?: Subset<T, Units$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    lists<T extends Units$listsArgs= {}>(args?: Subset<T, Units$listsArgs>): Prisma__ListsClient<ListsGetPayload<T> | Null>;
+
+    projects<T extends Units$projectsArgs= {}>(args?: Subset<T, Units$projectsArgs>): Prisma__ProjectsClient<ProjectsGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Units base type for findUnique actions
+   */
+  export type UnitsFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Units
+     * 
+    **/
+    select?: UnitsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UnitsInclude | null
+    /**
+     * Filter, which Units to fetch.
+     * 
+    **/
+    where: UnitsWhereUniqueInput
+  }
+
+  /**
+   * Units findUnique
+   */
+  export interface UnitsFindUniqueArgs extends UnitsFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Units findUniqueOrThrow
+   */
+  export type UnitsFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Units
+     * 
+    **/
+    select?: UnitsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UnitsInclude | null
+    /**
+     * Filter, which Units to fetch.
+     * 
+    **/
+    where: UnitsWhereUniqueInput
+  }
+
+
+  /**
+   * Units base type for findFirst actions
+   */
+  export type UnitsFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Units
+     * 
+    **/
+    select?: UnitsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UnitsInclude | null
+    /**
+     * Filter, which Units to fetch.
+     * 
+    **/
+    where?: UnitsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Units to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<UnitsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Units.
+     * 
+    **/
+    cursor?: UnitsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Units from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Units.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Units.
+     * 
+    **/
+    distinct?: Enumerable<UnitsScalarFieldEnum>
+  }
+
+  /**
+   * Units findFirst
+   */
+  export interface UnitsFindFirstArgs extends UnitsFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Units findFirstOrThrow
+   */
+  export type UnitsFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Units
+     * 
+    **/
+    select?: UnitsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UnitsInclude | null
+    /**
+     * Filter, which Units to fetch.
+     * 
+    **/
+    where?: UnitsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Units to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<UnitsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Units.
+     * 
+    **/
+    cursor?: UnitsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Units from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Units.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Units.
+     * 
+    **/
+    distinct?: Enumerable<UnitsScalarFieldEnum>
+  }
+
+
+  /**
+   * Units findMany
+   */
+  export type UnitsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Units
+     * 
+    **/
+    select?: UnitsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UnitsInclude | null
+    /**
+     * Filter, which Units to fetch.
+     * 
+    **/
+    where?: UnitsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Units to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<UnitsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Units.
+     * 
+    **/
+    cursor?: UnitsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Units from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Units.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<UnitsScalarFieldEnum>
+  }
+
+
+  /**
+   * Units create
+   */
+  export type UnitsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Units
+     * 
+    **/
+    select?: UnitsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UnitsInclude | null
+    /**
+     * The data needed to create a Units.
+     * 
+    **/
+    data: XOR<UnitsCreateInput, UnitsUncheckedCreateInput>
+  }
+
+
+  /**
+   * Units createMany
+   */
+  export type UnitsCreateManyArgs = {
+    /**
+     * The data used to create many Units.
+     * 
+    **/
+    data: Enumerable<UnitsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Units update
+   */
+  export type UnitsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Units
+     * 
+    **/
+    select?: UnitsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UnitsInclude | null
+    /**
+     * The data needed to update a Units.
+     * 
+    **/
+    data: XOR<UnitsUpdateInput, UnitsUncheckedUpdateInput>
+    /**
+     * Choose, which Units to update.
+     * 
+    **/
+    where: UnitsWhereUniqueInput
+  }
+
+
+  /**
+   * Units updateMany
+   */
+  export type UnitsUpdateManyArgs = {
+    /**
+     * The data used to update Units.
+     * 
+    **/
+    data: XOR<UnitsUpdateManyMutationInput, UnitsUncheckedUpdateManyInput>
+    /**
+     * Filter which Units to update
+     * 
+    **/
+    where?: UnitsWhereInput
+  }
+
+
+  /**
+   * Units upsert
+   */
+  export type UnitsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Units
+     * 
+    **/
+    select?: UnitsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UnitsInclude | null
+    /**
+     * The filter to search for the Units to update in case it exists.
+     * 
+    **/
+    where: UnitsWhereUniqueInput
+    /**
+     * In case the Units found by the `where` argument doesn't exist, create a new Units with this data.
+     * 
+    **/
+    create: XOR<UnitsCreateInput, UnitsUncheckedCreateInput>
+    /**
+     * In case the Units was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<UnitsUpdateInput, UnitsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Units delete
+   */
+  export type UnitsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Units
+     * 
+    **/
+    select?: UnitsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UnitsInclude | null
+    /**
+     * Filter which Units to delete.
+     * 
+    **/
+    where: UnitsWhereUniqueInput
+  }
+
+
+  /**
+   * Units deleteMany
+   */
+  export type UnitsDeleteManyArgs = {
+    /**
+     * Filter which Units to delete
+     * 
+    **/
+    where?: UnitsWhereInput
+  }
+
+
+  /**
+   * Units.accounts
+   */
+  export type Units$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Units.lists
+   */
+  export type Units$listsArgs = {
+    /**
+     * Select specific fields to fetch from the Lists
+     * 
+    **/
+    select?: ListsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ListsInclude | null
+    where?: ListsWhereInput
+  }
+
+
+  /**
+   * Units.projects
+   */
+  export type Units$projectsArgs = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    where?: ProjectsWhereInput
+  }
+
+
+  /**
+   * Units without action
+   */
+  export type UnitsArgs = {
+    /**
+     * Select specific fields to fetch from the Units
+     * 
+    **/
+    select?: UnitsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UnitsInclude | null
+  }
+
+
+
+  /**
    * Model User_messages
    */
 
@@ -27230,6 +28590,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Ui_optionsScalarFieldEnum = (typeof Ui_optionsScalarFieldEnum)[keyof typeof Ui_optionsScalarFieldEnum]
 
 
+  export const UnitsScalarFieldEnum: {
+    unit_id: 'unit_id',
+    account_id: 'account_id',
+    project_id: 'project_id',
+    use_for_action_values: 'use_for_action_values',
+    use_for_action_report_values: 'use_for_action_report_values',
+    use_for_check_values: 'use_for_check_values',
+    use_for_place_report_values: 'use_for_place_report_values',
+    use_for_goal_report_values: 'use_for_goal_report_values',
+    use_for_subproject_taxa: 'use_for_subproject_taxa',
+    use_for_check_taxa: 'use_for_check_taxa',
+    name: 'name',
+    summable: 'summable',
+    sort: 'sort',
+    type: 'type',
+    list_id: 'list_id',
+    label_replace_by_generated_column: 'label_replace_by_generated_column',
+    deleted: 'deleted'
+  };
+
+  export type UnitsScalarFieldEnum = (typeof UnitsScalarFieldEnum)[keyof typeof UnitsScalarFieldEnum]
+
+
   export const User_messagesScalarFieldEnum: {
     user_message_id: 'user_message_id',
     account_id: 'account_id',
@@ -27422,6 +28805,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Reference to a field of type 'unit_type'
+   */
+  export type Enumunit_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'unit_type'>
+    
+
+
+  /**
+   * Reference to a field of type 'unit_type[]'
+   */
+  export type ListEnumunit_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'unit_type[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -27465,6 +28862,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaListRelationFilter
     taxonomies?: TaxonomiesListRelationFilter
     ui_options?: Ui_optionsListRelationFilter
+    units?: UnitsListRelationFilter
     user_messages?: User_messagesListRelationFilter
   }
 
@@ -27492,6 +28890,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaOrderByRelationAggregateInput
     taxonomies?: TaxonomiesOrderByRelationAggregateInput
     ui_options?: Ui_optionsOrderByRelationAggregateInput
+    units?: UnitsOrderByRelationAggregateInput
     user_messages?: User_messagesOrderByRelationAggregateInput
   }
 
@@ -27522,6 +28921,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaListRelationFilter
     taxonomies?: TaxonomiesListRelationFilter
     ui_options?: Ui_optionsListRelationFilter
+    units?: UnitsListRelationFilter
     user_messages?: User_messagesListRelationFilter
   }, "account_id">
 
@@ -27923,6 +29323,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_values?: List_valuesListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
+    units?: UnitsListRelationFilter
   }
 
   export type ListsOrderByWithRelationInput = {
@@ -27937,6 +29338,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_values?: List_valuesOrderByRelationAggregateInput
     accounts?: AccountsOrderByWithRelationInput
     projects?: ProjectsOrderByWithRelationInput
+    units?: UnitsOrderByRelationAggregateInput
   }
 
   export type ListsWhereUniqueInput = Prisma.AtLeast<{
@@ -27954,6 +29356,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_values?: List_valuesListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
+    units?: UnitsListRelationFilter
   }, "list_id">
 
   export type ListsOrderByWithAggregationInput = {
@@ -28337,6 +29740,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     subprojects?: SubprojectsListRelationFilter
     taxonomies?: TaxonomiesListRelationFilter
+    units?: UnitsListRelationFilter
   }
 
   export type ProjectsOrderByWithRelationInput = {
@@ -28375,6 +29779,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsOrderByWithRelationInput
     subprojects?: SubprojectsOrderByRelationAggregateInput
     taxonomies?: TaxonomiesOrderByRelationAggregateInput
+    units?: UnitsOrderByRelationAggregateInput
   }
 
   export type ProjectsWhereUniqueInput = Prisma.AtLeast<{
@@ -28416,6 +29821,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     subprojects?: SubprojectsListRelationFilter
     taxonomies?: TaxonomiesListRelationFilter
+    units?: UnitsListRelationFilter
   }, "project_id">
 
   export type ProjectsOrderByWithAggregationInput = {
@@ -28979,6 +30385,129 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: StringNullableWithAggregatesFilter<"Ui_options"> | string | null
   }
 
+  export type UnitsWhereInput = {
+    AND?: Enumerable<UnitsWhereInput>
+    OR?: Enumerable<UnitsWhereInput>
+    NOT?: Enumerable<UnitsWhereInput>
+    unit_id?: UuidFilter<"Units"> | string
+    account_id?: UuidNullableFilter<"Units"> | string | null
+    project_id?: UuidNullableFilter<"Units"> | string | null
+    use_for_action_values?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_action_report_values?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_check_values?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_place_report_values?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_goal_report_values?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_subproject_taxa?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_check_taxa?: BoolNullableFilter<"Units"> | boolean | null
+    name?: StringNullableFilter<"Units"> | string | null
+    summable?: BoolNullableFilter<"Units"> | boolean | null
+    sort?: IntNullableFilter<"Units"> | number | null
+    type?: Enumunit_typeNullableFilter<"Units"> | unit_type | null
+    list_id?: UuidNullableFilter<"Units"> | string | null
+    label_replace_by_generated_column?: StringNullableFilter<"Units"> | string | null
+    deleted?: BoolNullableFilter<"Units"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    lists?: XOR<ListsNullableRelationFilter, ListsWhereInput> | null
+    projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
+  }
+
+  export type UnitsOrderByWithRelationInput = {
+    unit_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    project_id?: SortOrderInput | SortOrder
+    use_for_action_values?: SortOrderInput | SortOrder
+    use_for_action_report_values?: SortOrderInput | SortOrder
+    use_for_check_values?: SortOrderInput | SortOrder
+    use_for_place_report_values?: SortOrderInput | SortOrder
+    use_for_goal_report_values?: SortOrderInput | SortOrder
+    use_for_subproject_taxa?: SortOrderInput | SortOrder
+    use_for_check_taxa?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    summable?: SortOrderInput | SortOrder
+    sort?: SortOrderInput | SortOrder
+    type?: SortOrderInput | SortOrder
+    list_id?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    lists?: ListsOrderByWithRelationInput
+    projects?: ProjectsOrderByWithRelationInput
+  }
+
+  export type UnitsWhereUniqueInput = Prisma.AtLeast<{
+    unit_id?: string
+    AND?: Enumerable<UnitsWhereInput>
+    OR?: Enumerable<UnitsWhereInput>
+    NOT?: Enumerable<UnitsWhereInput>
+    account_id?: UuidNullableFilter<"Units"> | string | null
+    project_id?: UuidNullableFilter<"Units"> | string | null
+    use_for_action_values?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_action_report_values?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_check_values?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_place_report_values?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_goal_report_values?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_subproject_taxa?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_check_taxa?: BoolNullableFilter<"Units"> | boolean | null
+    name?: StringNullableFilter<"Units"> | string | null
+    summable?: BoolNullableFilter<"Units"> | boolean | null
+    sort?: IntNullableFilter<"Units"> | number | null
+    type?: Enumunit_typeNullableFilter<"Units"> | unit_type | null
+    list_id?: UuidNullableFilter<"Units"> | string | null
+    label_replace_by_generated_column?: StringNullableFilter<"Units"> | string | null
+    deleted?: BoolNullableFilter<"Units"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    lists?: XOR<ListsNullableRelationFilter, ListsWhereInput> | null
+    projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
+  }, "unit_id">
+
+  export type UnitsOrderByWithAggregationInput = {
+    unit_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    project_id?: SortOrderInput | SortOrder
+    use_for_action_values?: SortOrderInput | SortOrder
+    use_for_action_report_values?: SortOrderInput | SortOrder
+    use_for_check_values?: SortOrderInput | SortOrder
+    use_for_place_report_values?: SortOrderInput | SortOrder
+    use_for_goal_report_values?: SortOrderInput | SortOrder
+    use_for_subproject_taxa?: SortOrderInput | SortOrder
+    use_for_check_taxa?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    summable?: SortOrderInput | SortOrder
+    sort?: SortOrderInput | SortOrder
+    type?: SortOrderInput | SortOrder
+    list_id?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    _count?: UnitsCountOrderByAggregateInput
+    _avg?: UnitsAvgOrderByAggregateInput
+    _max?: UnitsMaxOrderByAggregateInput
+    _min?: UnitsMinOrderByAggregateInput
+    _sum?: UnitsSumOrderByAggregateInput
+  }
+
+  export type UnitsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<UnitsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<UnitsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<UnitsScalarWhereWithAggregatesInput>
+    unit_id?: UuidWithAggregatesFilter<"Units"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"Units"> | string | null
+    project_id?: UuidNullableWithAggregatesFilter<"Units"> | string | null
+    use_for_action_values?: BoolNullableWithAggregatesFilter<"Units"> | boolean | null
+    use_for_action_report_values?: BoolNullableWithAggregatesFilter<"Units"> | boolean | null
+    use_for_check_values?: BoolNullableWithAggregatesFilter<"Units"> | boolean | null
+    use_for_place_report_values?: BoolNullableWithAggregatesFilter<"Units"> | boolean | null
+    use_for_goal_report_values?: BoolNullableWithAggregatesFilter<"Units"> | boolean | null
+    use_for_subproject_taxa?: BoolNullableWithAggregatesFilter<"Units"> | boolean | null
+    use_for_check_taxa?: BoolNullableWithAggregatesFilter<"Units"> | boolean | null
+    name?: StringNullableWithAggregatesFilter<"Units"> | string | null
+    summable?: BoolNullableWithAggregatesFilter<"Units"> | boolean | null
+    sort?: IntNullableWithAggregatesFilter<"Units"> | number | null
+    type?: Enumunit_typeNullableWithAggregatesFilter<"Units"> | unit_type | null
+    list_id?: UuidNullableWithAggregatesFilter<"Units"> | string | null
+    label_replace_by_generated_column?: StringNullableWithAggregatesFilter<"Units"> | string | null
+    deleted?: BoolNullableWithAggregatesFilter<"Units"> | boolean | null
+  }
+
   export type User_messagesWhereInput = {
     AND?: Enumerable<User_messagesWhereInput>
     OR?: Enumerable<User_messagesWhereInput>
@@ -29260,6 +30789,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -29286,6 +30816,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -29312,6 +30843,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -29338,6 +30870,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -29738,6 +31271,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_values?: List_valuesCreateNestedManyWithoutListsInput
     accounts?: AccountsCreateNestedOneWithoutListsInput
     projects?: ProjectsCreateNestedOneWithoutListsInput
+    units?: UnitsCreateNestedManyWithoutListsInput
   }
 
   export type ListsUncheckedCreateInput = {
@@ -29750,6 +31284,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
     list_values?: List_valuesUncheckedCreateNestedManyWithoutListsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutListsInput
   }
 
   export type ListsUpdateInput = {
@@ -29762,6 +31297,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_values?: List_valuesUpdateManyWithoutListsNestedInput
     accounts?: AccountsUpdateOneWithoutListsNestedInput
     projects?: ProjectsUpdateOneWithoutListsNestedInput
+    units?: UnitsUpdateManyWithoutListsNestedInput
   }
 
   export type ListsUncheckedUpdateInput = {
@@ -29774,6 +31310,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     list_values?: List_valuesUncheckedUpdateManyWithoutListsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutListsNestedInput
   }
 
   export type ListsCreateManyInput = {
@@ -30175,6 +31712,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateInput = {
@@ -30212,6 +31750,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUpdateInput = {
@@ -30249,6 +31788,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateInput = {
@@ -30286,6 +31826,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsCreateManyInput = {
@@ -30892,6 +32433,143 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type UnitsCreateInput = {
+    unit_id: string
+    use_for_action_values?: boolean | null
+    use_for_action_report_values?: boolean | null
+    use_for_check_values?: boolean | null
+    use_for_place_report_values?: boolean | null
+    use_for_goal_report_values?: boolean | null
+    use_for_subproject_taxa?: boolean | null
+    use_for_check_taxa?: boolean | null
+    name?: string | null
+    summable?: boolean | null
+    sort?: number | null
+    type?: unit_type | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutUnitsInput
+    lists?: ListsCreateNestedOneWithoutUnitsInput
+    projects?: ProjectsCreateNestedOneWithoutUnitsInput
+  }
+
+  export type UnitsUncheckedCreateInput = {
+    unit_id: string
+    account_id?: string | null
+    project_id?: string | null
+    use_for_action_values?: boolean | null
+    use_for_action_report_values?: boolean | null
+    use_for_check_values?: boolean | null
+    use_for_place_report_values?: boolean | null
+    use_for_goal_report_values?: boolean | null
+    use_for_subproject_taxa?: boolean | null
+    use_for_check_taxa?: boolean | null
+    name?: string | null
+    summable?: boolean | null
+    sort?: number | null
+    type?: unit_type | null
+    list_id?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type UnitsUpdateInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutUnitsNestedInput
+    lists?: ListsUpdateOneWithoutUnitsNestedInput
+    projects?: ProjectsUpdateOneWithoutUnitsNestedInput
+  }
+
+  export type UnitsUncheckedUpdateInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
+    list_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type UnitsCreateManyInput = {
+    unit_id: string
+    account_id?: string | null
+    project_id?: string | null
+    use_for_action_values?: boolean | null
+    use_for_action_report_values?: boolean | null
+    use_for_check_values?: boolean | null
+    use_for_place_report_values?: boolean | null
+    use_for_goal_report_values?: boolean | null
+    use_for_subproject_taxa?: boolean | null
+    use_for_check_taxa?: boolean | null
+    name?: string | null
+    summable?: boolean | null
+    sort?: number | null
+    type?: unit_type | null
+    list_id?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type UnitsUpdateManyMutationInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type UnitsUncheckedUpdateManyInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
+    list_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type User_messagesCreateInput = {
     user_message_id: string
     label_replace_by_generated_column?: string | null
@@ -31301,6 +32979,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     none?: Ui_optionsWhereInput
   }
 
+  export type UnitsListRelationFilter = {
+    every?: UnitsWhereInput
+    some?: UnitsWhereInput
+    none?: UnitsWhereInput
+  }
+
   export type User_messagesListRelationFilter = {
     every?: User_messagesWhereInput
     some?: User_messagesWhereInput
@@ -31369,6 +33053,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Ui_optionsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UnitsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -32297,6 +33985,91 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: SortOrder
   }
 
+  export type Enumunit_typeNullableFilter<$PrismaModel = never> = {
+    equals?: unit_type | Enumunit_typeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<unit_type> | ListEnumunit_typeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<unit_type> | ListEnumunit_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumunit_typeNullableFilter<$PrismaModel> | unit_type | null
+  }
+
+  export type UnitsCountOrderByAggregateInput = {
+    unit_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    use_for_action_values?: SortOrder
+    use_for_action_report_values?: SortOrder
+    use_for_check_values?: SortOrder
+    use_for_place_report_values?: SortOrder
+    use_for_goal_report_values?: SortOrder
+    use_for_subproject_taxa?: SortOrder
+    use_for_check_taxa?: SortOrder
+    name?: SortOrder
+    summable?: SortOrder
+    sort?: SortOrder
+    type?: SortOrder
+    list_id?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type UnitsAvgOrderByAggregateInput = {
+    sort?: SortOrder
+  }
+
+  export type UnitsMaxOrderByAggregateInput = {
+    unit_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    use_for_action_values?: SortOrder
+    use_for_action_report_values?: SortOrder
+    use_for_check_values?: SortOrder
+    use_for_place_report_values?: SortOrder
+    use_for_goal_report_values?: SortOrder
+    use_for_subproject_taxa?: SortOrder
+    use_for_check_taxa?: SortOrder
+    name?: SortOrder
+    summable?: SortOrder
+    sort?: SortOrder
+    type?: SortOrder
+    list_id?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type UnitsMinOrderByAggregateInput = {
+    unit_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    use_for_action_values?: SortOrder
+    use_for_action_report_values?: SortOrder
+    use_for_check_values?: SortOrder
+    use_for_place_report_values?: SortOrder
+    use_for_goal_report_values?: SortOrder
+    use_for_subproject_taxa?: SortOrder
+    use_for_check_taxa?: SortOrder
+    name?: SortOrder
+    summable?: SortOrder
+    sort?: SortOrder
+    type?: SortOrder
+    list_id?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type UnitsSumOrderByAggregateInput = {
+    sort?: SortOrder
+  }
+
+  export type Enumunit_typeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: unit_type | Enumunit_typeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<unit_type> | ListEnumunit_typeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<unit_type> | ListEnumunit_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumunit_typeNullableWithAggregatesFilter<$PrismaModel> | unit_type | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumunit_typeNullableFilter<$PrismaModel>
+    _max?: NestedEnumunit_typeNullableFilter<$PrismaModel>
+  }
+
   export type MessagesNullableRelationFilter = {
     is?: MessagesWhereInput | null
     isNot?: MessagesWhereInput | null
@@ -32551,6 +34324,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<Ui_optionsWhereUniqueInput>
   }
 
+  export type UnitsCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<UnitsCreateWithoutAccountsInput>, Enumerable<UnitsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<UnitsCreateOrConnectWithoutAccountsInput>
+    createMany?: UnitsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<UnitsWhereUniqueInput>
+  }
+
   export type User_messagesCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<User_messagesCreateWithoutAccountsInput>, Enumerable<User_messagesUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutAccountsInput>
@@ -32661,6 +34441,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<Ui_optionsCreateOrConnectWithoutAccountsInput>
     createMany?: Ui_optionsCreateManyAccountsInputEnvelope
     connect?: Enumerable<Ui_optionsWhereUniqueInput>
+  }
+
+  export type UnitsUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<UnitsCreateWithoutAccountsInput>, Enumerable<UnitsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<UnitsCreateOrConnectWithoutAccountsInput>
+    createMany?: UnitsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<UnitsWhereUniqueInput>
   }
 
   export type User_messagesUncheckedCreateNestedManyWithoutAccountsInput = {
@@ -32902,6 +34689,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<Ui_optionsScalarWhereInput>
   }
 
+  export type UnitsUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<UnitsCreateWithoutAccountsInput>, Enumerable<UnitsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<UnitsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<UnitsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: UnitsCreateManyAccountsInputEnvelope
+    set?: Enumerable<UnitsWhereUniqueInput>
+    disconnect?: Enumerable<UnitsWhereUniqueInput>
+    delete?: Enumerable<UnitsWhereUniqueInput>
+    connect?: Enumerable<UnitsWhereUniqueInput>
+    update?: Enumerable<UnitsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<UnitsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<UnitsScalarWhereInput>
+  }
+
   export type User_messagesUpdateManyWithoutAccountsNestedInput = {
     create?: XOR<Enumerable<User_messagesCreateWithoutAccountsInput>, Enumerable<User_messagesUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutAccountsInput>
@@ -33124,6 +34925,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<Ui_optionsUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<Ui_optionsUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<Ui_optionsScalarWhereInput>
+  }
+
+  export type UnitsUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<UnitsCreateWithoutAccountsInput>, Enumerable<UnitsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<UnitsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<UnitsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: UnitsCreateManyAccountsInputEnvelope
+    set?: Enumerable<UnitsWhereUniqueInput>
+    disconnect?: Enumerable<UnitsWhereUniqueInput>
+    delete?: Enumerable<UnitsWhereUniqueInput>
+    connect?: Enumerable<UnitsWhereUniqueInput>
+    update?: Enumerable<UnitsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<UnitsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<UnitsScalarWhereInput>
   }
 
   export type User_messagesUncheckedUpdateManyWithoutAccountsNestedInput = {
@@ -33377,11 +35192,25 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: ProjectsWhereUniqueInput
   }
 
+  export type UnitsCreateNestedManyWithoutListsInput = {
+    create?: XOR<Enumerable<UnitsCreateWithoutListsInput>, Enumerable<UnitsUncheckedCreateWithoutListsInput>>
+    connectOrCreate?: Enumerable<UnitsCreateOrConnectWithoutListsInput>
+    createMany?: UnitsCreateManyListsInputEnvelope
+    connect?: Enumerable<UnitsWhereUniqueInput>
+  }
+
   export type List_valuesUncheckedCreateNestedManyWithoutListsInput = {
     create?: XOR<Enumerable<List_valuesCreateWithoutListsInput>, Enumerable<List_valuesUncheckedCreateWithoutListsInput>>
     connectOrCreate?: Enumerable<List_valuesCreateOrConnectWithoutListsInput>
     createMany?: List_valuesCreateManyListsInputEnvelope
     connect?: Enumerable<List_valuesWhereUniqueInput>
+  }
+
+  export type UnitsUncheckedCreateNestedManyWithoutListsInput = {
+    create?: XOR<Enumerable<UnitsCreateWithoutListsInput>, Enumerable<UnitsUncheckedCreateWithoutListsInput>>
+    connectOrCreate?: Enumerable<UnitsCreateOrConnectWithoutListsInput>
+    createMany?: UnitsCreateManyListsInputEnvelope
+    connect?: Enumerable<UnitsWhereUniqueInput>
   }
 
   export type List_valuesUpdateManyWithoutListsNestedInput = {
@@ -33418,6 +35247,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutListsInput, ProjectsUpdateWithoutListsInput>, ProjectsUncheckedUpdateWithoutListsInput>
   }
 
+  export type UnitsUpdateManyWithoutListsNestedInput = {
+    create?: XOR<Enumerable<UnitsCreateWithoutListsInput>, Enumerable<UnitsUncheckedCreateWithoutListsInput>>
+    connectOrCreate?: Enumerable<UnitsCreateOrConnectWithoutListsInput>
+    upsert?: Enumerable<UnitsUpsertWithWhereUniqueWithoutListsInput>
+    createMany?: UnitsCreateManyListsInputEnvelope
+    set?: Enumerable<UnitsWhereUniqueInput>
+    disconnect?: Enumerable<UnitsWhereUniqueInput>
+    delete?: Enumerable<UnitsWhereUniqueInput>
+    connect?: Enumerable<UnitsWhereUniqueInput>
+    update?: Enumerable<UnitsUpdateWithWhereUniqueWithoutListsInput>
+    updateMany?: Enumerable<UnitsUpdateManyWithWhereWithoutListsInput>
+    deleteMany?: Enumerable<UnitsScalarWhereInput>
+  }
+
   export type List_valuesUncheckedUpdateManyWithoutListsNestedInput = {
     create?: XOR<Enumerable<List_valuesCreateWithoutListsInput>, Enumerable<List_valuesUncheckedCreateWithoutListsInput>>
     connectOrCreate?: Enumerable<List_valuesCreateOrConnectWithoutListsInput>
@@ -33430,6 +35273,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<List_valuesUpdateWithWhereUniqueWithoutListsInput>
     updateMany?: Enumerable<List_valuesUpdateManyWithWhereWithoutListsInput>
     deleteMany?: Enumerable<List_valuesScalarWhereInput>
+  }
+
+  export type UnitsUncheckedUpdateManyWithoutListsNestedInput = {
+    create?: XOR<Enumerable<UnitsCreateWithoutListsInput>, Enumerable<UnitsUncheckedCreateWithoutListsInput>>
+    connectOrCreate?: Enumerable<UnitsCreateOrConnectWithoutListsInput>
+    upsert?: Enumerable<UnitsUpsertWithWhereUniqueWithoutListsInput>
+    createMany?: UnitsCreateManyListsInputEnvelope
+    set?: Enumerable<UnitsWhereUniqueInput>
+    disconnect?: Enumerable<UnitsWhereUniqueInput>
+    delete?: Enumerable<UnitsWhereUniqueInput>
+    connect?: Enumerable<UnitsWhereUniqueInput>
+    update?: Enumerable<UnitsUpdateWithWhereUniqueWithoutListsInput>
+    updateMany?: Enumerable<UnitsUpdateManyWithWhereWithoutListsInput>
+    deleteMany?: Enumerable<UnitsScalarWhereInput>
   }
 
   export type User_messagesCreateNestedManyWithoutMessagesInput = {
@@ -33655,6 +35512,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<TaxonomiesWhereUniqueInput>
   }
 
+  export type UnitsCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<UnitsCreateWithoutProjectsInput>, Enumerable<UnitsUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<UnitsCreateOrConnectWithoutProjectsInput>
+    createMany?: UnitsCreateManyProjectsInputEnvelope
+    connect?: Enumerable<UnitsWhereUniqueInput>
+  }
+
   export type Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput = {
     create?: XOR<Enumerable<Gbif_occurrence_downloadsCreateWithoutProjectsInput>, Enumerable<Gbif_occurrence_downloadsUncheckedCreateWithoutProjectsInput>>
     connectOrCreate?: Enumerable<Gbif_occurrence_downloadsCreateOrConnectWithoutProjectsInput>
@@ -33716,6 +35580,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<TaxonomiesCreateOrConnectWithoutProjectsInput>
     createMany?: TaxonomiesCreateManyProjectsInputEnvelope
     connect?: Enumerable<TaxonomiesWhereUniqueInput>
+  }
+
+  export type UnitsUncheckedCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<UnitsCreateWithoutProjectsInput>, Enumerable<UnitsUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<UnitsCreateOrConnectWithoutProjectsInput>
+    createMany?: UnitsCreateManyProjectsInputEnvelope
+    connect?: Enumerable<UnitsWhereUniqueInput>
   }
 
   export type NullableEnumproject_typeFieldUpdateOperationsInput = {
@@ -33858,6 +35729,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<TaxonomiesScalarWhereInput>
   }
 
+  export type UnitsUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<UnitsCreateWithoutProjectsInput>, Enumerable<UnitsUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<UnitsCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<UnitsUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: UnitsCreateManyProjectsInputEnvelope
+    set?: Enumerable<UnitsWhereUniqueInput>
+    disconnect?: Enumerable<UnitsWhereUniqueInput>
+    delete?: Enumerable<UnitsWhereUniqueInput>
+    connect?: Enumerable<UnitsWhereUniqueInput>
+    update?: Enumerable<UnitsUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<UnitsUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<UnitsScalarWhereInput>
+  }
+
   export type Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput = {
     create?: XOR<Enumerable<Gbif_occurrence_downloadsCreateWithoutProjectsInput>, Enumerable<Gbif_occurrence_downloadsUncheckedCreateWithoutProjectsInput>>
     connectOrCreate?: Enumerable<Gbif_occurrence_downloadsCreateOrConnectWithoutProjectsInput>
@@ -33982,6 +35867,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<TaxonomiesUpdateWithWhereUniqueWithoutProjectsInput>
     updateMany?: Enumerable<TaxonomiesUpdateManyWithWhereWithoutProjectsInput>
     deleteMany?: Enumerable<TaxonomiesScalarWhereInput>
+  }
+
+  export type UnitsUncheckedUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<UnitsCreateWithoutProjectsInput>, Enumerable<UnitsUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<UnitsCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<UnitsUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: UnitsCreateManyProjectsInputEnvelope
+    set?: Enumerable<UnitsWhereUniqueInput>
+    disconnect?: Enumerable<UnitsWhereUniqueInput>
+    delete?: Enumerable<UnitsWhereUniqueInput>
+    connect?: Enumerable<UnitsWhereUniqueInput>
+    update?: Enumerable<UnitsUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<UnitsUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<UnitsScalarWhereInput>
   }
 
   export type AccountsCreateNestedOneWithoutSubproject_taxaInput = {
@@ -34460,6 +36359,58 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     upsert?: UsersUpsertWithoutUi_optionsInput
     connect?: UsersWhereUniqueInput
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutUi_optionsInput, UsersUpdateWithoutUi_optionsInput>, UsersUncheckedUpdateWithoutUi_optionsInput>
+  }
+
+  export type AccountsCreateNestedOneWithoutUnitsInput = {
+    create?: XOR<AccountsCreateWithoutUnitsInput, AccountsUncheckedCreateWithoutUnitsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutUnitsInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type ListsCreateNestedOneWithoutUnitsInput = {
+    create?: XOR<ListsCreateWithoutUnitsInput, ListsUncheckedCreateWithoutUnitsInput>
+    connectOrCreate?: ListsCreateOrConnectWithoutUnitsInput
+    connect?: ListsWhereUniqueInput
+  }
+
+  export type ProjectsCreateNestedOneWithoutUnitsInput = {
+    create?: XOR<ProjectsCreateWithoutUnitsInput, ProjectsUncheckedCreateWithoutUnitsInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutUnitsInput
+    connect?: ProjectsWhereUniqueInput
+  }
+
+  export type NullableEnumunit_typeFieldUpdateOperationsInput = {
+    set?: unit_type | null
+  }
+
+  export type AccountsUpdateOneWithoutUnitsNestedInput = {
+    create?: XOR<AccountsCreateWithoutUnitsInput, AccountsUncheckedCreateWithoutUnitsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutUnitsInput
+    upsert?: AccountsUpsertWithoutUnitsInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutUnitsInput, AccountsUpdateWithoutUnitsInput>, AccountsUncheckedUpdateWithoutUnitsInput>
+  }
+
+  export type ListsUpdateOneWithoutUnitsNestedInput = {
+    create?: XOR<ListsCreateWithoutUnitsInput, ListsUncheckedCreateWithoutUnitsInput>
+    connectOrCreate?: ListsCreateOrConnectWithoutUnitsInput
+    upsert?: ListsUpsertWithoutUnitsInput
+    disconnect?: ListsWhereInput | boolean
+    delete?: ListsWhereInput | boolean
+    connect?: ListsWhereUniqueInput
+    update?: XOR<XOR<ListsUpdateToOneWithWhereWithoutUnitsInput, ListsUpdateWithoutUnitsInput>, ListsUncheckedUpdateWithoutUnitsInput>
+  }
+
+  export type ProjectsUpdateOneWithoutUnitsNestedInput = {
+    create?: XOR<ProjectsCreateWithoutUnitsInput, ProjectsUncheckedCreateWithoutUnitsInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutUnitsInput
+    upsert?: ProjectsUpsertWithoutUnitsInput
+    disconnect?: ProjectsWhereInput | boolean
+    delete?: ProjectsWhereInput | boolean
+    connect?: ProjectsWhereUniqueInput
+    update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutUnitsInput, ProjectsUpdateWithoutUnitsInput>, ProjectsUncheckedUpdateWithoutUnitsInput>
   }
 
   export type AccountsCreateNestedOneWithoutUser_messagesInput = {
@@ -35039,6 +36990,23 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedEnumtaxonomy_typeNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumunit_typeNullableFilter<$PrismaModel = never> = {
+    equals?: unit_type | Enumunit_typeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<unit_type> | ListEnumunit_typeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<unit_type> | ListEnumunit_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumunit_typeNullableFilter<$PrismaModel> | unit_type | null
+  }
+
+  export type NestedEnumunit_typeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: unit_type | Enumunit_typeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<unit_type> | ListEnumunit_typeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<unit_type> | ListEnumunit_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumunit_typeNullableWithAggregatesFilter<$PrismaModel> | unit_type | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumunit_typeNullableFilter<$PrismaModel>
+    _max?: NestedEnumunit_typeNullableFilter<$PrismaModel>
+  }
+
   export type UsersCreateWithoutAccountsInput = {
     user_id: string
     email?: string | null
@@ -35195,6 +37163,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     list_values?: List_valuesCreateNestedManyWithoutListsInput
     projects?: ProjectsCreateNestedOneWithoutListsInput
+    units?: UnitsCreateNestedManyWithoutListsInput
   }
 
   export type ListsUncheckedCreateWithoutAccountsInput = {
@@ -35206,6 +37175,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
     list_values?: List_valuesUncheckedCreateNestedManyWithoutListsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutListsInput
   }
 
   export type ListsCreateOrConnectWithoutAccountsInput = {
@@ -35358,6 +37328,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutAccountsInput = {
@@ -35394,6 +37365,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutAccountsInput = {
@@ -35609,6 +37581,54 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Ui_optionsCreateManyAccountsInputEnvelope = {
     data: Enumerable<Ui_optionsCreateManyAccountsInput>
+    skipDuplicates?: boolean
+  }
+
+  export type UnitsCreateWithoutAccountsInput = {
+    unit_id: string
+    use_for_action_values?: boolean | null
+    use_for_action_report_values?: boolean | null
+    use_for_check_values?: boolean | null
+    use_for_place_report_values?: boolean | null
+    use_for_goal_report_values?: boolean | null
+    use_for_subproject_taxa?: boolean | null
+    use_for_check_taxa?: boolean | null
+    name?: string | null
+    summable?: boolean | null
+    sort?: number | null
+    type?: unit_type | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    lists?: ListsCreateNestedOneWithoutUnitsInput
+    projects?: ProjectsCreateNestedOneWithoutUnitsInput
+  }
+
+  export type UnitsUncheckedCreateWithoutAccountsInput = {
+    unit_id: string
+    project_id?: string | null
+    use_for_action_values?: boolean | null
+    use_for_action_report_values?: boolean | null
+    use_for_check_values?: boolean | null
+    use_for_place_report_values?: boolean | null
+    use_for_goal_report_values?: boolean | null
+    use_for_subproject_taxa?: boolean | null
+    use_for_check_taxa?: boolean | null
+    name?: string | null
+    summable?: boolean | null
+    sort?: number | null
+    type?: unit_type | null
+    list_id?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type UnitsCreateOrConnectWithoutAccountsInput = {
+    where: UnitsWhereUniqueInput
+    create: XOR<UnitsCreateWithoutAccountsInput, UnitsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type UnitsCreateManyAccountsInputEnvelope = {
+    data: Enumerable<UnitsCreateManyAccountsInput>
     skipDuplicates?: boolean
   }
 
@@ -36154,6 +38174,45 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: StringNullableFilter<"Ui_options"> | string | null
   }
 
+  export type UnitsUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: UnitsWhereUniqueInput
+    update: XOR<UnitsUpdateWithoutAccountsInput, UnitsUncheckedUpdateWithoutAccountsInput>
+    create: XOR<UnitsCreateWithoutAccountsInput, UnitsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type UnitsUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: UnitsWhereUniqueInput
+    data: XOR<UnitsUpdateWithoutAccountsInput, UnitsUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type UnitsUpdateManyWithWhereWithoutAccountsInput = {
+    where: UnitsScalarWhereInput
+    data: XOR<UnitsUpdateManyMutationInput, UnitsUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type UnitsScalarWhereInput = {
+    AND?: Enumerable<UnitsScalarWhereInput>
+    OR?: Enumerable<UnitsScalarWhereInput>
+    NOT?: Enumerable<UnitsScalarWhereInput>
+    unit_id?: UuidFilter<"Units"> | string
+    account_id?: UuidNullableFilter<"Units"> | string | null
+    project_id?: UuidNullableFilter<"Units"> | string | null
+    use_for_action_values?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_action_report_values?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_check_values?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_place_report_values?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_goal_report_values?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_subproject_taxa?: BoolNullableFilter<"Units"> | boolean | null
+    use_for_check_taxa?: BoolNullableFilter<"Units"> | boolean | null
+    name?: StringNullableFilter<"Units"> | string | null
+    summable?: BoolNullableFilter<"Units"> | boolean | null
+    sort?: IntNullableFilter<"Units"> | number | null
+    type?: Enumunit_typeNullableFilter<"Units"> | unit_type | null
+    list_id?: UuidNullableFilter<"Units"> | string | null
+    label_replace_by_generated_column?: StringNullableFilter<"Units"> | string | null
+    deleted?: BoolNullableFilter<"Units"> | boolean | null
+  }
+
   export type User_messagesUpsertWithWhereUniqueWithoutAccountsInput = {
     where: User_messagesWhereUniqueInput
     update: XOR<User_messagesUpdateWithoutAccountsInput, User_messagesUncheckedUpdateWithoutAccountsInput>
@@ -36255,6 +38314,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -36280,6 +38340,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -36322,6 +38383,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutGbif_occurrence_downloadsInput = {
@@ -36358,6 +38420,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutGbif_occurrence_downloadsInput = {
@@ -36433,6 +38496,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -36458,6 +38522,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -36506,6 +38571,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutGbif_occurrence_downloadsInput = {
@@ -36542,6 +38608,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type SubprojectsUpsertWithoutGbif_occurrence_downloadsInput = {
@@ -36607,6 +38674,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -36632,6 +38700,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -36674,6 +38743,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutGbif_occurrencesInput = {
@@ -36710,6 +38780,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutGbif_occurrencesInput = {
@@ -36785,6 +38856,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -36810,6 +38882,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -36858,6 +38931,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutGbif_occurrencesInput = {
@@ -36894,6 +38968,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type SubprojectsUpsertWithoutGbif_occurrencesInput = {
@@ -36959,6 +39034,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -36984,6 +39060,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -37026,6 +39103,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutGbif_taxaInput = {
@@ -37062,6 +39140,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutGbif_taxaInput = {
@@ -37102,6 +39181,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -37127,6 +39207,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -37175,6 +39256,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutGbif_taxaInput = {
@@ -37211,6 +39293,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type AccountsCreateWithoutList_valuesInput = {
@@ -37235,6 +39318,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -37260,6 +39344,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -37277,6 +39362,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     accounts?: AccountsCreateNestedOneWithoutListsInput
     projects?: ProjectsCreateNestedOneWithoutListsInput
+    units?: UnitsCreateNestedManyWithoutListsInput
   }
 
   export type ListsUncheckedCreateWithoutList_valuesInput = {
@@ -37288,6 +39374,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     obsolete?: boolean | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    units?: UnitsUncheckedCreateNestedManyWithoutListsInput
   }
 
   export type ListsCreateOrConnectWithoutList_valuesInput = {
@@ -37328,6 +39415,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -37353,6 +39441,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -37376,6 +39465,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     accounts?: AccountsUpdateOneWithoutListsNestedInput
     projects?: ProjectsUpdateOneWithoutListsNestedInput
+    units?: UnitsUpdateManyWithoutListsNestedInput
   }
 
   export type ListsUncheckedUpdateWithoutList_valuesInput = {
@@ -37387,6 +39477,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     obsolete?: NullableBoolFieldUpdateOperationsInput | boolean | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    units?: UnitsUncheckedUpdateManyWithoutListsNestedInput
   }
 
   export type List_valuesCreateWithoutListsInput = {
@@ -37439,6 +39530,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -37464,6 +39556,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -37506,6 +39599,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutListsInput = {
@@ -37542,11 +39636,60 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutListsInput = {
     where: ProjectsWhereUniqueInput
     create: XOR<ProjectsCreateWithoutListsInput, ProjectsUncheckedCreateWithoutListsInput>
+  }
+
+  export type UnitsCreateWithoutListsInput = {
+    unit_id: string
+    use_for_action_values?: boolean | null
+    use_for_action_report_values?: boolean | null
+    use_for_check_values?: boolean | null
+    use_for_place_report_values?: boolean | null
+    use_for_goal_report_values?: boolean | null
+    use_for_subproject_taxa?: boolean | null
+    use_for_check_taxa?: boolean | null
+    name?: string | null
+    summable?: boolean | null
+    sort?: number | null
+    type?: unit_type | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutUnitsInput
+    projects?: ProjectsCreateNestedOneWithoutUnitsInput
+  }
+
+  export type UnitsUncheckedCreateWithoutListsInput = {
+    unit_id: string
+    account_id?: string | null
+    project_id?: string | null
+    use_for_action_values?: boolean | null
+    use_for_action_report_values?: boolean | null
+    use_for_check_values?: boolean | null
+    use_for_place_report_values?: boolean | null
+    use_for_goal_report_values?: boolean | null
+    use_for_subproject_taxa?: boolean | null
+    use_for_check_taxa?: boolean | null
+    name?: string | null
+    summable?: boolean | null
+    sort?: number | null
+    type?: unit_type | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type UnitsCreateOrConnectWithoutListsInput = {
+    where: UnitsWhereUniqueInput
+    create: XOR<UnitsCreateWithoutListsInput, UnitsUncheckedCreateWithoutListsInput>
+  }
+
+  export type UnitsCreateManyListsInputEnvelope = {
+    data: Enumerable<UnitsCreateManyListsInput>
+    skipDuplicates?: boolean
   }
 
   export type List_valuesUpsertWithWhereUniqueWithoutListsInput = {
@@ -37598,6 +39741,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -37623,6 +39767,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -37671,6 +39816,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutListsInput = {
@@ -37707,6 +39853,23 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type UnitsUpsertWithWhereUniqueWithoutListsInput = {
+    where: UnitsWhereUniqueInput
+    update: XOR<UnitsUpdateWithoutListsInput, UnitsUncheckedUpdateWithoutListsInput>
+    create: XOR<UnitsCreateWithoutListsInput, UnitsUncheckedCreateWithoutListsInput>
+  }
+
+  export type UnitsUpdateWithWhereUniqueWithoutListsInput = {
+    where: UnitsWhereUniqueInput
+    data: XOR<UnitsUpdateWithoutListsInput, UnitsUncheckedUpdateWithoutListsInput>
+  }
+
+  export type UnitsUpdateManyWithWhereWithoutListsInput = {
+    where: UnitsScalarWhereInput
+    data: XOR<UnitsUpdateManyMutationInput, UnitsUncheckedUpdateManyWithoutListsInput>
   }
 
   export type User_messagesCreateWithoutMessagesInput = {
@@ -37773,6 +39936,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -37798,6 +39962,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -37840,6 +40005,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutPersonsInput = {
@@ -37876,6 +40042,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutPersonsInput = {
@@ -37916,6 +40083,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -37941,6 +40109,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -37989,6 +40158,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutPersonsInput = {
@@ -38025,6 +40195,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type AccountsCreateWithoutPlace_levelsInput = {
@@ -38049,6 +40220,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -38074,6 +40246,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -38116,6 +40289,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutPlace_levelsInput = {
@@ -38152,6 +40326,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutPlace_levelsInput = {
@@ -38192,6 +40367,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -38217,6 +40393,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -38265,6 +40442,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutPlace_levelsInput = {
@@ -38301,6 +40479,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type AccountsCreateWithoutProject_usersInput = {
@@ -38325,6 +40504,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -38350,6 +40530,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -38392,6 +40573,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutProject_usersInput = {
@@ -38428,6 +40610,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutProject_usersInput = {
@@ -38497,6 +40680,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -38522,6 +40706,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -38570,6 +40755,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutProject_usersInput = {
@@ -38606,6 +40792,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type UsersUpsertWithoutProject_usersInput = {
@@ -38742,6 +40929,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     list_values?: List_valuesCreateNestedManyWithoutListsInput
     accounts?: AccountsCreateNestedOneWithoutListsInput
+    units?: UnitsCreateNestedManyWithoutListsInput
   }
 
   export type ListsUncheckedCreateWithoutProjectsInput = {
@@ -38753,6 +40941,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
     list_values?: List_valuesUncheckedCreateNestedManyWithoutListsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutListsInput
   }
 
   export type ListsCreateOrConnectWithoutProjectsInput = {
@@ -38893,6 +41082,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -38918,6 +41108,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -38999,6 +41190,54 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type TaxonomiesCreateManyProjectsInputEnvelope = {
     data: Enumerable<TaxonomiesCreateManyProjectsInput>
+    skipDuplicates?: boolean
+  }
+
+  export type UnitsCreateWithoutProjectsInput = {
+    unit_id: string
+    use_for_action_values?: boolean | null
+    use_for_action_report_values?: boolean | null
+    use_for_check_values?: boolean | null
+    use_for_place_report_values?: boolean | null
+    use_for_goal_report_values?: boolean | null
+    use_for_subproject_taxa?: boolean | null
+    use_for_check_taxa?: boolean | null
+    name?: string | null
+    summable?: boolean | null
+    sort?: number | null
+    type?: unit_type | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutUnitsInput
+    lists?: ListsCreateNestedOneWithoutUnitsInput
+  }
+
+  export type UnitsUncheckedCreateWithoutProjectsInput = {
+    unit_id: string
+    account_id?: string | null
+    use_for_action_values?: boolean | null
+    use_for_action_report_values?: boolean | null
+    use_for_check_values?: boolean | null
+    use_for_place_report_values?: boolean | null
+    use_for_goal_report_values?: boolean | null
+    use_for_subproject_taxa?: boolean | null
+    use_for_check_taxa?: boolean | null
+    name?: string | null
+    summable?: boolean | null
+    sort?: number | null
+    type?: unit_type | null
+    list_id?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type UnitsCreateOrConnectWithoutProjectsInput = {
+    where: UnitsWhereUniqueInput
+    create: XOR<UnitsCreateWithoutProjectsInput, UnitsUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type UnitsCreateManyProjectsInputEnvelope = {
+    data: Enumerable<UnitsCreateManyProjectsInput>
     skipDuplicates?: boolean
   }
 
@@ -39147,6 +41386,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -39172,6 +41412,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -39207,6 +41448,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data: XOR<TaxonomiesUpdateManyMutationInput, TaxonomiesUncheckedUpdateManyWithoutProjectsInput>
   }
 
+  export type UnitsUpsertWithWhereUniqueWithoutProjectsInput = {
+    where: UnitsWhereUniqueInput
+    update: XOR<UnitsUpdateWithoutProjectsInput, UnitsUncheckedUpdateWithoutProjectsInput>
+    create: XOR<UnitsCreateWithoutProjectsInput, UnitsUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type UnitsUpdateWithWhereUniqueWithoutProjectsInput = {
+    where: UnitsWhereUniqueInput
+    data: XOR<UnitsUpdateWithoutProjectsInput, UnitsUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type UnitsUpdateManyWithWhereWithoutProjectsInput = {
+    where: UnitsScalarWhereInput
+    data: XOR<UnitsUpdateManyMutationInput, UnitsUncheckedUpdateManyWithoutProjectsInput>
+  }
+
   export type AccountsCreateWithoutSubproject_taxaInput = {
     account_id: string
     type?: string | null
@@ -39229,6 +41486,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -39254,6 +41512,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -39357,6 +41616,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -39382,6 +41642,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -39481,6 +41742,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -39506,6 +41768,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -39611,6 +41874,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -39636,6 +41900,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -39857,6 +42122,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -39882,6 +42148,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -39924,6 +42191,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutSubprojectsInput = {
@@ -39960,6 +42228,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutSubprojectsInput = {
@@ -40064,6 +42333,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -40089,6 +42359,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -40137,6 +42408,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutSubprojectsInput = {
@@ -40173,6 +42445,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type Subproject_taxaCreateWithoutTaxaInput = {
@@ -40223,6 +42496,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -40248,6 +42522,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -40336,6 +42611,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -40361,6 +42637,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -40455,6 +42732,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -40480,6 +42758,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -40522,6 +42801,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
+    units?: UnitsCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutTaxonomiesInput = {
@@ -40558,6 +42838,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutTaxonomiesInput = {
@@ -40614,6 +42895,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -40639,6 +42921,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -40687,6 +42970,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutTaxonomiesInput = {
@@ -40723,6 +43007,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type AccountsCreateWithoutUi_optionsInput = {
@@ -40747,6 +43032,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -40772,6 +43058,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -40842,6 +43129,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -40867,6 +43155,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -40905,6 +43194,354 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
   }
 
+  export type AccountsCreateWithoutUnitsInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesCreateNestedManyWithoutAccountsInput
+    lists?: ListsCreateNestedManyWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutUnitsInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutUnitsInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutUnitsInput, AccountsUncheckedCreateWithoutUnitsInput>
+  }
+
+  export type ListsCreateWithoutUnitsInput = {
+    list_id: string
+    name?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    obsolete?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    list_values?: List_valuesCreateNestedManyWithoutListsInput
+    accounts?: AccountsCreateNestedOneWithoutListsInput
+    projects?: ProjectsCreateNestedOneWithoutListsInput
+  }
+
+  export type ListsUncheckedCreateWithoutUnitsInput = {
+    list_id: string
+    account_id?: string | null
+    project_id?: string | null
+    name?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    obsolete?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    list_values?: List_valuesUncheckedCreateNestedManyWithoutListsInput
+  }
+
+  export type ListsCreateOrConnectWithoutUnitsInput = {
+    where: ListsWhereUniqueInput
+    create: XOR<ListsCreateWithoutUnitsInput, ListsUncheckedCreateWithoutUnitsInput>
+  }
+
+  export type ProjectsCreateWithoutUnitsInput = {
+    project_id: string
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
+    lists?: ListsCreateNestedManyWithoutProjectsInput
+    persons?: PersonsCreateNestedManyWithoutProjectsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
+    project_users?: Project_usersCreateNestedManyWithoutProjectsInput
+    accounts?: AccountsCreateNestedOneWithoutProjectsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectsUncheckedCreateWithoutUnitsInput = {
+    project_id: string
+    account_id?: string | null
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectsCreateOrConnectWithoutUnitsInput = {
+    where: ProjectsWhereUniqueInput
+    create: XOR<ProjectsCreateWithoutUnitsInput, ProjectsUncheckedCreateWithoutUnitsInput>
+  }
+
+  export type AccountsUpsertWithoutUnitsInput = {
+    update: XOR<AccountsUpdateWithoutUnitsInput, AccountsUncheckedUpdateWithoutUnitsInput>
+    create: XOR<AccountsCreateWithoutUnitsInput, AccountsUncheckedCreateWithoutUnitsInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutUnitsInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutUnitsInput, AccountsUncheckedUpdateWithoutUnitsInput>
+  }
+
+  export type AccountsUpdateWithoutUnitsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutUnitsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type ListsUpsertWithoutUnitsInput = {
+    update: XOR<ListsUpdateWithoutUnitsInput, ListsUncheckedUpdateWithoutUnitsInput>
+    create: XOR<ListsCreateWithoutUnitsInput, ListsUncheckedCreateWithoutUnitsInput>
+    where?: ListsWhereInput
+  }
+
+  export type ListsUpdateToOneWithWhereWithoutUnitsInput = {
+    where?: ListsWhereInput
+    data: XOR<ListsUpdateWithoutUnitsInput, ListsUncheckedUpdateWithoutUnitsInput>
+  }
+
+  export type ListsUpdateWithoutUnitsInput = {
+    list_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    obsolete?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    list_values?: List_valuesUpdateManyWithoutListsNestedInput
+    accounts?: AccountsUpdateOneWithoutListsNestedInput
+    projects?: ProjectsUpdateOneWithoutListsNestedInput
+  }
+
+  export type ListsUncheckedUpdateWithoutUnitsInput = {
+    list_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    obsolete?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    list_values?: List_valuesUncheckedUpdateManyWithoutListsNestedInput
+  }
+
+  export type ProjectsUpsertWithoutUnitsInput = {
+    update: XOR<ProjectsUpdateWithoutUnitsInput, ProjectsUncheckedUpdateWithoutUnitsInput>
+    create: XOR<ProjectsCreateWithoutUnitsInput, ProjectsUncheckedCreateWithoutUnitsInput>
+    where?: ProjectsWhereInput
+  }
+
+  export type ProjectsUpdateToOneWithWhereWithoutUnitsInput = {
+    where?: ProjectsWhereInput
+    data: XOR<ProjectsUpdateWithoutUnitsInput, ProjectsUncheckedUpdateWithoutUnitsInput>
+  }
+
+  export type ProjectsUpdateWithoutUnitsInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
+    lists?: ListsUpdateManyWithoutProjectsNestedInput
+    persons?: PersonsUpdateManyWithoutProjectsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
+    project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
+    accounts?: AccountsUpdateOneWithoutProjectsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type ProjectsUncheckedUpdateWithoutUnitsInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
   export type AccountsCreateWithoutUser_messagesInput = {
     account_id: string
     type?: string | null
@@ -40928,6 +43565,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutUser_messagesInput = {
@@ -40953,6 +43591,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutUser_messagesInput = {
@@ -41042,6 +43681,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutUser_messagesInput = {
@@ -41067,6 +43707,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type MessagesUpsertWithoutUser_messagesInput = {
@@ -41151,6 +43792,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
 
@@ -41176,6 +43818,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -41761,6 +44404,25 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
   }
 
+  export type UnitsCreateManyAccountsInput = {
+    unit_id: string
+    project_id?: string | null
+    use_for_action_values?: boolean | null
+    use_for_action_report_values?: boolean | null
+    use_for_check_values?: boolean | null
+    use_for_place_report_values?: boolean | null
+    use_for_goal_report_values?: boolean | null
+    use_for_subproject_taxa?: boolean | null
+    use_for_check_taxa?: boolean | null
+    name?: string | null
+    summable?: boolean | null
+    sort?: number | null
+    type?: unit_type | null
+    list_id?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
   export type User_messagesCreateManyAccountsInput = {
     user_message_id: string
     user_id?: string | null
@@ -41895,6 +44557,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     list_values?: List_valuesUpdateManyWithoutListsNestedInput
     projects?: ProjectsUpdateOneWithoutListsNestedInput
+    units?: UnitsUpdateManyWithoutListsNestedInput
   }
 
   export type ListsUncheckedUpdateWithoutAccountsInput = {
@@ -41906,6 +44569,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     list_values?: List_valuesUncheckedUpdateManyWithoutListsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutListsNestedInput
   }
 
   export type ListsUncheckedUpdateManyWithoutAccountsInput = {
@@ -42066,6 +44730,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutAccountsInput = {
@@ -42102,6 +44767,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateManyWithoutAccountsInput = {
@@ -42344,6 +45010,63 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type UnitsUpdateWithoutAccountsInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    lists?: ListsUpdateOneWithoutUnitsNestedInput
+    projects?: ProjectsUpdateOneWithoutUnitsNestedInput
+  }
+
+  export type UnitsUncheckedUpdateWithoutAccountsInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
+    list_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type UnitsUncheckedUpdateManyWithoutAccountsInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
+    list_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type User_messagesUpdateWithoutAccountsInput = {
     user_message_id?: StringFieldUpdateOperationsInput | string
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42405,6 +45128,25 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
   }
 
+  export type UnitsCreateManyListsInput = {
+    unit_id: string
+    account_id?: string | null
+    project_id?: string | null
+    use_for_action_values?: boolean | null
+    use_for_action_report_values?: boolean | null
+    use_for_check_values?: boolean | null
+    use_for_place_report_values?: boolean | null
+    use_for_goal_report_values?: boolean | null
+    use_for_subproject_taxa?: boolean | null
+    use_for_check_taxa?: boolean | null
+    name?: string | null
+    summable?: boolean | null
+    sort?: number | null
+    type?: unit_type | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
   export type List_valuesUpdateWithoutListsInput = {
     list_value_id?: StringFieldUpdateOperationsInput | string
     value?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42428,6 +45170,63 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     account_id?: NullableStringFieldUpdateOperationsInput | string | null
     value?: NullableStringFieldUpdateOperationsInput | string | null
     obsolete?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type UnitsUpdateWithoutListsInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutUnitsNestedInput
+    projects?: ProjectsUpdateOneWithoutUnitsNestedInput
+  }
+
+  export type UnitsUncheckedUpdateWithoutListsInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type UnitsUncheckedUpdateManyWithoutListsInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
@@ -42565,6 +45364,25 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
   }
 
+  export type UnitsCreateManyProjectsInput = {
+    unit_id: string
+    account_id?: string | null
+    use_for_action_values?: boolean | null
+    use_for_action_report_values?: boolean | null
+    use_for_check_values?: boolean | null
+    use_for_place_report_values?: boolean | null
+    use_for_goal_report_values?: boolean | null
+    use_for_subproject_taxa?: boolean | null
+    use_for_check_taxa?: boolean | null
+    name?: string | null
+    summable?: boolean | null
+    sort?: number | null
+    type?: unit_type | null
+    list_id?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
   export type Gbif_occurrence_downloadsUpdateWithoutProjectsInput = {
     gbif_occurrence_download_id?: StringFieldUpdateOperationsInput | string
     gbif_table?: NullableEnumgbif_tableFieldUpdateOperationsInput | gbif_table | null
@@ -42664,6 +45482,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     list_values?: List_valuesUpdateManyWithoutListsNestedInput
     accounts?: AccountsUpdateOneWithoutListsNestedInput
+    units?: UnitsUpdateManyWithoutListsNestedInput
   }
 
   export type ListsUncheckedUpdateWithoutProjectsInput = {
@@ -42675,6 +45494,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     list_values?: List_valuesUncheckedUpdateManyWithoutListsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutListsNestedInput
   }
 
   export type ListsUncheckedUpdateManyWithoutProjectsInput = {
@@ -42876,6 +45696,63 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     url?: NullableStringFieldUpdateOperationsInput | string | null
     obsolete?: NullableBoolFieldUpdateOperationsInput | boolean | null
     data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type UnitsUpdateWithoutProjectsInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutUnitsNestedInput
+    lists?: ListsUpdateOneWithoutUnitsNestedInput
+  }
+
+  export type UnitsUncheckedUpdateWithoutProjectsInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
+    list_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type UnitsUncheckedUpdateManyWithoutProjectsInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
+    list_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
@@ -43171,6 +46048,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
 
@@ -43196,6 +46074,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
