@@ -72,14 +72,17 @@ const ExampleComponent = () => {
                   accounts: true,
                   place_levels: true,
                   subprojects: true,
+                  project_users: true,
                 },
               },
               ui_options: true,
               place_levels: true,
               subprojects: true,
+              project_users: true,
             },
           },
           ui_options: true,
+          project_users: true,
         },
       })
       const messagesShape = await db.messages.sync({
