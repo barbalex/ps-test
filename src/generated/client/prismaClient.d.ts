@@ -133,6 +133,33 @@ export type Gbif_taxa = {
 }
 
 /**
+ * Model Goals
+ * 
+ */
+export type Goals = {
+  /**
+   * @zod.string.uuid()
+   */
+  goal_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  subproject_id: string | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  year: number | null
+  name: string | null
+  data: Prisma.JsonValue | null
+  label_replace_by_generated_column: string | null
+  deleted: boolean | null
+}
+
+/**
  * Model List_values
  * 
  */
@@ -818,6 +845,16 @@ export class PrismaClient<
   get gbif_taxa(): Prisma.Gbif_taxaDelegate<GlobalReject>;
 
   /**
+   * `prisma.goals`: Exposes CRUD operations for the **Goals** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Goals
+    * const goals = await prisma.goals.findMany()
+    * ```
+    */
+  get goals(): Prisma.GoalsDelegate<GlobalReject>;
+
+  /**
    * `prisma.list_values`: Exposes CRUD operations for the **List_values** model.
     * Example usage:
     * ```ts
@@ -1485,6 +1522,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     Gbif_occurrence_downloads: 'Gbif_occurrence_downloads',
     Gbif_occurrences: 'Gbif_occurrences',
     Gbif_taxa: 'Gbif_taxa',
+    Goals: 'Goals',
     List_values: 'List_values',
     Lists: 'Lists',
     Messages: 'Messages',
@@ -1676,6 +1714,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads: number
     gbif_occurrences: number
     gbif_taxa: number
+    goals: number
     list_values: number
     lists: number
     persons: number
@@ -1696,6 +1735,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: boolean | AccountsCountOutputTypeCountGbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | AccountsCountOutputTypeCountGbif_occurrencesArgs
     gbif_taxa?: boolean | AccountsCountOutputTypeCountGbif_taxaArgs
+    goals?: boolean | AccountsCountOutputTypeCountGoalsArgs
     list_values?: boolean | AccountsCountOutputTypeCountList_valuesArgs
     lists?: boolean | AccountsCountOutputTypeCountListsArgs
     persons?: boolean | AccountsCountOutputTypeCountPersonsArgs
@@ -1763,6 +1803,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type AccountsCountOutputTypeCountGbif_taxaArgs = {
     where?: Gbif_taxaWhereInput
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountGoalsArgs = {
+    where?: GoalsWhereInput
   }
 
 
@@ -2195,6 +2243,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type SubprojectsCountOutputType = {
     gbif_occurrence_downloads: number
     gbif_occurrences: number
+    goals: number
     subproject_taxa: number
     subproject_users: number
   }
@@ -2202,6 +2251,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type SubprojectsCountOutputTypeSelect = {
     gbif_occurrence_downloads?: boolean | SubprojectsCountOutputTypeCountGbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | SubprojectsCountOutputTypeCountGbif_occurrencesArgs
+    goals?: boolean | SubprojectsCountOutputTypeCountGoalsArgs
     subproject_taxa?: boolean | SubprojectsCountOutputTypeCountSubproject_taxaArgs
     subproject_users?: boolean | SubprojectsCountOutputTypeCountSubproject_usersArgs
   }
@@ -2249,6 +2299,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type SubprojectsCountOutputTypeCountGbif_occurrencesArgs = {
     where?: Gbif_occurrencesWhereInput
+  }
+
+
+  /**
+   * SubprojectsCountOutputType without action
+   */
+  export type SubprojectsCountOutputTypeCountGoalsArgs = {
+    where?: GoalsWhereInput
   }
 
 
@@ -2702,6 +2760,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: boolean | Accounts$gbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | Accounts$gbif_occurrencesArgs
     gbif_taxa?: boolean | Accounts$gbif_taxaArgs
+    goals?: boolean | Accounts$goalsArgs
     list_values?: boolean | Accounts$list_valuesArgs
     lists?: boolean | Accounts$listsArgs
     persons?: boolean | Accounts$personsArgs
@@ -2725,6 +2784,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: boolean | Accounts$gbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | Accounts$gbif_occurrencesArgs
     gbif_taxa?: boolean | Accounts$gbif_taxaArgs
+    goals?: boolean | Accounts$goalsArgs
     list_values?: boolean | Accounts$list_valuesArgs
     lists?: boolean | Accounts$listsArgs
     persons?: boolean | Accounts$personsArgs
@@ -2753,6 +2813,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'gbif_occurrence_downloads' ? Array < Gbif_occurrence_downloadsGetPayload<S['include'][P]>>  :
         P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['include'][P]>>  :
         P extends 'gbif_taxa' ? Array < Gbif_taxaGetPayload<S['include'][P]>>  :
+        P extends 'goals' ? Array < GoalsGetPayload<S['include'][P]>>  :
         P extends 'list_values' ? Array < List_valuesGetPayload<S['include'][P]>>  :
         P extends 'lists' ? Array < ListsGetPayload<S['include'][P]>>  :
         P extends 'persons' ? Array < PersonsGetPayload<S['include'][P]>>  :
@@ -2776,6 +2837,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'gbif_occurrence_downloads' ? Array < Gbif_occurrence_downloadsGetPayload<S['select'][P]>>  :
         P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['select'][P]>>  :
         P extends 'gbif_taxa' ? Array < Gbif_taxaGetPayload<S['select'][P]>>  :
+        P extends 'goals' ? Array < GoalsGetPayload<S['select'][P]>>  :
         P extends 'list_values' ? Array < List_valuesGetPayload<S['select'][P]>>  :
         P extends 'lists' ? Array < ListsGetPayload<S['select'][P]>>  :
         P extends 'persons' ? Array < PersonsGetPayload<S['select'][P]>>  :
@@ -3171,6 +3233,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrences<T extends Accounts$gbif_occurrencesArgs= {}>(args?: Subset<T, Accounts$gbif_occurrencesArgs>): PrismaPromise<Array<Gbif_occurrencesGetPayload<T>>| Null>;
 
     gbif_taxa<T extends Accounts$gbif_taxaArgs= {}>(args?: Subset<T, Accounts$gbif_taxaArgs>): PrismaPromise<Array<Gbif_taxaGetPayload<T>>| Null>;
+
+    goals<T extends Accounts$goalsArgs= {}>(args?: Subset<T, Accounts$goalsArgs>): PrismaPromise<Array<GoalsGetPayload<T>>| Null>;
 
     list_values<T extends Accounts$list_valuesArgs= {}>(args?: Subset<T, Accounts$list_valuesArgs>): PrismaPromise<Array<List_valuesGetPayload<T>>| Null>;
 
@@ -3687,6 +3751,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<Gbif_taxaScalarFieldEnum>
+  }
+
+
+  /**
+   * Accounts.goals
+   */
+  export type Accounts$goalsArgs = {
+    /**
+     * Select specific fields to fetch from the Goals
+     * 
+    **/
+    select?: GoalsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: GoalsInclude | null
+    where?: GoalsWhereInput
+    orderBy?: Enumerable<GoalsOrderByWithRelationInput>
+    cursor?: GoalsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<GoalsScalarFieldEnum>
   }
 
 
@@ -8315,6 +8402,1090 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     include?: Gbif_taxaInclude | null
+  }
+
+
+
+  /**
+   * Model Goals
+   */
+
+
+  export type AggregateGoals = {
+    _count: GoalsCountAggregateOutputType | null
+    _avg: GoalsAvgAggregateOutputType | null
+    _sum: GoalsSumAggregateOutputType | null
+    _min: GoalsMinAggregateOutputType | null
+    _max: GoalsMaxAggregateOutputType | null
+  }
+
+  export type GoalsAvgAggregateOutputType = {
+    year: number | null
+  }
+
+  export type GoalsSumAggregateOutputType = {
+    year: number | null
+  }
+
+  export type GoalsMinAggregateOutputType = {
+    goal_id: string | null
+    account_id: string | null
+    subproject_id: string | null
+    year: number | null
+    name: string | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+  }
+
+  export type GoalsMaxAggregateOutputType = {
+    goal_id: string | null
+    account_id: string | null
+    subproject_id: string | null
+    year: number | null
+    name: string | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+  }
+
+  export type GoalsCountAggregateOutputType = {
+    goal_id: number
+    account_id: number
+    subproject_id: number
+    year: number
+    name: number
+    data: number
+    label_replace_by_generated_column: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type GoalsAvgAggregateInputType = {
+    year?: true
+  }
+
+  export type GoalsSumAggregateInputType = {
+    year?: true
+  }
+
+  export type GoalsMinAggregateInputType = {
+    goal_id?: true
+    account_id?: true
+    subproject_id?: true
+    year?: true
+    name?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+  }
+
+  export type GoalsMaxAggregateInputType = {
+    goal_id?: true
+    account_id?: true
+    subproject_id?: true
+    year?: true
+    name?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+  }
+
+  export type GoalsCountAggregateInputType = {
+    goal_id?: true
+    account_id?: true
+    subproject_id?: true
+    year?: true
+    name?: true
+    data?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type GoalsAggregateArgs = {
+    /**
+     * Filter which Goals to aggregate.
+     * 
+    **/
+    where?: GoalsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Goals to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<GoalsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: GoalsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Goals from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Goals.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Goals
+    **/
+    _count?: true | GoalsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GoalsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GoalsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GoalsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GoalsMaxAggregateInputType
+  }
+
+  export type GetGoalsAggregateType<T extends GoalsAggregateArgs> = {
+        [P in keyof T & keyof AggregateGoals]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGoals[P]>
+      : GetScalarType<T[P], AggregateGoals[P]>
+  }
+
+
+
+
+  export type GoalsGroupByArgs = {
+    where?: GoalsWhereInput
+    orderBy?: Enumerable<GoalsOrderByWithAggregationInput>
+    by: Array<GoalsScalarFieldEnum>
+    having?: GoalsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GoalsCountAggregateInputType | true
+    _avg?: GoalsAvgAggregateInputType
+    _sum?: GoalsSumAggregateInputType
+    _min?: GoalsMinAggregateInputType
+    _max?: GoalsMaxAggregateInputType
+  }
+
+
+  export type GoalsGroupByOutputType = {
+    goal_id: string
+    account_id: string | null
+    subproject_id: string | null
+    year: number | null
+    name: string | null
+    data: JsonValue | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+    _count: GoalsCountAggregateOutputType | null
+    _avg: GoalsAvgAggregateOutputType | null
+    _sum: GoalsSumAggregateOutputType | null
+    _min: GoalsMinAggregateOutputType | null
+    _max: GoalsMaxAggregateOutputType | null
+  }
+
+  type GetGoalsGroupByPayload<T extends GoalsGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<GoalsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GoalsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GoalsGroupByOutputType[P]>
+            : GetScalarType<T[P], GoalsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GoalsSelect = {
+    goal_id?: boolean
+    account_id?: boolean
+    subproject_id?: boolean
+    year?: boolean
+    name?: boolean
+    data?: boolean
+    label_replace_by_generated_column?: boolean
+    deleted?: boolean
+    accounts?: boolean | Goals$accountsArgs
+    subprojects?: boolean | Goals$subprojectsArgs
+  }
+
+
+  export type GoalsInclude = {
+    accounts?: boolean | Goals$accountsArgs
+    subprojects?: boolean | Goals$subprojectsArgs
+  } 
+
+  export type GoalsGetPayload<S extends boolean | null | undefined | GoalsArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Goals :
+    S extends undefined ? never :
+    S extends { include: any } & (GoalsArgs | GoalsFindManyArgs)
+    ? Goals  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'subprojects' ? SubprojectsGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (GoalsArgs | GoalsFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'subprojects' ? SubprojectsGetPayload<S['select'][P]> | null :  P extends keyof Goals ? Goals[P] : never
+  } 
+      : Goals
+
+
+  type GoalsCountArgs = Merge<
+    Omit<GoalsFindManyArgs, 'select' | 'include'> & {
+      select?: GoalsCountAggregateInputType | true
+    }
+  >
+
+  export interface GoalsDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Goals that matches the filter.
+     * @param {GoalsFindUniqueArgs} args - Arguments to find a Goals
+     * @example
+     * // Get one Goals
+     * const goals = await prisma.goals.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends GoalsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, GoalsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Goals'> extends True ? Prisma__GoalsClient<GoalsGetPayload<T>> : Prisma__GoalsClient<GoalsGetPayload<T> | null, null>
+
+    /**
+     * Find one Goals that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {GoalsFindUniqueOrThrowArgs} args - Arguments to find a Goals
+     * @example
+     * // Get one Goals
+     * const goals = await prisma.goals.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends GoalsFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, GoalsFindUniqueOrThrowArgs>
+    ): Prisma__GoalsClient<GoalsGetPayload<T>>
+
+    /**
+     * Find the first Goals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoalsFindFirstArgs} args - Arguments to find a Goals
+     * @example
+     * // Get one Goals
+     * const goals = await prisma.goals.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends GoalsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, GoalsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Goals'> extends True ? Prisma__GoalsClient<GoalsGetPayload<T>> : Prisma__GoalsClient<GoalsGetPayload<T> | null, null>
+
+    /**
+     * Find the first Goals that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoalsFindFirstOrThrowArgs} args - Arguments to find a Goals
+     * @example
+     * // Get one Goals
+     * const goals = await prisma.goals.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends GoalsFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, GoalsFindFirstOrThrowArgs>
+    ): Prisma__GoalsClient<GoalsGetPayload<T>>
+
+    /**
+     * Find zero or more Goals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoalsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Goals
+     * const goals = await prisma.goals.findMany()
+     * 
+     * // Get first 10 Goals
+     * const goals = await prisma.goals.findMany({ take: 10 })
+     * 
+     * // Only select the `goal_id`
+     * const goalsWithGoal_idOnly = await prisma.goals.findMany({ select: { goal_id: true } })
+     * 
+    **/
+    findMany<T extends GoalsFindManyArgs>(
+      args?: SelectSubset<T, GoalsFindManyArgs>
+    ): PrismaPromise<Array<GoalsGetPayload<T>>>
+
+    /**
+     * Create a Goals.
+     * @param {GoalsCreateArgs} args - Arguments to create a Goals.
+     * @example
+     * // Create one Goals
+     * const Goals = await prisma.goals.create({
+     *   data: {
+     *     // ... data to create a Goals
+     *   }
+     * })
+     * 
+    **/
+    create<T extends GoalsCreateArgs>(
+      args: SelectSubset<T, GoalsCreateArgs>
+    ): Prisma__GoalsClient<GoalsGetPayload<T>>
+
+    /**
+     * Create many Goals.
+     *     @param {GoalsCreateManyArgs} args - Arguments to create many Goals.
+     *     @example
+     *     // Create many Goals
+     *     const goals = await prisma.goals.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends GoalsCreateManyArgs>(
+      args?: SelectSubset<T, GoalsCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Goals.
+     * @param {GoalsDeleteArgs} args - Arguments to delete one Goals.
+     * @example
+     * // Delete one Goals
+     * const Goals = await prisma.goals.delete({
+     *   where: {
+     *     // ... filter to delete one Goals
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends GoalsDeleteArgs>(
+      args: SelectSubset<T, GoalsDeleteArgs>
+    ): Prisma__GoalsClient<GoalsGetPayload<T>>
+
+    /**
+     * Update one Goals.
+     * @param {GoalsUpdateArgs} args - Arguments to update one Goals.
+     * @example
+     * // Update one Goals
+     * const goals = await prisma.goals.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends GoalsUpdateArgs>(
+      args: SelectSubset<T, GoalsUpdateArgs>
+    ): Prisma__GoalsClient<GoalsGetPayload<T>>
+
+    /**
+     * Delete zero or more Goals.
+     * @param {GoalsDeleteManyArgs} args - Arguments to filter Goals to delete.
+     * @example
+     * // Delete a few Goals
+     * const { count } = await prisma.goals.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends GoalsDeleteManyArgs>(
+      args?: SelectSubset<T, GoalsDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Goals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoalsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Goals
+     * const goals = await prisma.goals.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends GoalsUpdateManyArgs>(
+      args: SelectSubset<T, GoalsUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Goals.
+     * @param {GoalsUpsertArgs} args - Arguments to update or create a Goals.
+     * @example
+     * // Update or create a Goals
+     * const goals = await prisma.goals.upsert({
+     *   create: {
+     *     // ... data to create a Goals
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Goals we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends GoalsUpsertArgs>(
+      args: SelectSubset<T, GoalsUpsertArgs>
+    ): Prisma__GoalsClient<GoalsGetPayload<T>>
+
+    /**
+     * Count the number of Goals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoalsCountArgs} args - Arguments to filter Goals to count.
+     * @example
+     * // Count the number of Goals
+     * const count = await prisma.goals.count({
+     *   where: {
+     *     // ... the filter for the Goals we want to count
+     *   }
+     * })
+    **/
+    count<T extends GoalsCountArgs>(
+      args?: Subset<T, GoalsCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GoalsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Goals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoalsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GoalsAggregateArgs>(args: Subset<T, GoalsAggregateArgs>): PrismaPromise<GetGoalsAggregateType<T>>
+
+    /**
+     * Group by Goals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoalsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GoalsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GoalsGroupByArgs['orderBy'] }
+        : { orderBy?: GoalsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GoalsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGoalsGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Goals.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__GoalsClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Goals$accountsArgs= {}>(args?: Subset<T, Goals$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    subprojects<T extends Goals$subprojectsArgs= {}>(args?: Subset<T, Goals$subprojectsArgs>): Prisma__SubprojectsClient<SubprojectsGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Goals base type for findUnique actions
+   */
+  export type GoalsFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Goals
+     * 
+    **/
+    select?: GoalsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: GoalsInclude | null
+    /**
+     * Filter, which Goals to fetch.
+     * 
+    **/
+    where: GoalsWhereUniqueInput
+  }
+
+  /**
+   * Goals findUnique
+   */
+  export interface GoalsFindUniqueArgs extends GoalsFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Goals findUniqueOrThrow
+   */
+  export type GoalsFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Goals
+     * 
+    **/
+    select?: GoalsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: GoalsInclude | null
+    /**
+     * Filter, which Goals to fetch.
+     * 
+    **/
+    where: GoalsWhereUniqueInput
+  }
+
+
+  /**
+   * Goals base type for findFirst actions
+   */
+  export type GoalsFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Goals
+     * 
+    **/
+    select?: GoalsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: GoalsInclude | null
+    /**
+     * Filter, which Goals to fetch.
+     * 
+    **/
+    where?: GoalsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Goals to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<GoalsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Goals.
+     * 
+    **/
+    cursor?: GoalsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Goals from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Goals.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Goals.
+     * 
+    **/
+    distinct?: Enumerable<GoalsScalarFieldEnum>
+  }
+
+  /**
+   * Goals findFirst
+   */
+  export interface GoalsFindFirstArgs extends GoalsFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Goals findFirstOrThrow
+   */
+  export type GoalsFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Goals
+     * 
+    **/
+    select?: GoalsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: GoalsInclude | null
+    /**
+     * Filter, which Goals to fetch.
+     * 
+    **/
+    where?: GoalsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Goals to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<GoalsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Goals.
+     * 
+    **/
+    cursor?: GoalsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Goals from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Goals.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Goals.
+     * 
+    **/
+    distinct?: Enumerable<GoalsScalarFieldEnum>
+  }
+
+
+  /**
+   * Goals findMany
+   */
+  export type GoalsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Goals
+     * 
+    **/
+    select?: GoalsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: GoalsInclude | null
+    /**
+     * Filter, which Goals to fetch.
+     * 
+    **/
+    where?: GoalsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Goals to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<GoalsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Goals.
+     * 
+    **/
+    cursor?: GoalsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Goals from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Goals.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<GoalsScalarFieldEnum>
+  }
+
+
+  /**
+   * Goals create
+   */
+  export type GoalsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Goals
+     * 
+    **/
+    select?: GoalsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: GoalsInclude | null
+    /**
+     * The data needed to create a Goals.
+     * 
+    **/
+    data: XOR<GoalsCreateInput, GoalsUncheckedCreateInput>
+  }
+
+
+  /**
+   * Goals createMany
+   */
+  export type GoalsCreateManyArgs = {
+    /**
+     * The data used to create many Goals.
+     * 
+    **/
+    data: Enumerable<GoalsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Goals update
+   */
+  export type GoalsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Goals
+     * 
+    **/
+    select?: GoalsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: GoalsInclude | null
+    /**
+     * The data needed to update a Goals.
+     * 
+    **/
+    data: XOR<GoalsUpdateInput, GoalsUncheckedUpdateInput>
+    /**
+     * Choose, which Goals to update.
+     * 
+    **/
+    where: GoalsWhereUniqueInput
+  }
+
+
+  /**
+   * Goals updateMany
+   */
+  export type GoalsUpdateManyArgs = {
+    /**
+     * The data used to update Goals.
+     * 
+    **/
+    data: XOR<GoalsUpdateManyMutationInput, GoalsUncheckedUpdateManyInput>
+    /**
+     * Filter which Goals to update
+     * 
+    **/
+    where?: GoalsWhereInput
+  }
+
+
+  /**
+   * Goals upsert
+   */
+  export type GoalsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Goals
+     * 
+    **/
+    select?: GoalsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: GoalsInclude | null
+    /**
+     * The filter to search for the Goals to update in case it exists.
+     * 
+    **/
+    where: GoalsWhereUniqueInput
+    /**
+     * In case the Goals found by the `where` argument doesn't exist, create a new Goals with this data.
+     * 
+    **/
+    create: XOR<GoalsCreateInput, GoalsUncheckedCreateInput>
+    /**
+     * In case the Goals was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<GoalsUpdateInput, GoalsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Goals delete
+   */
+  export type GoalsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Goals
+     * 
+    **/
+    select?: GoalsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: GoalsInclude | null
+    /**
+     * Filter which Goals to delete.
+     * 
+    **/
+    where: GoalsWhereUniqueInput
+  }
+
+
+  /**
+   * Goals deleteMany
+   */
+  export type GoalsDeleteManyArgs = {
+    /**
+     * Filter which Goals to delete
+     * 
+    **/
+    where?: GoalsWhereInput
+  }
+
+
+  /**
+   * Goals.accounts
+   */
+  export type Goals$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Goals.subprojects
+   */
+  export type Goals$subprojectsArgs = {
+    /**
+     * Select specific fields to fetch from the Subprojects
+     * 
+    **/
+    select?: SubprojectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: SubprojectsInclude | null
+    where?: SubprojectsWhereInput
+  }
+
+
+  /**
+   * Goals without action
+   */
+  export type GoalsArgs = {
+    /**
+     * Select specific fields to fetch from the Goals
+     * 
+    **/
+    select?: GoalsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: GoalsInclude | null
   }
 
 
@@ -18587,6 +19758,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean
     gbif_occurrence_downloads?: boolean | Subprojects$gbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | Subprojects$gbif_occurrencesArgs
+    goals?: boolean | Subprojects$goalsArgs
     subproject_taxa?: boolean | Subprojects$subproject_taxaArgs
     subproject_users?: boolean | Subprojects$subproject_usersArgs
     accounts?: boolean | Subprojects$accountsArgs
@@ -18598,6 +19770,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type SubprojectsInclude = {
     gbif_occurrence_downloads?: boolean | Subprojects$gbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | Subprojects$gbif_occurrencesArgs
+    goals?: boolean | Subprojects$goalsArgs
     subproject_taxa?: boolean | Subprojects$subproject_taxaArgs
     subproject_users?: boolean | Subprojects$subproject_usersArgs
     accounts?: boolean | Subprojects$accountsArgs
@@ -18614,6 +19787,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     [P in TruthyKeys<S['include']>]:
         P extends 'gbif_occurrence_downloads' ? Array < Gbif_occurrence_downloadsGetPayload<S['include'][P]>>  :
         P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['include'][P]>>  :
+        P extends 'goals' ? Array < GoalsGetPayload<S['include'][P]>>  :
         P extends 'subproject_taxa' ? Array < Subproject_taxaGetPayload<S['include'][P]>>  :
         P extends 'subproject_users' ? Array < Subproject_usersGetPayload<S['include'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
@@ -18625,6 +19799,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     [P in TruthyKeys<S['select']>]:
         P extends 'gbif_occurrence_downloads' ? Array < Gbif_occurrence_downloadsGetPayload<S['select'][P]>>  :
         P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['select'][P]>>  :
+        P extends 'goals' ? Array < GoalsGetPayload<S['select'][P]>>  :
         P extends 'subproject_taxa' ? Array < Subproject_taxaGetPayload<S['select'][P]>>  :
         P extends 'subproject_users' ? Array < Subproject_usersGetPayload<S['select'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
@@ -19006,6 +20181,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads<T extends Subprojects$gbif_occurrence_downloadsArgs= {}>(args?: Subset<T, Subprojects$gbif_occurrence_downloadsArgs>): PrismaPromise<Array<Gbif_occurrence_downloadsGetPayload<T>>| Null>;
 
     gbif_occurrences<T extends Subprojects$gbif_occurrencesArgs= {}>(args?: Subset<T, Subprojects$gbif_occurrencesArgs>): PrismaPromise<Array<Gbif_occurrencesGetPayload<T>>| Null>;
+
+    goals<T extends Subprojects$goalsArgs= {}>(args?: Subset<T, Subprojects$goalsArgs>): PrismaPromise<Array<GoalsGetPayload<T>>| Null>;
 
     subproject_taxa<T extends Subprojects$subproject_taxaArgs= {}>(args?: Subset<T, Subprojects$subproject_taxaArgs>): PrismaPromise<Array<Subproject_taxaGetPayload<T>>| Null>;
 
@@ -19461,6 +20638,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<Gbif_occurrencesScalarFieldEnum>
+  }
+
+
+  /**
+   * Subprojects.goals
+   */
+  export type Subprojects$goalsArgs = {
+    /**
+     * Select specific fields to fetch from the Goals
+     * 
+    **/
+    select?: GoalsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: GoalsInclude | null
+    where?: GoalsWhereInput
+    orderBy?: Enumerable<GoalsOrderByWithRelationInput>
+    cursor?: GoalsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<GoalsScalarFieldEnum>
   }
 
 
@@ -28381,6 +29581,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Gbif_taxaScalarFieldEnum = (typeof Gbif_taxaScalarFieldEnum)[keyof typeof Gbif_taxaScalarFieldEnum]
 
 
+  export const GoalsScalarFieldEnum: {
+    goal_id: 'goal_id',
+    account_id: 'account_id',
+    subproject_id: 'subproject_id',
+    year: 'year',
+    name: 'name',
+    data: 'data',
+    label_replace_by_generated_column: 'label_replace_by_generated_column',
+    deleted: 'deleted'
+  };
+
+  export type GoalsScalarFieldEnum = (typeof GoalsScalarFieldEnum)[keyof typeof GoalsScalarFieldEnum]
+
+
   export const List_valuesScalarFieldEnum: {
     list_value_id: 'list_value_id',
     account_id: 'account_id',
@@ -28850,6 +30064,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsListRelationFilter
     gbif_occurrences?: Gbif_occurrencesListRelationFilter
     gbif_taxa?: Gbif_taxaListRelationFilter
+    goals?: GoalsListRelationFilter
     list_values?: List_valuesListRelationFilter
     lists?: ListsListRelationFilter
     persons?: PersonsListRelationFilter
@@ -28878,6 +30093,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsOrderByRelationAggregateInput
     gbif_occurrences?: Gbif_occurrencesOrderByRelationAggregateInput
     gbif_taxa?: Gbif_taxaOrderByRelationAggregateInput
+    goals?: GoalsOrderByRelationAggregateInput
     list_values?: List_valuesOrderByRelationAggregateInput
     lists?: ListsOrderByRelationAggregateInput
     persons?: PersonsOrderByRelationAggregateInput
@@ -28909,6 +30125,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsListRelationFilter
     gbif_occurrences?: Gbif_occurrencesListRelationFilter
     gbif_taxa?: Gbif_taxaListRelationFilter
+    goals?: GoalsListRelationFilter
     list_values?: List_valuesListRelationFilter
     lists?: ListsListRelationFilter
     persons?: PersonsListRelationFilter
@@ -29238,6 +30455,81 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_id?: UuidNullableWithAggregatesFilter<"Gbif_taxa"> | string | null
     gbif_data?: JsonNullableWithAggregatesFilter<"Gbif_taxa">
     label?: StringNullableWithAggregatesFilter<"Gbif_taxa"> | string | null
+  }
+
+  export type GoalsWhereInput = {
+    AND?: Enumerable<GoalsWhereInput>
+    OR?: Enumerable<GoalsWhereInput>
+    NOT?: Enumerable<GoalsWhereInput>
+    goal_id?: UuidFilter<"Goals"> | string
+    account_id?: UuidNullableFilter<"Goals"> | string | null
+    subproject_id?: UuidNullableFilter<"Goals"> | string | null
+    year?: IntNullableFilter<"Goals"> | number | null
+    name?: StringNullableFilter<"Goals"> | string | null
+    data?: JsonNullableFilter<"Goals">
+    label_replace_by_generated_column?: StringNullableFilter<"Goals"> | string | null
+    deleted?: BoolNullableFilter<"Goals"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    subprojects?: XOR<SubprojectsNullableRelationFilter, SubprojectsWhereInput> | null
+  }
+
+  export type GoalsOrderByWithRelationInput = {
+    goal_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    subproject_id?: SortOrderInput | SortOrder
+    year?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    data?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    subprojects?: SubprojectsOrderByWithRelationInput
+  }
+
+  export type GoalsWhereUniqueInput = Prisma.AtLeast<{
+    goal_id?: string
+    AND?: Enumerable<GoalsWhereInput>
+    OR?: Enumerable<GoalsWhereInput>
+    NOT?: Enumerable<GoalsWhereInput>
+    account_id?: UuidNullableFilter<"Goals"> | string | null
+    subproject_id?: UuidNullableFilter<"Goals"> | string | null
+    year?: IntNullableFilter<"Goals"> | number | null
+    name?: StringNullableFilter<"Goals"> | string | null
+    data?: JsonNullableFilter<"Goals">
+    label_replace_by_generated_column?: StringNullableFilter<"Goals"> | string | null
+    deleted?: BoolNullableFilter<"Goals"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    subprojects?: XOR<SubprojectsNullableRelationFilter, SubprojectsWhereInput> | null
+  }, "goal_id">
+
+  export type GoalsOrderByWithAggregationInput = {
+    goal_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    subproject_id?: SortOrderInput | SortOrder
+    year?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    data?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    _count?: GoalsCountOrderByAggregateInput
+    _avg?: GoalsAvgOrderByAggregateInput
+    _max?: GoalsMaxOrderByAggregateInput
+    _min?: GoalsMinOrderByAggregateInput
+    _sum?: GoalsSumOrderByAggregateInput
+  }
+
+  export type GoalsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<GoalsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<GoalsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<GoalsScalarWhereWithAggregatesInput>
+    goal_id?: UuidWithAggregatesFilter<"Goals"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"Goals"> | string | null
+    subproject_id?: UuidNullableWithAggregatesFilter<"Goals"> | string | null
+    year?: IntNullableWithAggregatesFilter<"Goals"> | number | null
+    name?: StringNullableWithAggregatesFilter<"Goals"> | string | null
+    data?: JsonNullableWithAggregatesFilter<"Goals">
+    label_replace_by_generated_column?: StringNullableWithAggregatesFilter<"Goals"> | string | null
+    deleted?: BoolNullableWithAggregatesFilter<"Goals"> | boolean | null
   }
 
   export type List_valuesWhereInput = {
@@ -30038,6 +31330,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableFilter<"Subprojects"> | boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsListRelationFilter
     gbif_occurrences?: Gbif_occurrencesListRelationFilter
+    goals?: GoalsListRelationFilter
     subproject_taxa?: Subproject_taxaListRelationFilter
     subproject_users?: Subproject_usersListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
@@ -30056,6 +31349,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: SortOrderInput | SortOrder
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsOrderByRelationAggregateInput
     gbif_occurrences?: Gbif_occurrencesOrderByRelationAggregateInput
+    goals?: GoalsOrderByRelationAggregateInput
     subproject_taxa?: Subproject_taxaOrderByRelationAggregateInput
     subproject_users?: Subproject_usersOrderByRelationAggregateInput
     accounts?: AccountsOrderByWithRelationInput
@@ -30077,6 +31371,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableFilter<"Subprojects"> | boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsListRelationFilter
     gbif_occurrences?: Gbif_occurrencesListRelationFilter
+    goals?: GoalsListRelationFilter
     subproject_taxa?: Subproject_taxaListRelationFilter
     subproject_users?: Subproject_usersListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
@@ -30777,6 +32072,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -30804,6 +32100,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -30831,6 +32128,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -30858,6 +32156,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -31191,6 +32490,81 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_id?: NullableStringFieldUpdateOperationsInput | string | null
     gbif_data?: NullableJsonNullValueInput | InputJsonValue
     label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type GoalsCreateInput = {
+    goal_id: string
+    year?: number | null
+    name?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutGoalsInput
+    subprojects?: SubprojectsCreateNestedOneWithoutGoalsInput
+  }
+
+  export type GoalsUncheckedCreateInput = {
+    goal_id: string
+    account_id?: string | null
+    subproject_id?: string | null
+    year?: number | null
+    name?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type GoalsUpdateInput = {
+    goal_id?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutGoalsNestedInput
+    subprojects?: SubprojectsUpdateOneWithoutGoalsNestedInput
+  }
+
+  export type GoalsUncheckedUpdateInput = {
+    goal_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type GoalsCreateManyInput = {
+    goal_id: string
+    account_id?: string | null
+    subproject_id?: string | null
+    year?: number | null
+    name?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type GoalsUpdateManyMutationInput = {
+    goal_id?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type GoalsUncheckedUpdateManyInput = {
+    goal_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type List_valuesCreateInput = {
@@ -32049,6 +33423,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
+    goals?: GoalsCreateNestedManyWithoutSubprojectsInput
     subproject_taxa?: Subproject_taxaCreateNestedManyWithoutSubprojectsInput
     subproject_users?: Subproject_usersCreateNestedManyWithoutSubprojectsInput
     accounts?: AccountsCreateNestedOneWithoutSubprojectsInput
@@ -32067,6 +33442,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
     subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutSubprojectsInput
     subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutSubprojectsInput
   }
@@ -32081,6 +33457,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
+    goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
     subproject_taxa?: Subproject_taxaUpdateManyWithoutSubprojectsNestedInput
     subproject_users?: Subproject_usersUpdateManyWithoutSubprojectsNestedInput
     accounts?: AccountsUpdateOneWithoutSubprojectsNestedInput
@@ -32099,6 +33476,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
     subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutSubprojectsNestedInput
     subproject_users?: Subproject_usersUncheckedUpdateManyWithoutSubprojectsNestedInput
   }
@@ -32907,6 +34285,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     none?: Gbif_taxaWhereInput
   }
 
+  export type GoalsListRelationFilter = {
+    every?: GoalsWhereInput
+    some?: GoalsWhereInput
+    none?: GoalsWhereInput
+  }
+
   export type List_valuesListRelationFilter = {
     every?: List_valuesWhereInput
     some?: List_valuesWhereInput
@@ -33005,6 +34389,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Gbif_taxaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GoalsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -33419,6 +34807,45 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     account_id?: SortOrder
     project_id?: SortOrder
     label?: SortOrder
+  }
+
+  export type GoalsCountOrderByAggregateInput = {
+    goal_id?: SortOrder
+    account_id?: SortOrder
+    subproject_id?: SortOrder
+    year?: SortOrder
+    name?: SortOrder
+    data?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type GoalsAvgOrderByAggregateInput = {
+    year?: SortOrder
+  }
+
+  export type GoalsMaxOrderByAggregateInput = {
+    goal_id?: SortOrder
+    account_id?: SortOrder
+    subproject_id?: SortOrder
+    year?: SortOrder
+    name?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type GoalsMinOrderByAggregateInput = {
+    goal_id?: SortOrder
+    account_id?: SortOrder
+    subproject_id?: SortOrder
+    year?: SortOrder
+    name?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type GoalsSumOrderByAggregateInput = {
+    year?: SortOrder
   }
 
   export type ListsNullableRelationFilter = {
@@ -34240,6 +35667,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<Gbif_taxaWhereUniqueInput>
   }
 
+  export type GoalsCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<GoalsCreateWithoutAccountsInput>, Enumerable<GoalsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<GoalsCreateOrConnectWithoutAccountsInput>
+    createMany?: GoalsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<GoalsWhereUniqueInput>
+  }
+
   export type List_valuesCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<List_valuesCreateWithoutAccountsInput>, Enumerable<List_valuesUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<List_valuesCreateOrConnectWithoutAccountsInput>
@@ -34357,6 +35791,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<Gbif_taxaCreateOrConnectWithoutAccountsInput>
     createMany?: Gbif_taxaCreateManyAccountsInputEnvelope
     connect?: Enumerable<Gbif_taxaWhereUniqueInput>
+  }
+
+  export type GoalsUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<GoalsCreateWithoutAccountsInput>, Enumerable<GoalsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<GoalsCreateOrConnectWithoutAccountsInput>
+    createMany?: GoalsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<GoalsWhereUniqueInput>
   }
 
   export type List_valuesUncheckedCreateNestedManyWithoutAccountsInput = {
@@ -34519,6 +35960,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<Gbif_taxaUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<Gbif_taxaUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<Gbif_taxaScalarWhereInput>
+  }
+
+  export type GoalsUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<GoalsCreateWithoutAccountsInput>, Enumerable<GoalsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<GoalsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<GoalsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: GoalsCreateManyAccountsInputEnvelope
+    set?: Enumerable<GoalsWhereUniqueInput>
+    disconnect?: Enumerable<GoalsWhereUniqueInput>
+    delete?: Enumerable<GoalsWhereUniqueInput>
+    connect?: Enumerable<GoalsWhereUniqueInput>
+    update?: Enumerable<GoalsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<GoalsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<GoalsScalarWhereInput>
   }
 
   export type List_valuesUpdateManyWithoutAccountsNestedInput = {
@@ -34757,6 +36212,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<Gbif_taxaUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<Gbif_taxaUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<Gbif_taxaScalarWhereInput>
+  }
+
+  export type GoalsUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<GoalsCreateWithoutAccountsInput>, Enumerable<GoalsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<GoalsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<GoalsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: GoalsCreateManyAccountsInputEnvelope
+    set?: Enumerable<GoalsWhereUniqueInput>
+    disconnect?: Enumerable<GoalsWhereUniqueInput>
+    delete?: Enumerable<GoalsWhereUniqueInput>
+    connect?: Enumerable<GoalsWhereUniqueInput>
+    update?: Enumerable<GoalsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<GoalsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<GoalsScalarWhereInput>
   }
 
   export type List_valuesUncheckedUpdateManyWithoutAccountsNestedInput = {
@@ -35139,6 +36608,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     delete?: ProjectsWhereInput | boolean
     connect?: ProjectsWhereUniqueInput
     update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutGbif_taxaInput, ProjectsUpdateWithoutGbif_taxaInput>, ProjectsUncheckedUpdateWithoutGbif_taxaInput>
+  }
+
+  export type AccountsCreateNestedOneWithoutGoalsInput = {
+    create?: XOR<AccountsCreateWithoutGoalsInput, AccountsUncheckedCreateWithoutGoalsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutGoalsInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type SubprojectsCreateNestedOneWithoutGoalsInput = {
+    create?: XOR<SubprojectsCreateWithoutGoalsInput, SubprojectsUncheckedCreateWithoutGoalsInput>
+    connectOrCreate?: SubprojectsCreateOrConnectWithoutGoalsInput
+    connect?: SubprojectsWhereUniqueInput
+  }
+
+  export type AccountsUpdateOneWithoutGoalsNestedInput = {
+    create?: XOR<AccountsCreateWithoutGoalsInput, AccountsUncheckedCreateWithoutGoalsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutGoalsInput
+    upsert?: AccountsUpsertWithoutGoalsInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutGoalsInput, AccountsUpdateWithoutGoalsInput>, AccountsUncheckedUpdateWithoutGoalsInput>
+  }
+
+  export type SubprojectsUpdateOneWithoutGoalsNestedInput = {
+    create?: XOR<SubprojectsCreateWithoutGoalsInput, SubprojectsUncheckedCreateWithoutGoalsInput>
+    connectOrCreate?: SubprojectsCreateOrConnectWithoutGoalsInput
+    upsert?: SubprojectsUpsertWithoutGoalsInput
+    disconnect?: SubprojectsWhereInput | boolean
+    delete?: SubprojectsWhereInput | boolean
+    connect?: SubprojectsWhereUniqueInput
+    update?: XOR<XOR<SubprojectsUpdateToOneWithWhereWithoutGoalsInput, SubprojectsUpdateWithoutGoalsInput>, SubprojectsUncheckedUpdateWithoutGoalsInput>
   }
 
   export type AccountsCreateNestedOneWithoutList_valuesInput = {
@@ -35993,6 +37494,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
   }
 
+  export type GoalsCreateNestedManyWithoutSubprojectsInput = {
+    create?: XOR<Enumerable<GoalsCreateWithoutSubprojectsInput>, Enumerable<GoalsUncheckedCreateWithoutSubprojectsInput>>
+    connectOrCreate?: Enumerable<GoalsCreateOrConnectWithoutSubprojectsInput>
+    createMany?: GoalsCreateManySubprojectsInputEnvelope
+    connect?: Enumerable<GoalsWhereUniqueInput>
+  }
+
   export type Subproject_taxaCreateNestedManyWithoutSubprojectsInput = {
     create?: XOR<Enumerable<Subproject_taxaCreateWithoutSubprojectsInput>, Enumerable<Subproject_taxaUncheckedCreateWithoutSubprojectsInput>>
     connectOrCreate?: Enumerable<Subproject_taxaCreateOrConnectWithoutSubprojectsInput>
@@ -36031,6 +37539,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<Gbif_occurrencesCreateOrConnectWithoutSubprojectsInput>
     createMany?: Gbif_occurrencesCreateManySubprojectsInputEnvelope
     connect?: Enumerable<Gbif_occurrencesWhereUniqueInput>
+  }
+
+  export type GoalsUncheckedCreateNestedManyWithoutSubprojectsInput = {
+    create?: XOR<Enumerable<GoalsCreateWithoutSubprojectsInput>, Enumerable<GoalsUncheckedCreateWithoutSubprojectsInput>>
+    connectOrCreate?: Enumerable<GoalsCreateOrConnectWithoutSubprojectsInput>
+    createMany?: GoalsCreateManySubprojectsInputEnvelope
+    connect?: Enumerable<GoalsWhereUniqueInput>
   }
 
   export type Subproject_taxaUncheckedCreateNestedManyWithoutSubprojectsInput = {
@@ -36073,6 +37588,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<Gbif_occurrencesUpdateWithWhereUniqueWithoutSubprojectsInput>
     updateMany?: Enumerable<Gbif_occurrencesUpdateManyWithWhereWithoutSubprojectsInput>
     deleteMany?: Enumerable<Gbif_occurrencesScalarWhereInput>
+  }
+
+  export type GoalsUpdateManyWithoutSubprojectsNestedInput = {
+    create?: XOR<Enumerable<GoalsCreateWithoutSubprojectsInput>, Enumerable<GoalsUncheckedCreateWithoutSubprojectsInput>>
+    connectOrCreate?: Enumerable<GoalsCreateOrConnectWithoutSubprojectsInput>
+    upsert?: Enumerable<GoalsUpsertWithWhereUniqueWithoutSubprojectsInput>
+    createMany?: GoalsCreateManySubprojectsInputEnvelope
+    set?: Enumerable<GoalsWhereUniqueInput>
+    disconnect?: Enumerable<GoalsWhereUniqueInput>
+    delete?: Enumerable<GoalsWhereUniqueInput>
+    connect?: Enumerable<GoalsWhereUniqueInput>
+    update?: Enumerable<GoalsUpdateWithWhereUniqueWithoutSubprojectsInput>
+    updateMany?: Enumerable<GoalsUpdateManyWithWhereWithoutSubprojectsInput>
+    deleteMany?: Enumerable<GoalsScalarWhereInput>
   }
 
   export type Subproject_taxaUpdateManyWithoutSubprojectsNestedInput = {
@@ -36149,6 +37678,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<Gbif_occurrencesUpdateWithWhereUniqueWithoutSubprojectsInput>
     updateMany?: Enumerable<Gbif_occurrencesUpdateManyWithWhereWithoutSubprojectsInput>
     deleteMany?: Enumerable<Gbif_occurrencesScalarWhereInput>
+  }
+
+  export type GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput = {
+    create?: XOR<Enumerable<GoalsCreateWithoutSubprojectsInput>, Enumerable<GoalsUncheckedCreateWithoutSubprojectsInput>>
+    connectOrCreate?: Enumerable<GoalsCreateOrConnectWithoutSubprojectsInput>
+    upsert?: Enumerable<GoalsUpsertWithWhereUniqueWithoutSubprojectsInput>
+    createMany?: GoalsCreateManySubprojectsInputEnvelope
+    set?: Enumerable<GoalsWhereUniqueInput>
+    disconnect?: Enumerable<GoalsWhereUniqueInput>
+    delete?: Enumerable<GoalsWhereUniqueInput>
+    connect?: Enumerable<GoalsWhereUniqueInput>
+    update?: Enumerable<GoalsUpdateWithWhereUniqueWithoutSubprojectsInput>
+    updateMany?: Enumerable<GoalsUpdateManyWithWhereWithoutSubprojectsInput>
+    deleteMany?: Enumerable<GoalsScalarWhereInput>
   }
 
   export type Subproject_taxaUncheckedUpdateManyWithoutSubprojectsNestedInput = {
@@ -37126,6 +38669,36 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     skipDuplicates?: boolean
   }
 
+  export type GoalsCreateWithoutAccountsInput = {
+    goal_id: string
+    year?: number | null
+    name?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    subprojects?: SubprojectsCreateNestedOneWithoutGoalsInput
+  }
+
+  export type GoalsUncheckedCreateWithoutAccountsInput = {
+    goal_id: string
+    subproject_id?: string | null
+    year?: number | null
+    name?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type GoalsCreateOrConnectWithoutAccountsInput = {
+    where: GoalsWhereUniqueInput
+    create: XOR<GoalsCreateWithoutAccountsInput, GoalsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type GoalsCreateManyAccountsInputEnvelope = {
+    data: Enumerable<GoalsCreateManyAccountsInput>
+    skipDuplicates?: boolean
+  }
+
   export type List_valuesCreateWithoutAccountsInput = {
     list_value_id: string
     value?: string | null
@@ -37442,6 +39015,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
+    goals?: GoalsCreateNestedManyWithoutSubprojectsInput
     subproject_taxa?: Subproject_taxaCreateNestedManyWithoutSubprojectsInput
     subproject_users?: Subproject_usersCreateNestedManyWithoutSubprojectsInput
     projects?: ProjectsCreateNestedOneWithoutSubprojectsInput
@@ -37458,6 +39032,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
     subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutSubprojectsInput
     subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutSubprojectsInput
   }
@@ -37781,6 +39356,36 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_id?: UuidNullableFilter<"Gbif_taxa"> | string | null
     gbif_data?: JsonNullableFilter<"Gbif_taxa">
     label?: StringNullableFilter<"Gbif_taxa"> | string | null
+  }
+
+  export type GoalsUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: GoalsWhereUniqueInput
+    update: XOR<GoalsUpdateWithoutAccountsInput, GoalsUncheckedUpdateWithoutAccountsInput>
+    create: XOR<GoalsCreateWithoutAccountsInput, GoalsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type GoalsUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: GoalsWhereUniqueInput
+    data: XOR<GoalsUpdateWithoutAccountsInput, GoalsUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type GoalsUpdateManyWithWhereWithoutAccountsInput = {
+    where: GoalsScalarWhereInput
+    data: XOR<GoalsUpdateManyMutationInput, GoalsUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type GoalsScalarWhereInput = {
+    AND?: Enumerable<GoalsScalarWhereInput>
+    OR?: Enumerable<GoalsScalarWhereInput>
+    NOT?: Enumerable<GoalsScalarWhereInput>
+    goal_id?: UuidFilter<"Goals"> | string
+    account_id?: UuidNullableFilter<"Goals"> | string | null
+    subproject_id?: UuidNullableFilter<"Goals"> | string | null
+    year?: IntNullableFilter<"Goals"> | number | null
+    name?: StringNullableFilter<"Goals"> | string | null
+    data?: JsonNullableFilter<"Goals">
+    label_replace_by_generated_column?: StringNullableFilter<"Goals"> | string | null
+    deleted?: BoolNullableFilter<"Goals"> | boolean | null
   }
 
   export type List_valuesUpsertWithWhereUniqueWithoutAccountsInput = {
@@ -38302,6 +39907,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     users?: UsersCreateNestedOneWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -38328,6 +39934,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -38437,6 +40044,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
+    goals?: GoalsCreateNestedManyWithoutSubprojectsInput
     subproject_taxa?: Subproject_taxaCreateNestedManyWithoutSubprojectsInput
     subproject_users?: Subproject_usersCreateNestedManyWithoutSubprojectsInput
     accounts?: AccountsCreateNestedOneWithoutSubprojectsInput
@@ -38454,6 +40062,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
     subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutSubprojectsInput
     subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutSubprojectsInput
   }
@@ -38484,6 +40093,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     users?: UsersUpdateOneWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -38510,6 +40120,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -38631,6 +40242,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
+    goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
     subproject_taxa?: Subproject_taxaUpdateManyWithoutSubprojectsNestedInput
     subproject_users?: Subproject_usersUpdateManyWithoutSubprojectsNestedInput
     accounts?: AccountsUpdateOneWithoutSubprojectsNestedInput
@@ -38648,6 +40260,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
     subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutSubprojectsNestedInput
     subproject_users?: Subproject_usersUncheckedUpdateManyWithoutSubprojectsNestedInput
   }
@@ -38662,6 +40275,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     users?: UsersCreateNestedOneWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -38688,6 +40302,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -38797,6 +40412,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
+    goals?: GoalsCreateNestedManyWithoutSubprojectsInput
     subproject_taxa?: Subproject_taxaCreateNestedManyWithoutSubprojectsInput
     subproject_users?: Subproject_usersCreateNestedManyWithoutSubprojectsInput
     accounts?: AccountsCreateNestedOneWithoutSubprojectsInput
@@ -38814,6 +40430,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
     subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutSubprojectsInput
     subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutSubprojectsInput
   }
@@ -38844,6 +40461,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     users?: UsersUpdateOneWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -38870,6 +40488,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -38991,6 +40610,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
+    goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
     subproject_taxa?: Subproject_taxaUpdateManyWithoutSubprojectsNestedInput
     subproject_users?: Subproject_usersUpdateManyWithoutSubprojectsNestedInput
     accounts?: AccountsUpdateOneWithoutSubprojectsNestedInput
@@ -39008,6 +40628,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
     subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutSubprojectsNestedInput
     subproject_users?: Subproject_usersUncheckedUpdateManyWithoutSubprojectsNestedInput
   }
@@ -39022,6 +40643,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     users?: UsersCreateNestedOneWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -39048,6 +40670,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -39169,6 +40792,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     users?: UsersUpdateOneWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -39195,6 +40819,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -39296,6 +40921,210 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
+  export type AccountsCreateWithoutGoalsInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesCreateNestedManyWithoutAccountsInput
+    lists?: ListsCreateNestedManyWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutGoalsInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutGoalsInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutGoalsInput, AccountsUncheckedCreateWithoutGoalsInput>
+  }
+
+  export type SubprojectsCreateWithoutGoalsInput = {
+    subproject_id: string
+    name?: string | null
+    label_replace_by_generated_column?: string | null
+    start_year?: number | null
+    end_year?: number | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
+    subproject_taxa?: Subproject_taxaCreateNestedManyWithoutSubprojectsInput
+    subproject_users?: Subproject_usersCreateNestedManyWithoutSubprojectsInput
+    accounts?: AccountsCreateNestedOneWithoutSubprojectsInput
+    projects?: ProjectsCreateNestedOneWithoutSubprojectsInput
+  }
+
+  export type SubprojectsUncheckedCreateWithoutGoalsInput = {
+    subproject_id: string
+    account_id?: string | null
+    project_id?: string | null
+    name?: string | null
+    label_replace_by_generated_column?: string | null
+    start_year?: number | null
+    end_year?: number | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
+    subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutSubprojectsInput
+    subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutSubprojectsInput
+  }
+
+  export type SubprojectsCreateOrConnectWithoutGoalsInput = {
+    where: SubprojectsWhereUniqueInput
+    create: XOR<SubprojectsCreateWithoutGoalsInput, SubprojectsUncheckedCreateWithoutGoalsInput>
+  }
+
+  export type AccountsUpsertWithoutGoalsInput = {
+    update: XOR<AccountsUpdateWithoutGoalsInput, AccountsUncheckedUpdateWithoutGoalsInput>
+    create: XOR<AccountsCreateWithoutGoalsInput, AccountsUncheckedCreateWithoutGoalsInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutGoalsInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutGoalsInput, AccountsUncheckedUpdateWithoutGoalsInput>
+  }
+
+  export type AccountsUpdateWithoutGoalsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutGoalsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type SubprojectsUpsertWithoutGoalsInput = {
+    update: XOR<SubprojectsUpdateWithoutGoalsInput, SubprojectsUncheckedUpdateWithoutGoalsInput>
+    create: XOR<SubprojectsCreateWithoutGoalsInput, SubprojectsUncheckedCreateWithoutGoalsInput>
+    where?: SubprojectsWhereInput
+  }
+
+  export type SubprojectsUpdateToOneWithWhereWithoutGoalsInput = {
+    where?: SubprojectsWhereInput
+    data: XOR<SubprojectsUpdateWithoutGoalsInput, SubprojectsUncheckedUpdateWithoutGoalsInput>
+  }
+
+  export type SubprojectsUpdateWithoutGoalsInput = {
+    subproject_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    start_year?: NullableIntFieldUpdateOperationsInput | number | null
+    end_year?: NullableIntFieldUpdateOperationsInput | number | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
+    subproject_taxa?: Subproject_taxaUpdateManyWithoutSubprojectsNestedInput
+    subproject_users?: Subproject_usersUpdateManyWithoutSubprojectsNestedInput
+    accounts?: AccountsUpdateOneWithoutSubprojectsNestedInput
+    projects?: ProjectsUpdateOneWithoutSubprojectsNestedInput
+  }
+
+  export type SubprojectsUncheckedUpdateWithoutGoalsInput = {
+    subproject_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    start_year?: NullableIntFieldUpdateOperationsInput | number | null
+    end_year?: NullableIntFieldUpdateOperationsInput | number | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
+    subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutSubprojectsNestedInput
+    subproject_users?: Subproject_usersUncheckedUpdateManyWithoutSubprojectsNestedInput
+  }
+
   export type AccountsCreateWithoutList_valuesInput = {
     account_id: string
     type?: string | null
@@ -39307,6 +41136,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
@@ -39333,6 +41163,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
@@ -39404,6 +41235,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
@@ -39430,6 +41262,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -39519,6 +41352,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
@@ -39545,6 +41379,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
@@ -39730,6 +41565,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
@@ -39756,6 +41592,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -39925,6 +41762,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
@@ -39951,6 +41789,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
@@ -40072,6 +41911,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
@@ -40098,6 +41938,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -40209,6 +42050,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -40235,6 +42077,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -40356,6 +42199,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -40382,6 +42226,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -40493,6 +42338,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -40519,6 +42365,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -40669,6 +42516,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -40695,6 +42543,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -41071,6 +42920,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -41097,6 +42947,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -41127,6 +42978,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
+    goals?: GoalsCreateNestedManyWithoutSubprojectsInput
     subproject_taxa?: Subproject_taxaCreateNestedManyWithoutSubprojectsInput
     subproject_users?: Subproject_usersCreateNestedManyWithoutSubprojectsInput
     accounts?: AccountsCreateNestedOneWithoutSubprojectsInput
@@ -41143,6 +42995,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
     subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutSubprojectsInput
     subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutSubprojectsInput
   }
@@ -41375,6 +43228,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -41401,6 +43255,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -41475,6 +43330,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -41501,6 +43357,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -41531,6 +43388,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
+    goals?: GoalsCreateNestedManyWithoutSubprojectsInput
     subproject_users?: Subproject_usersCreateNestedManyWithoutSubprojectsInput
     accounts?: AccountsCreateNestedOneWithoutSubprojectsInput
     projects?: ProjectsCreateNestedOneWithoutSubprojectsInput
@@ -41548,6 +43406,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
     subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutSubprojectsInput
   }
 
@@ -41605,6 +43464,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -41631,6 +43491,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -41667,6 +43528,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
+    goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
     subproject_users?: Subproject_usersUpdateManyWithoutSubprojectsNestedInput
     accounts?: AccountsUpdateOneWithoutSubprojectsNestedInput
     projects?: ProjectsUpdateOneWithoutSubprojectsNestedInput
@@ -41684,6 +43546,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
     subproject_users?: Subproject_usersUncheckedUpdateManyWithoutSubprojectsNestedInput
   }
 
@@ -41731,6 +43594,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -41757,6 +43621,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -41787,6 +43652,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
+    goals?: GoalsCreateNestedManyWithoutSubprojectsInput
     subproject_taxa?: Subproject_taxaCreateNestedManyWithoutSubprojectsInput
     accounts?: AccountsCreateNestedOneWithoutSubprojectsInput
     projects?: ProjectsCreateNestedOneWithoutSubprojectsInput
@@ -41804,6 +43670,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
     subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutSubprojectsInput
   }
 
@@ -41863,6 +43730,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -41889,6 +43757,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -41925,6 +43794,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
+    goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
     subproject_taxa?: Subproject_taxaUpdateManyWithoutSubprojectsNestedInput
     accounts?: AccountsUpdateOneWithoutSubprojectsNestedInput
     projects?: ProjectsUpdateOneWithoutSubprojectsNestedInput
@@ -41942,6 +43812,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
     subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutSubprojectsNestedInput
   }
 
@@ -42046,6 +43917,36 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     skipDuplicates?: boolean
   }
 
+  export type GoalsCreateWithoutSubprojectsInput = {
+    goal_id: string
+    year?: number | null
+    name?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutGoalsInput
+  }
+
+  export type GoalsUncheckedCreateWithoutSubprojectsInput = {
+    goal_id: string
+    account_id?: string | null
+    year?: number | null
+    name?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type GoalsCreateOrConnectWithoutSubprojectsInput = {
+    where: GoalsWhereUniqueInput
+    create: XOR<GoalsCreateWithoutSubprojectsInput, GoalsUncheckedCreateWithoutSubprojectsInput>
+  }
+
+  export type GoalsCreateManySubprojectsInputEnvelope = {
+    data: Enumerable<GoalsCreateManySubprojectsInput>
+    skipDuplicates?: boolean
+  }
+
   export type Subproject_taxaCreateWithoutSubprojectsInput = {
     subproject_taxon_id: string
     label?: string | null
@@ -42111,6 +44012,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -42137,6 +44039,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -42268,6 +44171,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data: XOR<Gbif_occurrencesUpdateManyMutationInput, Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsInput>
   }
 
+  export type GoalsUpsertWithWhereUniqueWithoutSubprojectsInput = {
+    where: GoalsWhereUniqueInput
+    update: XOR<GoalsUpdateWithoutSubprojectsInput, GoalsUncheckedUpdateWithoutSubprojectsInput>
+    create: XOR<GoalsCreateWithoutSubprojectsInput, GoalsUncheckedCreateWithoutSubprojectsInput>
+  }
+
+  export type GoalsUpdateWithWhereUniqueWithoutSubprojectsInput = {
+    where: GoalsWhereUniqueInput
+    data: XOR<GoalsUpdateWithoutSubprojectsInput, GoalsUncheckedUpdateWithoutSubprojectsInput>
+  }
+
+  export type GoalsUpdateManyWithWhereWithoutSubprojectsInput = {
+    where: GoalsScalarWhereInput
+    data: XOR<GoalsUpdateManyMutationInput, GoalsUncheckedUpdateManyWithoutSubprojectsInput>
+  }
+
   export type Subproject_taxaUpsertWithWhereUniqueWithoutSubprojectsInput = {
     where: Subproject_taxaWhereUniqueInput
     update: XOR<Subproject_taxaUpdateWithoutSubprojectsInput, Subproject_taxaUncheckedUpdateWithoutSubprojectsInput>
@@ -42322,6 +44241,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -42348,6 +44268,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -42485,6 +44406,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -42511,6 +44433,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -42600,6 +44523,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -42626,6 +44550,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -42721,6 +44646,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -42747,6 +44673,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -42884,6 +44811,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -42910,6 +44838,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -43021,6 +44950,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -43047,6 +44977,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -43118,6 +45049,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -43144,6 +45076,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -43205,6 +45138,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -43231,6 +45165,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -43381,6 +45316,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -43407,6 +45343,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -43553,6 +45490,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -43579,6 +45517,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -43669,6 +45608,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -43695,6 +45635,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -43780,6 +45721,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
@@ -43806,6 +45748,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
     list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
@@ -44253,6 +46196,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
   }
 
+  export type GoalsCreateManyAccountsInput = {
+    goal_id: string
+    subproject_id?: string | null
+    year?: number | null
+    name?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
   export type List_valuesCreateManyAccountsInput = {
     list_value_id: string
     list_id?: string | null
@@ -44519,6 +46472,36 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_id?: NullableStringFieldUpdateOperationsInput | string | null
     gbif_data?: NullableJsonNullValueInput | InputJsonValue
     label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type GoalsUpdateWithoutAccountsInput = {
+    goal_id?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subprojects?: SubprojectsUpdateOneWithoutGoalsNestedInput
+  }
+
+  export type GoalsUncheckedUpdateWithoutAccountsInput = {
+    goal_id?: StringFieldUpdateOperationsInput | string
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type GoalsUncheckedUpdateManyWithoutAccountsInput = {
+    goal_id?: StringFieldUpdateOperationsInput | string
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type List_valuesUpdateWithoutAccountsInput = {
@@ -44858,6 +46841,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
+    goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
     subproject_taxa?: Subproject_taxaUpdateManyWithoutSubprojectsNestedInput
     subproject_users?: Subproject_usersUpdateManyWithoutSubprojectsNestedInput
     projects?: ProjectsUpdateOneWithoutSubprojectsNestedInput
@@ -44874,6 +46858,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
     subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutSubprojectsNestedInput
     subproject_users?: Subproject_usersUncheckedUpdateManyWithoutSubprojectsNestedInput
   }
@@ -45631,6 +47616,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
+    goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
     subproject_taxa?: Subproject_taxaUpdateManyWithoutSubprojectsNestedInput
     subproject_users?: Subproject_usersUpdateManyWithoutSubprojectsNestedInput
     accounts?: AccountsUpdateOneWithoutSubprojectsNestedInput
@@ -45647,6 +47633,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
     subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutSubprojectsNestedInput
     subproject_users?: Subproject_usersUncheckedUpdateManyWithoutSubprojectsNestedInput
   }
@@ -45780,6 +47767,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
   }
 
+  export type GoalsCreateManySubprojectsInput = {
+    goal_id: string
+    account_id?: string | null
+    year?: number | null
+    name?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
   export type Subproject_taxaCreateManySubprojectsInput = {
     subproject_taxon_id: string
     account_id?: string | null
@@ -45864,6 +47861,36 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_id?: NullableStringFieldUpdateOperationsInput | string | null
     gbif_data?: NullableJsonNullValueInput | InputJsonValue
     label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type GoalsUpdateWithoutSubprojectsInput = {
+    goal_id?: StringFieldUpdateOperationsInput | string
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutGoalsNestedInput
+  }
+
+  export type GoalsUncheckedUpdateWithoutSubprojectsInput = {
+    goal_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type GoalsUncheckedUpdateManyWithoutSubprojectsInput = {
+    goal_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type Subproject_taxaUpdateWithoutSubprojectsInput = {
@@ -46036,6 +48063,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
@@ -46062,6 +48090,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
     list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
