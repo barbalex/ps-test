@@ -62,10 +62,18 @@ const ExampleComponent = () => {
   useEffect(() => {
     const syncItems = async () => {
       // Resolves when the shape subscription has been established.
-      const shape = await db.users.sync()
+      const userShape = await db.users.sync({ include: { accounts: true } })
+      const accountsShape = await db.accounts.sync({
+        include: { users: true, projects: true },
+      })
+      const projectsShape = await db.projects.sync({
+        include: { accounts: true },
+      })
 
       // Resolves when the data has been synced into the local database.
-      await shape.synced
+      await userShape.synced
+      await accountsShape.synced
+      await projectsShape.synced
     }
 
     syncItems()

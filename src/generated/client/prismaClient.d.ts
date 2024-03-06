@@ -13,6 +13,64 @@ type UnwrapTuple<Tuple extends readonly unknown[]> = {
 
 
 /**
+ * Model Accounts
+ * 
+ */
+export type Accounts = {
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  user_id: string | null
+  type: string | null
+  period_start: Date | null
+  period_end: Date | null
+  projects_label_by: string | null
+  label: string | null
+}
+
+/**
+ * Model Projects
+ * 
+ */
+export type Projects = {
+  /**
+   * @zod.string.uuid()
+   */
+  project_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  name: string | null
+  label: string | null
+  type: project_type | null
+  subproject_name_singular: string | null
+  subproject_name_plural: string | null
+  subproject_order_by: string | null
+  places_label_by: string | null
+  places_order_by: Prisma.JsonValue | null
+  persons_label_by: string | null
+  persons_order_by: string | null
+  goal_reports_label_by: string | null
+  goal_reports_order_by: string | null
+  values_on_multiple_levels: string | null
+  multiple_action_values_on_same_level: string | null
+  multiple_check_values_on_same_level: string | null
+  data: Prisma.JsonValue | null
+  files_offline: boolean | null
+  files_active_projects: boolean | null
+  files_active_subprojects: boolean | null
+  files_active_places: boolean | null
+  files_active_actions: boolean | null
+  files_active_checks: boolean | null
+  deleted: boolean | null
+}
+
+/**
  * Model Users
  * 
  */
@@ -32,14 +90,29 @@ export type Users = {
 
 
 /**
+ * Enums
+ */
+
+// Based on
+// https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
+
+export const project_type: {
+  species: 'species',
+  biotope: 'biotope'
+};
+
+export type project_type = (typeof project_type)[keyof typeof project_type]
+
+
+/**
  * ##  Prisma Client ʲˢ
  * 
  * Type-safe database client for TypeScript & Node.js
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Users
- * const users = await prisma.users.findMany()
+ * // Fetch zero or more Accounts
+ * const accounts = await prisma.accounts.findMany()
  * ```
  *
  * 
@@ -59,8 +132,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Users
-   * const users = await prisma.users.findMany()
+   * // Fetch zero or more Accounts
+   * const accounts = await prisma.accounts.findMany()
    * ```
    *
    * 
@@ -149,6 +222,26 @@ export class PrismaClient<
   $transaction<R>(fn: (prisma: Prisma.TransactionClient) => Promise<R>, options?: {maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel}): Promise<R>;
 
       /**
+   * `prisma.accounts`: Exposes CRUD operations for the **Accounts** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Accounts
+    * const accounts = await prisma.accounts.findMany()
+    * ```
+    */
+  get accounts(): Prisma.AccountsDelegate<GlobalReject>;
+
+  /**
+   * `prisma.projects`: Exposes CRUD operations for the **Projects** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Projects
+    * const projects = await prisma.projects.findMany()
+    * ```
+    */
+  get projects(): Prisma.ProjectsDelegate<GlobalReject>;
+
+  /**
    * `prisma.users`: Exposes CRUD operations for the **Users** model.
     * Example usage:
     * ```ts
@@ -641,6 +734,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export const ModelName: {
+    Accounts: 'Accounts',
+    Projects: 'Projects',
     Users: 'Users'
   };
 
@@ -806,10 +901,2326 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
 
 
+  /**
+   * Count Type AccountsCountOutputType
+   */
+
+
+  export type AccountsCountOutputType = {
+    projects: number
+  }
+
+  export type AccountsCountOutputTypeSelect = {
+    projects?: boolean | AccountsCountOutputTypeCountProjectsArgs
+  }
+
+  export type AccountsCountOutputTypeGetPayload<S extends boolean | null | undefined | AccountsCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? AccountsCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (AccountsCountOutputTypeArgs)
+    ? AccountsCountOutputType 
+    : S extends { select: any } & (AccountsCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof AccountsCountOutputType ? AccountsCountOutputType[P] : never
+  } 
+      : AccountsCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the AccountsCountOutputType
+     * 
+    **/
+    select?: AccountsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountProjectsArgs = {
+    where?: ProjectsWhereInput
+  }
+
+
+
+  /**
+   * Count Type UsersCountOutputType
+   */
+
+
+  export type UsersCountOutputType = {
+    accounts: number
+  }
+
+  export type UsersCountOutputTypeSelect = {
+    accounts?: boolean | UsersCountOutputTypeCountAccountsArgs
+  }
+
+  export type UsersCountOutputTypeGetPayload<S extends boolean | null | undefined | UsersCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? UsersCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (UsersCountOutputTypeArgs)
+    ? UsersCountOutputType 
+    : S extends { select: any } & (UsersCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof UsersCountOutputType ? UsersCountOutputType[P] : never
+  } 
+      : UsersCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the UsersCountOutputType
+     * 
+    **/
+    select?: UsersCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeCountAccountsArgs = {
+    where?: AccountsWhereInput
+  }
+
+
 
   /**
    * Models
    */
+
+  /**
+   * Model Accounts
+   */
+
+
+  export type AggregateAccounts = {
+    _count: AccountsCountAggregateOutputType | null
+    _min: AccountsMinAggregateOutputType | null
+    _max: AccountsMaxAggregateOutputType | null
+  }
+
+  export type AccountsMinAggregateOutputType = {
+    account_id: string | null
+    user_id: string | null
+    type: string | null
+    period_start: Date | null
+    period_end: Date | null
+    projects_label_by: string | null
+    label: string | null
+  }
+
+  export type AccountsMaxAggregateOutputType = {
+    account_id: string | null
+    user_id: string | null
+    type: string | null
+    period_start: Date | null
+    period_end: Date | null
+    projects_label_by: string | null
+    label: string | null
+  }
+
+  export type AccountsCountAggregateOutputType = {
+    account_id: number
+    user_id: number
+    type: number
+    period_start: number
+    period_end: number
+    projects_label_by: number
+    label: number
+    _all: number
+  }
+
+
+  export type AccountsMinAggregateInputType = {
+    account_id?: true
+    user_id?: true
+    type?: true
+    period_start?: true
+    period_end?: true
+    projects_label_by?: true
+    label?: true
+  }
+
+  export type AccountsMaxAggregateInputType = {
+    account_id?: true
+    user_id?: true
+    type?: true
+    period_start?: true
+    period_end?: true
+    projects_label_by?: true
+    label?: true
+  }
+
+  export type AccountsCountAggregateInputType = {
+    account_id?: true
+    user_id?: true
+    type?: true
+    period_start?: true
+    period_end?: true
+    projects_label_by?: true
+    label?: true
+    _all?: true
+  }
+
+  export type AccountsAggregateArgs = {
+    /**
+     * Filter which Accounts to aggregate.
+     * 
+    **/
+    where?: AccountsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accounts to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<AccountsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: AccountsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accounts from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accounts.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Accounts
+    **/
+    _count?: true | AccountsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AccountsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AccountsMaxAggregateInputType
+  }
+
+  export type GetAccountsAggregateType<T extends AccountsAggregateArgs> = {
+        [P in keyof T & keyof AggregateAccounts]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAccounts[P]>
+      : GetScalarType<T[P], AggregateAccounts[P]>
+  }
+
+
+
+
+  export type AccountsGroupByArgs = {
+    where?: AccountsWhereInput
+    orderBy?: Enumerable<AccountsOrderByWithAggregationInput>
+    by: Array<AccountsScalarFieldEnum>
+    having?: AccountsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AccountsCountAggregateInputType | true
+    _min?: AccountsMinAggregateInputType
+    _max?: AccountsMaxAggregateInputType
+  }
+
+
+  export type AccountsGroupByOutputType = {
+    account_id: string
+    user_id: string | null
+    type: string | null
+    period_start: Date | null
+    period_end: Date | null
+    projects_label_by: string | null
+    label: string | null
+    _count: AccountsCountAggregateOutputType | null
+    _min: AccountsMinAggregateOutputType | null
+    _max: AccountsMaxAggregateOutputType | null
+  }
+
+  type GetAccountsGroupByPayload<T extends AccountsGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<AccountsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AccountsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AccountsGroupByOutputType[P]>
+            : GetScalarType<T[P], AccountsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AccountsSelect = {
+    account_id?: boolean
+    user_id?: boolean
+    type?: boolean
+    period_start?: boolean
+    period_end?: boolean
+    projects_label_by?: boolean
+    label?: boolean
+    users?: boolean | Accounts$usersArgs
+    projects?: boolean | Accounts$projectsArgs
+    _count?: boolean | AccountsCountOutputTypeArgs
+  }
+
+
+  export type AccountsInclude = {
+    users?: boolean | Accounts$usersArgs
+    projects?: boolean | Accounts$projectsArgs
+    _count?: boolean | AccountsCountOutputTypeArgs
+  } 
+
+  export type AccountsGetPayload<S extends boolean | null | undefined | AccountsArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Accounts :
+    S extends undefined ? never :
+    S extends { include: any } & (AccountsArgs | AccountsFindManyArgs)
+    ? Accounts  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'users' ? UsersGetPayload<S['include'][P]> | null :
+        P extends 'projects' ? Array < ProjectsGetPayload<S['include'][P]>>  :
+        P extends '_count' ? AccountsCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (AccountsArgs | AccountsFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'users' ? UsersGetPayload<S['select'][P]> | null :
+        P extends 'projects' ? Array < ProjectsGetPayload<S['select'][P]>>  :
+        P extends '_count' ? AccountsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Accounts ? Accounts[P] : never
+  } 
+      : Accounts
+
+
+  type AccountsCountArgs = Merge<
+    Omit<AccountsFindManyArgs, 'select' | 'include'> & {
+      select?: AccountsCountAggregateInputType | true
+    }
+  >
+
+  export interface AccountsDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Accounts that matches the filter.
+     * @param {AccountsFindUniqueArgs} args - Arguments to find a Accounts
+     * @example
+     * // Get one Accounts
+     * const accounts = await prisma.accounts.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends AccountsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, AccountsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Accounts'> extends True ? Prisma__AccountsClient<AccountsGetPayload<T>> : Prisma__AccountsClient<AccountsGetPayload<T> | null, null>
+
+    /**
+     * Find one Accounts that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {AccountsFindUniqueOrThrowArgs} args - Arguments to find a Accounts
+     * @example
+     * // Get one Accounts
+     * const accounts = await prisma.accounts.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends AccountsFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, AccountsFindUniqueOrThrowArgs>
+    ): Prisma__AccountsClient<AccountsGetPayload<T>>
+
+    /**
+     * Find the first Accounts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountsFindFirstArgs} args - Arguments to find a Accounts
+     * @example
+     * // Get one Accounts
+     * const accounts = await prisma.accounts.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends AccountsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, AccountsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Accounts'> extends True ? Prisma__AccountsClient<AccountsGetPayload<T>> : Prisma__AccountsClient<AccountsGetPayload<T> | null, null>
+
+    /**
+     * Find the first Accounts that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountsFindFirstOrThrowArgs} args - Arguments to find a Accounts
+     * @example
+     * // Get one Accounts
+     * const accounts = await prisma.accounts.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends AccountsFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, AccountsFindFirstOrThrowArgs>
+    ): Prisma__AccountsClient<AccountsGetPayload<T>>
+
+    /**
+     * Find zero or more Accounts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Accounts
+     * const accounts = await prisma.accounts.findMany()
+     * 
+     * // Get first 10 Accounts
+     * const accounts = await prisma.accounts.findMany({ take: 10 })
+     * 
+     * // Only select the `account_id`
+     * const accountsWithAccount_idOnly = await prisma.accounts.findMany({ select: { account_id: true } })
+     * 
+    **/
+    findMany<T extends AccountsFindManyArgs>(
+      args?: SelectSubset<T, AccountsFindManyArgs>
+    ): PrismaPromise<Array<AccountsGetPayload<T>>>
+
+    /**
+     * Create a Accounts.
+     * @param {AccountsCreateArgs} args - Arguments to create a Accounts.
+     * @example
+     * // Create one Accounts
+     * const Accounts = await prisma.accounts.create({
+     *   data: {
+     *     // ... data to create a Accounts
+     *   }
+     * })
+     * 
+    **/
+    create<T extends AccountsCreateArgs>(
+      args: SelectSubset<T, AccountsCreateArgs>
+    ): Prisma__AccountsClient<AccountsGetPayload<T>>
+
+    /**
+     * Create many Accounts.
+     *     @param {AccountsCreateManyArgs} args - Arguments to create many Accounts.
+     *     @example
+     *     // Create many Accounts
+     *     const accounts = await prisma.accounts.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends AccountsCreateManyArgs>(
+      args?: SelectSubset<T, AccountsCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Accounts.
+     * @param {AccountsDeleteArgs} args - Arguments to delete one Accounts.
+     * @example
+     * // Delete one Accounts
+     * const Accounts = await prisma.accounts.delete({
+     *   where: {
+     *     // ... filter to delete one Accounts
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends AccountsDeleteArgs>(
+      args: SelectSubset<T, AccountsDeleteArgs>
+    ): Prisma__AccountsClient<AccountsGetPayload<T>>
+
+    /**
+     * Update one Accounts.
+     * @param {AccountsUpdateArgs} args - Arguments to update one Accounts.
+     * @example
+     * // Update one Accounts
+     * const accounts = await prisma.accounts.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends AccountsUpdateArgs>(
+      args: SelectSubset<T, AccountsUpdateArgs>
+    ): Prisma__AccountsClient<AccountsGetPayload<T>>
+
+    /**
+     * Delete zero or more Accounts.
+     * @param {AccountsDeleteManyArgs} args - Arguments to filter Accounts to delete.
+     * @example
+     * // Delete a few Accounts
+     * const { count } = await prisma.accounts.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends AccountsDeleteManyArgs>(
+      args?: SelectSubset<T, AccountsDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Accounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Accounts
+     * const accounts = await prisma.accounts.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends AccountsUpdateManyArgs>(
+      args: SelectSubset<T, AccountsUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Accounts.
+     * @param {AccountsUpsertArgs} args - Arguments to update or create a Accounts.
+     * @example
+     * // Update or create a Accounts
+     * const accounts = await prisma.accounts.upsert({
+     *   create: {
+     *     // ... data to create a Accounts
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Accounts we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends AccountsUpsertArgs>(
+      args: SelectSubset<T, AccountsUpsertArgs>
+    ): Prisma__AccountsClient<AccountsGetPayload<T>>
+
+    /**
+     * Count the number of Accounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountsCountArgs} args - Arguments to filter Accounts to count.
+     * @example
+     * // Count the number of Accounts
+     * const count = await prisma.accounts.count({
+     *   where: {
+     *     // ... the filter for the Accounts we want to count
+     *   }
+     * })
+    **/
+    count<T extends AccountsCountArgs>(
+      args?: Subset<T, AccountsCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AccountsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Accounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AccountsAggregateArgs>(args: Subset<T, AccountsAggregateArgs>): PrismaPromise<GetAccountsAggregateType<T>>
+
+    /**
+     * Group by Accounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccountsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AccountsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AccountsGroupByArgs['orderBy'] }
+        : { orderBy?: AccountsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AccountsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAccountsGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Accounts.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__AccountsClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    users<T extends Accounts$usersArgs= {}>(args?: Subset<T, Accounts$usersArgs>): Prisma__UsersClient<UsersGetPayload<T> | Null>;
+
+    projects<T extends Accounts$projectsArgs= {}>(args?: Subset<T, Accounts$projectsArgs>): PrismaPromise<Array<ProjectsGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Accounts base type for findUnique actions
+   */
+  export type AccountsFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    /**
+     * Filter, which Accounts to fetch.
+     * 
+    **/
+    where: AccountsWhereUniqueInput
+  }
+
+  /**
+   * Accounts findUnique
+   */
+  export interface AccountsFindUniqueArgs extends AccountsFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Accounts findUniqueOrThrow
+   */
+  export type AccountsFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    /**
+     * Filter, which Accounts to fetch.
+     * 
+    **/
+    where: AccountsWhereUniqueInput
+  }
+
+
+  /**
+   * Accounts base type for findFirst actions
+   */
+  export type AccountsFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    /**
+     * Filter, which Accounts to fetch.
+     * 
+    **/
+    where?: AccountsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accounts to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<AccountsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Accounts.
+     * 
+    **/
+    cursor?: AccountsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accounts from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accounts.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Accounts.
+     * 
+    **/
+    distinct?: Enumerable<AccountsScalarFieldEnum>
+  }
+
+  /**
+   * Accounts findFirst
+   */
+  export interface AccountsFindFirstArgs extends AccountsFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Accounts findFirstOrThrow
+   */
+  export type AccountsFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    /**
+     * Filter, which Accounts to fetch.
+     * 
+    **/
+    where?: AccountsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accounts to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<AccountsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Accounts.
+     * 
+    **/
+    cursor?: AccountsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accounts from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accounts.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Accounts.
+     * 
+    **/
+    distinct?: Enumerable<AccountsScalarFieldEnum>
+  }
+
+
+  /**
+   * Accounts findMany
+   */
+  export type AccountsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    /**
+     * Filter, which Accounts to fetch.
+     * 
+    **/
+    where?: AccountsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Accounts to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<AccountsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Accounts.
+     * 
+    **/
+    cursor?: AccountsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Accounts from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Accounts.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<AccountsScalarFieldEnum>
+  }
+
+
+  /**
+   * Accounts create
+   */
+  export type AccountsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    /**
+     * The data needed to create a Accounts.
+     * 
+    **/
+    data: XOR<AccountsCreateInput, AccountsUncheckedCreateInput>
+  }
+
+
+  /**
+   * Accounts createMany
+   */
+  export type AccountsCreateManyArgs = {
+    /**
+     * The data used to create many Accounts.
+     * 
+    **/
+    data: Enumerable<AccountsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Accounts update
+   */
+  export type AccountsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    /**
+     * The data needed to update a Accounts.
+     * 
+    **/
+    data: XOR<AccountsUpdateInput, AccountsUncheckedUpdateInput>
+    /**
+     * Choose, which Accounts to update.
+     * 
+    **/
+    where: AccountsWhereUniqueInput
+  }
+
+
+  /**
+   * Accounts updateMany
+   */
+  export type AccountsUpdateManyArgs = {
+    /**
+     * The data used to update Accounts.
+     * 
+    **/
+    data: XOR<AccountsUpdateManyMutationInput, AccountsUncheckedUpdateManyInput>
+    /**
+     * Filter which Accounts to update
+     * 
+    **/
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Accounts upsert
+   */
+  export type AccountsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    /**
+     * The filter to search for the Accounts to update in case it exists.
+     * 
+    **/
+    where: AccountsWhereUniqueInput
+    /**
+     * In case the Accounts found by the `where` argument doesn't exist, create a new Accounts with this data.
+     * 
+    **/
+    create: XOR<AccountsCreateInput, AccountsUncheckedCreateInput>
+    /**
+     * In case the Accounts was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<AccountsUpdateInput, AccountsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Accounts delete
+   */
+  export type AccountsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    /**
+     * Filter which Accounts to delete.
+     * 
+    **/
+    where: AccountsWhereUniqueInput
+  }
+
+
+  /**
+   * Accounts deleteMany
+   */
+  export type AccountsDeleteManyArgs = {
+    /**
+     * Filter which Accounts to delete
+     * 
+    **/
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Accounts.users
+   */
+  export type Accounts$usersArgs = {
+    /**
+     * Select specific fields to fetch from the Users
+     * 
+    **/
+    select?: UsersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UsersInclude | null
+    where?: UsersWhereInput
+  }
+
+
+  /**
+   * Accounts.projects
+   */
+  export type Accounts$projectsArgs = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    where?: ProjectsWhereInput
+    orderBy?: Enumerable<ProjectsOrderByWithRelationInput>
+    cursor?: ProjectsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ProjectsScalarFieldEnum>
+  }
+
+
+  /**
+   * Accounts without action
+   */
+  export type AccountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+  }
+
+
+
+  /**
+   * Model Projects
+   */
+
+
+  export type AggregateProjects = {
+    _count: ProjectsCountAggregateOutputType | null
+    _min: ProjectsMinAggregateOutputType | null
+    _max: ProjectsMaxAggregateOutputType | null
+  }
+
+  export type ProjectsMinAggregateOutputType = {
+    project_id: string | null
+    account_id: string | null
+    name: string | null
+    label: string | null
+    type: project_type | null
+    subproject_name_singular: string | null
+    subproject_name_plural: string | null
+    subproject_order_by: string | null
+    places_label_by: string | null
+    persons_label_by: string | null
+    persons_order_by: string | null
+    goal_reports_label_by: string | null
+    goal_reports_order_by: string | null
+    values_on_multiple_levels: string | null
+    multiple_action_values_on_same_level: string | null
+    multiple_check_values_on_same_level: string | null
+    files_offline: boolean | null
+    files_active_projects: boolean | null
+    files_active_subprojects: boolean | null
+    files_active_places: boolean | null
+    files_active_actions: boolean | null
+    files_active_checks: boolean | null
+    deleted: boolean | null
+  }
+
+  export type ProjectsMaxAggregateOutputType = {
+    project_id: string | null
+    account_id: string | null
+    name: string | null
+    label: string | null
+    type: project_type | null
+    subproject_name_singular: string | null
+    subproject_name_plural: string | null
+    subproject_order_by: string | null
+    places_label_by: string | null
+    persons_label_by: string | null
+    persons_order_by: string | null
+    goal_reports_label_by: string | null
+    goal_reports_order_by: string | null
+    values_on_multiple_levels: string | null
+    multiple_action_values_on_same_level: string | null
+    multiple_check_values_on_same_level: string | null
+    files_offline: boolean | null
+    files_active_projects: boolean | null
+    files_active_subprojects: boolean | null
+    files_active_places: boolean | null
+    files_active_actions: boolean | null
+    files_active_checks: boolean | null
+    deleted: boolean | null
+  }
+
+  export type ProjectsCountAggregateOutputType = {
+    project_id: number
+    account_id: number
+    name: number
+    label: number
+    type: number
+    subproject_name_singular: number
+    subproject_name_plural: number
+    subproject_order_by: number
+    places_label_by: number
+    places_order_by: number
+    persons_label_by: number
+    persons_order_by: number
+    goal_reports_label_by: number
+    goal_reports_order_by: number
+    values_on_multiple_levels: number
+    multiple_action_values_on_same_level: number
+    multiple_check_values_on_same_level: number
+    data: number
+    files_offline: number
+    files_active_projects: number
+    files_active_subprojects: number
+    files_active_places: number
+    files_active_actions: number
+    files_active_checks: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type ProjectsMinAggregateInputType = {
+    project_id?: true
+    account_id?: true
+    name?: true
+    label?: true
+    type?: true
+    subproject_name_singular?: true
+    subproject_name_plural?: true
+    subproject_order_by?: true
+    places_label_by?: true
+    persons_label_by?: true
+    persons_order_by?: true
+    goal_reports_label_by?: true
+    goal_reports_order_by?: true
+    values_on_multiple_levels?: true
+    multiple_action_values_on_same_level?: true
+    multiple_check_values_on_same_level?: true
+    files_offline?: true
+    files_active_projects?: true
+    files_active_subprojects?: true
+    files_active_places?: true
+    files_active_actions?: true
+    files_active_checks?: true
+    deleted?: true
+  }
+
+  export type ProjectsMaxAggregateInputType = {
+    project_id?: true
+    account_id?: true
+    name?: true
+    label?: true
+    type?: true
+    subproject_name_singular?: true
+    subproject_name_plural?: true
+    subproject_order_by?: true
+    places_label_by?: true
+    persons_label_by?: true
+    persons_order_by?: true
+    goal_reports_label_by?: true
+    goal_reports_order_by?: true
+    values_on_multiple_levels?: true
+    multiple_action_values_on_same_level?: true
+    multiple_check_values_on_same_level?: true
+    files_offline?: true
+    files_active_projects?: true
+    files_active_subprojects?: true
+    files_active_places?: true
+    files_active_actions?: true
+    files_active_checks?: true
+    deleted?: true
+  }
+
+  export type ProjectsCountAggregateInputType = {
+    project_id?: true
+    account_id?: true
+    name?: true
+    label?: true
+    type?: true
+    subproject_name_singular?: true
+    subproject_name_plural?: true
+    subproject_order_by?: true
+    places_label_by?: true
+    places_order_by?: true
+    persons_label_by?: true
+    persons_order_by?: true
+    goal_reports_label_by?: true
+    goal_reports_order_by?: true
+    values_on_multiple_levels?: true
+    multiple_action_values_on_same_level?: true
+    multiple_check_values_on_same_level?: true
+    data?: true
+    files_offline?: true
+    files_active_projects?: true
+    files_active_subprojects?: true
+    files_active_places?: true
+    files_active_actions?: true
+    files_active_checks?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type ProjectsAggregateArgs = {
+    /**
+     * Filter which Projects to aggregate.
+     * 
+    **/
+    where?: ProjectsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Projects to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<ProjectsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: ProjectsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Projects from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Projects.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Projects
+    **/
+    _count?: true | ProjectsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProjectsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProjectsMaxAggregateInputType
+  }
+
+  export type GetProjectsAggregateType<T extends ProjectsAggregateArgs> = {
+        [P in keyof T & keyof AggregateProjects]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProjects[P]>
+      : GetScalarType<T[P], AggregateProjects[P]>
+  }
+
+
+
+
+  export type ProjectsGroupByArgs = {
+    where?: ProjectsWhereInput
+    orderBy?: Enumerable<ProjectsOrderByWithAggregationInput>
+    by: Array<ProjectsScalarFieldEnum>
+    having?: ProjectsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProjectsCountAggregateInputType | true
+    _min?: ProjectsMinAggregateInputType
+    _max?: ProjectsMaxAggregateInputType
+  }
+
+
+  export type ProjectsGroupByOutputType = {
+    project_id: string
+    account_id: string | null
+    name: string | null
+    label: string | null
+    type: project_type | null
+    subproject_name_singular: string | null
+    subproject_name_plural: string | null
+    subproject_order_by: string | null
+    places_label_by: string | null
+    places_order_by: JsonValue | null
+    persons_label_by: string | null
+    persons_order_by: string | null
+    goal_reports_label_by: string | null
+    goal_reports_order_by: string | null
+    values_on_multiple_levels: string | null
+    multiple_action_values_on_same_level: string | null
+    multiple_check_values_on_same_level: string | null
+    data: JsonValue | null
+    files_offline: boolean | null
+    files_active_projects: boolean | null
+    files_active_subprojects: boolean | null
+    files_active_places: boolean | null
+    files_active_actions: boolean | null
+    files_active_checks: boolean | null
+    deleted: boolean | null
+    _count: ProjectsCountAggregateOutputType | null
+    _min: ProjectsMinAggregateOutputType | null
+    _max: ProjectsMaxAggregateOutputType | null
+  }
+
+  type GetProjectsGroupByPayload<T extends ProjectsGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<ProjectsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProjectsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProjectsGroupByOutputType[P]>
+            : GetScalarType<T[P], ProjectsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProjectsSelect = {
+    project_id?: boolean
+    account_id?: boolean
+    name?: boolean
+    label?: boolean
+    type?: boolean
+    subproject_name_singular?: boolean
+    subproject_name_plural?: boolean
+    subproject_order_by?: boolean
+    places_label_by?: boolean
+    places_order_by?: boolean
+    persons_label_by?: boolean
+    persons_order_by?: boolean
+    goal_reports_label_by?: boolean
+    goal_reports_order_by?: boolean
+    values_on_multiple_levels?: boolean
+    multiple_action_values_on_same_level?: boolean
+    multiple_check_values_on_same_level?: boolean
+    data?: boolean
+    files_offline?: boolean
+    files_active_projects?: boolean
+    files_active_subprojects?: boolean
+    files_active_places?: boolean
+    files_active_actions?: boolean
+    files_active_checks?: boolean
+    deleted?: boolean
+    accounts?: boolean | Projects$accountsArgs
+  }
+
+
+  export type ProjectsInclude = {
+    accounts?: boolean | Projects$accountsArgs
+  } 
+
+  export type ProjectsGetPayload<S extends boolean | null | undefined | ProjectsArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Projects :
+    S extends undefined ? never :
+    S extends { include: any } & (ProjectsArgs | ProjectsFindManyArgs)
+    ? Projects  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (ProjectsArgs | ProjectsFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :  P extends keyof Projects ? Projects[P] : never
+  } 
+      : Projects
+
+
+  type ProjectsCountArgs = Merge<
+    Omit<ProjectsFindManyArgs, 'select' | 'include'> & {
+      select?: ProjectsCountAggregateInputType | true
+    }
+  >
+
+  export interface ProjectsDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Projects that matches the filter.
+     * @param {ProjectsFindUniqueArgs} args - Arguments to find a Projects
+     * @example
+     * // Get one Projects
+     * const projects = await prisma.projects.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends ProjectsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ProjectsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Projects'> extends True ? Prisma__ProjectsClient<ProjectsGetPayload<T>> : Prisma__ProjectsClient<ProjectsGetPayload<T> | null, null>
+
+    /**
+     * Find one Projects that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {ProjectsFindUniqueOrThrowArgs} args - Arguments to find a Projects
+     * @example
+     * // Get one Projects
+     * const projects = await prisma.projects.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends ProjectsFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ProjectsFindUniqueOrThrowArgs>
+    ): Prisma__ProjectsClient<ProjectsGetPayload<T>>
+
+    /**
+     * Find the first Projects that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectsFindFirstArgs} args - Arguments to find a Projects
+     * @example
+     * // Get one Projects
+     * const projects = await prisma.projects.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends ProjectsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ProjectsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Projects'> extends True ? Prisma__ProjectsClient<ProjectsGetPayload<T>> : Prisma__ProjectsClient<ProjectsGetPayload<T> | null, null>
+
+    /**
+     * Find the first Projects that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectsFindFirstOrThrowArgs} args - Arguments to find a Projects
+     * @example
+     * // Get one Projects
+     * const projects = await prisma.projects.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends ProjectsFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ProjectsFindFirstOrThrowArgs>
+    ): Prisma__ProjectsClient<ProjectsGetPayload<T>>
+
+    /**
+     * Find zero or more Projects that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Projects
+     * const projects = await prisma.projects.findMany()
+     * 
+     * // Get first 10 Projects
+     * const projects = await prisma.projects.findMany({ take: 10 })
+     * 
+     * // Only select the `project_id`
+     * const projectsWithProject_idOnly = await prisma.projects.findMany({ select: { project_id: true } })
+     * 
+    **/
+    findMany<T extends ProjectsFindManyArgs>(
+      args?: SelectSubset<T, ProjectsFindManyArgs>
+    ): PrismaPromise<Array<ProjectsGetPayload<T>>>
+
+    /**
+     * Create a Projects.
+     * @param {ProjectsCreateArgs} args - Arguments to create a Projects.
+     * @example
+     * // Create one Projects
+     * const Projects = await prisma.projects.create({
+     *   data: {
+     *     // ... data to create a Projects
+     *   }
+     * })
+     * 
+    **/
+    create<T extends ProjectsCreateArgs>(
+      args: SelectSubset<T, ProjectsCreateArgs>
+    ): Prisma__ProjectsClient<ProjectsGetPayload<T>>
+
+    /**
+     * Create many Projects.
+     *     @param {ProjectsCreateManyArgs} args - Arguments to create many Projects.
+     *     @example
+     *     // Create many Projects
+     *     const projects = await prisma.projects.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends ProjectsCreateManyArgs>(
+      args?: SelectSubset<T, ProjectsCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Projects.
+     * @param {ProjectsDeleteArgs} args - Arguments to delete one Projects.
+     * @example
+     * // Delete one Projects
+     * const Projects = await prisma.projects.delete({
+     *   where: {
+     *     // ... filter to delete one Projects
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends ProjectsDeleteArgs>(
+      args: SelectSubset<T, ProjectsDeleteArgs>
+    ): Prisma__ProjectsClient<ProjectsGetPayload<T>>
+
+    /**
+     * Update one Projects.
+     * @param {ProjectsUpdateArgs} args - Arguments to update one Projects.
+     * @example
+     * // Update one Projects
+     * const projects = await prisma.projects.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends ProjectsUpdateArgs>(
+      args: SelectSubset<T, ProjectsUpdateArgs>
+    ): Prisma__ProjectsClient<ProjectsGetPayload<T>>
+
+    /**
+     * Delete zero or more Projects.
+     * @param {ProjectsDeleteManyArgs} args - Arguments to filter Projects to delete.
+     * @example
+     * // Delete a few Projects
+     * const { count } = await prisma.projects.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends ProjectsDeleteManyArgs>(
+      args?: SelectSubset<T, ProjectsDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Projects.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Projects
+     * const projects = await prisma.projects.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends ProjectsUpdateManyArgs>(
+      args: SelectSubset<T, ProjectsUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Projects.
+     * @param {ProjectsUpsertArgs} args - Arguments to update or create a Projects.
+     * @example
+     * // Update or create a Projects
+     * const projects = await prisma.projects.upsert({
+     *   create: {
+     *     // ... data to create a Projects
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Projects we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends ProjectsUpsertArgs>(
+      args: SelectSubset<T, ProjectsUpsertArgs>
+    ): Prisma__ProjectsClient<ProjectsGetPayload<T>>
+
+    /**
+     * Count the number of Projects.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectsCountArgs} args - Arguments to filter Projects to count.
+     * @example
+     * // Count the number of Projects
+     * const count = await prisma.projects.count({
+     *   where: {
+     *     // ... the filter for the Projects we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProjectsCountArgs>(
+      args?: Subset<T, ProjectsCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProjectsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Projects.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProjectsAggregateArgs>(args: Subset<T, ProjectsAggregateArgs>): PrismaPromise<GetProjectsAggregateType<T>>
+
+    /**
+     * Group by Projects.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProjectsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProjectsGroupByArgs['orderBy'] }
+        : { orderBy?: ProjectsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProjectsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectsGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Projects.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__ProjectsClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Projects$accountsArgs= {}>(args?: Subset<T, Projects$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Projects base type for findUnique actions
+   */
+  export type ProjectsFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    /**
+     * Filter, which Projects to fetch.
+     * 
+    **/
+    where: ProjectsWhereUniqueInput
+  }
+
+  /**
+   * Projects findUnique
+   */
+  export interface ProjectsFindUniqueArgs extends ProjectsFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Projects findUniqueOrThrow
+   */
+  export type ProjectsFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    /**
+     * Filter, which Projects to fetch.
+     * 
+    **/
+    where: ProjectsWhereUniqueInput
+  }
+
+
+  /**
+   * Projects base type for findFirst actions
+   */
+  export type ProjectsFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    /**
+     * Filter, which Projects to fetch.
+     * 
+    **/
+    where?: ProjectsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Projects to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<ProjectsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Projects.
+     * 
+    **/
+    cursor?: ProjectsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Projects from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Projects.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Projects.
+     * 
+    **/
+    distinct?: Enumerable<ProjectsScalarFieldEnum>
+  }
+
+  /**
+   * Projects findFirst
+   */
+  export interface ProjectsFindFirstArgs extends ProjectsFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Projects findFirstOrThrow
+   */
+  export type ProjectsFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    /**
+     * Filter, which Projects to fetch.
+     * 
+    **/
+    where?: ProjectsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Projects to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<ProjectsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Projects.
+     * 
+    **/
+    cursor?: ProjectsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Projects from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Projects.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Projects.
+     * 
+    **/
+    distinct?: Enumerable<ProjectsScalarFieldEnum>
+  }
+
+
+  /**
+   * Projects findMany
+   */
+  export type ProjectsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    /**
+     * Filter, which Projects to fetch.
+     * 
+    **/
+    where?: ProjectsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Projects to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<ProjectsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Projects.
+     * 
+    **/
+    cursor?: ProjectsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Projects from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Projects.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<ProjectsScalarFieldEnum>
+  }
+
+
+  /**
+   * Projects create
+   */
+  export type ProjectsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    /**
+     * The data needed to create a Projects.
+     * 
+    **/
+    data: XOR<ProjectsCreateInput, ProjectsUncheckedCreateInput>
+  }
+
+
+  /**
+   * Projects createMany
+   */
+  export type ProjectsCreateManyArgs = {
+    /**
+     * The data used to create many Projects.
+     * 
+    **/
+    data: Enumerable<ProjectsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Projects update
+   */
+  export type ProjectsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    /**
+     * The data needed to update a Projects.
+     * 
+    **/
+    data: XOR<ProjectsUpdateInput, ProjectsUncheckedUpdateInput>
+    /**
+     * Choose, which Projects to update.
+     * 
+    **/
+    where: ProjectsWhereUniqueInput
+  }
+
+
+  /**
+   * Projects updateMany
+   */
+  export type ProjectsUpdateManyArgs = {
+    /**
+     * The data used to update Projects.
+     * 
+    **/
+    data: XOR<ProjectsUpdateManyMutationInput, ProjectsUncheckedUpdateManyInput>
+    /**
+     * Filter which Projects to update
+     * 
+    **/
+    where?: ProjectsWhereInput
+  }
+
+
+  /**
+   * Projects upsert
+   */
+  export type ProjectsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    /**
+     * The filter to search for the Projects to update in case it exists.
+     * 
+    **/
+    where: ProjectsWhereUniqueInput
+    /**
+     * In case the Projects found by the `where` argument doesn't exist, create a new Projects with this data.
+     * 
+    **/
+    create: XOR<ProjectsCreateInput, ProjectsUncheckedCreateInput>
+    /**
+     * In case the Projects was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<ProjectsUpdateInput, ProjectsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Projects delete
+   */
+  export type ProjectsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    /**
+     * Filter which Projects to delete.
+     * 
+    **/
+    where: ProjectsWhereUniqueInput
+  }
+
+
+  /**
+   * Projects deleteMany
+   */
+  export type ProjectsDeleteManyArgs = {
+    /**
+     * Filter which Projects to delete
+     * 
+    **/
+    where?: ProjectsWhereInput
+  }
+
+
+  /**
+   * Projects.accounts
+   */
+  export type Projects$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Projects without action
+   */
+  export type ProjectsArgs = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+  }
+
+
 
   /**
    * Model Users
@@ -982,19 +3393,31 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     auth_id?: boolean
     label_replace_by_generated_column?: boolean
     deleted?: boolean
+    accounts?: boolean | Users$accountsArgs
+    _count?: boolean | UsersCountOutputTypeArgs
   }
 
+
+  export type UsersInclude = {
+    accounts?: boolean | Users$accountsArgs
+    _count?: boolean | UsersCountOutputTypeArgs
+  } 
 
   export type UsersGetPayload<S extends boolean | null | undefined | UsersArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
     S extends true ? Users :
     S extends undefined ? never :
     S extends { include: any } & (UsersArgs | UsersFindManyArgs)
-    ? Users 
+    ? Users  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? Array < AccountsGetPayload<S['include'][P]>>  :
+        P extends '_count' ? UsersCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
     : S extends { select: any } & (UsersArgs | UsersFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof Users ? Users[P] : never
+        P extends 'accounts' ? Array < AccountsGetPayload<S['select'][P]>>  :
+        P extends '_count' ? UsersCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Users ? Users[P] : never
   } 
       : Users
 
@@ -1368,6 +3791,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
+    accounts<T extends Users$accountsArgs= {}>(args?: Subset<T, Users$accountsArgs>): PrismaPromise<Array<AccountsGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -1406,6 +3830,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: UsersSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UsersInclude | null
+    /**
      * Filter, which Users to fetch.
      * 
     **/
@@ -1434,6 +3863,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: UsersSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UsersInclude | null
+    /**
      * Filter, which Users to fetch.
      * 
     **/
@@ -1450,6 +3884,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: UsersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UsersInclude | null
     /**
      * Filter, which Users to fetch.
      * 
@@ -1514,6 +3953,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: UsersSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UsersInclude | null
+    /**
      * Filter, which Users to fetch.
      * 
     **/
@@ -1566,6 +4010,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: UsersSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UsersInclude | null
+    /**
      * Filter, which Users to fetch.
      * 
     **/
@@ -1612,6 +4061,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: UsersSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UsersInclude | null
+    /**
      * The data needed to create a Users.
      * 
     **/
@@ -1641,6 +4095,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: UsersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UsersInclude | null
     /**
      * The data needed to update a Users.
      * 
@@ -1681,6 +4140,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: UsersSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UsersInclude | null
+    /**
      * The filter to search for the Users to update in case it exists.
      * 
     **/
@@ -1708,6 +4172,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     select?: UsersSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UsersInclude | null
+    /**
      * Filter which Users to delete.
      * 
     **/
@@ -1728,6 +4197,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Users.accounts
+   */
+  export type Users$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+    orderBy?: Enumerable<AccountsOrderByWithRelationInput>
+    cursor?: AccountsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<AccountsScalarFieldEnum>
+  }
+
+
+  /**
    * Users without action
    */
   export type UsersArgs = {
@@ -1736,6 +4228,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: UsersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UsersInclude | null
   }
 
 
@@ -1757,6 +4254,50 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+  export const AccountsScalarFieldEnum: {
+    account_id: 'account_id',
+    user_id: 'user_id',
+    type: 'type',
+    period_start: 'period_start',
+    period_end: 'period_end',
+    projects_label_by: 'projects_label_by',
+    label: 'label'
+  };
+
+  export type AccountsScalarFieldEnum = (typeof AccountsScalarFieldEnum)[keyof typeof AccountsScalarFieldEnum]
+
+
+  export const ProjectsScalarFieldEnum: {
+    project_id: 'project_id',
+    account_id: 'account_id',
+    name: 'name',
+    label: 'label',
+    type: 'type',
+    subproject_name_singular: 'subproject_name_singular',
+    subproject_name_plural: 'subproject_name_plural',
+    subproject_order_by: 'subproject_order_by',
+    places_label_by: 'places_label_by',
+    places_order_by: 'places_order_by',
+    persons_label_by: 'persons_label_by',
+    persons_order_by: 'persons_order_by',
+    goal_reports_label_by: 'goal_reports_label_by',
+    goal_reports_order_by: 'goal_reports_order_by',
+    values_on_multiple_levels: 'values_on_multiple_levels',
+    multiple_action_values_on_same_level: 'multiple_action_values_on_same_level',
+    multiple_check_values_on_same_level: 'multiple_check_values_on_same_level',
+    data: 'data',
+    files_offline: 'files_offline',
+    files_active_projects: 'files_active_projects',
+    files_active_subprojects: 'files_active_subprojects',
+    files_active_places: 'files_active_places',
+    files_active_actions: 'files_active_actions',
+    files_active_checks: 'files_active_checks',
+    deleted: 'deleted'
+  };
+
+  export type ProjectsScalarFieldEnum = (typeof ProjectsScalarFieldEnum)[keyof typeof ProjectsScalarFieldEnum]
+
+
   export const UsersScalarFieldEnum: {
     user_id: 'user_id',
     email: 'email',
@@ -1776,6 +4317,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
@@ -1790,6 +4339,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -1808,6 +4366,41 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    * Reference to a field of type 'String[]'
    */
   export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'project_type'
+   */
+  export type Enumproject_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'project_type'>
+    
+
+
+  /**
+   * Reference to a field of type 'project_type[]'
+   */
+  export type ListEnumproject_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'project_type[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
 
 
@@ -1835,6 +4428,229 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
 
 
+  export type AccountsWhereInput = {
+    AND?: Enumerable<AccountsWhereInput>
+    OR?: Enumerable<AccountsWhereInput>
+    NOT?: Enumerable<AccountsWhereInput>
+    account_id?: UuidFilter<"Accounts"> | string
+    user_id?: UuidNullableFilter<"Accounts"> | string | null
+    type?: StringNullableFilter<"Accounts"> | string | null
+    period_start?: DateTimeNullableFilter<"Accounts"> | Date | string | null
+    period_end?: DateTimeNullableFilter<"Accounts"> | Date | string | null
+    projects_label_by?: StringNullableFilter<"Accounts"> | string | null
+    label?: StringNullableFilter<"Accounts"> | string | null
+    users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
+    projects?: ProjectsListRelationFilter
+  }
+
+  export type AccountsOrderByWithRelationInput = {
+    account_id?: SortOrder
+    user_id?: SortOrderInput | SortOrder
+    type?: SortOrderInput | SortOrder
+    period_start?: SortOrderInput | SortOrder
+    period_end?: SortOrderInput | SortOrder
+    projects_label_by?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    users?: UsersOrderByWithRelationInput
+    projects?: ProjectsOrderByRelationAggregateInput
+  }
+
+  export type AccountsWhereUniqueInput = Prisma.AtLeast<{
+    account_id?: string
+    AND?: Enumerable<AccountsWhereInput>
+    OR?: Enumerable<AccountsWhereInput>
+    NOT?: Enumerable<AccountsWhereInput>
+    user_id?: UuidNullableFilter<"Accounts"> | string | null
+    type?: StringNullableFilter<"Accounts"> | string | null
+    period_start?: DateTimeNullableFilter<"Accounts"> | Date | string | null
+    period_end?: DateTimeNullableFilter<"Accounts"> | Date | string | null
+    projects_label_by?: StringNullableFilter<"Accounts"> | string | null
+    label?: StringNullableFilter<"Accounts"> | string | null
+    users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
+    projects?: ProjectsListRelationFilter
+  }, "account_id">
+
+  export type AccountsOrderByWithAggregationInput = {
+    account_id?: SortOrder
+    user_id?: SortOrderInput | SortOrder
+    type?: SortOrderInput | SortOrder
+    period_start?: SortOrderInput | SortOrder
+    period_end?: SortOrderInput | SortOrder
+    projects_label_by?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    _count?: AccountsCountOrderByAggregateInput
+    _max?: AccountsMaxOrderByAggregateInput
+    _min?: AccountsMinOrderByAggregateInput
+  }
+
+  export type AccountsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<AccountsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<AccountsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<AccountsScalarWhereWithAggregatesInput>
+    account_id?: UuidWithAggregatesFilter<"Accounts"> | string
+    user_id?: UuidNullableWithAggregatesFilter<"Accounts"> | string | null
+    type?: StringNullableWithAggregatesFilter<"Accounts"> | string | null
+    period_start?: DateTimeNullableWithAggregatesFilter<"Accounts"> | Date | string | null
+    period_end?: DateTimeNullableWithAggregatesFilter<"Accounts"> | Date | string | null
+    projects_label_by?: StringNullableWithAggregatesFilter<"Accounts"> | string | null
+    label?: StringNullableWithAggregatesFilter<"Accounts"> | string | null
+  }
+
+  export type ProjectsWhereInput = {
+    AND?: Enumerable<ProjectsWhereInput>
+    OR?: Enumerable<ProjectsWhereInput>
+    NOT?: Enumerable<ProjectsWhereInput>
+    project_id?: UuidFilter<"Projects"> | string
+    account_id?: UuidNullableFilter<"Projects"> | string | null
+    name?: StringNullableFilter<"Projects"> | string | null
+    label?: StringNullableFilter<"Projects"> | string | null
+    type?: Enumproject_typeNullableFilter<"Projects"> | project_type | null
+    subproject_name_singular?: StringNullableFilter<"Projects"> | string | null
+    subproject_name_plural?: StringNullableFilter<"Projects"> | string | null
+    subproject_order_by?: StringNullableFilter<"Projects"> | string | null
+    places_label_by?: StringNullableFilter<"Projects"> | string | null
+    places_order_by?: JsonNullableFilter<"Projects">
+    persons_label_by?: StringNullableFilter<"Projects"> | string | null
+    persons_order_by?: StringNullableFilter<"Projects"> | string | null
+    goal_reports_label_by?: StringNullableFilter<"Projects"> | string | null
+    goal_reports_order_by?: StringNullableFilter<"Projects"> | string | null
+    values_on_multiple_levels?: StringNullableFilter<"Projects"> | string | null
+    multiple_action_values_on_same_level?: StringNullableFilter<"Projects"> | string | null
+    multiple_check_values_on_same_level?: StringNullableFilter<"Projects"> | string | null
+    data?: JsonNullableFilter<"Projects">
+    files_offline?: BoolNullableFilter<"Projects"> | boolean | null
+    files_active_projects?: BoolNullableFilter<"Projects"> | boolean | null
+    files_active_subprojects?: BoolNullableFilter<"Projects"> | boolean | null
+    files_active_places?: BoolNullableFilter<"Projects"> | boolean | null
+    files_active_actions?: BoolNullableFilter<"Projects"> | boolean | null
+    files_active_checks?: BoolNullableFilter<"Projects"> | boolean | null
+    deleted?: BoolNullableFilter<"Projects"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+  }
+
+  export type ProjectsOrderByWithRelationInput = {
+    project_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    type?: SortOrderInput | SortOrder
+    subproject_name_singular?: SortOrderInput | SortOrder
+    subproject_name_plural?: SortOrderInput | SortOrder
+    subproject_order_by?: SortOrderInput | SortOrder
+    places_label_by?: SortOrderInput | SortOrder
+    places_order_by?: SortOrderInput | SortOrder
+    persons_label_by?: SortOrderInput | SortOrder
+    persons_order_by?: SortOrderInput | SortOrder
+    goal_reports_label_by?: SortOrderInput | SortOrder
+    goal_reports_order_by?: SortOrderInput | SortOrder
+    values_on_multiple_levels?: SortOrderInput | SortOrder
+    multiple_action_values_on_same_level?: SortOrderInput | SortOrder
+    multiple_check_values_on_same_level?: SortOrderInput | SortOrder
+    data?: SortOrderInput | SortOrder
+    files_offline?: SortOrderInput | SortOrder
+    files_active_projects?: SortOrderInput | SortOrder
+    files_active_subprojects?: SortOrderInput | SortOrder
+    files_active_places?: SortOrderInput | SortOrder
+    files_active_actions?: SortOrderInput | SortOrder
+    files_active_checks?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+  }
+
+  export type ProjectsWhereUniqueInput = Prisma.AtLeast<{
+    project_id?: string
+    AND?: Enumerable<ProjectsWhereInput>
+    OR?: Enumerable<ProjectsWhereInput>
+    NOT?: Enumerable<ProjectsWhereInput>
+    account_id?: UuidNullableFilter<"Projects"> | string | null
+    name?: StringNullableFilter<"Projects"> | string | null
+    label?: StringNullableFilter<"Projects"> | string | null
+    type?: Enumproject_typeNullableFilter<"Projects"> | project_type | null
+    subproject_name_singular?: StringNullableFilter<"Projects"> | string | null
+    subproject_name_plural?: StringNullableFilter<"Projects"> | string | null
+    subproject_order_by?: StringNullableFilter<"Projects"> | string | null
+    places_label_by?: StringNullableFilter<"Projects"> | string | null
+    places_order_by?: JsonNullableFilter<"Projects">
+    persons_label_by?: StringNullableFilter<"Projects"> | string | null
+    persons_order_by?: StringNullableFilter<"Projects"> | string | null
+    goal_reports_label_by?: StringNullableFilter<"Projects"> | string | null
+    goal_reports_order_by?: StringNullableFilter<"Projects"> | string | null
+    values_on_multiple_levels?: StringNullableFilter<"Projects"> | string | null
+    multiple_action_values_on_same_level?: StringNullableFilter<"Projects"> | string | null
+    multiple_check_values_on_same_level?: StringNullableFilter<"Projects"> | string | null
+    data?: JsonNullableFilter<"Projects">
+    files_offline?: BoolNullableFilter<"Projects"> | boolean | null
+    files_active_projects?: BoolNullableFilter<"Projects"> | boolean | null
+    files_active_subprojects?: BoolNullableFilter<"Projects"> | boolean | null
+    files_active_places?: BoolNullableFilter<"Projects"> | boolean | null
+    files_active_actions?: BoolNullableFilter<"Projects"> | boolean | null
+    files_active_checks?: BoolNullableFilter<"Projects"> | boolean | null
+    deleted?: BoolNullableFilter<"Projects"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+  }, "project_id">
+
+  export type ProjectsOrderByWithAggregationInput = {
+    project_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    type?: SortOrderInput | SortOrder
+    subproject_name_singular?: SortOrderInput | SortOrder
+    subproject_name_plural?: SortOrderInput | SortOrder
+    subproject_order_by?: SortOrderInput | SortOrder
+    places_label_by?: SortOrderInput | SortOrder
+    places_order_by?: SortOrderInput | SortOrder
+    persons_label_by?: SortOrderInput | SortOrder
+    persons_order_by?: SortOrderInput | SortOrder
+    goal_reports_label_by?: SortOrderInput | SortOrder
+    goal_reports_order_by?: SortOrderInput | SortOrder
+    values_on_multiple_levels?: SortOrderInput | SortOrder
+    multiple_action_values_on_same_level?: SortOrderInput | SortOrder
+    multiple_check_values_on_same_level?: SortOrderInput | SortOrder
+    data?: SortOrderInput | SortOrder
+    files_offline?: SortOrderInput | SortOrder
+    files_active_projects?: SortOrderInput | SortOrder
+    files_active_subprojects?: SortOrderInput | SortOrder
+    files_active_places?: SortOrderInput | SortOrder
+    files_active_actions?: SortOrderInput | SortOrder
+    files_active_checks?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    _count?: ProjectsCountOrderByAggregateInput
+    _max?: ProjectsMaxOrderByAggregateInput
+    _min?: ProjectsMinOrderByAggregateInput
+  }
+
+  export type ProjectsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ProjectsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ProjectsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ProjectsScalarWhereWithAggregatesInput>
+    project_id?: UuidWithAggregatesFilter<"Projects"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"Projects"> | string | null
+    name?: StringNullableWithAggregatesFilter<"Projects"> | string | null
+    label?: StringNullableWithAggregatesFilter<"Projects"> | string | null
+    type?: Enumproject_typeNullableWithAggregatesFilter<"Projects"> | project_type | null
+    subproject_name_singular?: StringNullableWithAggregatesFilter<"Projects"> | string | null
+    subproject_name_plural?: StringNullableWithAggregatesFilter<"Projects"> | string | null
+    subproject_order_by?: StringNullableWithAggregatesFilter<"Projects"> | string | null
+    places_label_by?: StringNullableWithAggregatesFilter<"Projects"> | string | null
+    places_order_by?: JsonNullableWithAggregatesFilter<"Projects">
+    persons_label_by?: StringNullableWithAggregatesFilter<"Projects"> | string | null
+    persons_order_by?: StringNullableWithAggregatesFilter<"Projects"> | string | null
+    goal_reports_label_by?: StringNullableWithAggregatesFilter<"Projects"> | string | null
+    goal_reports_order_by?: StringNullableWithAggregatesFilter<"Projects"> | string | null
+    values_on_multiple_levels?: StringNullableWithAggregatesFilter<"Projects"> | string | null
+    multiple_action_values_on_same_level?: StringNullableWithAggregatesFilter<"Projects"> | string | null
+    multiple_check_values_on_same_level?: StringNullableWithAggregatesFilter<"Projects"> | string | null
+    data?: JsonNullableWithAggregatesFilter<"Projects">
+    files_offline?: BoolNullableWithAggregatesFilter<"Projects"> | boolean | null
+    files_active_projects?: BoolNullableWithAggregatesFilter<"Projects"> | boolean | null
+    files_active_subprojects?: BoolNullableWithAggregatesFilter<"Projects"> | boolean | null
+    files_active_places?: BoolNullableWithAggregatesFilter<"Projects"> | boolean | null
+    files_active_actions?: BoolNullableWithAggregatesFilter<"Projects"> | boolean | null
+    files_active_checks?: BoolNullableWithAggregatesFilter<"Projects"> | boolean | null
+    deleted?: BoolNullableWithAggregatesFilter<"Projects"> | boolean | null
+  }
+
   export type UsersWhereInput = {
     AND?: Enumerable<UsersWhereInput>
     OR?: Enumerable<UsersWhereInput>
@@ -1844,6 +4660,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     auth_id?: UuidNullableFilter<"Users"> | string | null
     label_replace_by_generated_column?: StringNullableFilter<"Users"> | string | null
     deleted?: BoolNullableFilter<"Users"> | boolean | null
+    accounts?: AccountsListRelationFilter
   }
 
   export type UsersOrderByWithRelationInput = {
@@ -1852,6 +4669,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     auth_id?: SortOrderInput | SortOrder
     label_replace_by_generated_column?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByRelationAggregateInput
   }
 
   export type UsersWhereUniqueInput = Prisma.AtLeast<{
@@ -1863,6 +4681,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     auth_id?: UuidNullableFilter<"Users"> | string | null
     label_replace_by_generated_column?: StringNullableFilter<"Users"> | string | null
     deleted?: BoolNullableFilter<"Users"> | boolean | null
+    accounts?: AccountsListRelationFilter
   }, "user_id">
 
   export type UsersOrderByWithAggregationInput = {
@@ -1887,12 +4706,281 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableWithAggregatesFilter<"Users"> | boolean | null
   }
 
+  export type AccountsCreateInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUpdateInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsCreateManyInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+  }
+
+  export type AccountsUpdateManyMutationInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AccountsUncheckedUpdateManyInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ProjectsCreateInput = {
+    project_id: string
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutProjectsInput
+  }
+
+  export type ProjectsUncheckedCreateInput = {
+    project_id: string
+    account_id?: string | null
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+  }
+
+  export type ProjectsUpdateInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutProjectsNestedInput
+  }
+
+  export type ProjectsUncheckedUpdateInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type ProjectsCreateManyInput = {
+    project_id: string
+    account_id?: string | null
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+  }
+
+  export type ProjectsUpdateManyMutationInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type ProjectsUncheckedUpdateManyInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type UsersCreateInput = {
     user_id: string
     email?: string | null
     auth_id?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    accounts?: AccountsCreateNestedManyWithoutUsersInput
   }
 
   export type UsersUncheckedCreateInput = {
@@ -1901,6 +4989,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     auth_id?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    accounts?: AccountsUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type UsersUpdateInput = {
@@ -1909,6 +4998,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     auth_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateManyWithoutUsersNestedInput
   }
 
   export type UsersUncheckedUpdateInput = {
@@ -1917,6 +5007,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     auth_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type UsersCreateManyInput = {
@@ -1955,6 +5046,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: NestedUuidFilter<$PrismaModel> | string
   }
 
+  export type UuidNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
+  }
+
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
@@ -1970,7 +5073,83 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type UuidNullableFilter<$PrismaModel = never> = {
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<Date> | Enumerable<string> | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type UsersNullableRelationFilter = {
+    is?: UsersWhereInput | null
+    isNot?: UsersWhereInput | null
+  }
+
+  export type ProjectsListRelationFilter = {
+    every?: ProjectsWhereInput
+    some?: ProjectsWhereInput
+    none?: ProjectsWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type ProjectsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AccountsCountOrderByAggregateInput = {
+    account_id?: SortOrder
+    user_id?: SortOrder
+    type?: SortOrder
+    period_start?: SortOrder
+    period_end?: SortOrder
+    projects_label_by?: SortOrder
+    label?: SortOrder
+  }
+
+  export type AccountsMaxOrderByAggregateInput = {
+    account_id?: SortOrder
+    user_id?: SortOrder
+    type?: SortOrder
+    period_start?: SortOrder
+    period_end?: SortOrder
+    projects_label_by?: SortOrder
+    label?: SortOrder
+  }
+
+  export type AccountsMinOrderByAggregateInput = {
+    account_id?: SortOrder
+    user_id?: SortOrder
+    type?: SortOrder
+    period_start?: SortOrder
+    period_end?: SortOrder
+    projects_label_by?: SortOrder
+    label?: SortOrder
+  }
+
+  export type UuidWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
+    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
     notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
@@ -1979,7 +5158,71 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gt?: string | StringFieldRefInput<$PrismaModel>
     gte?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
+    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<Date> | Enumerable<string> | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type Enumproject_typeNullableFilter<$PrismaModel = never> = {
+    equals?: project_type | Enumproject_typeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumproject_typeNullableFilter<$PrismaModel> | project_type | null
+  }
+  export type JsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: Array<string>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type BoolNullableFilter<$PrismaModel = never> = {
@@ -1987,9 +5230,142 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
 
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
+  export type AccountsNullableRelationFilter = {
+    is?: AccountsWhereInput | null
+    isNot?: AccountsWhereInput | null
+  }
+
+  export type ProjectsCountOrderByAggregateInput = {
+    project_id?: SortOrder
+    account_id?: SortOrder
+    name?: SortOrder
+    label?: SortOrder
+    type?: SortOrder
+    subproject_name_singular?: SortOrder
+    subproject_name_plural?: SortOrder
+    subproject_order_by?: SortOrder
+    places_label_by?: SortOrder
+    places_order_by?: SortOrder
+    persons_label_by?: SortOrder
+    persons_order_by?: SortOrder
+    goal_reports_label_by?: SortOrder
+    goal_reports_order_by?: SortOrder
+    values_on_multiple_levels?: SortOrder
+    multiple_action_values_on_same_level?: SortOrder
+    multiple_check_values_on_same_level?: SortOrder
+    data?: SortOrder
+    files_offline?: SortOrder
+    files_active_projects?: SortOrder
+    files_active_subprojects?: SortOrder
+    files_active_places?: SortOrder
+    files_active_actions?: SortOrder
+    files_active_checks?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type ProjectsMaxOrderByAggregateInput = {
+    project_id?: SortOrder
+    account_id?: SortOrder
+    name?: SortOrder
+    label?: SortOrder
+    type?: SortOrder
+    subproject_name_singular?: SortOrder
+    subproject_name_plural?: SortOrder
+    subproject_order_by?: SortOrder
+    places_label_by?: SortOrder
+    persons_label_by?: SortOrder
+    persons_order_by?: SortOrder
+    goal_reports_label_by?: SortOrder
+    goal_reports_order_by?: SortOrder
+    values_on_multiple_levels?: SortOrder
+    multiple_action_values_on_same_level?: SortOrder
+    multiple_check_values_on_same_level?: SortOrder
+    files_offline?: SortOrder
+    files_active_projects?: SortOrder
+    files_active_subprojects?: SortOrder
+    files_active_places?: SortOrder
+    files_active_actions?: SortOrder
+    files_active_checks?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type ProjectsMinOrderByAggregateInput = {
+    project_id?: SortOrder
+    account_id?: SortOrder
+    name?: SortOrder
+    label?: SortOrder
+    type?: SortOrder
+    subproject_name_singular?: SortOrder
+    subproject_name_plural?: SortOrder
+    subproject_order_by?: SortOrder
+    places_label_by?: SortOrder
+    persons_label_by?: SortOrder
+    persons_order_by?: SortOrder
+    goal_reports_label_by?: SortOrder
+    goal_reports_order_by?: SortOrder
+    values_on_multiple_levels?: SortOrder
+    multiple_action_values_on_same_level?: SortOrder
+    multiple_check_values_on_same_level?: SortOrder
+    files_offline?: SortOrder
+    files_active_projects?: SortOrder
+    files_active_subprojects?: SortOrder
+    files_active_places?: SortOrder
+    files_active_actions?: SortOrder
+    files_active_checks?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Enumproject_typeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: project_type | Enumproject_typeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumproject_typeNullableWithAggregatesFilter<$PrismaModel> | project_type | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumproject_typeNullableFilter<$PrismaModel>
+    _max?: NestedEnumproject_typeNullableFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: Array<string>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type AccountsListRelationFilter = {
+    every?: AccountsWhereInput
+    some?: AccountsWhereInput
+    none?: AccountsWhereInput
+  }
+
+  export type AccountsOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UsersCountOrderByAggregateInput = {
@@ -2016,60 +5392,24 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: SortOrder
   }
 
-  export type UuidWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
+  export type UsersCreateNestedOneWithoutAccountsInput = {
+    create?: XOR<UsersCreateWithoutAccountsInput, UsersUncheckedCreateWithoutAccountsInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutAccountsInput
+    connect?: UsersWhereUniqueInput
   }
 
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
+  export type ProjectsCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<ProjectsCreateWithoutAccountsInput>, Enumerable<ProjectsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<ProjectsCreateOrConnectWithoutAccountsInput>
+    createMany?: ProjectsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<ProjectsWhereUniqueInput>
   }
 
-  export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
+  export type ProjectsUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<ProjectsCreateWithoutAccountsInput>, Enumerable<ProjectsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<ProjectsCreateOrConnectWithoutAccountsInput>
+    createMany?: ProjectsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<ProjectsWhereUniqueInput>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -2080,8 +5420,112 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     set?: string | null
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type UsersUpdateOneWithoutAccountsNestedInput = {
+    create?: XOR<UsersCreateWithoutAccountsInput, UsersUncheckedCreateWithoutAccountsInput>
+    connectOrCreate?: UsersCreateOrConnectWithoutAccountsInput
+    upsert?: UsersUpsertWithoutAccountsInput
+    disconnect?: UsersWhereInput | boolean
+    delete?: UsersWhereInput | boolean
+    connect?: UsersWhereUniqueInput
+    update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutAccountsInput, UsersUpdateWithoutAccountsInput>, UsersUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type ProjectsUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<ProjectsCreateWithoutAccountsInput>, Enumerable<ProjectsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<ProjectsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<ProjectsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: ProjectsCreateManyAccountsInputEnvelope
+    set?: Enumerable<ProjectsWhereUniqueInput>
+    disconnect?: Enumerable<ProjectsWhereUniqueInput>
+    delete?: Enumerable<ProjectsWhereUniqueInput>
+    connect?: Enumerable<ProjectsWhereUniqueInput>
+    update?: Enumerable<ProjectsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<ProjectsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<ProjectsScalarWhereInput>
+  }
+
+  export type ProjectsUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<ProjectsCreateWithoutAccountsInput>, Enumerable<ProjectsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<ProjectsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<ProjectsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: ProjectsCreateManyAccountsInputEnvelope
+    set?: Enumerable<ProjectsWhereUniqueInput>
+    disconnect?: Enumerable<ProjectsWhereUniqueInput>
+    delete?: Enumerable<ProjectsWhereUniqueInput>
+    connect?: Enumerable<ProjectsWhereUniqueInput>
+    update?: Enumerable<ProjectsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<ProjectsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<ProjectsScalarWhereInput>
+  }
+
+  export type AccountsCreateNestedOneWithoutProjectsInput = {
+    create?: XOR<AccountsCreateWithoutProjectsInput, AccountsUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutProjectsInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type NullableEnumproject_typeFieldUpdateOperationsInput = {
+    set?: project_type | null
+  }
+
   export type NullableBoolFieldUpdateOperationsInput = {
     set?: boolean | null
+  }
+
+  export type AccountsUpdateOneWithoutProjectsNestedInput = {
+    create?: XOR<AccountsCreateWithoutProjectsInput, AccountsUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutProjectsInput
+    upsert?: AccountsUpsertWithoutProjectsInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutProjectsInput, AccountsUpdateWithoutProjectsInput>, AccountsUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type AccountsCreateNestedManyWithoutUsersInput = {
+    create?: XOR<Enumerable<AccountsCreateWithoutUsersInput>, Enumerable<AccountsUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<AccountsCreateOrConnectWithoutUsersInput>
+    createMany?: AccountsCreateManyUsersInputEnvelope
+    connect?: Enumerable<AccountsWhereUniqueInput>
+  }
+
+  export type AccountsUncheckedCreateNestedManyWithoutUsersInput = {
+    create?: XOR<Enumerable<AccountsCreateWithoutUsersInput>, Enumerable<AccountsUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<AccountsCreateOrConnectWithoutUsersInput>
+    createMany?: AccountsCreateManyUsersInputEnvelope
+    connect?: Enumerable<AccountsWhereUniqueInput>
+  }
+
+  export type AccountsUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<Enumerable<AccountsCreateWithoutUsersInput>, Enumerable<AccountsUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<AccountsCreateOrConnectWithoutUsersInput>
+    upsert?: Enumerable<AccountsUpsertWithWhereUniqueWithoutUsersInput>
+    createMany?: AccountsCreateManyUsersInputEnvelope
+    set?: Enumerable<AccountsWhereUniqueInput>
+    disconnect?: Enumerable<AccountsWhereUniqueInput>
+    delete?: Enumerable<AccountsWhereUniqueInput>
+    connect?: Enumerable<AccountsWhereUniqueInput>
+    update?: Enumerable<AccountsUpdateWithWhereUniqueWithoutUsersInput>
+    updateMany?: Enumerable<AccountsUpdateManyWithWhereWithoutUsersInput>
+    deleteMany?: Enumerable<AccountsScalarWhereInput>
+  }
+
+  export type AccountsUncheckedUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<Enumerable<AccountsCreateWithoutUsersInput>, Enumerable<AccountsUncheckedCreateWithoutUsersInput>>
+    connectOrCreate?: Enumerable<AccountsCreateOrConnectWithoutUsersInput>
+    upsert?: Enumerable<AccountsUpsertWithWhereUniqueWithoutUsersInput>
+    createMany?: AccountsCreateManyUsersInputEnvelope
+    set?: Enumerable<AccountsWhereUniqueInput>
+    disconnect?: Enumerable<AccountsWhereUniqueInput>
+    delete?: Enumerable<AccountsWhereUniqueInput>
+    connect?: Enumerable<AccountsWhereUniqueInput>
+    update?: Enumerable<AccountsUpdateWithWhereUniqueWithoutUsersInput>
+    updateMany?: Enumerable<AccountsUpdateManyWithWhereWithoutUsersInput>
+    deleteMany?: Enumerable<AccountsScalarWhereInput>
   }
 
   export type NestedUuidFilter<$PrismaModel = never> = {
@@ -2093,6 +5537,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gt?: string | StringFieldRefInput<$PrismaModel>
     gte?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedUuidFilter<$PrismaModel> | string
+  }
+
+  export type NestedUuidNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -2109,20 +5564,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type NestedUuidNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedBoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<Date> | Enumerable<string> | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedUuidWithAggregatesFilter<$PrismaModel = never> = {
@@ -2164,6 +5614,31 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
@@ -2181,29 +5656,62 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<Date> | Enumerable<string> | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<string> | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
+  export type NestedEnumproject_typeNullableFilter<$PrismaModel = never> = {
+    equals?: project_type | Enumproject_typeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumproject_typeNullableFilter<$PrismaModel> | project_type | null
+  }
+
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type NestedEnumproject_typeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: project_type | Enumproject_typeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumproject_typeNullableWithAggregatesFilter<$PrismaModel> | project_type | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
+    _min?: NestedEnumproject_typeNullableFilter<$PrismaModel>
+    _max?: NestedEnumproject_typeNullableFilter<$PrismaModel>
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: Array<string>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -2212,6 +5720,426 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type UsersCreateWithoutAccountsInput = {
+    user_id: string
+    email?: string | null
+    auth_id?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type UsersUncheckedCreateWithoutAccountsInput = {
+    user_id: string
+    email?: string | null
+    auth_id?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type UsersCreateOrConnectWithoutAccountsInput = {
+    where: UsersWhereUniqueInput
+    create: XOR<UsersCreateWithoutAccountsInput, UsersUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type ProjectsCreateWithoutAccountsInput = {
+    project_id: string
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+  }
+
+  export type ProjectsUncheckedCreateWithoutAccountsInput = {
+    project_id: string
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+  }
+
+  export type ProjectsCreateOrConnectWithoutAccountsInput = {
+    where: ProjectsWhereUniqueInput
+    create: XOR<ProjectsCreateWithoutAccountsInput, ProjectsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type ProjectsCreateManyAccountsInputEnvelope = {
+    data: Enumerable<ProjectsCreateManyAccountsInput>
+    skipDuplicates?: boolean
+  }
+
+  export type UsersUpsertWithoutAccountsInput = {
+    update: XOR<UsersUpdateWithoutAccountsInput, UsersUncheckedUpdateWithoutAccountsInput>
+    create: XOR<UsersCreateWithoutAccountsInput, UsersUncheckedCreateWithoutAccountsInput>
+    where?: UsersWhereInput
+  }
+
+  export type UsersUpdateToOneWithWhereWithoutAccountsInput = {
+    where?: UsersWhereInput
+    data: XOR<UsersUpdateWithoutAccountsInput, UsersUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type UsersUpdateWithoutAccountsInput = {
+    user_id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type UsersUncheckedUpdateWithoutAccountsInput = {
+    user_id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type ProjectsUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: ProjectsWhereUniqueInput
+    update: XOR<ProjectsUpdateWithoutAccountsInput, ProjectsUncheckedUpdateWithoutAccountsInput>
+    create: XOR<ProjectsCreateWithoutAccountsInput, ProjectsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type ProjectsUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: ProjectsWhereUniqueInput
+    data: XOR<ProjectsUpdateWithoutAccountsInput, ProjectsUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type ProjectsUpdateManyWithWhereWithoutAccountsInput = {
+    where: ProjectsScalarWhereInput
+    data: XOR<ProjectsUpdateManyMutationInput, ProjectsUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type ProjectsScalarWhereInput = {
+    AND?: Enumerable<ProjectsScalarWhereInput>
+    OR?: Enumerable<ProjectsScalarWhereInput>
+    NOT?: Enumerable<ProjectsScalarWhereInput>
+    project_id?: UuidFilter<"Projects"> | string
+    account_id?: UuidNullableFilter<"Projects"> | string | null
+    name?: StringNullableFilter<"Projects"> | string | null
+    label?: StringNullableFilter<"Projects"> | string | null
+    type?: Enumproject_typeNullableFilter<"Projects"> | project_type | null
+    subproject_name_singular?: StringNullableFilter<"Projects"> | string | null
+    subproject_name_plural?: StringNullableFilter<"Projects"> | string | null
+    subproject_order_by?: StringNullableFilter<"Projects"> | string | null
+    places_label_by?: StringNullableFilter<"Projects"> | string | null
+    places_order_by?: JsonNullableFilter<"Projects">
+    persons_label_by?: StringNullableFilter<"Projects"> | string | null
+    persons_order_by?: StringNullableFilter<"Projects"> | string | null
+    goal_reports_label_by?: StringNullableFilter<"Projects"> | string | null
+    goal_reports_order_by?: StringNullableFilter<"Projects"> | string | null
+    values_on_multiple_levels?: StringNullableFilter<"Projects"> | string | null
+    multiple_action_values_on_same_level?: StringNullableFilter<"Projects"> | string | null
+    multiple_check_values_on_same_level?: StringNullableFilter<"Projects"> | string | null
+    data?: JsonNullableFilter<"Projects">
+    files_offline?: BoolNullableFilter<"Projects"> | boolean | null
+    files_active_projects?: BoolNullableFilter<"Projects"> | boolean | null
+    files_active_subprojects?: BoolNullableFilter<"Projects"> | boolean | null
+    files_active_places?: BoolNullableFilter<"Projects"> | boolean | null
+    files_active_actions?: BoolNullableFilter<"Projects"> | boolean | null
+    files_active_checks?: BoolNullableFilter<"Projects"> | boolean | null
+    deleted?: BoolNullableFilter<"Projects"> | boolean | null
+  }
+
+  export type AccountsCreateWithoutProjectsInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutProjectsInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+  }
+
+  export type AccountsCreateOrConnectWithoutProjectsInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutProjectsInput, AccountsUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type AccountsUpsertWithoutProjectsInput = {
+    update: XOR<AccountsUpdateWithoutProjectsInput, AccountsUncheckedUpdateWithoutProjectsInput>
+    create: XOR<AccountsCreateWithoutProjectsInput, AccountsUncheckedCreateWithoutProjectsInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutProjectsInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutProjectsInput, AccountsUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type AccountsUpdateWithoutProjectsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutProjectsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AccountsCreateWithoutUsersInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutUsersInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutUsersInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutUsersInput, AccountsUncheckedCreateWithoutUsersInput>
+  }
+
+  export type AccountsCreateManyUsersInputEnvelope = {
+    data: Enumerable<AccountsCreateManyUsersInput>
+    skipDuplicates?: boolean
+  }
+
+  export type AccountsUpsertWithWhereUniqueWithoutUsersInput = {
+    where: AccountsWhereUniqueInput
+    update: XOR<AccountsUpdateWithoutUsersInput, AccountsUncheckedUpdateWithoutUsersInput>
+    create: XOR<AccountsCreateWithoutUsersInput, AccountsUncheckedCreateWithoutUsersInput>
+  }
+
+  export type AccountsUpdateWithWhereUniqueWithoutUsersInput = {
+    where: AccountsWhereUniqueInput
+    data: XOR<AccountsUpdateWithoutUsersInput, AccountsUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type AccountsUpdateManyWithWhereWithoutUsersInput = {
+    where: AccountsScalarWhereInput
+    data: XOR<AccountsUpdateManyMutationInput, AccountsUncheckedUpdateManyWithoutUsersInput>
+  }
+
+  export type AccountsScalarWhereInput = {
+    AND?: Enumerable<AccountsScalarWhereInput>
+    OR?: Enumerable<AccountsScalarWhereInput>
+    NOT?: Enumerable<AccountsScalarWhereInput>
+    account_id?: UuidFilter<"Accounts"> | string
+    user_id?: UuidNullableFilter<"Accounts"> | string | null
+    type?: StringNullableFilter<"Accounts"> | string | null
+    period_start?: DateTimeNullableFilter<"Accounts"> | Date | string | null
+    period_end?: DateTimeNullableFilter<"Accounts"> | Date | string | null
+    projects_label_by?: StringNullableFilter<"Accounts"> | string | null
+    label?: StringNullableFilter<"Accounts"> | string | null
+  }
+
+  export type ProjectsCreateManyAccountsInput = {
+    project_id: string
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+  }
+
+  export type ProjectsUpdateWithoutAccountsInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type ProjectsUncheckedUpdateWithoutAccountsInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type ProjectsUncheckedUpdateManyWithoutAccountsInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type AccountsCreateManyUsersInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+  }
+
+  export type AccountsUpdateWithoutUsersInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutUsersInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateManyWithoutUsersInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 
