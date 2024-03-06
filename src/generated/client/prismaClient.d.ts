@@ -66,6 +66,29 @@ export type Messages = {
 }
 
 /**
+ * Model Persons
+ * 
+ */
+export type Persons = {
+  /**
+   * @zod.string.uuid()
+   */
+  person_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  project_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  email: string | null
+  data: Prisma.JsonValue | null
+  label_replace_by_generated_column: string | null
+  deleted: boolean | null
+}
+
+/**
  * Model Place_levels
  * 
  */
@@ -538,6 +561,16 @@ export class PrismaClient<
     * ```
     */
   get messages(): Prisma.MessagesDelegate<GlobalReject>;
+
+  /**
+   * `prisma.persons`: Exposes CRUD operations for the **Persons** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Persons
+    * const persons = await prisma.persons.findMany()
+    * ```
+    */
+  get persons(): Prisma.PersonsDelegate<GlobalReject>;
 
   /**
    * `prisma.place_levels`: Exposes CRUD operations for the **Place_levels** model.
@@ -1135,6 +1168,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     Accounts: 'Accounts',
     Field_types: 'Field_types',
     Messages: 'Messages',
+    Persons: 'Persons',
     Place_levels: 'Place_levels',
     Project_users: 'Project_users',
     Projects: 'Projects',
@@ -1316,6 +1350,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type AccountsCountOutputType = {
+    persons: number
     place_levels: number
     project_users: number
     projects: number
@@ -1327,6 +1362,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type AccountsCountOutputTypeSelect = {
+    persons?: boolean | AccountsCountOutputTypeCountPersonsArgs
     place_levels?: boolean | AccountsCountOutputTypeCountPlace_levelsArgs
     project_users?: boolean | AccountsCountOutputTypeCountProject_usersArgs
     projects?: boolean | AccountsCountOutputTypeCountProjectsArgs
@@ -1364,6 +1400,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: AccountsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountPersonsArgs = {
+    where?: PersonsWhereInput
   }
 
 
@@ -1542,6 +1586,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type ProjectsCountOutputType = {
+    persons: number
     place_levels: number
     project_users: number
     subprojects: number
@@ -1549,6 +1594,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type ProjectsCountOutputTypeSelect = {
+    persons?: boolean | ProjectsCountOutputTypeCountPersonsArgs
     place_levels?: boolean | ProjectsCountOutputTypeCountPlace_levelsArgs
     project_users?: boolean | ProjectsCountOutputTypeCountProject_usersArgs
     subprojects?: boolean | ProjectsCountOutputTypeCountSubprojectsArgs
@@ -1582,6 +1628,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: ProjectsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * ProjectsCountOutputType without action
+   */
+  export type ProjectsCountOutputTypeCountPersonsArgs = {
+    where?: PersonsWhereInput
   }
 
 
@@ -1986,6 +2040,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: boolean
     label?: boolean
     users?: boolean | Accounts$usersArgs
+    persons?: boolean | Accounts$personsArgs
     place_levels?: boolean | Accounts$place_levelsArgs
     project_users?: boolean | Accounts$project_usersArgs
     projects?: boolean | Accounts$projectsArgs
@@ -2000,6 +2055,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type AccountsInclude = {
     users?: boolean | Accounts$usersArgs
+    persons?: boolean | Accounts$personsArgs
     place_levels?: boolean | Accounts$place_levelsArgs
     project_users?: boolean | Accounts$project_usersArgs
     projects?: boolean | Accounts$projectsArgs
@@ -2019,6 +2075,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ? Accounts  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'users' ? UsersGetPayload<S['include'][P]> | null :
+        P extends 'persons' ? Array < PersonsGetPayload<S['include'][P]>>  :
         P extends 'place_levels' ? Array < Place_levelsGetPayload<S['include'][P]>>  :
         P extends 'project_users' ? Array < Project_usersGetPayload<S['include'][P]>>  :
         P extends 'projects' ? Array < ProjectsGetPayload<S['include'][P]>>  :
@@ -2033,6 +2090,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'users' ? UsersGetPayload<S['select'][P]> | null :
+        P extends 'persons' ? Array < PersonsGetPayload<S['select'][P]>>  :
         P extends 'place_levels' ? Array < Place_levelsGetPayload<S['select'][P]>>  :
         P extends 'project_users' ? Array < Project_usersGetPayload<S['select'][P]>>  :
         P extends 'projects' ? Array < ProjectsGetPayload<S['select'][P]>>  :
@@ -2416,6 +2474,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
     users<T extends Accounts$usersArgs= {}>(args?: Subset<T, Accounts$usersArgs>): Prisma__UsersClient<UsersGetPayload<T> | Null>;
+
+    persons<T extends Accounts$personsArgs= {}>(args?: Subset<T, Accounts$personsArgs>): PrismaPromise<Array<PersonsGetPayload<T>>| Null>;
 
     place_levels<T extends Accounts$place_levelsArgs= {}>(args?: Subset<T, Accounts$place_levelsArgs>): PrismaPromise<Array<Place_levelsGetPayload<T>>| Null>;
 
@@ -2851,6 +2911,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     include?: UsersInclude | null
     where?: UsersWhereInput
+  }
+
+
+  /**
+   * Accounts.persons
+   */
+  export type Accounts$personsArgs = {
+    /**
+     * Select specific fields to fetch from the Persons
+     * 
+    **/
+    select?: PersonsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PersonsInclude | null
+    where?: PersonsWhereInput
+    orderBy?: Enumerable<PersonsOrderByWithRelationInput>
+    cursor?: PersonsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<PersonsScalarFieldEnum>
   }
 
 
@@ -5116,6 +5199,1048 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     include?: MessagesInclude | null
+  }
+
+
+
+  /**
+   * Model Persons
+   */
+
+
+  export type AggregatePersons = {
+    _count: PersonsCountAggregateOutputType | null
+    _min: PersonsMinAggregateOutputType | null
+    _max: PersonsMaxAggregateOutputType | null
+  }
+
+  export type PersonsMinAggregateOutputType = {
+    person_id: string | null
+    project_id: string | null
+    account_id: string | null
+    email: string | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+  }
+
+  export type PersonsMaxAggregateOutputType = {
+    person_id: string | null
+    project_id: string | null
+    account_id: string | null
+    email: string | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+  }
+
+  export type PersonsCountAggregateOutputType = {
+    person_id: number
+    project_id: number
+    account_id: number
+    email: number
+    data: number
+    label_replace_by_generated_column: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type PersonsMinAggregateInputType = {
+    person_id?: true
+    project_id?: true
+    account_id?: true
+    email?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+  }
+
+  export type PersonsMaxAggregateInputType = {
+    person_id?: true
+    project_id?: true
+    account_id?: true
+    email?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+  }
+
+  export type PersonsCountAggregateInputType = {
+    person_id?: true
+    project_id?: true
+    account_id?: true
+    email?: true
+    data?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type PersonsAggregateArgs = {
+    /**
+     * Filter which Persons to aggregate.
+     * 
+    **/
+    where?: PersonsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Persons to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<PersonsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: PersonsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Persons from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Persons.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Persons
+    **/
+    _count?: true | PersonsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PersonsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PersonsMaxAggregateInputType
+  }
+
+  export type GetPersonsAggregateType<T extends PersonsAggregateArgs> = {
+        [P in keyof T & keyof AggregatePersons]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePersons[P]>
+      : GetScalarType<T[P], AggregatePersons[P]>
+  }
+
+
+
+
+  export type PersonsGroupByArgs = {
+    where?: PersonsWhereInput
+    orderBy?: Enumerable<PersonsOrderByWithAggregationInput>
+    by: Array<PersonsScalarFieldEnum>
+    having?: PersonsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PersonsCountAggregateInputType | true
+    _min?: PersonsMinAggregateInputType
+    _max?: PersonsMaxAggregateInputType
+  }
+
+
+  export type PersonsGroupByOutputType = {
+    person_id: string
+    project_id: string | null
+    account_id: string | null
+    email: string | null
+    data: JsonValue | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+    _count: PersonsCountAggregateOutputType | null
+    _min: PersonsMinAggregateOutputType | null
+    _max: PersonsMaxAggregateOutputType | null
+  }
+
+  type GetPersonsGroupByPayload<T extends PersonsGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<PersonsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PersonsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PersonsGroupByOutputType[P]>
+            : GetScalarType<T[P], PersonsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PersonsSelect = {
+    person_id?: boolean
+    project_id?: boolean
+    account_id?: boolean
+    email?: boolean
+    data?: boolean
+    label_replace_by_generated_column?: boolean
+    deleted?: boolean
+    accounts?: boolean | Persons$accountsArgs
+    projects?: boolean | Persons$projectsArgs
+  }
+
+
+  export type PersonsInclude = {
+    accounts?: boolean | Persons$accountsArgs
+    projects?: boolean | Persons$projectsArgs
+  } 
+
+  export type PersonsGetPayload<S extends boolean | null | undefined | PersonsArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Persons :
+    S extends undefined ? never :
+    S extends { include: any } & (PersonsArgs | PersonsFindManyArgs)
+    ? Persons  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (PersonsArgs | PersonsFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> | null :  P extends keyof Persons ? Persons[P] : never
+  } 
+      : Persons
+
+
+  type PersonsCountArgs = Merge<
+    Omit<PersonsFindManyArgs, 'select' | 'include'> & {
+      select?: PersonsCountAggregateInputType | true
+    }
+  >
+
+  export interface PersonsDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Persons that matches the filter.
+     * @param {PersonsFindUniqueArgs} args - Arguments to find a Persons
+     * @example
+     * // Get one Persons
+     * const persons = await prisma.persons.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends PersonsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, PersonsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Persons'> extends True ? Prisma__PersonsClient<PersonsGetPayload<T>> : Prisma__PersonsClient<PersonsGetPayload<T> | null, null>
+
+    /**
+     * Find one Persons that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {PersonsFindUniqueOrThrowArgs} args - Arguments to find a Persons
+     * @example
+     * // Get one Persons
+     * const persons = await prisma.persons.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends PersonsFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, PersonsFindUniqueOrThrowArgs>
+    ): Prisma__PersonsClient<PersonsGetPayload<T>>
+
+    /**
+     * Find the first Persons that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonsFindFirstArgs} args - Arguments to find a Persons
+     * @example
+     * // Get one Persons
+     * const persons = await prisma.persons.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends PersonsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, PersonsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Persons'> extends True ? Prisma__PersonsClient<PersonsGetPayload<T>> : Prisma__PersonsClient<PersonsGetPayload<T> | null, null>
+
+    /**
+     * Find the first Persons that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonsFindFirstOrThrowArgs} args - Arguments to find a Persons
+     * @example
+     * // Get one Persons
+     * const persons = await prisma.persons.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends PersonsFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, PersonsFindFirstOrThrowArgs>
+    ): Prisma__PersonsClient<PersonsGetPayload<T>>
+
+    /**
+     * Find zero or more Persons that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Persons
+     * const persons = await prisma.persons.findMany()
+     * 
+     * // Get first 10 Persons
+     * const persons = await prisma.persons.findMany({ take: 10 })
+     * 
+     * // Only select the `person_id`
+     * const personsWithPerson_idOnly = await prisma.persons.findMany({ select: { person_id: true } })
+     * 
+    **/
+    findMany<T extends PersonsFindManyArgs>(
+      args?: SelectSubset<T, PersonsFindManyArgs>
+    ): PrismaPromise<Array<PersonsGetPayload<T>>>
+
+    /**
+     * Create a Persons.
+     * @param {PersonsCreateArgs} args - Arguments to create a Persons.
+     * @example
+     * // Create one Persons
+     * const Persons = await prisma.persons.create({
+     *   data: {
+     *     // ... data to create a Persons
+     *   }
+     * })
+     * 
+    **/
+    create<T extends PersonsCreateArgs>(
+      args: SelectSubset<T, PersonsCreateArgs>
+    ): Prisma__PersonsClient<PersonsGetPayload<T>>
+
+    /**
+     * Create many Persons.
+     *     @param {PersonsCreateManyArgs} args - Arguments to create many Persons.
+     *     @example
+     *     // Create many Persons
+     *     const persons = await prisma.persons.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends PersonsCreateManyArgs>(
+      args?: SelectSubset<T, PersonsCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Persons.
+     * @param {PersonsDeleteArgs} args - Arguments to delete one Persons.
+     * @example
+     * // Delete one Persons
+     * const Persons = await prisma.persons.delete({
+     *   where: {
+     *     // ... filter to delete one Persons
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends PersonsDeleteArgs>(
+      args: SelectSubset<T, PersonsDeleteArgs>
+    ): Prisma__PersonsClient<PersonsGetPayload<T>>
+
+    /**
+     * Update one Persons.
+     * @param {PersonsUpdateArgs} args - Arguments to update one Persons.
+     * @example
+     * // Update one Persons
+     * const persons = await prisma.persons.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends PersonsUpdateArgs>(
+      args: SelectSubset<T, PersonsUpdateArgs>
+    ): Prisma__PersonsClient<PersonsGetPayload<T>>
+
+    /**
+     * Delete zero or more Persons.
+     * @param {PersonsDeleteManyArgs} args - Arguments to filter Persons to delete.
+     * @example
+     * // Delete a few Persons
+     * const { count } = await prisma.persons.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends PersonsDeleteManyArgs>(
+      args?: SelectSubset<T, PersonsDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Persons.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Persons
+     * const persons = await prisma.persons.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends PersonsUpdateManyArgs>(
+      args: SelectSubset<T, PersonsUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Persons.
+     * @param {PersonsUpsertArgs} args - Arguments to update or create a Persons.
+     * @example
+     * // Update or create a Persons
+     * const persons = await prisma.persons.upsert({
+     *   create: {
+     *     // ... data to create a Persons
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Persons we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends PersonsUpsertArgs>(
+      args: SelectSubset<T, PersonsUpsertArgs>
+    ): Prisma__PersonsClient<PersonsGetPayload<T>>
+
+    /**
+     * Count the number of Persons.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonsCountArgs} args - Arguments to filter Persons to count.
+     * @example
+     * // Count the number of Persons
+     * const count = await prisma.persons.count({
+     *   where: {
+     *     // ... the filter for the Persons we want to count
+     *   }
+     * })
+    **/
+    count<T extends PersonsCountArgs>(
+      args?: Subset<T, PersonsCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PersonsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Persons.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PersonsAggregateArgs>(args: Subset<T, PersonsAggregateArgs>): PrismaPromise<GetPersonsAggregateType<T>>
+
+    /**
+     * Group by Persons.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PersonsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PersonsGroupByArgs['orderBy'] }
+        : { orderBy?: PersonsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PersonsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPersonsGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Persons.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__PersonsClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Persons$accountsArgs= {}>(args?: Subset<T, Persons$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    projects<T extends Persons$projectsArgs= {}>(args?: Subset<T, Persons$projectsArgs>): Prisma__ProjectsClient<ProjectsGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Persons base type for findUnique actions
+   */
+  export type PersonsFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Persons
+     * 
+    **/
+    select?: PersonsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PersonsInclude | null
+    /**
+     * Filter, which Persons to fetch.
+     * 
+    **/
+    where: PersonsWhereUniqueInput
+  }
+
+  /**
+   * Persons findUnique
+   */
+  export interface PersonsFindUniqueArgs extends PersonsFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Persons findUniqueOrThrow
+   */
+  export type PersonsFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Persons
+     * 
+    **/
+    select?: PersonsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PersonsInclude | null
+    /**
+     * Filter, which Persons to fetch.
+     * 
+    **/
+    where: PersonsWhereUniqueInput
+  }
+
+
+  /**
+   * Persons base type for findFirst actions
+   */
+  export type PersonsFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Persons
+     * 
+    **/
+    select?: PersonsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PersonsInclude | null
+    /**
+     * Filter, which Persons to fetch.
+     * 
+    **/
+    where?: PersonsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Persons to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<PersonsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Persons.
+     * 
+    **/
+    cursor?: PersonsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Persons from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Persons.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Persons.
+     * 
+    **/
+    distinct?: Enumerable<PersonsScalarFieldEnum>
+  }
+
+  /**
+   * Persons findFirst
+   */
+  export interface PersonsFindFirstArgs extends PersonsFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Persons findFirstOrThrow
+   */
+  export type PersonsFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Persons
+     * 
+    **/
+    select?: PersonsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PersonsInclude | null
+    /**
+     * Filter, which Persons to fetch.
+     * 
+    **/
+    where?: PersonsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Persons to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<PersonsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Persons.
+     * 
+    **/
+    cursor?: PersonsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Persons from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Persons.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Persons.
+     * 
+    **/
+    distinct?: Enumerable<PersonsScalarFieldEnum>
+  }
+
+
+  /**
+   * Persons findMany
+   */
+  export type PersonsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Persons
+     * 
+    **/
+    select?: PersonsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PersonsInclude | null
+    /**
+     * Filter, which Persons to fetch.
+     * 
+    **/
+    where?: PersonsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Persons to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<PersonsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Persons.
+     * 
+    **/
+    cursor?: PersonsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Persons from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Persons.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<PersonsScalarFieldEnum>
+  }
+
+
+  /**
+   * Persons create
+   */
+  export type PersonsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Persons
+     * 
+    **/
+    select?: PersonsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PersonsInclude | null
+    /**
+     * The data needed to create a Persons.
+     * 
+    **/
+    data: XOR<PersonsCreateInput, PersonsUncheckedCreateInput>
+  }
+
+
+  /**
+   * Persons createMany
+   */
+  export type PersonsCreateManyArgs = {
+    /**
+     * The data used to create many Persons.
+     * 
+    **/
+    data: Enumerable<PersonsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Persons update
+   */
+  export type PersonsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Persons
+     * 
+    **/
+    select?: PersonsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PersonsInclude | null
+    /**
+     * The data needed to update a Persons.
+     * 
+    **/
+    data: XOR<PersonsUpdateInput, PersonsUncheckedUpdateInput>
+    /**
+     * Choose, which Persons to update.
+     * 
+    **/
+    where: PersonsWhereUniqueInput
+  }
+
+
+  /**
+   * Persons updateMany
+   */
+  export type PersonsUpdateManyArgs = {
+    /**
+     * The data used to update Persons.
+     * 
+    **/
+    data: XOR<PersonsUpdateManyMutationInput, PersonsUncheckedUpdateManyInput>
+    /**
+     * Filter which Persons to update
+     * 
+    **/
+    where?: PersonsWhereInput
+  }
+
+
+  /**
+   * Persons upsert
+   */
+  export type PersonsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Persons
+     * 
+    **/
+    select?: PersonsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PersonsInclude | null
+    /**
+     * The filter to search for the Persons to update in case it exists.
+     * 
+    **/
+    where: PersonsWhereUniqueInput
+    /**
+     * In case the Persons found by the `where` argument doesn't exist, create a new Persons with this data.
+     * 
+    **/
+    create: XOR<PersonsCreateInput, PersonsUncheckedCreateInput>
+    /**
+     * In case the Persons was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<PersonsUpdateInput, PersonsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Persons delete
+   */
+  export type PersonsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Persons
+     * 
+    **/
+    select?: PersonsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PersonsInclude | null
+    /**
+     * Filter which Persons to delete.
+     * 
+    **/
+    where: PersonsWhereUniqueInput
+  }
+
+
+  /**
+   * Persons deleteMany
+   */
+  export type PersonsDeleteManyArgs = {
+    /**
+     * Filter which Persons to delete
+     * 
+    **/
+    where?: PersonsWhereInput
+  }
+
+
+  /**
+   * Persons.accounts
+   */
+  export type Persons$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Persons.projects
+   */
+  export type Persons$projectsArgs = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    where?: ProjectsWhereInput
+  }
+
+
+  /**
+   * Persons without action
+   */
+  export type PersonsArgs = {
+    /**
+     * Select specific fields to fetch from the Persons
+     * 
+    **/
+    select?: PersonsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PersonsInclude | null
   }
 
 
@@ -7681,6 +8806,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean
     files_active_checks?: boolean
     deleted?: boolean
+    persons?: boolean | Projects$personsArgs
     place_levels?: boolean | Projects$place_levelsArgs
     project_users?: boolean | Projects$project_usersArgs
     accounts?: boolean | Projects$accountsArgs
@@ -7691,6 +8817,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type ProjectsInclude = {
+    persons?: boolean | Projects$personsArgs
     place_levels?: boolean | Projects$place_levelsArgs
     project_users?: boolean | Projects$project_usersArgs
     accounts?: boolean | Projects$accountsArgs
@@ -7706,6 +8833,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (ProjectsArgs | ProjectsFindManyArgs)
     ? Projects  & {
     [P in TruthyKeys<S['include']>]:
+        P extends 'persons' ? Array < PersonsGetPayload<S['include'][P]>>  :
         P extends 'place_levels' ? Array < Place_levelsGetPayload<S['include'][P]>>  :
         P extends 'project_users' ? Array < Project_usersGetPayload<S['include'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
@@ -7716,6 +8844,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     : S extends { select: any } & (ProjectsArgs | ProjectsFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
+        P extends 'persons' ? Array < PersonsGetPayload<S['select'][P]>>  :
         P extends 'place_levels' ? Array < Place_levelsGetPayload<S['select'][P]>>  :
         P extends 'project_users' ? Array < Project_usersGetPayload<S['select'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
@@ -8094,6 +9223,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _requestPromise?;
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    persons<T extends Projects$personsArgs= {}>(args?: Subset<T, Projects$personsArgs>): PrismaPromise<Array<PersonsGetPayload<T>>| Null>;
 
     place_levels<T extends Projects$place_levelsArgs= {}>(args?: Subset<T, Projects$place_levelsArgs>): PrismaPromise<Array<Place_levelsGetPayload<T>>| Null>;
 
@@ -8505,6 +9636,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     where?: ProjectsWhereInput
+  }
+
+
+  /**
+   * Projects.persons
+   */
+  export type Projects$personsArgs = {
+    /**
+     * Select specific fields to fetch from the Persons
+     * 
+    **/
+    select?: PersonsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PersonsInclude | null
+    where?: PersonsWhereInput
+    orderBy?: Enumerable<PersonsOrderByWithRelationInput>
+    cursor?: PersonsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<PersonsScalarFieldEnum>
   }
 
 
@@ -17271,6 +18425,19 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type MessagesScalarFieldEnum = (typeof MessagesScalarFieldEnum)[keyof typeof MessagesScalarFieldEnum]
 
 
+  export const PersonsScalarFieldEnum: {
+    person_id: 'person_id',
+    project_id: 'project_id',
+    account_id: 'account_id',
+    email: 'email',
+    data: 'data',
+    label_replace_by_generated_column: 'label_replace_by_generated_column',
+    deleted: 'deleted'
+  };
+
+  export type PersonsScalarFieldEnum = (typeof PersonsScalarFieldEnum)[keyof typeof PersonsScalarFieldEnum]
+
+
   export const Place_levelsScalarFieldEnum: {
     place_level_id: 'place_level_id',
     account_id: 'account_id',
@@ -17548,6 +18715,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
    * Reference to a field of type 'project_type'
    */
   export type Enumproject_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'project_type'>
@@ -17558,13 +18732,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    * Reference to a field of type 'project_type[]'
    */
   export type ListEnumproject_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'project_type[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
 
 
@@ -17611,6 +18778,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: StringNullableFilter<"Accounts"> | string | null
     label?: StringNullableFilter<"Accounts"> | string | null
     users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
+    persons?: PersonsListRelationFilter
     place_levels?: Place_levelsListRelationFilter
     project_users?: Project_usersListRelationFilter
     projects?: ProjectsListRelationFilter
@@ -17630,6 +18798,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: SortOrderInput | SortOrder
     label?: SortOrderInput | SortOrder
     users?: UsersOrderByWithRelationInput
+    persons?: PersonsOrderByRelationAggregateInput
     place_levels?: Place_levelsOrderByRelationAggregateInput
     project_users?: Project_usersOrderByRelationAggregateInput
     projects?: ProjectsOrderByRelationAggregateInput
@@ -17652,6 +18821,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: StringNullableFilter<"Accounts"> | string | null
     label?: StringNullableFilter<"Accounts"> | string | null
     users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
+    persons?: PersonsListRelationFilter
     place_levels?: Place_levelsListRelationFilter
     project_users?: Project_usersListRelationFilter
     projects?: ProjectsListRelationFilter
@@ -17798,6 +18968,74 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: StringNullableWithAggregatesFilter<"Messages"> | string | null
     date?: DateTimeNullableWithAggregatesFilter<"Messages"> | Date | string | null
     message?: StringNullableWithAggregatesFilter<"Messages"> | string | null
+  }
+
+  export type PersonsWhereInput = {
+    AND?: Enumerable<PersonsWhereInput>
+    OR?: Enumerable<PersonsWhereInput>
+    NOT?: Enumerable<PersonsWhereInput>
+    person_id?: UuidFilter<"Persons"> | string
+    project_id?: UuidNullableFilter<"Persons"> | string | null
+    account_id?: UuidNullableFilter<"Persons"> | string | null
+    email?: StringNullableFilter<"Persons"> | string | null
+    data?: JsonNullableFilter<"Persons">
+    label_replace_by_generated_column?: StringNullableFilter<"Persons"> | string | null
+    deleted?: BoolNullableFilter<"Persons"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
+  }
+
+  export type PersonsOrderByWithRelationInput = {
+    person_id?: SortOrder
+    project_id?: SortOrderInput | SortOrder
+    account_id?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
+    data?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    projects?: ProjectsOrderByWithRelationInput
+  }
+
+  export type PersonsWhereUniqueInput = Prisma.AtLeast<{
+    person_id?: string
+    AND?: Enumerable<PersonsWhereInput>
+    OR?: Enumerable<PersonsWhereInput>
+    NOT?: Enumerable<PersonsWhereInput>
+    project_id?: UuidNullableFilter<"Persons"> | string | null
+    account_id?: UuidNullableFilter<"Persons"> | string | null
+    email?: StringNullableFilter<"Persons"> | string | null
+    data?: JsonNullableFilter<"Persons">
+    label_replace_by_generated_column?: StringNullableFilter<"Persons"> | string | null
+    deleted?: BoolNullableFilter<"Persons"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
+  }, "person_id">
+
+  export type PersonsOrderByWithAggregationInput = {
+    person_id?: SortOrder
+    project_id?: SortOrderInput | SortOrder
+    account_id?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
+    data?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    _count?: PersonsCountOrderByAggregateInput
+    _max?: PersonsMaxOrderByAggregateInput
+    _min?: PersonsMinOrderByAggregateInput
+  }
+
+  export type PersonsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<PersonsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<PersonsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<PersonsScalarWhereWithAggregatesInput>
+    person_id?: UuidWithAggregatesFilter<"Persons"> | string
+    project_id?: UuidNullableWithAggregatesFilter<"Persons"> | string | null
+    account_id?: UuidNullableWithAggregatesFilter<"Persons"> | string | null
+    email?: StringNullableWithAggregatesFilter<"Persons"> | string | null
+    data?: JsonNullableWithAggregatesFilter<"Persons">
+    label_replace_by_generated_column?: StringNullableWithAggregatesFilter<"Persons"> | string | null
+    deleted?: BoolNullableWithAggregatesFilter<"Persons"> | boolean | null
   }
 
   export type Place_levelsWhereInput = {
@@ -18025,6 +19263,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: BoolNullableFilter<"Projects"> | boolean | null
     files_active_checks?: BoolNullableFilter<"Projects"> | boolean | null
     deleted?: BoolNullableFilter<"Projects"> | boolean | null
+    persons?: PersonsListRelationFilter
     place_levels?: Place_levelsListRelationFilter
     project_users?: Project_usersListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
@@ -18058,6 +19297,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: SortOrderInput | SortOrder
     files_active_checks?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    persons?: PersonsOrderByRelationAggregateInput
     place_levels?: Place_levelsOrderByRelationAggregateInput
     project_users?: Project_usersOrderByRelationAggregateInput
     accounts?: AccountsOrderByWithRelationInput
@@ -18094,6 +19334,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: BoolNullableFilter<"Projects"> | boolean | null
     files_active_checks?: BoolNullableFilter<"Projects"> | boolean | null
     deleted?: BoolNullableFilter<"Projects"> | boolean | null
+    persons?: PersonsListRelationFilter
     place_levels?: Place_levelsListRelationFilter
     project_users?: Project_usersListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
@@ -18773,6 +20014,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
@@ -18791,6 +20033,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
@@ -18809,6 +20052,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
@@ -18827,6 +20071,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -18984,6 +20229,74 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     message?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PersonsCreateInput = {
+    person_id: string
+    email?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutPersonsInput
+    projects?: ProjectsCreateNestedOneWithoutPersonsInput
+  }
+
+  export type PersonsUncheckedCreateInput = {
+    person_id: string
+    project_id?: string | null
+    account_id?: string | null
+    email?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type PersonsUpdateInput = {
+    person_id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutPersonsNestedInput
+    projects?: ProjectsUpdateOneWithoutPersonsNestedInput
+  }
+
+  export type PersonsUncheckedUpdateInput = {
+    person_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type PersonsCreateManyInput = {
+    person_id: string
+    project_id?: string | null
+    account_id?: string | null
+    email?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type PersonsUpdateManyMutationInput = {
+    person_id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type PersonsUncheckedUpdateManyInput = {
+    person_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type Place_levelsCreateInput = {
@@ -19223,6 +20536,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
@@ -19256,6 +20570,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
@@ -19287,6 +20602,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
@@ -19320,6 +20636,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -20098,6 +21415,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     isNot?: UsersWhereInput | null
   }
 
+  export type PersonsListRelationFilter = {
+    every?: PersonsWhereInput
+    some?: PersonsWhereInput
+    none?: PersonsWhereInput
+  }
+
   export type Place_levelsListRelationFilter = {
     every?: Place_levelsWhereInput
     some?: Place_levelsWhereInput
@@ -20149,6 +21472,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type PersonsOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type Place_levelsOrderByRelationAggregateInput = {
@@ -20380,6 +21707,28 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     date?: SortOrder
     message?: SortOrder
   }
+  export type JsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: Array<string>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type AccountsNullableRelationFilter = {
     is?: AccountsWhereInput | null
@@ -20389,6 +21738,59 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type ProjectsNullableRelationFilter = {
     is?: ProjectsWhereInput | null
     isNot?: ProjectsWhereInput | null
+  }
+
+  export type PersonsCountOrderByAggregateInput = {
+    person_id?: SortOrder
+    project_id?: SortOrder
+    account_id?: SortOrder
+    email?: SortOrder
+    data?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type PersonsMaxOrderByAggregateInput = {
+    person_id?: SortOrder
+    project_id?: SortOrder
+    account_id?: SortOrder
+    email?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type PersonsMinOrderByAggregateInput = {
+    person_id?: SortOrder
+    project_id?: SortOrder
+    account_id?: SortOrder
+    email?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: Array<string>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type Place_levelsCountOrderByAggregateInput = {
@@ -20498,28 +21900,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     notIn?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
     not?: NestedEnumproject_typeNullableFilter<$PrismaModel> | project_type | null
   }
-  export type JsonNullableFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: Array<string>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type ProjectsCountOrderByAggregateInput = {
     project_id?: SortOrder
@@ -20609,31 +21989,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumproject_typeNullableFilter<$PrismaModel>
     _max?: NestedEnumproject_typeNullableFilter<$PrismaModel>
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: Array<string>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type SubprojectsCountOrderByAggregateInput = {
@@ -20974,6 +22329,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: UsersWhereUniqueInput
   }
 
+  export type PersonsCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<PersonsCreateWithoutAccountsInput>, Enumerable<PersonsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<PersonsCreateOrConnectWithoutAccountsInput>
+    createMany?: PersonsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<PersonsWhereUniqueInput>
+  }
+
   export type Place_levelsCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<Place_levelsCreateWithoutAccountsInput>, Enumerable<Place_levelsUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<Place_levelsCreateOrConnectWithoutAccountsInput>
@@ -21028,6 +22390,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutAccountsInput>
     createMany?: User_messagesCreateManyAccountsInputEnvelope
     connect?: Enumerable<User_messagesWhereUniqueInput>
+  }
+
+  export type PersonsUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<PersonsCreateWithoutAccountsInput>, Enumerable<PersonsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<PersonsCreateOrConnectWithoutAccountsInput>
+    createMany?: PersonsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<PersonsWhereUniqueInput>
   }
 
   export type Place_levelsUncheckedCreateNestedManyWithoutAccountsInput = {
@@ -21106,6 +22475,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     delete?: UsersWhereInput | boolean
     connect?: UsersWhereUniqueInput
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutAccountsInput, UsersUpdateWithoutAccountsInput>, UsersUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type PersonsUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<PersonsCreateWithoutAccountsInput>, Enumerable<PersonsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<PersonsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<PersonsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: PersonsCreateManyAccountsInputEnvelope
+    set?: Enumerable<PersonsWhereUniqueInput>
+    disconnect?: Enumerable<PersonsWhereUniqueInput>
+    delete?: Enumerable<PersonsWhereUniqueInput>
+    connect?: Enumerable<PersonsWhereUniqueInput>
+    update?: Enumerable<PersonsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<PersonsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<PersonsScalarWhereInput>
   }
 
   export type Place_levelsUpdateManyWithoutAccountsNestedInput = {
@@ -21218,6 +22601,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<User_messagesUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<User_messagesUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<User_messagesScalarWhereInput>
+  }
+
+  export type PersonsUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<PersonsCreateWithoutAccountsInput>, Enumerable<PersonsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<PersonsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<PersonsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: PersonsCreateManyAccountsInputEnvelope
+    set?: Enumerable<PersonsWhereUniqueInput>
+    disconnect?: Enumerable<PersonsWhereUniqueInput>
+    delete?: Enumerable<PersonsWhereUniqueInput>
+    connect?: Enumerable<PersonsWhereUniqueInput>
+    update?: Enumerable<PersonsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<PersonsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<PersonsScalarWhereInput>
   }
 
   export type Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput = {
@@ -21428,6 +22825,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<User_messagesScalarWhereInput>
   }
 
+  export type AccountsCreateNestedOneWithoutPersonsInput = {
+    create?: XOR<AccountsCreateWithoutPersonsInput, AccountsUncheckedCreateWithoutPersonsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutPersonsInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type ProjectsCreateNestedOneWithoutPersonsInput = {
+    create?: XOR<ProjectsCreateWithoutPersonsInput, ProjectsUncheckedCreateWithoutPersonsInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutPersonsInput
+    connect?: ProjectsWhereUniqueInput
+  }
+
+  export type AccountsUpdateOneWithoutPersonsNestedInput = {
+    create?: XOR<AccountsCreateWithoutPersonsInput, AccountsUncheckedCreateWithoutPersonsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutPersonsInput
+    upsert?: AccountsUpsertWithoutPersonsInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutPersonsInput, AccountsUpdateWithoutPersonsInput>, AccountsUncheckedUpdateWithoutPersonsInput>
+  }
+
+  export type ProjectsUpdateOneWithoutPersonsNestedInput = {
+    create?: XOR<ProjectsCreateWithoutPersonsInput, ProjectsUncheckedCreateWithoutPersonsInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutPersonsInput
+    upsert?: ProjectsUpsertWithoutPersonsInput
+    disconnect?: ProjectsWhereInput | boolean
+    delete?: ProjectsWhereInput | boolean
+    connect?: ProjectsWhereUniqueInput
+    update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutPersonsInput, ProjectsUpdateWithoutPersonsInput>, ProjectsUncheckedUpdateWithoutPersonsInput>
+  }
+
   export type AccountsCreateNestedOneWithoutPlace_levelsInput = {
     create?: XOR<AccountsCreateWithoutPlace_levelsInput, AccountsUncheckedCreateWithoutPlace_levelsInput>
     connectOrCreate?: AccountsCreateOrConnectWithoutPlace_levelsInput
@@ -21508,6 +22937,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutProject_usersInput, UsersUpdateWithoutProject_usersInput>, UsersUncheckedUpdateWithoutProject_usersInput>
   }
 
+  export type PersonsCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<PersonsCreateWithoutProjectsInput>, Enumerable<PersonsUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<PersonsCreateOrConnectWithoutProjectsInput>
+    createMany?: PersonsCreateManyProjectsInputEnvelope
+    connect?: Enumerable<PersonsWhereUniqueInput>
+  }
+
   export type Place_levelsCreateNestedManyWithoutProjectsInput = {
     create?: XOR<Enumerable<Place_levelsCreateWithoutProjectsInput>, Enumerable<Place_levelsUncheckedCreateWithoutProjectsInput>>
     connectOrCreate?: Enumerable<Place_levelsCreateOrConnectWithoutProjectsInput>
@@ -21542,6 +22978,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<TaxonomiesWhereUniqueInput>
   }
 
+  export type PersonsUncheckedCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<PersonsCreateWithoutProjectsInput>, Enumerable<PersonsUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<PersonsCreateOrConnectWithoutProjectsInput>
+    createMany?: PersonsCreateManyProjectsInputEnvelope
+    connect?: Enumerable<PersonsWhereUniqueInput>
+  }
+
   export type Place_levelsUncheckedCreateNestedManyWithoutProjectsInput = {
     create?: XOR<Enumerable<Place_levelsCreateWithoutProjectsInput>, Enumerable<Place_levelsUncheckedCreateWithoutProjectsInput>>
     connectOrCreate?: Enumerable<Place_levelsCreateOrConnectWithoutProjectsInput>
@@ -21572,6 +23015,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type NullableEnumproject_typeFieldUpdateOperationsInput = {
     set?: project_type | null
+  }
+
+  export type PersonsUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<PersonsCreateWithoutProjectsInput>, Enumerable<PersonsUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<PersonsCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<PersonsUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: PersonsCreateManyProjectsInputEnvelope
+    set?: Enumerable<PersonsWhereUniqueInput>
+    disconnect?: Enumerable<PersonsWhereUniqueInput>
+    delete?: Enumerable<PersonsWhereUniqueInput>
+    connect?: Enumerable<PersonsWhereUniqueInput>
+    update?: Enumerable<PersonsUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<PersonsUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<PersonsScalarWhereInput>
   }
 
   export type Place_levelsUpdateManyWithoutProjectsNestedInput = {
@@ -21638,6 +23095,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<TaxonomiesUpdateWithWhereUniqueWithoutProjectsInput>
     updateMany?: Enumerable<TaxonomiesUpdateManyWithWhereWithoutProjectsInput>
     deleteMany?: Enumerable<TaxonomiesScalarWhereInput>
+  }
+
+  export type PersonsUncheckedUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<PersonsCreateWithoutProjectsInput>, Enumerable<PersonsUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<PersonsCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<PersonsUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: PersonsCreateManyProjectsInputEnvelope
+    set?: Enumerable<PersonsWhereUniqueInput>
+    disconnect?: Enumerable<PersonsWhereUniqueInput>
+    delete?: Enumerable<PersonsWhereUniqueInput>
+    connect?: Enumerable<PersonsWhereUniqueInput>
+    update?: Enumerable<PersonsUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<PersonsUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<PersonsScalarWhereInput>
   }
 
   export type Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput = {
@@ -22329,23 +23800,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
-
-  export type NestedEnumproject_typeNullableFilter<$PrismaModel = never> = {
-    equals?: project_type | Enumproject_typeFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumproject_typeNullableFilter<$PrismaModel> | project_type | null
-  }
-
-  export type NestedEnumproject_typeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: project_type | Enumproject_typeFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumproject_typeNullableWithAggregatesFilter<$PrismaModel> | project_type | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumproject_typeNullableFilter<$PrismaModel>
-    _max?: NestedEnumproject_typeNullableFilter<$PrismaModel>
-  }
   export type NestedJsonNullableFilter<$PrismaModel = never> = 
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -22367,6 +23821,23 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumproject_typeNullableFilter<$PrismaModel = never> = {
+    equals?: project_type | Enumproject_typeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumproject_typeNullableFilter<$PrismaModel> | project_type | null
+  }
+
+  export type NestedEnumproject_typeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: project_type | Enumproject_typeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumproject_typeNullableWithAggregatesFilter<$PrismaModel> | project_type | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumproject_typeNullableFilter<$PrismaModel>
+    _max?: NestedEnumproject_typeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumtaxonomy_typeNullableFilter<$PrismaModel = never> = {
@@ -22411,6 +23882,34 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type UsersCreateOrConnectWithoutAccountsInput = {
     where: UsersWhereUniqueInput
     create: XOR<UsersCreateWithoutAccountsInput, UsersUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type PersonsCreateWithoutAccountsInput = {
+    person_id: string
+    email?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    projects?: ProjectsCreateNestedOneWithoutPersonsInput
+  }
+
+  export type PersonsUncheckedCreateWithoutAccountsInput = {
+    person_id: string
+    project_id?: string | null
+    email?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type PersonsCreateOrConnectWithoutAccountsInput = {
+    where: PersonsWhereUniqueInput
+    create: XOR<PersonsCreateWithoutAccountsInput, PersonsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type PersonsCreateManyAccountsInputEnvelope = {
+    data: Enumerable<PersonsCreateManyAccountsInput>
+    skipDuplicates?: boolean
   }
 
   export type Place_levelsCreateWithoutAccountsInput = {
@@ -22516,6 +24015,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
@@ -22547,6 +24047,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
@@ -22762,6 +24263,35 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutUsersNestedInput
     ui_options?: Ui_optionsUncheckedUpdateOneWithoutUsersNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type PersonsUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: PersonsWhereUniqueInput
+    update: XOR<PersonsUpdateWithoutAccountsInput, PersonsUncheckedUpdateWithoutAccountsInput>
+    create: XOR<PersonsCreateWithoutAccountsInput, PersonsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type PersonsUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: PersonsWhereUniqueInput
+    data: XOR<PersonsUpdateWithoutAccountsInput, PersonsUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type PersonsUpdateManyWithWhereWithoutAccountsInput = {
+    where: PersonsScalarWhereInput
+    data: XOR<PersonsUpdateManyMutationInput, PersonsUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type PersonsScalarWhereInput = {
+    AND?: Enumerable<PersonsScalarWhereInput>
+    OR?: Enumerable<PersonsScalarWhereInput>
+    NOT?: Enumerable<PersonsScalarWhereInput>
+    person_id?: UuidFilter<"Persons"> | string
+    project_id?: UuidNullableFilter<"Persons"> | string | null
+    account_id?: UuidNullableFilter<"Persons"> | string | null
+    email?: StringNullableFilter<"Persons"> | string | null
+    data?: JsonNullableFilter<"Persons">
+    label_replace_by_generated_column?: StringNullableFilter<"Persons"> | string | null
+    deleted?: BoolNullableFilter<"Persons"> | boolean | null
   }
 
   export type Place_levelsUpsertWithWhereUniqueWithoutAccountsInput = {
@@ -23131,6 +24661,238 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data: XOR<User_messagesUpdateManyMutationInput, User_messagesUncheckedUpdateManyWithoutMessagesInput>
   }
 
+  export type AccountsCreateWithoutPersonsInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutPersonsInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutPersonsInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutPersonsInput, AccountsUncheckedCreateWithoutPersonsInput>
+  }
+
+  export type ProjectsCreateWithoutPersonsInput = {
+    project_id: string
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
+    project_users?: Project_usersCreateNestedManyWithoutProjectsInput
+    accounts?: AccountsCreateNestedOneWithoutProjectsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectsUncheckedCreateWithoutPersonsInput = {
+    project_id: string
+    account_id?: string | null
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectsCreateOrConnectWithoutPersonsInput = {
+    where: ProjectsWhereUniqueInput
+    create: XOR<ProjectsCreateWithoutPersonsInput, ProjectsUncheckedCreateWithoutPersonsInput>
+  }
+
+  export type AccountsUpsertWithoutPersonsInput = {
+    update: XOR<AccountsUpdateWithoutPersonsInput, AccountsUncheckedUpdateWithoutPersonsInput>
+    create: XOR<AccountsCreateWithoutPersonsInput, AccountsUncheckedCreateWithoutPersonsInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutPersonsInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutPersonsInput, AccountsUncheckedUpdateWithoutPersonsInput>
+  }
+
+  export type AccountsUpdateWithoutPersonsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutPersonsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type ProjectsUpsertWithoutPersonsInput = {
+    update: XOR<ProjectsUpdateWithoutPersonsInput, ProjectsUncheckedUpdateWithoutPersonsInput>
+    create: XOR<ProjectsCreateWithoutPersonsInput, ProjectsUncheckedCreateWithoutPersonsInput>
+    where?: ProjectsWhereInput
+  }
+
+  export type ProjectsUpdateToOneWithWhereWithoutPersonsInput = {
+    where?: ProjectsWhereInput
+    data: XOR<ProjectsUpdateWithoutPersonsInput, ProjectsUncheckedUpdateWithoutPersonsInput>
+  }
+
+  export type ProjectsUpdateWithoutPersonsInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
+    project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
+    accounts?: AccountsUpdateOneWithoutProjectsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type ProjectsUncheckedUpdateWithoutPersonsInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
   export type AccountsCreateWithoutPlace_levelsInput = {
     account_id: string
     type?: string | null
@@ -23139,6 +24901,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
@@ -23156,6 +24919,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
@@ -23195,6 +24959,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    persons?: PersonsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
@@ -23227,6 +24992,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
@@ -23256,6 +25022,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
@@ -23273,6 +25040,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -23318,6 +25086,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    persons?: PersonsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
@@ -23350,6 +25119,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -23363,6 +25133,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
@@ -23380,6 +25151,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
@@ -23419,6 +25191,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
     subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
@@ -23451,6 +25224,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
@@ -23507,6 +25281,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
@@ -23524,6 +25299,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -23569,6 +25345,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
@@ -23601,6 +25378,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -23637,6 +25415,34 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUncheckedUpdateManyWithoutUsersNestedInput
     ui_options?: Ui_optionsUncheckedUpdateOneWithoutUsersNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type PersonsCreateWithoutProjectsInput = {
+    person_id: string
+    email?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutPersonsInput
+  }
+
+  export type PersonsUncheckedCreateWithoutProjectsInput = {
+    person_id: string
+    account_id?: string | null
+    email?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type PersonsCreateOrConnectWithoutProjectsInput = {
+    where: PersonsWhereUniqueInput
+    create: XOR<PersonsCreateWithoutProjectsInput, PersonsUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type PersonsCreateManyProjectsInputEnvelope = {
+    data: Enumerable<PersonsCreateManyProjectsInput>
+    skipDuplicates?: boolean
   }
 
   export type Place_levelsCreateWithoutProjectsInput = {
@@ -23725,6 +25531,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
@@ -23742,6 +25549,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
@@ -23824,6 +25632,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     skipDuplicates?: boolean
   }
 
+  export type PersonsUpsertWithWhereUniqueWithoutProjectsInput = {
+    where: PersonsWhereUniqueInput
+    update: XOR<PersonsUpdateWithoutProjectsInput, PersonsUncheckedUpdateWithoutProjectsInput>
+    create: XOR<PersonsCreateWithoutProjectsInput, PersonsUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type PersonsUpdateWithWhereUniqueWithoutProjectsInput = {
+    where: PersonsWhereUniqueInput
+    data: XOR<PersonsUpdateWithoutProjectsInput, PersonsUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type PersonsUpdateManyWithWhereWithoutProjectsInput = {
+    where: PersonsScalarWhereInput
+    data: XOR<PersonsUpdateManyMutationInput, PersonsUncheckedUpdateManyWithoutProjectsInput>
+  }
+
   export type Place_levelsUpsertWithWhereUniqueWithoutProjectsInput = {
     where: Place_levelsWhereUniqueInput
     update: XOR<Place_levelsUpdateWithoutProjectsInput, Place_levelsUncheckedUpdateWithoutProjectsInput>
@@ -23875,6 +25699,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
@@ -23892,6 +25717,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -23941,6 +25767,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
@@ -23958,6 +25785,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
@@ -23997,6 +25825,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
@@ -24029,6 +25858,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
@@ -24058,6 +25888,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
@@ -24075,6 +25906,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -24120,6 +25952,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
@@ -24152,6 +25985,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -24165,6 +25999,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
@@ -24182,6 +26017,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
@@ -24246,6 +26082,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
@@ -24263,6 +26100,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -24347,6 +26185,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
@@ -24364,6 +26203,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
@@ -24403,6 +26243,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
@@ -24435,6 +26276,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
     subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
@@ -24480,6 +26322,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
@@ -24497,6 +26340,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -24542,6 +26386,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
@@ -24574,6 +26419,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -24587,6 +26433,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
@@ -24604,6 +26451,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
@@ -24664,6 +26512,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
@@ -24681,6 +26530,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -24731,6 +26581,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
@@ -24748,6 +26599,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
@@ -24827,6 +26679,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
@@ -24844,6 +26697,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -24918,6 +26772,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
@@ -24935,6 +26790,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
@@ -25302,6 +27158,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type PersonsCreateManyAccountsInput = {
+    person_id: string
+    project_id?: string | null
+    email?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
   export type Place_levelsCreateManyAccountsInput = {
     place_level_id: string
     project_id?: string | null
@@ -25416,6 +27281,33 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     read?: boolean | null
   }
 
+  export type PersonsUpdateWithoutAccountsInput = {
+    person_id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    projects?: ProjectsUpdateOneWithoutPersonsNestedInput
+  }
+
+  export type PersonsUncheckedUpdateWithoutAccountsInput = {
+    person_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type PersonsUncheckedUpdateManyWithoutAccountsInput = {
+    person_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type Place_levelsUpdateWithoutAccountsInput = {
     place_level_id?: StringFieldUpdateOperationsInput | string
     level?: NullableIntFieldUpdateOperationsInput | number | null
@@ -25528,6 +27420,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
@@ -25559,6 +27452,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
     subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -25828,6 +27722,15 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     read?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type PersonsCreateManyProjectsInput = {
+    person_id: string
+    account_id?: string | null
+    email?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
   export type Place_levelsCreateManyProjectsInput = {
     place_level_id: string
     account_id?: string | null
@@ -25878,6 +27781,33 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+  }
+
+  export type PersonsUpdateWithoutProjectsInput = {
+    person_id?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutPersonsNestedInput
+  }
+
+  export type PersonsUncheckedUpdateWithoutProjectsInput = {
+    person_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type PersonsUncheckedUpdateManyWithoutProjectsInput = {
+    person_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type Place_levelsUpdateWithoutProjectsInput = {
@@ -26111,6 +28041,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
@@ -26128,6 +28059,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
