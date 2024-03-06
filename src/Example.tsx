@@ -71,13 +71,19 @@ const ExampleComponent = () => {
                 include: {
                   accounts: true,
                   place_levels: true,
-                  subprojects: { include: { gbif_occurrences: true } },
+                  subprojects: {
+                    include: {
+                      gbif_occurrences: true,
+                      gbif_occurrence_downloads: true,
+                    },
+                  },
                   project_users: true,
                   taxonomies: { include: { taxa: true } },
                   persons: true,
                   lists: true,
                   gbif_taxa: true,
                   gbif_occurrences: true,
+                  gbif_occurrence_downloads: true,
                 },
               },
               ui_options: true,
@@ -90,6 +96,7 @@ const ExampleComponent = () => {
               lists: true,
               gbif_taxa: true,
               gbif_occurrences: true,
+              gbif_occurrence_downloads: true,
             },
           },
           ui_options: true,
