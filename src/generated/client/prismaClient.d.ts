@@ -52,6 +52,27 @@ export type Field_types = {
 }
 
 /**
+ * Model Gbif_taxa
+ * 
+ */
+export type Gbif_taxa = {
+  /**
+   * @zod.string.uuid()
+   */
+  gbif_taxon_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  project_id: string | null
+  gbif_data: Prisma.JsonValue | null
+  label: string | null
+}
+
+/**
  * Model Lists
  * 
  */
@@ -575,6 +596,16 @@ export class PrismaClient<
     * ```
     */
   get field_types(): Prisma.Field_typesDelegate<GlobalReject>;
+
+  /**
+   * `prisma.gbif_taxa`: Exposes CRUD operations for the **Gbif_taxa** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Gbif_taxas
+    * const gbif_taxas = await prisma.gbif_taxa.findMany()
+    * ```
+    */
+  get gbif_taxa(): Prisma.Gbif_taxaDelegate<GlobalReject>;
 
   /**
    * `prisma.lists`: Exposes CRUD operations for the **Lists** model.
@@ -1201,6 +1232,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export const ModelName: {
     Accounts: 'Accounts',
     Field_types: 'Field_types',
+    Gbif_taxa: 'Gbif_taxa',
     Lists: 'Lists',
     Messages: 'Messages',
     Persons: 'Persons',
@@ -1385,6 +1417,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type AccountsCountOutputType = {
+    gbif_taxa: number
     lists: number
     persons: number
     place_levels: number
@@ -1398,6 +1431,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type AccountsCountOutputTypeSelect = {
+    gbif_taxa?: boolean | AccountsCountOutputTypeCountGbif_taxaArgs
     lists?: boolean | AccountsCountOutputTypeCountListsArgs
     persons?: boolean | AccountsCountOutputTypeCountPersonsArgs
     place_levels?: boolean | AccountsCountOutputTypeCountPlace_levelsArgs
@@ -1437,6 +1471,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: AccountsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountGbif_taxaArgs = {
+    where?: Gbif_taxaWhereInput
   }
 
 
@@ -1631,6 +1673,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type ProjectsCountOutputType = {
+    gbif_taxa: number
     lists: number
     persons: number
     place_levels: number
@@ -1640,6 +1683,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type ProjectsCountOutputTypeSelect = {
+    gbif_taxa?: boolean | ProjectsCountOutputTypeCountGbif_taxaArgs
     lists?: boolean | ProjectsCountOutputTypeCountListsArgs
     persons?: boolean | ProjectsCountOutputTypeCountPersonsArgs
     place_levels?: boolean | ProjectsCountOutputTypeCountPlace_levelsArgs
@@ -1675,6 +1719,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: ProjectsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * ProjectsCountOutputType without action
+   */
+  export type ProjectsCountOutputTypeCountGbif_taxaArgs = {
+    where?: Gbif_taxaWhereInput
   }
 
 
@@ -2095,6 +2147,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: boolean
     label?: boolean
     users?: boolean | Accounts$usersArgs
+    gbif_taxa?: boolean | Accounts$gbif_taxaArgs
     lists?: boolean | Accounts$listsArgs
     persons?: boolean | Accounts$personsArgs
     place_levels?: boolean | Accounts$place_levelsArgs
@@ -2111,6 +2164,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type AccountsInclude = {
     users?: boolean | Accounts$usersArgs
+    gbif_taxa?: boolean | Accounts$gbif_taxaArgs
     lists?: boolean | Accounts$listsArgs
     persons?: boolean | Accounts$personsArgs
     place_levels?: boolean | Accounts$place_levelsArgs
@@ -2132,6 +2186,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ? Accounts  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'users' ? UsersGetPayload<S['include'][P]> | null :
+        P extends 'gbif_taxa' ? Array < Gbif_taxaGetPayload<S['include'][P]>>  :
         P extends 'lists' ? Array < ListsGetPayload<S['include'][P]>>  :
         P extends 'persons' ? Array < PersonsGetPayload<S['include'][P]>>  :
         P extends 'place_levels' ? Array < Place_levelsGetPayload<S['include'][P]>>  :
@@ -2148,6 +2203,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'users' ? UsersGetPayload<S['select'][P]> | null :
+        P extends 'gbif_taxa' ? Array < Gbif_taxaGetPayload<S['select'][P]>>  :
         P extends 'lists' ? Array < ListsGetPayload<S['select'][P]>>  :
         P extends 'persons' ? Array < PersonsGetPayload<S['select'][P]>>  :
         P extends 'place_levels' ? Array < Place_levelsGetPayload<S['select'][P]>>  :
@@ -2533,6 +2589,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
     users<T extends Accounts$usersArgs= {}>(args?: Subset<T, Accounts$usersArgs>): Prisma__UsersClient<UsersGetPayload<T> | Null>;
+
+    gbif_taxa<T extends Accounts$gbif_taxaArgs= {}>(args?: Subset<T, Accounts$gbif_taxaArgs>): PrismaPromise<Array<Gbif_taxaGetPayload<T>>| Null>;
 
     lists<T extends Accounts$listsArgs= {}>(args?: Subset<T, Accounts$listsArgs>): PrismaPromise<Array<ListsGetPayload<T>>| Null>;
 
@@ -2972,6 +3030,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     include?: UsersInclude | null
     where?: UsersWhereInput
+  }
+
+
+  /**
+   * Accounts.gbif_taxa
+   */
+  export type Accounts$gbif_taxaArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_taxa
+     * 
+    **/
+    select?: Gbif_taxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_taxaInclude | null
+    where?: Gbif_taxaWhereInput
+    orderBy?: Enumerable<Gbif_taxaOrderByWithRelationInput>
+    cursor?: Gbif_taxaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Gbif_taxaScalarFieldEnum>
   }
 
 
@@ -4276,6 +4357,1032 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     include?: Field_typesInclude | null
+  }
+
+
+
+  /**
+   * Model Gbif_taxa
+   */
+
+
+  export type AggregateGbif_taxa = {
+    _count: Gbif_taxaCountAggregateOutputType | null
+    _min: Gbif_taxaMinAggregateOutputType | null
+    _max: Gbif_taxaMaxAggregateOutputType | null
+  }
+
+  export type Gbif_taxaMinAggregateOutputType = {
+    gbif_taxon_id: string | null
+    account_id: string | null
+    project_id: string | null
+    label: string | null
+  }
+
+  export type Gbif_taxaMaxAggregateOutputType = {
+    gbif_taxon_id: string | null
+    account_id: string | null
+    project_id: string | null
+    label: string | null
+  }
+
+  export type Gbif_taxaCountAggregateOutputType = {
+    gbif_taxon_id: number
+    account_id: number
+    project_id: number
+    gbif_data: number
+    label: number
+    _all: number
+  }
+
+
+  export type Gbif_taxaMinAggregateInputType = {
+    gbif_taxon_id?: true
+    account_id?: true
+    project_id?: true
+    label?: true
+  }
+
+  export type Gbif_taxaMaxAggregateInputType = {
+    gbif_taxon_id?: true
+    account_id?: true
+    project_id?: true
+    label?: true
+  }
+
+  export type Gbif_taxaCountAggregateInputType = {
+    gbif_taxon_id?: true
+    account_id?: true
+    project_id?: true
+    gbif_data?: true
+    label?: true
+    _all?: true
+  }
+
+  export type Gbif_taxaAggregateArgs = {
+    /**
+     * Filter which Gbif_taxa to aggregate.
+     * 
+    **/
+    where?: Gbif_taxaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Gbif_taxas to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Gbif_taxaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: Gbif_taxaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Gbif_taxas from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Gbif_taxas.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Gbif_taxas
+    **/
+    _count?: true | Gbif_taxaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Gbif_taxaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Gbif_taxaMaxAggregateInputType
+  }
+
+  export type GetGbif_taxaAggregateType<T extends Gbif_taxaAggregateArgs> = {
+        [P in keyof T & keyof AggregateGbif_taxa]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGbif_taxa[P]>
+      : GetScalarType<T[P], AggregateGbif_taxa[P]>
+  }
+
+
+
+
+  export type Gbif_taxaGroupByArgs = {
+    where?: Gbif_taxaWhereInput
+    orderBy?: Enumerable<Gbif_taxaOrderByWithAggregationInput>
+    by: Array<Gbif_taxaScalarFieldEnum>
+    having?: Gbif_taxaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Gbif_taxaCountAggregateInputType | true
+    _min?: Gbif_taxaMinAggregateInputType
+    _max?: Gbif_taxaMaxAggregateInputType
+  }
+
+
+  export type Gbif_taxaGroupByOutputType = {
+    gbif_taxon_id: string
+    account_id: string | null
+    project_id: string | null
+    gbif_data: JsonValue | null
+    label: string | null
+    _count: Gbif_taxaCountAggregateOutputType | null
+    _min: Gbif_taxaMinAggregateOutputType | null
+    _max: Gbif_taxaMaxAggregateOutputType | null
+  }
+
+  type GetGbif_taxaGroupByPayload<T extends Gbif_taxaGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Gbif_taxaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Gbif_taxaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Gbif_taxaGroupByOutputType[P]>
+            : GetScalarType<T[P], Gbif_taxaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Gbif_taxaSelect = {
+    gbif_taxon_id?: boolean
+    account_id?: boolean
+    project_id?: boolean
+    gbif_data?: boolean
+    label?: boolean
+    accounts?: boolean | Gbif_taxa$accountsArgs
+    projects?: boolean | Gbif_taxa$projectsArgs
+  }
+
+
+  export type Gbif_taxaInclude = {
+    accounts?: boolean | Gbif_taxa$accountsArgs
+    projects?: boolean | Gbif_taxa$projectsArgs
+  } 
+
+  export type Gbif_taxaGetPayload<S extends boolean | null | undefined | Gbif_taxaArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Gbif_taxa :
+    S extends undefined ? never :
+    S extends { include: any } & (Gbif_taxaArgs | Gbif_taxaFindManyArgs)
+    ? Gbif_taxa  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (Gbif_taxaArgs | Gbif_taxaFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> | null :  P extends keyof Gbif_taxa ? Gbif_taxa[P] : never
+  } 
+      : Gbif_taxa
+
+
+  type Gbif_taxaCountArgs = Merge<
+    Omit<Gbif_taxaFindManyArgs, 'select' | 'include'> & {
+      select?: Gbif_taxaCountAggregateInputType | true
+    }
+  >
+
+  export interface Gbif_taxaDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Gbif_taxa that matches the filter.
+     * @param {Gbif_taxaFindUniqueArgs} args - Arguments to find a Gbif_taxa
+     * @example
+     * // Get one Gbif_taxa
+     * const gbif_taxa = await prisma.gbif_taxa.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends Gbif_taxaFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Gbif_taxaFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Gbif_taxa'> extends True ? Prisma__Gbif_taxaClient<Gbif_taxaGetPayload<T>> : Prisma__Gbif_taxaClient<Gbif_taxaGetPayload<T> | null, null>
+
+    /**
+     * Find one Gbif_taxa that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {Gbif_taxaFindUniqueOrThrowArgs} args - Arguments to find a Gbif_taxa
+     * @example
+     * // Get one Gbif_taxa
+     * const gbif_taxa = await prisma.gbif_taxa.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends Gbif_taxaFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, Gbif_taxaFindUniqueOrThrowArgs>
+    ): Prisma__Gbif_taxaClient<Gbif_taxaGetPayload<T>>
+
+    /**
+     * Find the first Gbif_taxa that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Gbif_taxaFindFirstArgs} args - Arguments to find a Gbif_taxa
+     * @example
+     * // Get one Gbif_taxa
+     * const gbif_taxa = await prisma.gbif_taxa.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends Gbif_taxaFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Gbif_taxaFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Gbif_taxa'> extends True ? Prisma__Gbif_taxaClient<Gbif_taxaGetPayload<T>> : Prisma__Gbif_taxaClient<Gbif_taxaGetPayload<T> | null, null>
+
+    /**
+     * Find the first Gbif_taxa that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Gbif_taxaFindFirstOrThrowArgs} args - Arguments to find a Gbif_taxa
+     * @example
+     * // Get one Gbif_taxa
+     * const gbif_taxa = await prisma.gbif_taxa.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends Gbif_taxaFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, Gbif_taxaFindFirstOrThrowArgs>
+    ): Prisma__Gbif_taxaClient<Gbif_taxaGetPayload<T>>
+
+    /**
+     * Find zero or more Gbif_taxas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Gbif_taxaFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Gbif_taxas
+     * const gbif_taxas = await prisma.gbif_taxa.findMany()
+     * 
+     * // Get first 10 Gbif_taxas
+     * const gbif_taxas = await prisma.gbif_taxa.findMany({ take: 10 })
+     * 
+     * // Only select the `gbif_taxon_id`
+     * const gbif_taxaWithGbif_taxon_idOnly = await prisma.gbif_taxa.findMany({ select: { gbif_taxon_id: true } })
+     * 
+    **/
+    findMany<T extends Gbif_taxaFindManyArgs>(
+      args?: SelectSubset<T, Gbif_taxaFindManyArgs>
+    ): PrismaPromise<Array<Gbif_taxaGetPayload<T>>>
+
+    /**
+     * Create a Gbif_taxa.
+     * @param {Gbif_taxaCreateArgs} args - Arguments to create a Gbif_taxa.
+     * @example
+     * // Create one Gbif_taxa
+     * const Gbif_taxa = await prisma.gbif_taxa.create({
+     *   data: {
+     *     // ... data to create a Gbif_taxa
+     *   }
+     * })
+     * 
+    **/
+    create<T extends Gbif_taxaCreateArgs>(
+      args: SelectSubset<T, Gbif_taxaCreateArgs>
+    ): Prisma__Gbif_taxaClient<Gbif_taxaGetPayload<T>>
+
+    /**
+     * Create many Gbif_taxas.
+     *     @param {Gbif_taxaCreateManyArgs} args - Arguments to create many Gbif_taxas.
+     *     @example
+     *     // Create many Gbif_taxas
+     *     const gbif_taxa = await prisma.gbif_taxa.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends Gbif_taxaCreateManyArgs>(
+      args?: SelectSubset<T, Gbif_taxaCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Gbif_taxa.
+     * @param {Gbif_taxaDeleteArgs} args - Arguments to delete one Gbif_taxa.
+     * @example
+     * // Delete one Gbif_taxa
+     * const Gbif_taxa = await prisma.gbif_taxa.delete({
+     *   where: {
+     *     // ... filter to delete one Gbif_taxa
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends Gbif_taxaDeleteArgs>(
+      args: SelectSubset<T, Gbif_taxaDeleteArgs>
+    ): Prisma__Gbif_taxaClient<Gbif_taxaGetPayload<T>>
+
+    /**
+     * Update one Gbif_taxa.
+     * @param {Gbif_taxaUpdateArgs} args - Arguments to update one Gbif_taxa.
+     * @example
+     * // Update one Gbif_taxa
+     * const gbif_taxa = await prisma.gbif_taxa.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends Gbif_taxaUpdateArgs>(
+      args: SelectSubset<T, Gbif_taxaUpdateArgs>
+    ): Prisma__Gbif_taxaClient<Gbif_taxaGetPayload<T>>
+
+    /**
+     * Delete zero or more Gbif_taxas.
+     * @param {Gbif_taxaDeleteManyArgs} args - Arguments to filter Gbif_taxas to delete.
+     * @example
+     * // Delete a few Gbif_taxas
+     * const { count } = await prisma.gbif_taxa.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends Gbif_taxaDeleteManyArgs>(
+      args?: SelectSubset<T, Gbif_taxaDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Gbif_taxas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Gbif_taxaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Gbif_taxas
+     * const gbif_taxa = await prisma.gbif_taxa.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends Gbif_taxaUpdateManyArgs>(
+      args: SelectSubset<T, Gbif_taxaUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Gbif_taxa.
+     * @param {Gbif_taxaUpsertArgs} args - Arguments to update or create a Gbif_taxa.
+     * @example
+     * // Update or create a Gbif_taxa
+     * const gbif_taxa = await prisma.gbif_taxa.upsert({
+     *   create: {
+     *     // ... data to create a Gbif_taxa
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Gbif_taxa we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends Gbif_taxaUpsertArgs>(
+      args: SelectSubset<T, Gbif_taxaUpsertArgs>
+    ): Prisma__Gbif_taxaClient<Gbif_taxaGetPayload<T>>
+
+    /**
+     * Count the number of Gbif_taxas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Gbif_taxaCountArgs} args - Arguments to filter Gbif_taxas to count.
+     * @example
+     * // Count the number of Gbif_taxas
+     * const count = await prisma.gbif_taxa.count({
+     *   where: {
+     *     // ... the filter for the Gbif_taxas we want to count
+     *   }
+     * })
+    **/
+    count<T extends Gbif_taxaCountArgs>(
+      args?: Subset<T, Gbif_taxaCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Gbif_taxaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Gbif_taxa.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Gbif_taxaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Gbif_taxaAggregateArgs>(args: Subset<T, Gbif_taxaAggregateArgs>): PrismaPromise<GetGbif_taxaAggregateType<T>>
+
+    /**
+     * Group by Gbif_taxa.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Gbif_taxaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Gbif_taxaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Gbif_taxaGroupByArgs['orderBy'] }
+        : { orderBy?: Gbif_taxaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Gbif_taxaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGbif_taxaGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Gbif_taxa.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__Gbif_taxaClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Gbif_taxa$accountsArgs= {}>(args?: Subset<T, Gbif_taxa$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    projects<T extends Gbif_taxa$projectsArgs= {}>(args?: Subset<T, Gbif_taxa$projectsArgs>): Prisma__ProjectsClient<ProjectsGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Gbif_taxa base type for findUnique actions
+   */
+  export type Gbif_taxaFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Gbif_taxa
+     * 
+    **/
+    select?: Gbif_taxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_taxaInclude | null
+    /**
+     * Filter, which Gbif_taxa to fetch.
+     * 
+    **/
+    where: Gbif_taxaWhereUniqueInput
+  }
+
+  /**
+   * Gbif_taxa findUnique
+   */
+  export interface Gbif_taxaFindUniqueArgs extends Gbif_taxaFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Gbif_taxa findUniqueOrThrow
+   */
+  export type Gbif_taxaFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_taxa
+     * 
+    **/
+    select?: Gbif_taxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_taxaInclude | null
+    /**
+     * Filter, which Gbif_taxa to fetch.
+     * 
+    **/
+    where: Gbif_taxaWhereUniqueInput
+  }
+
+
+  /**
+   * Gbif_taxa base type for findFirst actions
+   */
+  export type Gbif_taxaFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Gbif_taxa
+     * 
+    **/
+    select?: Gbif_taxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_taxaInclude | null
+    /**
+     * Filter, which Gbif_taxa to fetch.
+     * 
+    **/
+    where?: Gbif_taxaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Gbif_taxas to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Gbif_taxaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Gbif_taxas.
+     * 
+    **/
+    cursor?: Gbif_taxaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Gbif_taxas from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Gbif_taxas.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Gbif_taxas.
+     * 
+    **/
+    distinct?: Enumerable<Gbif_taxaScalarFieldEnum>
+  }
+
+  /**
+   * Gbif_taxa findFirst
+   */
+  export interface Gbif_taxaFindFirstArgs extends Gbif_taxaFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Gbif_taxa findFirstOrThrow
+   */
+  export type Gbif_taxaFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_taxa
+     * 
+    **/
+    select?: Gbif_taxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_taxaInclude | null
+    /**
+     * Filter, which Gbif_taxa to fetch.
+     * 
+    **/
+    where?: Gbif_taxaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Gbif_taxas to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Gbif_taxaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Gbif_taxas.
+     * 
+    **/
+    cursor?: Gbif_taxaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Gbif_taxas from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Gbif_taxas.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Gbif_taxas.
+     * 
+    **/
+    distinct?: Enumerable<Gbif_taxaScalarFieldEnum>
+  }
+
+
+  /**
+   * Gbif_taxa findMany
+   */
+  export type Gbif_taxaFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_taxa
+     * 
+    **/
+    select?: Gbif_taxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_taxaInclude | null
+    /**
+     * Filter, which Gbif_taxas to fetch.
+     * 
+    **/
+    where?: Gbif_taxaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Gbif_taxas to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Gbif_taxaOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Gbif_taxas.
+     * 
+    **/
+    cursor?: Gbif_taxaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Gbif_taxas from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Gbif_taxas.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Gbif_taxaScalarFieldEnum>
+  }
+
+
+  /**
+   * Gbif_taxa create
+   */
+  export type Gbif_taxaCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_taxa
+     * 
+    **/
+    select?: Gbif_taxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_taxaInclude | null
+    /**
+     * The data needed to create a Gbif_taxa.
+     * 
+    **/
+    data: XOR<Gbif_taxaCreateInput, Gbif_taxaUncheckedCreateInput>
+  }
+
+
+  /**
+   * Gbif_taxa createMany
+   */
+  export type Gbif_taxaCreateManyArgs = {
+    /**
+     * The data used to create many Gbif_taxas.
+     * 
+    **/
+    data: Enumerable<Gbif_taxaCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Gbif_taxa update
+   */
+  export type Gbif_taxaUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_taxa
+     * 
+    **/
+    select?: Gbif_taxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_taxaInclude | null
+    /**
+     * The data needed to update a Gbif_taxa.
+     * 
+    **/
+    data: XOR<Gbif_taxaUpdateInput, Gbif_taxaUncheckedUpdateInput>
+    /**
+     * Choose, which Gbif_taxa to update.
+     * 
+    **/
+    where: Gbif_taxaWhereUniqueInput
+  }
+
+
+  /**
+   * Gbif_taxa updateMany
+   */
+  export type Gbif_taxaUpdateManyArgs = {
+    /**
+     * The data used to update Gbif_taxas.
+     * 
+    **/
+    data: XOR<Gbif_taxaUpdateManyMutationInput, Gbif_taxaUncheckedUpdateManyInput>
+    /**
+     * Filter which Gbif_taxas to update
+     * 
+    **/
+    where?: Gbif_taxaWhereInput
+  }
+
+
+  /**
+   * Gbif_taxa upsert
+   */
+  export type Gbif_taxaUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_taxa
+     * 
+    **/
+    select?: Gbif_taxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_taxaInclude | null
+    /**
+     * The filter to search for the Gbif_taxa to update in case it exists.
+     * 
+    **/
+    where: Gbif_taxaWhereUniqueInput
+    /**
+     * In case the Gbif_taxa found by the `where` argument doesn't exist, create a new Gbif_taxa with this data.
+     * 
+    **/
+    create: XOR<Gbif_taxaCreateInput, Gbif_taxaUncheckedCreateInput>
+    /**
+     * In case the Gbif_taxa was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<Gbif_taxaUpdateInput, Gbif_taxaUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Gbif_taxa delete
+   */
+  export type Gbif_taxaDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_taxa
+     * 
+    **/
+    select?: Gbif_taxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_taxaInclude | null
+    /**
+     * Filter which Gbif_taxa to delete.
+     * 
+    **/
+    where: Gbif_taxaWhereUniqueInput
+  }
+
+
+  /**
+   * Gbif_taxa deleteMany
+   */
+  export type Gbif_taxaDeleteManyArgs = {
+    /**
+     * Filter which Gbif_taxas to delete
+     * 
+    **/
+    where?: Gbif_taxaWhereInput
+  }
+
+
+  /**
+   * Gbif_taxa.accounts
+   */
+  export type Gbif_taxa$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Gbif_taxa.projects
+   */
+  export type Gbif_taxa$projectsArgs = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    where?: ProjectsWhereInput
+  }
+
+
+  /**
+   * Gbif_taxa without action
+   */
+  export type Gbif_taxaArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_taxa
+     * 
+    **/
+    select?: Gbif_taxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_taxaInclude | null
   }
 
 
@@ -9940,6 +11047,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean
     files_active_checks?: boolean
     deleted?: boolean
+    gbif_taxa?: boolean | Projects$gbif_taxaArgs
     lists?: boolean | Projects$listsArgs
     persons?: boolean | Projects$personsArgs
     place_levels?: boolean | Projects$place_levelsArgs
@@ -9952,6 +11060,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type ProjectsInclude = {
+    gbif_taxa?: boolean | Projects$gbif_taxaArgs
     lists?: boolean | Projects$listsArgs
     persons?: boolean | Projects$personsArgs
     place_levels?: boolean | Projects$place_levelsArgs
@@ -9969,6 +11078,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (ProjectsArgs | ProjectsFindManyArgs)
     ? Projects  & {
     [P in TruthyKeys<S['include']>]:
+        P extends 'gbif_taxa' ? Array < Gbif_taxaGetPayload<S['include'][P]>>  :
         P extends 'lists' ? Array < ListsGetPayload<S['include'][P]>>  :
         P extends 'persons' ? Array < PersonsGetPayload<S['include'][P]>>  :
         P extends 'place_levels' ? Array < Place_levelsGetPayload<S['include'][P]>>  :
@@ -9981,6 +11091,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     : S extends { select: any } & (ProjectsArgs | ProjectsFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
+        P extends 'gbif_taxa' ? Array < Gbif_taxaGetPayload<S['select'][P]>>  :
         P extends 'lists' ? Array < ListsGetPayload<S['select'][P]>>  :
         P extends 'persons' ? Array < PersonsGetPayload<S['select'][P]>>  :
         P extends 'place_levels' ? Array < Place_levelsGetPayload<S['select'][P]>>  :
@@ -10361,6 +11472,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _requestPromise?;
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    gbif_taxa<T extends Projects$gbif_taxaArgs= {}>(args?: Subset<T, Projects$gbif_taxaArgs>): PrismaPromise<Array<Gbif_taxaGetPayload<T>>| Null>;
 
     lists<T extends Projects$listsArgs= {}>(args?: Subset<T, Projects$listsArgs>): PrismaPromise<Array<ListsGetPayload<T>>| Null>;
 
@@ -10776,6 +11889,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     where?: ProjectsWhereInput
+  }
+
+
+  /**
+   * Projects.gbif_taxa
+   */
+  export type Projects$gbif_taxaArgs = {
+    /**
+     * Select specific fields to fetch from the Gbif_taxa
+     * 
+    **/
+    select?: Gbif_taxaSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Gbif_taxaInclude | null
+    where?: Gbif_taxaWhereInput
+    orderBy?: Enumerable<Gbif_taxaOrderByWithRelationInput>
+    cursor?: Gbif_taxaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Gbif_taxaScalarFieldEnum>
   }
 
 
@@ -19578,6 +20714,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Field_typesScalarFieldEnum = (typeof Field_typesScalarFieldEnum)[keyof typeof Field_typesScalarFieldEnum]
 
 
+  export const Gbif_taxaScalarFieldEnum: {
+    gbif_taxon_id: 'gbif_taxon_id',
+    account_id: 'account_id',
+    project_id: 'project_id',
+    gbif_data: 'gbif_data',
+    label: 'label'
+  };
+
+  export type Gbif_taxaScalarFieldEnum = (typeof Gbif_taxaScalarFieldEnum)[keyof typeof Gbif_taxaScalarFieldEnum]
+
+
   export const ListsScalarFieldEnum: {
     list_id: 'list_id',
     account_id: 'account_id',
@@ -19955,6 +21102,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: StringNullableFilter<"Accounts"> | string | null
     label?: StringNullableFilter<"Accounts"> | string | null
     users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
+    gbif_taxa?: Gbif_taxaListRelationFilter
     lists?: ListsListRelationFilter
     persons?: PersonsListRelationFilter
     place_levels?: Place_levelsListRelationFilter
@@ -19976,6 +21124,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: SortOrderInput | SortOrder
     label?: SortOrderInput | SortOrder
     users?: UsersOrderByWithRelationInput
+    gbif_taxa?: Gbif_taxaOrderByRelationAggregateInput
     lists?: ListsOrderByRelationAggregateInput
     persons?: PersonsOrderByRelationAggregateInput
     place_levels?: Place_levelsOrderByRelationAggregateInput
@@ -20000,6 +21149,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: StringNullableFilter<"Accounts"> | string | null
     label?: StringNullableFilter<"Accounts"> | string | null
     users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
+    gbif_taxa?: Gbif_taxaListRelationFilter
     lists?: ListsListRelationFilter
     persons?: PersonsListRelationFilter
     place_levels?: Place_levelsListRelationFilter
@@ -20098,6 +21248,64 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: StringNullableWithAggregatesFilter<"Field_types"> | string | null
     label_replace_by_generated_column?: StringNullableWithAggregatesFilter<"Field_types"> | string | null
     deleted?: BoolNullableWithAggregatesFilter<"Field_types"> | boolean | null
+  }
+
+  export type Gbif_taxaWhereInput = {
+    AND?: Enumerable<Gbif_taxaWhereInput>
+    OR?: Enumerable<Gbif_taxaWhereInput>
+    NOT?: Enumerable<Gbif_taxaWhereInput>
+    gbif_taxon_id?: UuidFilter<"Gbif_taxa"> | string
+    account_id?: UuidNullableFilter<"Gbif_taxa"> | string | null
+    project_id?: UuidNullableFilter<"Gbif_taxa"> | string | null
+    gbif_data?: JsonNullableFilter<"Gbif_taxa">
+    label?: StringNullableFilter<"Gbif_taxa"> | string | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
+  }
+
+  export type Gbif_taxaOrderByWithRelationInput = {
+    gbif_taxon_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    project_id?: SortOrderInput | SortOrder
+    gbif_data?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    projects?: ProjectsOrderByWithRelationInput
+  }
+
+  export type Gbif_taxaWhereUniqueInput = Prisma.AtLeast<{
+    gbif_taxon_id?: string
+    AND?: Enumerable<Gbif_taxaWhereInput>
+    OR?: Enumerable<Gbif_taxaWhereInput>
+    NOT?: Enumerable<Gbif_taxaWhereInput>
+    account_id?: UuidNullableFilter<"Gbif_taxa"> | string | null
+    project_id?: UuidNullableFilter<"Gbif_taxa"> | string | null
+    gbif_data?: JsonNullableFilter<"Gbif_taxa">
+    label?: StringNullableFilter<"Gbif_taxa"> | string | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
+  }, "gbif_taxon_id">
+
+  export type Gbif_taxaOrderByWithAggregationInput = {
+    gbif_taxon_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    project_id?: SortOrderInput | SortOrder
+    gbif_data?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    _count?: Gbif_taxaCountOrderByAggregateInput
+    _max?: Gbif_taxaMaxOrderByAggregateInput
+    _min?: Gbif_taxaMinOrderByAggregateInput
+  }
+
+  export type Gbif_taxaScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<Gbif_taxaScalarWhereWithAggregatesInput>
+    OR?: Enumerable<Gbif_taxaScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<Gbif_taxaScalarWhereWithAggregatesInput>
+    gbif_taxon_id?: UuidWithAggregatesFilter<"Gbif_taxa"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"Gbif_taxa"> | string | null
+    project_id?: UuidNullableWithAggregatesFilter<"Gbif_taxa"> | string | null
+    gbif_data?: JsonNullableWithAggregatesFilter<"Gbif_taxa">
+    label?: StringNullableWithAggregatesFilter<"Gbif_taxa"> | string | null
   }
 
   export type ListsWhereInput = {
@@ -20516,6 +21724,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: BoolNullableFilter<"Projects"> | boolean | null
     files_active_checks?: BoolNullableFilter<"Projects"> | boolean | null
     deleted?: BoolNullableFilter<"Projects"> | boolean | null
+    gbif_taxa?: Gbif_taxaListRelationFilter
     lists?: ListsListRelationFilter
     persons?: PersonsListRelationFilter
     place_levels?: Place_levelsListRelationFilter
@@ -20551,6 +21760,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: SortOrderInput | SortOrder
     files_active_checks?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    gbif_taxa?: Gbif_taxaOrderByRelationAggregateInput
     lists?: ListsOrderByRelationAggregateInput
     persons?: PersonsOrderByRelationAggregateInput
     place_levels?: Place_levelsOrderByRelationAggregateInput
@@ -20589,6 +21799,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: BoolNullableFilter<"Projects"> | boolean | null
     files_active_checks?: BoolNullableFilter<"Projects"> | boolean | null
     deleted?: BoolNullableFilter<"Projects"> | boolean | null
+    gbif_taxa?: Gbif_taxaListRelationFilter
     lists?: ListsListRelationFilter
     persons?: PersonsListRelationFilter
     place_levels?: Place_levelsListRelationFilter
@@ -21270,6 +22481,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
@@ -21290,6 +22502,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
@@ -21310,6 +22523,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
@@ -21330,6 +22544,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -21436,6 +22651,60 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Gbif_taxaCreateInput = {
+    gbif_taxon_id: string
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+    accounts?: AccountsCreateNestedOneWithoutGbif_taxaInput
+    projects?: ProjectsCreateNestedOneWithoutGbif_taxaInput
+  }
+
+  export type Gbif_taxaUncheckedCreateInput = {
+    gbif_taxon_id: string
+    account_id?: string | null
+    project_id?: string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+  }
+
+  export type Gbif_taxaUpdateInput = {
+    gbif_taxon_id?: StringFieldUpdateOperationsInput | string
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountsUpdateOneWithoutGbif_taxaNestedInput
+    projects?: ProjectsUpdateOneWithoutGbif_taxaNestedInput
+  }
+
+  export type Gbif_taxaUncheckedUpdateInput = {
+    gbif_taxon_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Gbif_taxaCreateManyInput = {
+    gbif_taxon_id: string
+    account_id?: string | null
+    project_id?: string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+  }
+
+  export type Gbif_taxaUpdateManyMutationInput = {
+    gbif_taxon_id?: StringFieldUpdateOperationsInput | string
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Gbif_taxaUncheckedUpdateManyInput = {
+    gbif_taxon_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ListsCreateInput = {
@@ -21871,6 +23140,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
@@ -21906,6 +23176,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
@@ -21939,6 +23210,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
@@ -21974,6 +23246,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -22754,6 +24027,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     isNot?: UsersWhereInput | null
   }
 
+  export type Gbif_taxaListRelationFilter = {
+    every?: Gbif_taxaWhereInput
+    some?: Gbif_taxaWhereInput
+    none?: Gbif_taxaWhereInput
+  }
+
   export type ListsListRelationFilter = {
     every?: ListsWhereInput
     some?: ListsWhereInput
@@ -22817,6 +24096,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type Gbif_taxaOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type ListsOrderByRelationAggregateInput = {
@@ -23068,6 +24351,53 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     isNot?: ProjectsWhereInput | null
   }
 
+  export type Gbif_taxaCountOrderByAggregateInput = {
+    gbif_taxon_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    gbif_data?: SortOrder
+    label?: SortOrder
+  }
+
+  export type Gbif_taxaMaxOrderByAggregateInput = {
+    gbif_taxon_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    label?: SortOrder
+  }
+
+  export type Gbif_taxaMinOrderByAggregateInput = {
+    gbif_taxon_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    label?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: Array<string>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
   export type ListsCountOrderByAggregateInput = {
     list_id?: SortOrder
     account_id?: SortOrder
@@ -23097,31 +24427,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     obsolete?: SortOrder
     label_replace_by_generated_column?: SortOrder
     deleted?: SortOrder
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: Array<string>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type MessagesCountOrderByAggregateInput = {
@@ -23709,6 +25014,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: UsersWhereUniqueInput
   }
 
+  export type Gbif_taxaCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Gbif_taxaCreateWithoutAccountsInput>, Enumerable<Gbif_taxaUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Gbif_taxaCreateOrConnectWithoutAccountsInput>
+    createMany?: Gbif_taxaCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Gbif_taxaWhereUniqueInput>
+  }
+
   export type ListsCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<ListsCreateWithoutAccountsInput>, Enumerable<ListsUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<ListsCreateOrConnectWithoutAccountsInput>
@@ -23777,6 +25089,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutAccountsInput>
     createMany?: User_messagesCreateManyAccountsInputEnvelope
     connect?: Enumerable<User_messagesWhereUniqueInput>
+  }
+
+  export type Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Gbif_taxaCreateWithoutAccountsInput>, Enumerable<Gbif_taxaUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Gbif_taxaCreateOrConnectWithoutAccountsInput>
+    createMany?: Gbif_taxaCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Gbif_taxaWhereUniqueInput>
   }
 
   export type ListsUncheckedCreateNestedManyWithoutAccountsInput = {
@@ -23869,6 +25188,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     delete?: UsersWhereInput | boolean
     connect?: UsersWhereUniqueInput
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutAccountsInput, UsersUpdateWithoutAccountsInput>, UsersUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type Gbif_taxaUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Gbif_taxaCreateWithoutAccountsInput>, Enumerable<Gbif_taxaUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Gbif_taxaCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Gbif_taxaUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Gbif_taxaCreateManyAccountsInputEnvelope
+    set?: Enumerable<Gbif_taxaWhereUniqueInput>
+    disconnect?: Enumerable<Gbif_taxaWhereUniqueInput>
+    delete?: Enumerable<Gbif_taxaWhereUniqueInput>
+    connect?: Enumerable<Gbif_taxaWhereUniqueInput>
+    update?: Enumerable<Gbif_taxaUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Gbif_taxaUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Gbif_taxaScalarWhereInput>
   }
 
   export type ListsUpdateManyWithoutAccountsNestedInput = {
@@ -24009,6 +25342,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<User_messagesUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<User_messagesUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<User_messagesScalarWhereInput>
+  }
+
+  export type Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Gbif_taxaCreateWithoutAccountsInput>, Enumerable<Gbif_taxaUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Gbif_taxaCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Gbif_taxaUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Gbif_taxaCreateManyAccountsInputEnvelope
+    set?: Enumerable<Gbif_taxaWhereUniqueInput>
+    disconnect?: Enumerable<Gbif_taxaWhereUniqueInput>
+    delete?: Enumerable<Gbif_taxaWhereUniqueInput>
+    connect?: Enumerable<Gbif_taxaWhereUniqueInput>
+    update?: Enumerable<Gbif_taxaUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Gbif_taxaUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Gbif_taxaScalarWhereInput>
   }
 
   export type ListsUncheckedUpdateManyWithoutAccountsNestedInput = {
@@ -24205,6 +25552,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<Widgets_for_fieldsScalarWhereInput>
   }
 
+  export type AccountsCreateNestedOneWithoutGbif_taxaInput = {
+    create?: XOR<AccountsCreateWithoutGbif_taxaInput, AccountsUncheckedCreateWithoutGbif_taxaInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutGbif_taxaInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type ProjectsCreateNestedOneWithoutGbif_taxaInput = {
+    create?: XOR<ProjectsCreateWithoutGbif_taxaInput, ProjectsUncheckedCreateWithoutGbif_taxaInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutGbif_taxaInput
+    connect?: ProjectsWhereUniqueInput
+  }
+
+  export type AccountsUpdateOneWithoutGbif_taxaNestedInput = {
+    create?: XOR<AccountsCreateWithoutGbif_taxaInput, AccountsUncheckedCreateWithoutGbif_taxaInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutGbif_taxaInput
+    upsert?: AccountsUpsertWithoutGbif_taxaInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutGbif_taxaInput, AccountsUpdateWithoutGbif_taxaInput>, AccountsUncheckedUpdateWithoutGbif_taxaInput>
+  }
+
+  export type ProjectsUpdateOneWithoutGbif_taxaNestedInput = {
+    create?: XOR<ProjectsCreateWithoutGbif_taxaInput, ProjectsUncheckedCreateWithoutGbif_taxaInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutGbif_taxaInput
+    upsert?: ProjectsUpsertWithoutGbif_taxaInput
+    disconnect?: ProjectsWhereInput | boolean
+    delete?: ProjectsWhereInput | boolean
+    connect?: ProjectsWhereUniqueInput
+    update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutGbif_taxaInput, ProjectsUpdateWithoutGbif_taxaInput>, ProjectsUncheckedUpdateWithoutGbif_taxaInput>
+  }
+
   export type AccountsCreateNestedOneWithoutListsInput = {
     create?: XOR<AccountsCreateWithoutListsInput, AccountsUncheckedCreateWithoutListsInput>
     connectOrCreate?: AccountsCreateOrConnectWithoutListsInput
@@ -24391,6 +25770,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutProject_usersInput, UsersUpdateWithoutProject_usersInput>, UsersUncheckedUpdateWithoutProject_usersInput>
   }
 
+  export type Gbif_taxaCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<Gbif_taxaCreateWithoutProjectsInput>, Enumerable<Gbif_taxaUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Gbif_taxaCreateOrConnectWithoutProjectsInput>
+    createMany?: Gbif_taxaCreateManyProjectsInputEnvelope
+    connect?: Enumerable<Gbif_taxaWhereUniqueInput>
+  }
+
   export type ListsCreateNestedManyWithoutProjectsInput = {
     create?: XOR<Enumerable<ListsCreateWithoutProjectsInput>, Enumerable<ListsUncheckedCreateWithoutProjectsInput>>
     connectOrCreate?: Enumerable<ListsCreateOrConnectWithoutProjectsInput>
@@ -24439,6 +25825,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<TaxonomiesWhereUniqueInput>
   }
 
+  export type Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<Gbif_taxaCreateWithoutProjectsInput>, Enumerable<Gbif_taxaUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Gbif_taxaCreateOrConnectWithoutProjectsInput>
+    createMany?: Gbif_taxaCreateManyProjectsInputEnvelope
+    connect?: Enumerable<Gbif_taxaWhereUniqueInput>
+  }
+
   export type ListsUncheckedCreateNestedManyWithoutProjectsInput = {
     create?: XOR<Enumerable<ListsCreateWithoutProjectsInput>, Enumerable<ListsUncheckedCreateWithoutProjectsInput>>
     connectOrCreate?: Enumerable<ListsCreateOrConnectWithoutProjectsInput>
@@ -24483,6 +25876,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type NullableEnumproject_typeFieldUpdateOperationsInput = {
     set?: project_type | null
+  }
+
+  export type Gbif_taxaUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<Gbif_taxaCreateWithoutProjectsInput>, Enumerable<Gbif_taxaUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Gbif_taxaCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<Gbif_taxaUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: Gbif_taxaCreateManyProjectsInputEnvelope
+    set?: Enumerable<Gbif_taxaWhereUniqueInput>
+    disconnect?: Enumerable<Gbif_taxaWhereUniqueInput>
+    delete?: Enumerable<Gbif_taxaWhereUniqueInput>
+    connect?: Enumerable<Gbif_taxaWhereUniqueInput>
+    update?: Enumerable<Gbif_taxaUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<Gbif_taxaUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<Gbif_taxaScalarWhereInput>
   }
 
   export type ListsUpdateManyWithoutProjectsNestedInput = {
@@ -24577,6 +25984,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<TaxonomiesUpdateWithWhereUniqueWithoutProjectsInput>
     updateMany?: Enumerable<TaxonomiesUpdateManyWithWhereWithoutProjectsInput>
     deleteMany?: Enumerable<TaxonomiesScalarWhereInput>
+  }
+
+  export type Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<Gbif_taxaCreateWithoutProjectsInput>, Enumerable<Gbif_taxaUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Gbif_taxaCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<Gbif_taxaUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: Gbif_taxaCreateManyProjectsInputEnvelope
+    set?: Enumerable<Gbif_taxaWhereUniqueInput>
+    disconnect?: Enumerable<Gbif_taxaWhereUniqueInput>
+    delete?: Enumerable<Gbif_taxaWhereUniqueInput>
+    connect?: Enumerable<Gbif_taxaWhereUniqueInput>
+    update?: Enumerable<Gbif_taxaUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<Gbif_taxaUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<Gbif_taxaScalarWhereInput>
   }
 
   export type ListsUncheckedUpdateManyWithoutProjectsNestedInput = {
@@ -25380,6 +26801,30 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     create: XOR<UsersCreateWithoutAccountsInput, UsersUncheckedCreateWithoutAccountsInput>
   }
 
+  export type Gbif_taxaCreateWithoutAccountsInput = {
+    gbif_taxon_id: string
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+    projects?: ProjectsCreateNestedOneWithoutGbif_taxaInput
+  }
+
+  export type Gbif_taxaUncheckedCreateWithoutAccountsInput = {
+    gbif_taxon_id: string
+    project_id?: string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+  }
+
+  export type Gbif_taxaCreateOrConnectWithoutAccountsInput = {
+    where: Gbif_taxaWhereUniqueInput
+    create: XOR<Gbif_taxaCreateWithoutAccountsInput, Gbif_taxaUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Gbif_taxaCreateManyAccountsInputEnvelope = {
+    data: Enumerable<Gbif_taxaCreateManyAccountsInput>
+    skipDuplicates?: boolean
+  }
+
   export type ListsCreateWithoutAccountsInput = {
     list_id: string
     name?: string | null
@@ -25541,6 +26986,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
@@ -25574,6 +27020,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
@@ -25791,6 +27238,33 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutUsersNestedInput
     ui_options?: Ui_optionsUncheckedUpdateOneWithoutUsersNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type Gbif_taxaUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: Gbif_taxaWhereUniqueInput
+    update: XOR<Gbif_taxaUpdateWithoutAccountsInput, Gbif_taxaUncheckedUpdateWithoutAccountsInput>
+    create: XOR<Gbif_taxaCreateWithoutAccountsInput, Gbif_taxaUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Gbif_taxaUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: Gbif_taxaWhereUniqueInput
+    data: XOR<Gbif_taxaUpdateWithoutAccountsInput, Gbif_taxaUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type Gbif_taxaUpdateManyWithWhereWithoutAccountsInput = {
+    where: Gbif_taxaScalarWhereInput
+    data: XOR<Gbif_taxaUpdateManyMutationInput, Gbif_taxaUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type Gbif_taxaScalarWhereInput = {
+    AND?: Enumerable<Gbif_taxaScalarWhereInput>
+    OR?: Enumerable<Gbif_taxaScalarWhereInput>
+    NOT?: Enumerable<Gbif_taxaScalarWhereInput>
+    gbif_taxon_id?: UuidFilter<"Gbif_taxa"> | string
+    account_id?: UuidNullableFilter<"Gbif_taxa"> | string | null
+    project_id?: UuidNullableFilter<"Gbif_taxa"> | string | null
+    gbif_data?: JsonNullableFilter<"Gbif_taxa">
+    label?: StringNullableFilter<"Gbif_taxa"> | string | null
   }
 
   export type ListsUpsertWithWhereUniqueWithoutAccountsInput = {
@@ -26177,6 +27651,254 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableFilter<"Widgets_for_fields"> | boolean | null
   }
 
+  export type AccountsCreateWithoutGbif_taxaInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    lists?: ListsCreateNestedManyWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutGbif_taxaInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutGbif_taxaInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutGbif_taxaInput, AccountsUncheckedCreateWithoutGbif_taxaInput>
+  }
+
+  export type ProjectsCreateWithoutGbif_taxaInput = {
+    project_id: string
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    lists?: ListsCreateNestedManyWithoutProjectsInput
+    persons?: PersonsCreateNestedManyWithoutProjectsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
+    project_users?: Project_usersCreateNestedManyWithoutProjectsInput
+    accounts?: AccountsCreateNestedOneWithoutProjectsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectsUncheckedCreateWithoutGbif_taxaInput = {
+    project_id: string
+    account_id?: string | null
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectsCreateOrConnectWithoutGbif_taxaInput = {
+    where: ProjectsWhereUniqueInput
+    create: XOR<ProjectsCreateWithoutGbif_taxaInput, ProjectsUncheckedCreateWithoutGbif_taxaInput>
+  }
+
+  export type AccountsUpsertWithoutGbif_taxaInput = {
+    update: XOR<AccountsUpdateWithoutGbif_taxaInput, AccountsUncheckedUpdateWithoutGbif_taxaInput>
+    create: XOR<AccountsCreateWithoutGbif_taxaInput, AccountsUncheckedCreateWithoutGbif_taxaInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutGbif_taxaInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutGbif_taxaInput, AccountsUncheckedUpdateWithoutGbif_taxaInput>
+  }
+
+  export type AccountsUpdateWithoutGbif_taxaInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    lists?: ListsUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutGbif_taxaInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type ProjectsUpsertWithoutGbif_taxaInput = {
+    update: XOR<ProjectsUpdateWithoutGbif_taxaInput, ProjectsUncheckedUpdateWithoutGbif_taxaInput>
+    create: XOR<ProjectsCreateWithoutGbif_taxaInput, ProjectsUncheckedCreateWithoutGbif_taxaInput>
+    where?: ProjectsWhereInput
+  }
+
+  export type ProjectsUpdateToOneWithWhereWithoutGbif_taxaInput = {
+    where?: ProjectsWhereInput
+    data: XOR<ProjectsUpdateWithoutGbif_taxaInput, ProjectsUncheckedUpdateWithoutGbif_taxaInput>
+  }
+
+  export type ProjectsUpdateWithoutGbif_taxaInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    lists?: ListsUpdateManyWithoutProjectsNestedInput
+    persons?: PersonsUpdateManyWithoutProjectsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
+    project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
+    accounts?: AccountsUpdateOneWithoutProjectsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type ProjectsUncheckedUpdateWithoutGbif_taxaInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
   export type AccountsCreateWithoutListsInput = {
     account_id: string
     type?: string | null
@@ -26185,6 +27907,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -26204,6 +27927,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -26245,6 +27969,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
@@ -26279,6 +28004,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
@@ -26310,6 +28036,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -26329,6 +28056,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -26376,6 +28104,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
@@ -26410,6 +28139,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
@@ -26467,6 +28197,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -26486,6 +28217,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -26527,6 +28259,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
@@ -26561,6 +28294,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
@@ -26592,6 +28326,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -26611,6 +28346,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -26658,6 +28394,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
@@ -26692,6 +28429,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
@@ -26707,6 +28445,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersCreateNestedManyWithoutAccountsInput
@@ -26726,6 +28465,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
@@ -26767,6 +28507,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersCreateNestedManyWithoutProjectsInput
@@ -26801,6 +28542,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
@@ -26832,6 +28574,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
@@ -26851,6 +28594,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
@@ -26898,6 +28642,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
@@ -26932,6 +28677,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
@@ -26947,6 +28693,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
@@ -26966,6 +28713,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
@@ -27007,6 +28755,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
@@ -27041,6 +28790,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
@@ -27099,6 +28849,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
@@ -27118,6 +28869,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -27165,6 +28917,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
@@ -27199,6 +28952,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -27237,6 +28991,30 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     accounts?: AccountsUncheckedUpdateManyWithoutUsersNestedInput
     ui_options?: Ui_optionsUncheckedUpdateOneWithoutUsersNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type Gbif_taxaCreateWithoutProjectsInput = {
+    gbif_taxon_id: string
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+    accounts?: AccountsCreateNestedOneWithoutGbif_taxaInput
+  }
+
+  export type Gbif_taxaUncheckedCreateWithoutProjectsInput = {
+    gbif_taxon_id: string
+    account_id?: string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+  }
+
+  export type Gbif_taxaCreateOrConnectWithoutProjectsInput = {
+    where: Gbif_taxaWhereUniqueInput
+    create: XOR<Gbif_taxaCreateWithoutProjectsInput, Gbif_taxaUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type Gbif_taxaCreateManyProjectsInputEnvelope = {
+    data: Enumerable<Gbif_taxaCreateManyProjectsInput>
+    skipDuplicates?: boolean
   }
 
   export type ListsCreateWithoutProjectsInput = {
@@ -27383,6 +29161,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
@@ -27402,6 +29181,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
@@ -27484,6 +29264,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type TaxonomiesCreateManyProjectsInputEnvelope = {
     data: Enumerable<TaxonomiesCreateManyProjectsInput>
     skipDuplicates?: boolean
+  }
+
+  export type Gbif_taxaUpsertWithWhereUniqueWithoutProjectsInput = {
+    where: Gbif_taxaWhereUniqueInput
+    update: XOR<Gbif_taxaUpdateWithoutProjectsInput, Gbif_taxaUncheckedUpdateWithoutProjectsInput>
+    create: XOR<Gbif_taxaCreateWithoutProjectsInput, Gbif_taxaUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type Gbif_taxaUpdateWithWhereUniqueWithoutProjectsInput = {
+    where: Gbif_taxaWhereUniqueInput
+    data: XOR<Gbif_taxaUpdateWithoutProjectsInput, Gbif_taxaUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type Gbif_taxaUpdateManyWithWhereWithoutProjectsInput = {
+    where: Gbif_taxaScalarWhereInput
+    data: XOR<Gbif_taxaUpdateManyMutationInput, Gbif_taxaUncheckedUpdateManyWithoutProjectsInput>
   }
 
   export type ListsUpsertWithWhereUniqueWithoutProjectsInput = {
@@ -27569,6 +29365,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
@@ -27588,6 +29385,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -27639,6 +29437,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
@@ -27658,6 +29457,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
@@ -27699,6 +29499,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
@@ -27733,6 +29534,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
@@ -27764,6 +29566,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
@@ -27783,6 +29586,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -27830,6 +29634,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
@@ -27864,6 +29669,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -27879,6 +29685,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
@@ -27898,6 +29705,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
@@ -27964,6 +29772,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
@@ -27983,6 +29792,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -28069,6 +29879,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
@@ -28088,6 +29899,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
@@ -28129,6 +29941,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
     lists?: ListsCreateNestedManyWithoutProjectsInput
     persons?: PersonsCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
@@ -28163,6 +29976,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
     lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
@@ -28210,6 +30024,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
@@ -28229,6 +30044,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -28276,6 +30092,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
@@ -28310,6 +30127,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -28325,6 +30143,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
@@ -28344,6 +30163,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
@@ -28406,6 +30226,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
@@ -28425,6 +30246,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -28477,6 +30299,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
@@ -28496,6 +30319,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
@@ -28577,6 +30401,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
@@ -28596,6 +30421,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -28672,6 +30498,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
     lists?: ListsCreateNestedManyWithoutAccountsInput
     persons?: PersonsCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
@@ -28691,6 +30518,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
     lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
     persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
     place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
@@ -29060,6 +30888,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Gbif_taxaCreateManyAccountsInput = {
+    gbif_taxon_id: string
+    project_id?: string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+  }
+
   export type ListsCreateManyAccountsInput = {
     list_id: string
     project_id?: string | null
@@ -29191,6 +31026,27 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     message_id?: string | null
     label_replace_by_generated_column?: string | null
     read?: boolean | null
+  }
+
+  export type Gbif_taxaUpdateWithoutAccountsInput = {
+    gbif_taxon_id?: StringFieldUpdateOperationsInput | string
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    projects?: ProjectsUpdateOneWithoutGbif_taxaNestedInput
+  }
+
+  export type Gbif_taxaUncheckedUpdateWithoutAccountsInput = {
+    gbif_taxon_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Gbif_taxaUncheckedUpdateManyWithoutAccountsInput = {
+    gbif_taxon_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ListsUpdateWithoutAccountsInput = {
@@ -29362,6 +31218,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
     lists?: ListsUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
@@ -29395,6 +31252,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
@@ -29666,6 +31524,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     read?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Gbif_taxaCreateManyProjectsInput = {
+    gbif_taxon_id: string
+    account_id?: string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+  }
+
   export type ListsCreateManyProjectsInput = {
     list_id: string
     account_id?: string | null
@@ -29735,6 +31600,27 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data?: NullableJsonNullValueInput | InputJsonValue
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+  }
+
+  export type Gbif_taxaUpdateWithoutProjectsInput = {
+    gbif_taxon_id?: StringFieldUpdateOperationsInput | string
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountsUpdateOneWithoutGbif_taxaNestedInput
+  }
+
+  export type Gbif_taxaUncheckedUpdateWithoutProjectsInput = {
+    gbif_taxon_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type Gbif_taxaUncheckedUpdateManyWithoutProjectsInput = {
+    gbif_taxon_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_data?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ListsUpdateWithoutProjectsInput = {
@@ -30025,6 +31911,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
     lists?: ListsUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
@@ -30044,6 +31931,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
     lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
     persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
     place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
