@@ -75,6 +75,7 @@ const ExampleComponent = () => {
                     include: {
                       gbif_occurrences: true,
                       gbif_occurrence_downloads: true,
+                      subproject_users: true,
                     },
                   },
                   project_users: true,
@@ -97,10 +98,12 @@ const ExampleComponent = () => {
               gbif_taxa: true,
               gbif_occurrences: true,
               gbif_occurrence_downloads: true,
+              subproject_users: true,
             },
           },
           ui_options: true,
           project_users: true,
+          subproject_users: true,
         },
       })
       const messagesShape = await db.messages.sync({
