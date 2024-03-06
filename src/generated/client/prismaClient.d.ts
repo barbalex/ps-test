@@ -66,6 +66,43 @@ export type Messages = {
 }
 
 /**
+ * Model Place_levels
+ * 
+ */
+export type Place_levels = {
+  /**
+   * @zod.string.uuid()
+   */
+  place_level_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  project_id: string | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  level: number | null
+  name_singular: string | null
+  name_plural: string | null
+  name_short: string | null
+  reports: boolean | null
+  report_values: boolean | null
+  actions: boolean | null
+  action_values: boolean | null
+  action_reports: boolean | null
+  checks: boolean | null
+  check_values: boolean | null
+  check_taxa: boolean | null
+  observations: boolean | null
+  label_replace_by_generated_column: string | null
+  deleted: boolean | null
+}
+
+/**
  * Model Projects
  * 
  */
@@ -386,6 +423,16 @@ export class PrismaClient<
     * ```
     */
   get messages(): Prisma.MessagesDelegate<GlobalReject>;
+
+  /**
+   * `prisma.place_levels`: Exposes CRUD operations for the **Place_levels** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Place_levels
+    * const place_levels = await prisma.place_levels.findMany()
+    * ```
+    */
+  get place_levels(): Prisma.Place_levelsDelegate<GlobalReject>;
 
   /**
    * `prisma.projects`: Exposes CRUD operations for the **Projects** model.
@@ -933,6 +980,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     Accounts: 'Accounts',
     Field_types: 'Field_types',
     Messages: 'Messages',
+    Place_levels: 'Place_levels',
     Projects: 'Projects',
     Ui_options: 'Ui_options',
     User_messages: 'User_messages',
@@ -1109,12 +1157,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type AccountsCountOutputType = {
+    place_levels: number
     projects: number
     ui_options: number
     user_messages: number
   }
 
   export type AccountsCountOutputTypeSelect = {
+    place_levels?: boolean | AccountsCountOutputTypeCountPlace_levelsArgs
     projects?: boolean | AccountsCountOutputTypeCountProjectsArgs
     ui_options?: boolean | AccountsCountOutputTypeCountUi_optionsArgs
     user_messages?: boolean | AccountsCountOutputTypeCountUser_messagesArgs
@@ -1147,6 +1197,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: AccountsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountPlace_levelsArgs = {
+    where?: Place_levelsWhereInput
   }
 
 
@@ -1275,6 +1333,58 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type MessagesCountOutputTypeCountUser_messagesArgs = {
     where?: User_messagesWhereInput
+  }
+
+
+
+  /**
+   * Count Type ProjectsCountOutputType
+   */
+
+
+  export type ProjectsCountOutputType = {
+    place_levels: number
+  }
+
+  export type ProjectsCountOutputTypeSelect = {
+    place_levels?: boolean | ProjectsCountOutputTypeCountPlace_levelsArgs
+  }
+
+  export type ProjectsCountOutputTypeGetPayload<S extends boolean | null | undefined | ProjectsCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? ProjectsCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (ProjectsCountOutputTypeArgs)
+    ? ProjectsCountOutputType 
+    : S extends { select: any } & (ProjectsCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof ProjectsCountOutputType ? ProjectsCountOutputType[P] : never
+  } 
+      : ProjectsCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ProjectsCountOutputType without action
+   */
+  export type ProjectsCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the ProjectsCountOutputType
+     * 
+    **/
+    select?: ProjectsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * ProjectsCountOutputType without action
+   */
+  export type ProjectsCountOutputTypeCountPlace_levelsArgs = {
+    where?: Place_levelsWhereInput
   }
 
 
@@ -1585,6 +1695,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: boolean
     label?: boolean
     users?: boolean | Accounts$usersArgs
+    place_levels?: boolean | Accounts$place_levelsArgs
     projects?: boolean | Accounts$projectsArgs
     ui_options?: boolean | Accounts$ui_optionsArgs
     user_messages?: boolean | Accounts$user_messagesArgs
@@ -1594,6 +1705,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type AccountsInclude = {
     users?: boolean | Accounts$usersArgs
+    place_levels?: boolean | Accounts$place_levelsArgs
     projects?: boolean | Accounts$projectsArgs
     ui_options?: boolean | Accounts$ui_optionsArgs
     user_messages?: boolean | Accounts$user_messagesArgs
@@ -1608,6 +1720,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ? Accounts  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'users' ? UsersGetPayload<S['include'][P]> | null :
+        P extends 'place_levels' ? Array < Place_levelsGetPayload<S['include'][P]>>  :
         P extends 'projects' ? Array < ProjectsGetPayload<S['include'][P]>>  :
         P extends 'ui_options' ? Array < Ui_optionsGetPayload<S['include'][P]>>  :
         P extends 'user_messages' ? Array < User_messagesGetPayload<S['include'][P]>>  :
@@ -1617,6 +1730,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'users' ? UsersGetPayload<S['select'][P]> | null :
+        P extends 'place_levels' ? Array < Place_levelsGetPayload<S['select'][P]>>  :
         P extends 'projects' ? Array < ProjectsGetPayload<S['select'][P]>>  :
         P extends 'ui_options' ? Array < Ui_optionsGetPayload<S['select'][P]>>  :
         P extends 'user_messages' ? Array < User_messagesGetPayload<S['select'][P]>>  :
@@ -1995,6 +2109,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
     users<T extends Accounts$usersArgs= {}>(args?: Subset<T, Accounts$usersArgs>): Prisma__UsersClient<UsersGetPayload<T> | Null>;
+
+    place_levels<T extends Accounts$place_levelsArgs= {}>(args?: Subset<T, Accounts$place_levelsArgs>): PrismaPromise<Array<Place_levelsGetPayload<T>>| Null>;
 
     projects<T extends Accounts$projectsArgs= {}>(args?: Subset<T, Accounts$projectsArgs>): PrismaPromise<Array<ProjectsGetPayload<T>>| Null>;
 
@@ -2420,6 +2536,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     include?: UsersInclude | null
     where?: UsersWhereInput
+  }
+
+
+  /**
+   * Accounts.place_levels
+   */
+  export type Accounts$place_levelsArgs = {
+    /**
+     * Select specific fields to fetch from the Place_levels
+     * 
+    **/
+    select?: Place_levelsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Place_levelsInclude | null
+    where?: Place_levelsWhereInput
+    orderBy?: Enumerable<Place_levelsOrderByWithRelationInput>
+    cursor?: Place_levelsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Place_levelsScalarFieldEnum>
   }
 
 
@@ -4575,6 +4714,1174 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Model Place_levels
+   */
+
+
+  export type AggregatePlace_levels = {
+    _count: Place_levelsCountAggregateOutputType | null
+    _avg: Place_levelsAvgAggregateOutputType | null
+    _sum: Place_levelsSumAggregateOutputType | null
+    _min: Place_levelsMinAggregateOutputType | null
+    _max: Place_levelsMaxAggregateOutputType | null
+  }
+
+  export type Place_levelsAvgAggregateOutputType = {
+    level: number | null
+  }
+
+  export type Place_levelsSumAggregateOutputType = {
+    level: number | null
+  }
+
+  export type Place_levelsMinAggregateOutputType = {
+    place_level_id: string | null
+    account_id: string | null
+    project_id: string | null
+    level: number | null
+    name_singular: string | null
+    name_plural: string | null
+    name_short: string | null
+    reports: boolean | null
+    report_values: boolean | null
+    actions: boolean | null
+    action_values: boolean | null
+    action_reports: boolean | null
+    checks: boolean | null
+    check_values: boolean | null
+    check_taxa: boolean | null
+    observations: boolean | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+  }
+
+  export type Place_levelsMaxAggregateOutputType = {
+    place_level_id: string | null
+    account_id: string | null
+    project_id: string | null
+    level: number | null
+    name_singular: string | null
+    name_plural: string | null
+    name_short: string | null
+    reports: boolean | null
+    report_values: boolean | null
+    actions: boolean | null
+    action_values: boolean | null
+    action_reports: boolean | null
+    checks: boolean | null
+    check_values: boolean | null
+    check_taxa: boolean | null
+    observations: boolean | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+  }
+
+  export type Place_levelsCountAggregateOutputType = {
+    place_level_id: number
+    account_id: number
+    project_id: number
+    level: number
+    name_singular: number
+    name_plural: number
+    name_short: number
+    reports: number
+    report_values: number
+    actions: number
+    action_values: number
+    action_reports: number
+    checks: number
+    check_values: number
+    check_taxa: number
+    observations: number
+    label_replace_by_generated_column: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type Place_levelsAvgAggregateInputType = {
+    level?: true
+  }
+
+  export type Place_levelsSumAggregateInputType = {
+    level?: true
+  }
+
+  export type Place_levelsMinAggregateInputType = {
+    place_level_id?: true
+    account_id?: true
+    project_id?: true
+    level?: true
+    name_singular?: true
+    name_plural?: true
+    name_short?: true
+    reports?: true
+    report_values?: true
+    actions?: true
+    action_values?: true
+    action_reports?: true
+    checks?: true
+    check_values?: true
+    check_taxa?: true
+    observations?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+  }
+
+  export type Place_levelsMaxAggregateInputType = {
+    place_level_id?: true
+    account_id?: true
+    project_id?: true
+    level?: true
+    name_singular?: true
+    name_plural?: true
+    name_short?: true
+    reports?: true
+    report_values?: true
+    actions?: true
+    action_values?: true
+    action_reports?: true
+    checks?: true
+    check_values?: true
+    check_taxa?: true
+    observations?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+  }
+
+  export type Place_levelsCountAggregateInputType = {
+    place_level_id?: true
+    account_id?: true
+    project_id?: true
+    level?: true
+    name_singular?: true
+    name_plural?: true
+    name_short?: true
+    reports?: true
+    report_values?: true
+    actions?: true
+    action_values?: true
+    action_reports?: true
+    checks?: true
+    check_values?: true
+    check_taxa?: true
+    observations?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type Place_levelsAggregateArgs = {
+    /**
+     * Filter which Place_levels to aggregate.
+     * 
+    **/
+    where?: Place_levelsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Place_levels to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Place_levelsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: Place_levelsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Place_levels from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Place_levels.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Place_levels
+    **/
+    _count?: true | Place_levelsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Place_levelsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Place_levelsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Place_levelsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Place_levelsMaxAggregateInputType
+  }
+
+  export type GetPlace_levelsAggregateType<T extends Place_levelsAggregateArgs> = {
+        [P in keyof T & keyof AggregatePlace_levels]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePlace_levels[P]>
+      : GetScalarType<T[P], AggregatePlace_levels[P]>
+  }
+
+
+
+
+  export type Place_levelsGroupByArgs = {
+    where?: Place_levelsWhereInput
+    orderBy?: Enumerable<Place_levelsOrderByWithAggregationInput>
+    by: Array<Place_levelsScalarFieldEnum>
+    having?: Place_levelsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Place_levelsCountAggregateInputType | true
+    _avg?: Place_levelsAvgAggregateInputType
+    _sum?: Place_levelsSumAggregateInputType
+    _min?: Place_levelsMinAggregateInputType
+    _max?: Place_levelsMaxAggregateInputType
+  }
+
+
+  export type Place_levelsGroupByOutputType = {
+    place_level_id: string
+    account_id: string | null
+    project_id: string | null
+    level: number | null
+    name_singular: string | null
+    name_plural: string | null
+    name_short: string | null
+    reports: boolean | null
+    report_values: boolean | null
+    actions: boolean | null
+    action_values: boolean | null
+    action_reports: boolean | null
+    checks: boolean | null
+    check_values: boolean | null
+    check_taxa: boolean | null
+    observations: boolean | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+    _count: Place_levelsCountAggregateOutputType | null
+    _avg: Place_levelsAvgAggregateOutputType | null
+    _sum: Place_levelsSumAggregateOutputType | null
+    _min: Place_levelsMinAggregateOutputType | null
+    _max: Place_levelsMaxAggregateOutputType | null
+  }
+
+  type GetPlace_levelsGroupByPayload<T extends Place_levelsGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Place_levelsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Place_levelsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Place_levelsGroupByOutputType[P]>
+            : GetScalarType<T[P], Place_levelsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Place_levelsSelect = {
+    place_level_id?: boolean
+    account_id?: boolean
+    project_id?: boolean
+    level?: boolean
+    name_singular?: boolean
+    name_plural?: boolean
+    name_short?: boolean
+    reports?: boolean
+    report_values?: boolean
+    actions?: boolean
+    action_values?: boolean
+    action_reports?: boolean
+    checks?: boolean
+    check_values?: boolean
+    check_taxa?: boolean
+    observations?: boolean
+    label_replace_by_generated_column?: boolean
+    deleted?: boolean
+    accounts?: boolean | Place_levels$accountsArgs
+    projects?: boolean | Place_levels$projectsArgs
+  }
+
+
+  export type Place_levelsInclude = {
+    accounts?: boolean | Place_levels$accountsArgs
+    projects?: boolean | Place_levels$projectsArgs
+  } 
+
+  export type Place_levelsGetPayload<S extends boolean | null | undefined | Place_levelsArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Place_levels :
+    S extends undefined ? never :
+    S extends { include: any } & (Place_levelsArgs | Place_levelsFindManyArgs)
+    ? Place_levels  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (Place_levelsArgs | Place_levelsFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> | null :  P extends keyof Place_levels ? Place_levels[P] : never
+  } 
+      : Place_levels
+
+
+  type Place_levelsCountArgs = Merge<
+    Omit<Place_levelsFindManyArgs, 'select' | 'include'> & {
+      select?: Place_levelsCountAggregateInputType | true
+    }
+  >
+
+  export interface Place_levelsDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Place_levels that matches the filter.
+     * @param {Place_levelsFindUniqueArgs} args - Arguments to find a Place_levels
+     * @example
+     * // Get one Place_levels
+     * const place_levels = await prisma.place_levels.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends Place_levelsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Place_levelsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Place_levels'> extends True ? Prisma__Place_levelsClient<Place_levelsGetPayload<T>> : Prisma__Place_levelsClient<Place_levelsGetPayload<T> | null, null>
+
+    /**
+     * Find one Place_levels that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {Place_levelsFindUniqueOrThrowArgs} args - Arguments to find a Place_levels
+     * @example
+     * // Get one Place_levels
+     * const place_levels = await prisma.place_levels.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends Place_levelsFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, Place_levelsFindUniqueOrThrowArgs>
+    ): Prisma__Place_levelsClient<Place_levelsGetPayload<T>>
+
+    /**
+     * Find the first Place_levels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Place_levelsFindFirstArgs} args - Arguments to find a Place_levels
+     * @example
+     * // Get one Place_levels
+     * const place_levels = await prisma.place_levels.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends Place_levelsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Place_levelsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Place_levels'> extends True ? Prisma__Place_levelsClient<Place_levelsGetPayload<T>> : Prisma__Place_levelsClient<Place_levelsGetPayload<T> | null, null>
+
+    /**
+     * Find the first Place_levels that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Place_levelsFindFirstOrThrowArgs} args - Arguments to find a Place_levels
+     * @example
+     * // Get one Place_levels
+     * const place_levels = await prisma.place_levels.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends Place_levelsFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, Place_levelsFindFirstOrThrowArgs>
+    ): Prisma__Place_levelsClient<Place_levelsGetPayload<T>>
+
+    /**
+     * Find zero or more Place_levels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Place_levelsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Place_levels
+     * const place_levels = await prisma.place_levels.findMany()
+     * 
+     * // Get first 10 Place_levels
+     * const place_levels = await prisma.place_levels.findMany({ take: 10 })
+     * 
+     * // Only select the `place_level_id`
+     * const place_levelsWithPlace_level_idOnly = await prisma.place_levels.findMany({ select: { place_level_id: true } })
+     * 
+    **/
+    findMany<T extends Place_levelsFindManyArgs>(
+      args?: SelectSubset<T, Place_levelsFindManyArgs>
+    ): PrismaPromise<Array<Place_levelsGetPayload<T>>>
+
+    /**
+     * Create a Place_levels.
+     * @param {Place_levelsCreateArgs} args - Arguments to create a Place_levels.
+     * @example
+     * // Create one Place_levels
+     * const Place_levels = await prisma.place_levels.create({
+     *   data: {
+     *     // ... data to create a Place_levels
+     *   }
+     * })
+     * 
+    **/
+    create<T extends Place_levelsCreateArgs>(
+      args: SelectSubset<T, Place_levelsCreateArgs>
+    ): Prisma__Place_levelsClient<Place_levelsGetPayload<T>>
+
+    /**
+     * Create many Place_levels.
+     *     @param {Place_levelsCreateManyArgs} args - Arguments to create many Place_levels.
+     *     @example
+     *     // Create many Place_levels
+     *     const place_levels = await prisma.place_levels.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends Place_levelsCreateManyArgs>(
+      args?: SelectSubset<T, Place_levelsCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Place_levels.
+     * @param {Place_levelsDeleteArgs} args - Arguments to delete one Place_levels.
+     * @example
+     * // Delete one Place_levels
+     * const Place_levels = await prisma.place_levels.delete({
+     *   where: {
+     *     // ... filter to delete one Place_levels
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends Place_levelsDeleteArgs>(
+      args: SelectSubset<T, Place_levelsDeleteArgs>
+    ): Prisma__Place_levelsClient<Place_levelsGetPayload<T>>
+
+    /**
+     * Update one Place_levels.
+     * @param {Place_levelsUpdateArgs} args - Arguments to update one Place_levels.
+     * @example
+     * // Update one Place_levels
+     * const place_levels = await prisma.place_levels.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends Place_levelsUpdateArgs>(
+      args: SelectSubset<T, Place_levelsUpdateArgs>
+    ): Prisma__Place_levelsClient<Place_levelsGetPayload<T>>
+
+    /**
+     * Delete zero or more Place_levels.
+     * @param {Place_levelsDeleteManyArgs} args - Arguments to filter Place_levels to delete.
+     * @example
+     * // Delete a few Place_levels
+     * const { count } = await prisma.place_levels.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends Place_levelsDeleteManyArgs>(
+      args?: SelectSubset<T, Place_levelsDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Place_levels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Place_levelsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Place_levels
+     * const place_levels = await prisma.place_levels.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends Place_levelsUpdateManyArgs>(
+      args: SelectSubset<T, Place_levelsUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Place_levels.
+     * @param {Place_levelsUpsertArgs} args - Arguments to update or create a Place_levels.
+     * @example
+     * // Update or create a Place_levels
+     * const place_levels = await prisma.place_levels.upsert({
+     *   create: {
+     *     // ... data to create a Place_levels
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Place_levels we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends Place_levelsUpsertArgs>(
+      args: SelectSubset<T, Place_levelsUpsertArgs>
+    ): Prisma__Place_levelsClient<Place_levelsGetPayload<T>>
+
+    /**
+     * Count the number of Place_levels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Place_levelsCountArgs} args - Arguments to filter Place_levels to count.
+     * @example
+     * // Count the number of Place_levels
+     * const count = await prisma.place_levels.count({
+     *   where: {
+     *     // ... the filter for the Place_levels we want to count
+     *   }
+     * })
+    **/
+    count<T extends Place_levelsCountArgs>(
+      args?: Subset<T, Place_levelsCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Place_levelsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Place_levels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Place_levelsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Place_levelsAggregateArgs>(args: Subset<T, Place_levelsAggregateArgs>): PrismaPromise<GetPlace_levelsAggregateType<T>>
+
+    /**
+     * Group by Place_levels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Place_levelsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Place_levelsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Place_levelsGroupByArgs['orderBy'] }
+        : { orderBy?: Place_levelsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Place_levelsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPlace_levelsGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Place_levels.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__Place_levelsClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Place_levels$accountsArgs= {}>(args?: Subset<T, Place_levels$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    projects<T extends Place_levels$projectsArgs= {}>(args?: Subset<T, Place_levels$projectsArgs>): Prisma__ProjectsClient<ProjectsGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Place_levels base type for findUnique actions
+   */
+  export type Place_levelsFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Place_levels
+     * 
+    **/
+    select?: Place_levelsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Place_levelsInclude | null
+    /**
+     * Filter, which Place_levels to fetch.
+     * 
+    **/
+    where: Place_levelsWhereUniqueInput
+  }
+
+  /**
+   * Place_levels findUnique
+   */
+  export interface Place_levelsFindUniqueArgs extends Place_levelsFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Place_levels findUniqueOrThrow
+   */
+  export type Place_levelsFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Place_levels
+     * 
+    **/
+    select?: Place_levelsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Place_levelsInclude | null
+    /**
+     * Filter, which Place_levels to fetch.
+     * 
+    **/
+    where: Place_levelsWhereUniqueInput
+  }
+
+
+  /**
+   * Place_levels base type for findFirst actions
+   */
+  export type Place_levelsFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Place_levels
+     * 
+    **/
+    select?: Place_levelsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Place_levelsInclude | null
+    /**
+     * Filter, which Place_levels to fetch.
+     * 
+    **/
+    where?: Place_levelsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Place_levels to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Place_levelsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Place_levels.
+     * 
+    **/
+    cursor?: Place_levelsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Place_levels from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Place_levels.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Place_levels.
+     * 
+    **/
+    distinct?: Enumerable<Place_levelsScalarFieldEnum>
+  }
+
+  /**
+   * Place_levels findFirst
+   */
+  export interface Place_levelsFindFirstArgs extends Place_levelsFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Place_levels findFirstOrThrow
+   */
+  export type Place_levelsFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Place_levels
+     * 
+    **/
+    select?: Place_levelsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Place_levelsInclude | null
+    /**
+     * Filter, which Place_levels to fetch.
+     * 
+    **/
+    where?: Place_levelsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Place_levels to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Place_levelsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Place_levels.
+     * 
+    **/
+    cursor?: Place_levelsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Place_levels from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Place_levels.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Place_levels.
+     * 
+    **/
+    distinct?: Enumerable<Place_levelsScalarFieldEnum>
+  }
+
+
+  /**
+   * Place_levels findMany
+   */
+  export type Place_levelsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Place_levels
+     * 
+    **/
+    select?: Place_levelsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Place_levelsInclude | null
+    /**
+     * Filter, which Place_levels to fetch.
+     * 
+    **/
+    where?: Place_levelsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Place_levels to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Place_levelsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Place_levels.
+     * 
+    **/
+    cursor?: Place_levelsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Place_levels from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Place_levels.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Place_levelsScalarFieldEnum>
+  }
+
+
+  /**
+   * Place_levels create
+   */
+  export type Place_levelsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Place_levels
+     * 
+    **/
+    select?: Place_levelsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Place_levelsInclude | null
+    /**
+     * The data needed to create a Place_levels.
+     * 
+    **/
+    data: XOR<Place_levelsCreateInput, Place_levelsUncheckedCreateInput>
+  }
+
+
+  /**
+   * Place_levels createMany
+   */
+  export type Place_levelsCreateManyArgs = {
+    /**
+     * The data used to create many Place_levels.
+     * 
+    **/
+    data: Enumerable<Place_levelsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Place_levels update
+   */
+  export type Place_levelsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Place_levels
+     * 
+    **/
+    select?: Place_levelsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Place_levelsInclude | null
+    /**
+     * The data needed to update a Place_levels.
+     * 
+    **/
+    data: XOR<Place_levelsUpdateInput, Place_levelsUncheckedUpdateInput>
+    /**
+     * Choose, which Place_levels to update.
+     * 
+    **/
+    where: Place_levelsWhereUniqueInput
+  }
+
+
+  /**
+   * Place_levels updateMany
+   */
+  export type Place_levelsUpdateManyArgs = {
+    /**
+     * The data used to update Place_levels.
+     * 
+    **/
+    data: XOR<Place_levelsUpdateManyMutationInput, Place_levelsUncheckedUpdateManyInput>
+    /**
+     * Filter which Place_levels to update
+     * 
+    **/
+    where?: Place_levelsWhereInput
+  }
+
+
+  /**
+   * Place_levels upsert
+   */
+  export type Place_levelsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Place_levels
+     * 
+    **/
+    select?: Place_levelsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Place_levelsInclude | null
+    /**
+     * The filter to search for the Place_levels to update in case it exists.
+     * 
+    **/
+    where: Place_levelsWhereUniqueInput
+    /**
+     * In case the Place_levels found by the `where` argument doesn't exist, create a new Place_levels with this data.
+     * 
+    **/
+    create: XOR<Place_levelsCreateInput, Place_levelsUncheckedCreateInput>
+    /**
+     * In case the Place_levels was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<Place_levelsUpdateInput, Place_levelsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Place_levels delete
+   */
+  export type Place_levelsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Place_levels
+     * 
+    **/
+    select?: Place_levelsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Place_levelsInclude | null
+    /**
+     * Filter which Place_levels to delete.
+     * 
+    **/
+    where: Place_levelsWhereUniqueInput
+  }
+
+
+  /**
+   * Place_levels deleteMany
+   */
+  export type Place_levelsDeleteManyArgs = {
+    /**
+     * Filter which Place_levels to delete
+     * 
+    **/
+    where?: Place_levelsWhereInput
+  }
+
+
+  /**
+   * Place_levels.accounts
+   */
+  export type Place_levels$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Place_levels.projects
+   */
+  export type Place_levels$projectsArgs = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    where?: ProjectsWhereInput
+  }
+
+
+  /**
+   * Place_levels without action
+   */
+  export type Place_levelsArgs = {
+    /**
+     * Select specific fields to fetch from the Place_levels
+     * 
+    **/
+    select?: Place_levelsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Place_levelsInclude | null
+  }
+
+
+
+  /**
    * Model Projects
    */
 
@@ -4897,12 +6204,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean
     files_active_checks?: boolean
     deleted?: boolean
+    place_levels?: boolean | Projects$place_levelsArgs
     accounts?: boolean | Projects$accountsArgs
+    _count?: boolean | ProjectsCountOutputTypeArgs
   }
 
 
   export type ProjectsInclude = {
+    place_levels?: boolean | Projects$place_levelsArgs
     accounts?: boolean | Projects$accountsArgs
+    _count?: boolean | ProjectsCountOutputTypeArgs
   } 
 
   export type ProjectsGetPayload<S extends boolean | null | undefined | ProjectsArgs> =
@@ -4912,12 +6223,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (ProjectsArgs | ProjectsFindManyArgs)
     ? Projects  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :  never
+        P extends 'place_levels' ? Array < Place_levelsGetPayload<S['include'][P]>>  :
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends '_count' ? ProjectsCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (ProjectsArgs | ProjectsFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :  P extends keyof Projects ? Projects[P] : never
+        P extends 'place_levels' ? Array < Place_levelsGetPayload<S['select'][P]>>  :
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends '_count' ? ProjectsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Projects ? Projects[P] : never
   } 
       : Projects
 
@@ -5290,6 +6605,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _requestPromise?;
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    place_levels<T extends Projects$place_levelsArgs= {}>(args?: Subset<T, Projects$place_levelsArgs>): PrismaPromise<Array<Place_levelsGetPayload<T>>| Null>;
 
     accounts<T extends Projects$accountsArgs= {}>(args?: Subset<T, Projects$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
 
@@ -5693,6 +7010,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     where?: ProjectsWhereInput
+  }
+
+
+  /**
+   * Projects.place_levels
+   */
+  export type Projects$place_levelsArgs = {
+    /**
+     * Select specific fields to fetch from the Place_levels
+     * 
+    **/
+    select?: Place_levelsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Place_levelsInclude | null
+    where?: Place_levelsWhereInput
+    orderBy?: Enumerable<Place_levelsOrderByWithRelationInput>
+    cursor?: Place_levelsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Place_levelsScalarFieldEnum>
   }
 
 
@@ -11089,6 +12429,30 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type MessagesScalarFieldEnum = (typeof MessagesScalarFieldEnum)[keyof typeof MessagesScalarFieldEnum]
 
 
+  export const Place_levelsScalarFieldEnum: {
+    place_level_id: 'place_level_id',
+    account_id: 'account_id',
+    project_id: 'project_id',
+    level: 'level',
+    name_singular: 'name_singular',
+    name_plural: 'name_plural',
+    name_short: 'name_short',
+    reports: 'reports',
+    report_values: 'report_values',
+    actions: 'actions',
+    action_values: 'action_values',
+    action_reports: 'action_reports',
+    checks: 'checks',
+    check_values: 'check_values',
+    check_taxa: 'check_taxa',
+    observations: 'observations',
+    label_replace_by_generated_column: 'label_replace_by_generated_column',
+    deleted: 'deleted'
+  };
+
+  export type Place_levelsScalarFieldEnum = (typeof Place_levelsScalarFieldEnum)[keyof typeof Place_levelsScalarFieldEnum]
+
+
   export const ProjectsScalarFieldEnum: {
     project_id: 'project_id',
     account_id: 'account_id',
@@ -11333,6 +12697,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: StringNullableFilter<"Accounts"> | string | null
     label?: StringNullableFilter<"Accounts"> | string | null
     users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
+    place_levels?: Place_levelsListRelationFilter
     projects?: ProjectsListRelationFilter
     ui_options?: Ui_optionsListRelationFilter
     user_messages?: User_messagesListRelationFilter
@@ -11347,6 +12712,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: SortOrderInput | SortOrder
     label?: SortOrderInput | SortOrder
     users?: UsersOrderByWithRelationInput
+    place_levels?: Place_levelsOrderByRelationAggregateInput
     projects?: ProjectsOrderByRelationAggregateInput
     ui_options?: Ui_optionsOrderByRelationAggregateInput
     user_messages?: User_messagesOrderByRelationAggregateInput
@@ -11364,6 +12730,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: StringNullableFilter<"Accounts"> | string | null
     label?: StringNullableFilter<"Accounts"> | string | null
     users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
+    place_levels?: Place_levelsListRelationFilter
     projects?: ProjectsListRelationFilter
     ui_options?: Ui_optionsListRelationFilter
     user_messages?: User_messagesListRelationFilter
@@ -11507,6 +12874,131 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     message?: StringNullableWithAggregatesFilter<"Messages"> | string | null
   }
 
+  export type Place_levelsWhereInput = {
+    AND?: Enumerable<Place_levelsWhereInput>
+    OR?: Enumerable<Place_levelsWhereInput>
+    NOT?: Enumerable<Place_levelsWhereInput>
+    place_level_id?: UuidFilter<"Place_levels"> | string
+    account_id?: UuidNullableFilter<"Place_levels"> | string | null
+    project_id?: UuidNullableFilter<"Place_levels"> | string | null
+    level?: IntNullableFilter<"Place_levels"> | number | null
+    name_singular?: StringNullableFilter<"Place_levels"> | string | null
+    name_plural?: StringNullableFilter<"Place_levels"> | string | null
+    name_short?: StringNullableFilter<"Place_levels"> | string | null
+    reports?: BoolNullableFilter<"Place_levels"> | boolean | null
+    report_values?: BoolNullableFilter<"Place_levels"> | boolean | null
+    actions?: BoolNullableFilter<"Place_levels"> | boolean | null
+    action_values?: BoolNullableFilter<"Place_levels"> | boolean | null
+    action_reports?: BoolNullableFilter<"Place_levels"> | boolean | null
+    checks?: BoolNullableFilter<"Place_levels"> | boolean | null
+    check_values?: BoolNullableFilter<"Place_levels"> | boolean | null
+    check_taxa?: BoolNullableFilter<"Place_levels"> | boolean | null
+    observations?: BoolNullableFilter<"Place_levels"> | boolean | null
+    label_replace_by_generated_column?: StringNullableFilter<"Place_levels"> | string | null
+    deleted?: BoolNullableFilter<"Place_levels"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
+  }
+
+  export type Place_levelsOrderByWithRelationInput = {
+    place_level_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    project_id?: SortOrderInput | SortOrder
+    level?: SortOrderInput | SortOrder
+    name_singular?: SortOrderInput | SortOrder
+    name_plural?: SortOrderInput | SortOrder
+    name_short?: SortOrderInput | SortOrder
+    reports?: SortOrderInput | SortOrder
+    report_values?: SortOrderInput | SortOrder
+    actions?: SortOrderInput | SortOrder
+    action_values?: SortOrderInput | SortOrder
+    action_reports?: SortOrderInput | SortOrder
+    checks?: SortOrderInput | SortOrder
+    check_values?: SortOrderInput | SortOrder
+    check_taxa?: SortOrderInput | SortOrder
+    observations?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    projects?: ProjectsOrderByWithRelationInput
+  }
+
+  export type Place_levelsWhereUniqueInput = Prisma.AtLeast<{
+    place_level_id?: string
+    AND?: Enumerable<Place_levelsWhereInput>
+    OR?: Enumerable<Place_levelsWhereInput>
+    NOT?: Enumerable<Place_levelsWhereInput>
+    account_id?: UuidNullableFilter<"Place_levels"> | string | null
+    project_id?: UuidNullableFilter<"Place_levels"> | string | null
+    level?: IntNullableFilter<"Place_levels"> | number | null
+    name_singular?: StringNullableFilter<"Place_levels"> | string | null
+    name_plural?: StringNullableFilter<"Place_levels"> | string | null
+    name_short?: StringNullableFilter<"Place_levels"> | string | null
+    reports?: BoolNullableFilter<"Place_levels"> | boolean | null
+    report_values?: BoolNullableFilter<"Place_levels"> | boolean | null
+    actions?: BoolNullableFilter<"Place_levels"> | boolean | null
+    action_values?: BoolNullableFilter<"Place_levels"> | boolean | null
+    action_reports?: BoolNullableFilter<"Place_levels"> | boolean | null
+    checks?: BoolNullableFilter<"Place_levels"> | boolean | null
+    check_values?: BoolNullableFilter<"Place_levels"> | boolean | null
+    check_taxa?: BoolNullableFilter<"Place_levels"> | boolean | null
+    observations?: BoolNullableFilter<"Place_levels"> | boolean | null
+    label_replace_by_generated_column?: StringNullableFilter<"Place_levels"> | string | null
+    deleted?: BoolNullableFilter<"Place_levels"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
+  }, "place_level_id">
+
+  export type Place_levelsOrderByWithAggregationInput = {
+    place_level_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    project_id?: SortOrderInput | SortOrder
+    level?: SortOrderInput | SortOrder
+    name_singular?: SortOrderInput | SortOrder
+    name_plural?: SortOrderInput | SortOrder
+    name_short?: SortOrderInput | SortOrder
+    reports?: SortOrderInput | SortOrder
+    report_values?: SortOrderInput | SortOrder
+    actions?: SortOrderInput | SortOrder
+    action_values?: SortOrderInput | SortOrder
+    action_reports?: SortOrderInput | SortOrder
+    checks?: SortOrderInput | SortOrder
+    check_values?: SortOrderInput | SortOrder
+    check_taxa?: SortOrderInput | SortOrder
+    observations?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    _count?: Place_levelsCountOrderByAggregateInput
+    _avg?: Place_levelsAvgOrderByAggregateInput
+    _max?: Place_levelsMaxOrderByAggregateInput
+    _min?: Place_levelsMinOrderByAggregateInput
+    _sum?: Place_levelsSumOrderByAggregateInput
+  }
+
+  export type Place_levelsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<Place_levelsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<Place_levelsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<Place_levelsScalarWhereWithAggregatesInput>
+    place_level_id?: UuidWithAggregatesFilter<"Place_levels"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"Place_levels"> | string | null
+    project_id?: UuidNullableWithAggregatesFilter<"Place_levels"> | string | null
+    level?: IntNullableWithAggregatesFilter<"Place_levels"> | number | null
+    name_singular?: StringNullableWithAggregatesFilter<"Place_levels"> | string | null
+    name_plural?: StringNullableWithAggregatesFilter<"Place_levels"> | string | null
+    name_short?: StringNullableWithAggregatesFilter<"Place_levels"> | string | null
+    reports?: BoolNullableWithAggregatesFilter<"Place_levels"> | boolean | null
+    report_values?: BoolNullableWithAggregatesFilter<"Place_levels"> | boolean | null
+    actions?: BoolNullableWithAggregatesFilter<"Place_levels"> | boolean | null
+    action_values?: BoolNullableWithAggregatesFilter<"Place_levels"> | boolean | null
+    action_reports?: BoolNullableWithAggregatesFilter<"Place_levels"> | boolean | null
+    checks?: BoolNullableWithAggregatesFilter<"Place_levels"> | boolean | null
+    check_values?: BoolNullableWithAggregatesFilter<"Place_levels"> | boolean | null
+    check_taxa?: BoolNullableWithAggregatesFilter<"Place_levels"> | boolean | null
+    observations?: BoolNullableWithAggregatesFilter<"Place_levels"> | boolean | null
+    label_replace_by_generated_column?: StringNullableWithAggregatesFilter<"Place_levels"> | string | null
+    deleted?: BoolNullableWithAggregatesFilter<"Place_levels"> | boolean | null
+  }
+
   export type ProjectsWhereInput = {
     AND?: Enumerable<ProjectsWhereInput>
     OR?: Enumerable<ProjectsWhereInput>
@@ -11536,6 +13028,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: BoolNullableFilter<"Projects"> | boolean | null
     files_active_checks?: BoolNullableFilter<"Projects"> | boolean | null
     deleted?: BoolNullableFilter<"Projects"> | boolean | null
+    place_levels?: Place_levelsListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
   }
 
@@ -11565,6 +13058,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: SortOrderInput | SortOrder
     files_active_checks?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    place_levels?: Place_levelsOrderByRelationAggregateInput
     accounts?: AccountsOrderByWithRelationInput
   }
 
@@ -11597,6 +13091,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: BoolNullableFilter<"Projects"> | boolean | null
     files_active_checks?: BoolNullableFilter<"Projects"> | boolean | null
     deleted?: BoolNullableFilter<"Projects"> | boolean | null
+    place_levels?: Place_levelsListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
   }, "project_id">
 
@@ -12030,6 +13525,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -12043,6 +13539,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -12056,6 +13553,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -12069,6 +13567,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -12223,6 +13722,151 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     message?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type Place_levelsCreateInput = {
+    place_level_id: string
+    level?: number | null
+    name_singular?: string | null
+    name_plural?: string | null
+    name_short?: string | null
+    reports?: boolean | null
+    report_values?: boolean | null
+    actions?: boolean | null
+    action_values?: boolean | null
+    action_reports?: boolean | null
+    checks?: boolean | null
+    check_values?: boolean | null
+    check_taxa?: boolean | null
+    observations?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutPlace_levelsInput
+    projects?: ProjectsCreateNestedOneWithoutPlace_levelsInput
+  }
+
+  export type Place_levelsUncheckedCreateInput = {
+    place_level_id: string
+    account_id?: string | null
+    project_id?: string | null
+    level?: number | null
+    name_singular?: string | null
+    name_plural?: string | null
+    name_short?: string | null
+    reports?: boolean | null
+    report_values?: boolean | null
+    actions?: boolean | null
+    action_values?: boolean | null
+    action_reports?: boolean | null
+    checks?: boolean | null
+    check_values?: boolean | null
+    check_taxa?: boolean | null
+    observations?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Place_levelsUpdateInput = {
+    place_level_id?: StringFieldUpdateOperationsInput | string
+    level?: NullableIntFieldUpdateOperationsInput | number | null
+    name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    name_short?: NullableStringFieldUpdateOperationsInput | string | null
+    reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    observations?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutPlace_levelsNestedInput
+    projects?: ProjectsUpdateOneWithoutPlace_levelsNestedInput
+  }
+
+  export type Place_levelsUncheckedUpdateInput = {
+    place_level_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: NullableIntFieldUpdateOperationsInput | number | null
+    name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    name_short?: NullableStringFieldUpdateOperationsInput | string | null
+    reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    observations?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Place_levelsCreateManyInput = {
+    place_level_id: string
+    account_id?: string | null
+    project_id?: string | null
+    level?: number | null
+    name_singular?: string | null
+    name_plural?: string | null
+    name_short?: string | null
+    reports?: boolean | null
+    report_values?: boolean | null
+    actions?: boolean | null
+    action_values?: boolean | null
+    action_reports?: boolean | null
+    checks?: boolean | null
+    check_values?: boolean | null
+    check_taxa?: boolean | null
+    observations?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Place_levelsUpdateManyMutationInput = {
+    place_level_id?: StringFieldUpdateOperationsInput | string
+    level?: NullableIntFieldUpdateOperationsInput | number | null
+    name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    name_short?: NullableStringFieldUpdateOperationsInput | string | null
+    reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    observations?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Place_levelsUncheckedUpdateManyInput = {
+    place_level_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: NullableIntFieldUpdateOperationsInput | number | null
+    name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    name_short?: NullableStringFieldUpdateOperationsInput | string | null
+    reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    observations?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type ProjectsCreateInput = {
     project_id: string
     name?: string | null
@@ -12248,6 +13892,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
     accounts?: AccountsCreateNestedOneWithoutProjectsInput
   }
 
@@ -12277,6 +13922,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUpdateInput = {
@@ -12304,6 +13950,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
     accounts?: AccountsUpdateOneWithoutProjectsNestedInput
   }
 
@@ -12333,6 +13980,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsCreateManyInput = {
@@ -12853,6 +14501,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     isNot?: UsersWhereInput | null
   }
 
+  export type Place_levelsListRelationFilter = {
+    every?: Place_levelsWhereInput
+    some?: Place_levelsWhereInput
+    none?: Place_levelsWhereInput
+  }
+
   export type ProjectsListRelationFilter = {
     every?: ProjectsWhereInput
     some?: ProjectsWhereInput
@@ -12874,6 +14528,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type Place_levelsOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type ProjectsOrderByRelationAggregateInput = {
@@ -13086,6 +14744,87 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     message?: SortOrder
   }
 
+  export type AccountsNullableRelationFilter = {
+    is?: AccountsWhereInput | null
+    isNot?: AccountsWhereInput | null
+  }
+
+  export type ProjectsNullableRelationFilter = {
+    is?: ProjectsWhereInput | null
+    isNot?: ProjectsWhereInput | null
+  }
+
+  export type Place_levelsCountOrderByAggregateInput = {
+    place_level_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    level?: SortOrder
+    name_singular?: SortOrder
+    name_plural?: SortOrder
+    name_short?: SortOrder
+    reports?: SortOrder
+    report_values?: SortOrder
+    actions?: SortOrder
+    action_values?: SortOrder
+    action_reports?: SortOrder
+    checks?: SortOrder
+    check_values?: SortOrder
+    check_taxa?: SortOrder
+    observations?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Place_levelsAvgOrderByAggregateInput = {
+    level?: SortOrder
+  }
+
+  export type Place_levelsMaxOrderByAggregateInput = {
+    place_level_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    level?: SortOrder
+    name_singular?: SortOrder
+    name_plural?: SortOrder
+    name_short?: SortOrder
+    reports?: SortOrder
+    report_values?: SortOrder
+    actions?: SortOrder
+    action_values?: SortOrder
+    action_reports?: SortOrder
+    checks?: SortOrder
+    check_values?: SortOrder
+    check_taxa?: SortOrder
+    observations?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Place_levelsMinOrderByAggregateInput = {
+    place_level_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    level?: SortOrder
+    name_singular?: SortOrder
+    name_plural?: SortOrder
+    name_short?: SortOrder
+    reports?: SortOrder
+    report_values?: SortOrder
+    actions?: SortOrder
+    action_values?: SortOrder
+    action_reports?: SortOrder
+    checks?: SortOrder
+    check_values?: SortOrder
+    check_taxa?: SortOrder
+    observations?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Place_levelsSumOrderByAggregateInput = {
+    level?: SortOrder
+  }
+
   export type Enumproject_typeNullableFilter<$PrismaModel = never> = {
     equals?: project_type | Enumproject_typeFieldRefInput<$PrismaModel> | null
     in?: Enumerable<project_type> | ListEnumproject_typeFieldRefInput<$PrismaModel> | null
@@ -13113,11 +14852,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type AccountsNullableRelationFilter = {
-    is?: AccountsWhereInput | null
-    isNot?: AccountsWhereInput | null
   }
 
   export type ProjectsCountOrderByAggregateInput = {
@@ -13437,6 +15171,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: UsersWhereUniqueInput
   }
 
+  export type Place_levelsCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Place_levelsCreateWithoutAccountsInput>, Enumerable<Place_levelsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Place_levelsCreateOrConnectWithoutAccountsInput>
+    createMany?: Place_levelsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Place_levelsWhereUniqueInput>
+  }
+
   export type ProjectsCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<ProjectsCreateWithoutAccountsInput>, Enumerable<ProjectsUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<ProjectsCreateOrConnectWithoutAccountsInput>
@@ -13456,6 +15197,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<User_messagesCreateOrConnectWithoutAccountsInput>
     createMany?: User_messagesCreateManyAccountsInputEnvelope
     connect?: Enumerable<User_messagesWhereUniqueInput>
+  }
+
+  export type Place_levelsUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Place_levelsCreateWithoutAccountsInput>, Enumerable<Place_levelsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Place_levelsCreateOrConnectWithoutAccountsInput>
+    createMany?: Place_levelsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Place_levelsWhereUniqueInput>
   }
 
   export type ProjectsUncheckedCreateNestedManyWithoutAccountsInput = {
@@ -13501,6 +15249,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutAccountsInput, UsersUpdateWithoutAccountsInput>, UsersUncheckedUpdateWithoutAccountsInput>
   }
 
+  export type Place_levelsUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Place_levelsCreateWithoutAccountsInput>, Enumerable<Place_levelsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Place_levelsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Place_levelsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Place_levelsCreateManyAccountsInputEnvelope
+    set?: Enumerable<Place_levelsWhereUniqueInput>
+    disconnect?: Enumerable<Place_levelsWhereUniqueInput>
+    delete?: Enumerable<Place_levelsWhereUniqueInput>
+    connect?: Enumerable<Place_levelsWhereUniqueInput>
+    update?: Enumerable<Place_levelsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Place_levelsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Place_levelsScalarWhereInput>
+  }
+
   export type ProjectsUpdateManyWithoutAccountsNestedInput = {
     create?: XOR<Enumerable<ProjectsCreateWithoutAccountsInput>, Enumerable<ProjectsUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<ProjectsCreateOrConnectWithoutAccountsInput>
@@ -13541,6 +15303,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<User_messagesUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<User_messagesUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<User_messagesScalarWhereInput>
+  }
+
+  export type Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Place_levelsCreateWithoutAccountsInput>, Enumerable<Place_levelsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Place_levelsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Place_levelsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Place_levelsCreateManyAccountsInputEnvelope
+    set?: Enumerable<Place_levelsWhereUniqueInput>
+    disconnect?: Enumerable<Place_levelsWhereUniqueInput>
+    delete?: Enumerable<Place_levelsWhereUniqueInput>
+    connect?: Enumerable<Place_levelsWhereUniqueInput>
+    update?: Enumerable<Place_levelsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Place_levelsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Place_levelsScalarWhereInput>
   }
 
   export type ProjectsUncheckedUpdateManyWithoutAccountsNestedInput = {
@@ -13681,14 +15457,74 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<User_messagesScalarWhereInput>
   }
 
+  export type AccountsCreateNestedOneWithoutPlace_levelsInput = {
+    create?: XOR<AccountsCreateWithoutPlace_levelsInput, AccountsUncheckedCreateWithoutPlace_levelsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutPlace_levelsInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type ProjectsCreateNestedOneWithoutPlace_levelsInput = {
+    create?: XOR<ProjectsCreateWithoutPlace_levelsInput, ProjectsUncheckedCreateWithoutPlace_levelsInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutPlace_levelsInput
+    connect?: ProjectsWhereUniqueInput
+  }
+
+  export type AccountsUpdateOneWithoutPlace_levelsNestedInput = {
+    create?: XOR<AccountsCreateWithoutPlace_levelsInput, AccountsUncheckedCreateWithoutPlace_levelsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutPlace_levelsInput
+    upsert?: AccountsUpsertWithoutPlace_levelsInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutPlace_levelsInput, AccountsUpdateWithoutPlace_levelsInput>, AccountsUncheckedUpdateWithoutPlace_levelsInput>
+  }
+
+  export type ProjectsUpdateOneWithoutPlace_levelsNestedInput = {
+    create?: XOR<ProjectsCreateWithoutPlace_levelsInput, ProjectsUncheckedCreateWithoutPlace_levelsInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutPlace_levelsInput
+    upsert?: ProjectsUpsertWithoutPlace_levelsInput
+    disconnect?: ProjectsWhereInput | boolean
+    delete?: ProjectsWhereInput | boolean
+    connect?: ProjectsWhereUniqueInput
+    update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutPlace_levelsInput, ProjectsUpdateWithoutPlace_levelsInput>, ProjectsUncheckedUpdateWithoutPlace_levelsInput>
+  }
+
+  export type Place_levelsCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<Place_levelsCreateWithoutProjectsInput>, Enumerable<Place_levelsUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Place_levelsCreateOrConnectWithoutProjectsInput>
+    createMany?: Place_levelsCreateManyProjectsInputEnvelope
+    connect?: Enumerable<Place_levelsWhereUniqueInput>
+  }
+
   export type AccountsCreateNestedOneWithoutProjectsInput = {
     create?: XOR<AccountsCreateWithoutProjectsInput, AccountsUncheckedCreateWithoutProjectsInput>
     connectOrCreate?: AccountsCreateOrConnectWithoutProjectsInput
     connect?: AccountsWhereUniqueInput
   }
 
+  export type Place_levelsUncheckedCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<Place_levelsCreateWithoutProjectsInput>, Enumerable<Place_levelsUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Place_levelsCreateOrConnectWithoutProjectsInput>
+    createMany?: Place_levelsCreateManyProjectsInputEnvelope
+    connect?: Enumerable<Place_levelsWhereUniqueInput>
+  }
+
   export type NullableEnumproject_typeFieldUpdateOperationsInput = {
     set?: project_type | null
+  }
+
+  export type Place_levelsUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<Place_levelsCreateWithoutProjectsInput>, Enumerable<Place_levelsUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Place_levelsCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<Place_levelsUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: Place_levelsCreateManyProjectsInputEnvelope
+    set?: Enumerable<Place_levelsWhereUniqueInput>
+    disconnect?: Enumerable<Place_levelsWhereUniqueInput>
+    delete?: Enumerable<Place_levelsWhereUniqueInput>
+    connect?: Enumerable<Place_levelsWhereUniqueInput>
+    update?: Enumerable<Place_levelsUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<Place_levelsUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<Place_levelsScalarWhereInput>
   }
 
   export type AccountsUpdateOneWithoutProjectsNestedInput = {
@@ -13699,6 +15535,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     delete?: AccountsWhereInput | boolean
     connect?: AccountsWhereUniqueInput
     update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutProjectsInput, AccountsUpdateWithoutProjectsInput>, AccountsUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<Place_levelsCreateWithoutProjectsInput>, Enumerable<Place_levelsUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<Place_levelsCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<Place_levelsUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: Place_levelsCreateManyProjectsInputEnvelope
+    set?: Enumerable<Place_levelsWhereUniqueInput>
+    disconnect?: Enumerable<Place_levelsWhereUniqueInput>
+    delete?: Enumerable<Place_levelsWhereUniqueInput>
+    connect?: Enumerable<Place_levelsWhereUniqueInput>
+    update?: Enumerable<Place_levelsUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<Place_levelsUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<Place_levelsScalarWhereInput>
   }
 
   export type AccountsCreateNestedOneWithoutUi_optionsInput = {
@@ -14215,6 +16065,56 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     create: XOR<UsersCreateWithoutAccountsInput, UsersUncheckedCreateWithoutAccountsInput>
   }
 
+  export type Place_levelsCreateWithoutAccountsInput = {
+    place_level_id: string
+    level?: number | null
+    name_singular?: string | null
+    name_plural?: string | null
+    name_short?: string | null
+    reports?: boolean | null
+    report_values?: boolean | null
+    actions?: boolean | null
+    action_values?: boolean | null
+    action_reports?: boolean | null
+    checks?: boolean | null
+    check_values?: boolean | null
+    check_taxa?: boolean | null
+    observations?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    projects?: ProjectsCreateNestedOneWithoutPlace_levelsInput
+  }
+
+  export type Place_levelsUncheckedCreateWithoutAccountsInput = {
+    place_level_id: string
+    project_id?: string | null
+    level?: number | null
+    name_singular?: string | null
+    name_plural?: string | null
+    name_short?: string | null
+    reports?: boolean | null
+    report_values?: boolean | null
+    actions?: boolean | null
+    action_values?: boolean | null
+    action_reports?: boolean | null
+    checks?: boolean | null
+    check_values?: boolean | null
+    check_taxa?: boolean | null
+    observations?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Place_levelsCreateOrConnectWithoutAccountsInput = {
+    where: Place_levelsWhereUniqueInput
+    create: XOR<Place_levelsCreateWithoutAccountsInput, Place_levelsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Place_levelsCreateManyAccountsInputEnvelope = {
+    data: Enumerable<Place_levelsCreateManyAccountsInput>
+    skipDuplicates?: boolean
+  }
+
   export type ProjectsCreateWithoutAccountsInput = {
     project_id: string
     name?: string | null
@@ -14240,6 +16140,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsUncheckedCreateWithoutAccountsInput = {
@@ -14267,6 +16168,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectsCreateOrConnectWithoutAccountsInput = {
@@ -14378,6 +16280,46 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     ui_options?: Ui_optionsUncheckedUpdateOneWithoutUsersNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type Place_levelsUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: Place_levelsWhereUniqueInput
+    update: XOR<Place_levelsUpdateWithoutAccountsInput, Place_levelsUncheckedUpdateWithoutAccountsInput>
+    create: XOR<Place_levelsCreateWithoutAccountsInput, Place_levelsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Place_levelsUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: Place_levelsWhereUniqueInput
+    data: XOR<Place_levelsUpdateWithoutAccountsInput, Place_levelsUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type Place_levelsUpdateManyWithWhereWithoutAccountsInput = {
+    where: Place_levelsScalarWhereInput
+    data: XOR<Place_levelsUpdateManyMutationInput, Place_levelsUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type Place_levelsScalarWhereInput = {
+    AND?: Enumerable<Place_levelsScalarWhereInput>
+    OR?: Enumerable<Place_levelsScalarWhereInput>
+    NOT?: Enumerable<Place_levelsScalarWhereInput>
+    place_level_id?: UuidFilter<"Place_levels"> | string
+    account_id?: UuidNullableFilter<"Place_levels"> | string | null
+    project_id?: UuidNullableFilter<"Place_levels"> | string | null
+    level?: IntNullableFilter<"Place_levels"> | number | null
+    name_singular?: StringNullableFilter<"Place_levels"> | string | null
+    name_plural?: StringNullableFilter<"Place_levels"> | string | null
+    name_short?: StringNullableFilter<"Place_levels"> | string | null
+    reports?: BoolNullableFilter<"Place_levels"> | boolean | null
+    report_values?: BoolNullableFilter<"Place_levels"> | boolean | null
+    actions?: BoolNullableFilter<"Place_levels"> | boolean | null
+    action_values?: BoolNullableFilter<"Place_levels"> | boolean | null
+    action_reports?: BoolNullableFilter<"Place_levels"> | boolean | null
+    checks?: BoolNullableFilter<"Place_levels"> | boolean | null
+    check_values?: BoolNullableFilter<"Place_levels"> | boolean | null
+    check_taxa?: BoolNullableFilter<"Place_levels"> | boolean | null
+    observations?: BoolNullableFilter<"Place_levels"> | boolean | null
+    label_replace_by_generated_column?: StringNullableFilter<"Place_levels"> | string | null
+    deleted?: BoolNullableFilter<"Place_levels"> | boolean | null
   }
 
   export type ProjectsUpsertWithWhereUniqueWithoutAccountsInput = {
@@ -14585,6 +16527,252 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data: XOR<User_messagesUpdateManyMutationInput, User_messagesUncheckedUpdateManyWithoutMessagesInput>
   }
 
+  export type AccountsCreateWithoutPlace_levelsInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutPlace_levelsInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutPlace_levelsInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutPlace_levelsInput, AccountsUncheckedCreateWithoutPlace_levelsInput>
+  }
+
+  export type ProjectsCreateWithoutPlace_levelsInput = {
+    project_id: string
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutProjectsInput
+  }
+
+  export type ProjectsUncheckedCreateWithoutPlace_levelsInput = {
+    project_id: string
+    account_id?: string | null
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+  }
+
+  export type ProjectsCreateOrConnectWithoutPlace_levelsInput = {
+    where: ProjectsWhereUniqueInput
+    create: XOR<ProjectsCreateWithoutPlace_levelsInput, ProjectsUncheckedCreateWithoutPlace_levelsInput>
+  }
+
+  export type AccountsUpsertWithoutPlace_levelsInput = {
+    update: XOR<AccountsUpdateWithoutPlace_levelsInput, AccountsUncheckedUpdateWithoutPlace_levelsInput>
+    create: XOR<AccountsCreateWithoutPlace_levelsInput, AccountsUncheckedCreateWithoutPlace_levelsInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutPlace_levelsInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutPlace_levelsInput, AccountsUncheckedUpdateWithoutPlace_levelsInput>
+  }
+
+  export type AccountsUpdateWithoutPlace_levelsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutPlace_levelsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type ProjectsUpsertWithoutPlace_levelsInput = {
+    update: XOR<ProjectsUpdateWithoutPlace_levelsInput, ProjectsUncheckedUpdateWithoutPlace_levelsInput>
+    create: XOR<ProjectsCreateWithoutPlace_levelsInput, ProjectsUncheckedCreateWithoutPlace_levelsInput>
+    where?: ProjectsWhereInput
+  }
+
+  export type ProjectsUpdateToOneWithWhereWithoutPlace_levelsInput = {
+    where?: ProjectsWhereInput
+    data: XOR<ProjectsUpdateWithoutPlace_levelsInput, ProjectsUncheckedUpdateWithoutPlace_levelsInput>
+  }
+
+  export type ProjectsUpdateWithoutPlace_levelsInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutProjectsNestedInput
+  }
+
+  export type ProjectsUncheckedUpdateWithoutPlace_levelsInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Place_levelsCreateWithoutProjectsInput = {
+    place_level_id: string
+    level?: number | null
+    name_singular?: string | null
+    name_plural?: string | null
+    name_short?: string | null
+    reports?: boolean | null
+    report_values?: boolean | null
+    actions?: boolean | null
+    action_values?: boolean | null
+    action_reports?: boolean | null
+    checks?: boolean | null
+    check_values?: boolean | null
+    check_taxa?: boolean | null
+    observations?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutPlace_levelsInput
+  }
+
+  export type Place_levelsUncheckedCreateWithoutProjectsInput = {
+    place_level_id: string
+    account_id?: string | null
+    level?: number | null
+    name_singular?: string | null
+    name_plural?: string | null
+    name_short?: string | null
+    reports?: boolean | null
+    report_values?: boolean | null
+    actions?: boolean | null
+    action_values?: boolean | null
+    action_reports?: boolean | null
+    checks?: boolean | null
+    check_values?: boolean | null
+    check_taxa?: boolean | null
+    observations?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Place_levelsCreateOrConnectWithoutProjectsInput = {
+    where: Place_levelsWhereUniqueInput
+    create: XOR<Place_levelsCreateWithoutProjectsInput, Place_levelsUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type Place_levelsCreateManyProjectsInputEnvelope = {
+    data: Enumerable<Place_levelsCreateManyProjectsInput>
+    skipDuplicates?: boolean
+  }
+
   export type AccountsCreateWithoutProjectsInput = {
     account_id: string
     type?: string | null
@@ -14593,6 +16781,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
@@ -14605,6 +16794,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
@@ -14612,6 +16802,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type AccountsCreateOrConnectWithoutProjectsInput = {
     where: AccountsWhereUniqueInput
     create: XOR<AccountsCreateWithoutProjectsInput, AccountsUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type Place_levelsUpsertWithWhereUniqueWithoutProjectsInput = {
+    where: Place_levelsWhereUniqueInput
+    update: XOR<Place_levelsUpdateWithoutProjectsInput, Place_levelsUncheckedUpdateWithoutProjectsInput>
+    create: XOR<Place_levelsCreateWithoutProjectsInput, Place_levelsUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type Place_levelsUpdateWithWhereUniqueWithoutProjectsInput = {
+    where: Place_levelsWhereUniqueInput
+    data: XOR<Place_levelsUpdateWithoutProjectsInput, Place_levelsUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type Place_levelsUpdateManyWithWhereWithoutProjectsInput = {
+    where: Place_levelsScalarWhereInput
+    data: XOR<Place_levelsUpdateManyMutationInput, Place_levelsUncheckedUpdateManyWithoutProjectsInput>
   }
 
   export type AccountsUpsertWithoutProjectsInput = {
@@ -14633,6 +16839,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
@@ -14645,6 +16852,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
@@ -14657,6 +16865,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
   }
@@ -14669,6 +16878,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
   }
@@ -14722,6 +16932,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
   }
@@ -14734,6 +16945,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
   }
@@ -14777,6 +16989,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
   }
@@ -14789,6 +17002,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
   }
@@ -14861,6 +17075,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
   }
@@ -14873,6 +17088,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
   }
@@ -14940,6 +17156,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
     projects?: ProjectsCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
@@ -14952,6 +17169,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
     projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
@@ -15270,6 +17488,26 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Place_levelsCreateManyAccountsInput = {
+    place_level_id: string
+    project_id?: string | null
+    level?: number | null
+    name_singular?: string | null
+    name_plural?: string | null
+    name_short?: string | null
+    reports?: boolean | null
+    report_values?: boolean | null
+    actions?: boolean | null
+    action_values?: boolean | null
+    action_reports?: boolean | null
+    checks?: boolean | null
+    check_values?: boolean | null
+    check_taxa?: boolean | null
+    observations?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
   export type ProjectsCreateManyAccountsInput = {
     project_id: string
     name?: string | null
@@ -15322,6 +17560,66 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     read?: boolean | null
   }
 
+  export type Place_levelsUpdateWithoutAccountsInput = {
+    place_level_id?: StringFieldUpdateOperationsInput | string
+    level?: NullableIntFieldUpdateOperationsInput | number | null
+    name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    name_short?: NullableStringFieldUpdateOperationsInput | string | null
+    reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    observations?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    projects?: ProjectsUpdateOneWithoutPlace_levelsNestedInput
+  }
+
+  export type Place_levelsUncheckedUpdateWithoutAccountsInput = {
+    place_level_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: NullableIntFieldUpdateOperationsInput | number | null
+    name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    name_short?: NullableStringFieldUpdateOperationsInput | string | null
+    reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    observations?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Place_levelsUncheckedUpdateManyWithoutAccountsInput = {
+    place_level_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: NullableIntFieldUpdateOperationsInput | number | null
+    name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    name_short?: NullableStringFieldUpdateOperationsInput | string | null
+    reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    observations?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type ProjectsUpdateWithoutAccountsInput = {
     project_id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15347,6 +17645,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateWithoutAccountsInput = {
@@ -15374,6 +17673,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectsUncheckedUpdateManyWithoutAccountsInput = {
@@ -15538,6 +17838,86 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     read?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Place_levelsCreateManyProjectsInput = {
+    place_level_id: string
+    account_id?: string | null
+    level?: number | null
+    name_singular?: string | null
+    name_plural?: string | null
+    name_short?: string | null
+    reports?: boolean | null
+    report_values?: boolean | null
+    actions?: boolean | null
+    action_values?: boolean | null
+    action_reports?: boolean | null
+    checks?: boolean | null
+    check_values?: boolean | null
+    check_taxa?: boolean | null
+    observations?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Place_levelsUpdateWithoutProjectsInput = {
+    place_level_id?: StringFieldUpdateOperationsInput | string
+    level?: NullableIntFieldUpdateOperationsInput | number | null
+    name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    name_short?: NullableStringFieldUpdateOperationsInput | string | null
+    reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    observations?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutPlace_levelsNestedInput
+  }
+
+  export type Place_levelsUncheckedUpdateWithoutProjectsInput = {
+    place_level_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: NullableIntFieldUpdateOperationsInput | number | null
+    name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    name_short?: NullableStringFieldUpdateOperationsInput | string | null
+    reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    observations?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Place_levelsUncheckedUpdateManyWithoutProjectsInput = {
+    place_level_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: NullableIntFieldUpdateOperationsInput | number | null
+    name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    name_short?: NullableStringFieldUpdateOperationsInput | string | null
+    reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    observations?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type AccountsCreateManyUsersInput = {
     account_id: string
     type?: string | null
@@ -15562,6 +17942,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
@@ -15574,6 +17955,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
     projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput

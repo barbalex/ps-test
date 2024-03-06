@@ -67,8 +67,9 @@ const ExampleComponent = () => {
           accounts: {
             include: {
               users: true,
-              projects: { include: { accounts: true } },
+              projects: { include: { accounts: true, place_levels: true } },
               ui_options: true,
+              place_levels: true,
             },
           },
           ui_options: true,
