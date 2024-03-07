@@ -85,7 +85,7 @@ const ExampleComponent = () => {
                         },
                       },
                       subproject_reports: true,
-                      places: true,
+                      places: { include: { other_places: true } },
                     },
                   },
                   project_users: true,
@@ -150,7 +150,7 @@ const ExampleComponent = () => {
               fields: {
                 include: { field_types: true, widget_types: true },
               },
-              places: true,
+              places: { include: { other_places: true } },
             },
           },
           ui_options: true,
