@@ -92,7 +92,15 @@ const ExampleComponent = () => {
                     include: { taxa: { include: { subproject_taxa: true } } },
                   },
                   persons: true,
-                  lists: { include: { list_values: true, units: true } },
+                  lists: {
+                    include: {
+                      list_values: true,
+                      units: true,
+                      fields: {
+                        include: { field_types: true, widget_types: true },
+                      },
+                    },
+                  },
                   gbif_taxa: true,
                   gbif_occurrences: true,
                   gbif_occurrence_downloads: true,
@@ -101,6 +109,9 @@ const ExampleComponent = () => {
                   tile_layers: { include: { layer_options: true } },
                   vector_layers: { include: { layer_options: true } },
                   project_reports: true,
+                  fields: {
+                    include: { field_types: true, widget_types: true },
+                  },
                 },
               },
               ui_options: true,
@@ -110,7 +121,15 @@ const ExampleComponent = () => {
               taxonomies: { include: { taxa: true } },
               taxa: true,
               persons: true,
-              lists: { include: { list_values: true, units: true } },
+              lists: {
+                include: {
+                  list_values: true,
+                  units: true,
+                  fields: {
+                    include: { field_types: true, widget_types: true },
+                  },
+                },
+              },
               gbif_taxa: true,
               gbif_occurrences: true,
               gbif_occurrence_downloads: true,
@@ -127,6 +146,9 @@ const ExampleComponent = () => {
               layer_options: true,
               project_reports: true,
               subproject_reports: true,
+              fields: {
+                include: { field_types: true, widget_types: true },
+              },
             },
           },
           ui_options: true,
@@ -142,14 +164,47 @@ const ExampleComponent = () => {
       const fieldTypesShape = await db.field_types.sync({
         include: {
           widgets_for_fields: {
-            include: { widget_types: true },
+            include: {
+              widget_types: {
+                include: {
+                  fields: {
+                    include: {
+                      accounts: { include: { users: true } },
+                      projects: true,
+                      lists: true,
+                    },
+                  },
+                },
+              },
+            },
           },
+          fields: true,
         },
       })
       const widgetTypesShape = await db.widget_types.sync({
         include: {
           widgets_for_fields: {
-            include: { field_types: true },
+            include: {
+              field_types: {
+                include: {
+                  fields: {
+                    include: {
+                      accounts: { include: { users: true } },
+                      lists: true,
+                      projects: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          fields: {
+            include: {
+              accounts: { include: { users: true } },
+              field_types: true,
+              lists: true,
+              projects: true,
+            },
           },
         },
       })
