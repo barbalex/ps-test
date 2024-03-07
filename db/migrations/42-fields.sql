@@ -1,8 +1,8 @@
 -- TODO: add level to places and all their child tables?
 CREATE TABLE fields(
   field_id uuid PRIMARY KEY DEFAULT NULL, -- public.uuid_generate_v7(),
-  project_id uuid DEFAULT NULL REFERENCES projects(project_id) ON DELETE CASCADE ON UPDATE CASCADE,
   account_id uuid DEFAULT NULL REFERENCES accounts(account_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  project_id uuid DEFAULT NULL REFERENCES projects(project_id) ON DELETE CASCADE ON UPDATE CASCADE,
   table_name text DEFAULT NULL,
   level integer DEFAULT NULL, -- 1,
   field_type_id uuid DEFAULT NULL REFERENCES field_types(field_type_id) ON DELETE CASCADE ON UPDATE CASCADE,
