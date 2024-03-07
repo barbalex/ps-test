@@ -33,6 +33,40 @@ export type Accounts = {
 }
 
 /**
+ * Model Action_values
+ * 
+ */
+export type Action_values = {
+  /**
+   * @zod.string.uuid()
+   */
+  action_value_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  action_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  unit_id: string | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  value_integer: number | null
+  /**
+   * @zod.custom.use(z.number().or(z.nan()))
+   */
+  value_numeric: number | null
+  value_text: string | null
+  label: string | null
+  deleted: boolean | null
+}
+
+/**
  * Model Actions
  * 
  */
@@ -1589,6 +1623,16 @@ export class PrismaClient<
   get accounts(): Prisma.AccountsDelegate<GlobalReject>;
 
   /**
+   * `prisma.action_values`: Exposes CRUD operations for the **Action_values** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Action_values
+    * const action_values = await prisma.action_values.findMany()
+    * ```
+    */
+  get action_values(): Prisma.Action_valuesDelegate<GlobalReject>;
+
+  /**
    * `prisma.actions`: Exposes CRUD operations for the **Actions** model.
     * Example usage:
     * ```ts
@@ -2492,6 +2536,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export const ModelName: {
     Accounts: 'Accounts',
+    Action_values: 'Action_values',
     Actions: 'Actions',
     Chart_subjects: 'Chart_subjects',
     Charts: 'Charts',
@@ -2704,6 +2749,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type AccountsCountOutputType = {
+    action_values: number
     actions: number
     chart_subjects: number
     charts: number
@@ -2744,6 +2790,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type AccountsCountOutputTypeSelect = {
+    action_values?: boolean | AccountsCountOutputTypeCountAction_valuesArgs
     actions?: boolean | AccountsCountOutputTypeCountActionsArgs
     chart_subjects?: boolean | AccountsCountOutputTypeCountChart_subjectsArgs
     charts?: boolean | AccountsCountOutputTypeCountChartsArgs
@@ -2810,6 +2857,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: AccountsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountAction_valuesArgs = {
+    where?: Action_valuesWhereInput
   }
 
 
@@ -3106,6 +3161,58 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type AccountsCountOutputTypeCountVector_layersArgs = {
     where?: Vector_layersWhereInput
+  }
+
+
+
+  /**
+   * Count Type ActionsCountOutputType
+   */
+
+
+  export type ActionsCountOutputType = {
+    action_values: number
+  }
+
+  export type ActionsCountOutputTypeSelect = {
+    action_values?: boolean | ActionsCountOutputTypeCountAction_valuesArgs
+  }
+
+  export type ActionsCountOutputTypeGetPayload<S extends boolean | null | undefined | ActionsCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? ActionsCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (ActionsCountOutputTypeArgs)
+    ? ActionsCountOutputType 
+    : S extends { select: any } & (ActionsCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof ActionsCountOutputType ? ActionsCountOutputType[P] : never
+  } 
+      : ActionsCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ActionsCountOutputType without action
+   */
+  export type ActionsCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the ActionsCountOutputType
+     * 
+    **/
+    select?: ActionsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * ActionsCountOutputType without action
+   */
+  export type ActionsCountOutputTypeCountAction_valuesArgs = {
+    where?: Action_valuesWhereInput
   }
 
 
@@ -4144,12 +4251,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type UnitsCountOutputType = {
+    action_values: number
     chart_subjects: number
     goal_report_values: number
     place_report_values: number
   }
 
   export type UnitsCountOutputTypeSelect = {
+    action_values?: boolean | UnitsCountOutputTypeCountAction_valuesArgs
     chart_subjects?: boolean | UnitsCountOutputTypeCountChart_subjectsArgs
     goal_report_values?: boolean | UnitsCountOutputTypeCountGoal_report_valuesArgs
     place_report_values?: boolean | UnitsCountOutputTypeCountPlace_report_valuesArgs
@@ -4182,6 +4291,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: UnitsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * UnitsCountOutputType without action
+   */
+  export type UnitsCountOutputTypeCountAction_valuesArgs = {
+    where?: Action_valuesWhereInput
   }
 
 
@@ -4628,6 +4745,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: boolean
     label?: boolean
     users?: boolean | Accounts$usersArgs
+    action_values?: boolean | Accounts$action_valuesArgs
     actions?: boolean | Accounts$actionsArgs
     chart_subjects?: boolean | Accounts$chart_subjectsArgs
     charts?: boolean | Accounts$chartsArgs
@@ -4671,6 +4789,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type AccountsInclude = {
     users?: boolean | Accounts$usersArgs
+    action_values?: boolean | Accounts$action_valuesArgs
     actions?: boolean | Accounts$actionsArgs
     chart_subjects?: boolean | Accounts$chart_subjectsArgs
     charts?: boolean | Accounts$chartsArgs
@@ -4719,6 +4838,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ? Accounts  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'users' ? UsersGetPayload<S['include'][P]> | null :
+        P extends 'action_values' ? Array < Action_valuesGetPayload<S['include'][P]>>  :
         P extends 'actions' ? Array < ActionsGetPayload<S['include'][P]>>  :
         P extends 'chart_subjects' ? Array < Chart_subjectsGetPayload<S['include'][P]>>  :
         P extends 'charts' ? Array < ChartsGetPayload<S['include'][P]>>  :
@@ -4762,6 +4882,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'users' ? UsersGetPayload<S['select'][P]> | null :
+        P extends 'action_values' ? Array < Action_valuesGetPayload<S['select'][P]>>  :
         P extends 'actions' ? Array < ActionsGetPayload<S['select'][P]>>  :
         P extends 'chart_subjects' ? Array < Chart_subjectsGetPayload<S['select'][P]>>  :
         P extends 'charts' ? Array < ChartsGetPayload<S['select'][P]>>  :
@@ -5174,6 +5295,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
     users<T extends Accounts$usersArgs= {}>(args?: Subset<T, Accounts$usersArgs>): Prisma__UsersClient<UsersGetPayload<T> | Null>;
+
+    action_values<T extends Accounts$action_valuesArgs= {}>(args?: Subset<T, Accounts$action_valuesArgs>): PrismaPromise<Array<Action_valuesGetPayload<T>>| Null>;
 
     actions<T extends Accounts$actionsArgs= {}>(args?: Subset<T, Accounts$actionsArgs>): PrismaPromise<Array<ActionsGetPayload<T>>| Null>;
 
@@ -5667,6 +5790,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     include?: UsersInclude | null
     where?: UsersWhereInput
+  }
+
+
+  /**
+   * Accounts.action_values
+   */
+  export type Accounts$action_valuesArgs = {
+    /**
+     * Select specific fields to fetch from the Action_values
+     * 
+    **/
+    select?: Action_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Action_valuesInclude | null
+    where?: Action_valuesWhereInput
+    orderBy?: Enumerable<Action_valuesOrderByWithRelationInput>
+    cursor?: Action_valuesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Action_valuesScalarFieldEnum>
   }
 
 
@@ -6540,6 +6686,1130 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Model Action_values
+   */
+
+
+  export type AggregateAction_values = {
+    _count: Action_valuesCountAggregateOutputType | null
+    _avg: Action_valuesAvgAggregateOutputType | null
+    _sum: Action_valuesSumAggregateOutputType | null
+    _min: Action_valuesMinAggregateOutputType | null
+    _max: Action_valuesMaxAggregateOutputType | null
+  }
+
+  export type Action_valuesAvgAggregateOutputType = {
+    value_integer: number | null
+    value_numeric: number | null
+  }
+
+  export type Action_valuesSumAggregateOutputType = {
+    value_integer: number | null
+    value_numeric: number | null
+  }
+
+  export type Action_valuesMinAggregateOutputType = {
+    action_value_id: string | null
+    account_id: string | null
+    action_id: string | null
+    unit_id: string | null
+    value_integer: number | null
+    value_numeric: number | null
+    value_text: string | null
+    label: string | null
+    deleted: boolean | null
+  }
+
+  export type Action_valuesMaxAggregateOutputType = {
+    action_value_id: string | null
+    account_id: string | null
+    action_id: string | null
+    unit_id: string | null
+    value_integer: number | null
+    value_numeric: number | null
+    value_text: string | null
+    label: string | null
+    deleted: boolean | null
+  }
+
+  export type Action_valuesCountAggregateOutputType = {
+    action_value_id: number
+    account_id: number
+    action_id: number
+    unit_id: number
+    value_integer: number
+    value_numeric: number
+    value_text: number
+    label: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type Action_valuesAvgAggregateInputType = {
+    value_integer?: true
+    value_numeric?: true
+  }
+
+  export type Action_valuesSumAggregateInputType = {
+    value_integer?: true
+    value_numeric?: true
+  }
+
+  export type Action_valuesMinAggregateInputType = {
+    action_value_id?: true
+    account_id?: true
+    action_id?: true
+    unit_id?: true
+    value_integer?: true
+    value_numeric?: true
+    value_text?: true
+    label?: true
+    deleted?: true
+  }
+
+  export type Action_valuesMaxAggregateInputType = {
+    action_value_id?: true
+    account_id?: true
+    action_id?: true
+    unit_id?: true
+    value_integer?: true
+    value_numeric?: true
+    value_text?: true
+    label?: true
+    deleted?: true
+  }
+
+  export type Action_valuesCountAggregateInputType = {
+    action_value_id?: true
+    account_id?: true
+    action_id?: true
+    unit_id?: true
+    value_integer?: true
+    value_numeric?: true
+    value_text?: true
+    label?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type Action_valuesAggregateArgs = {
+    /**
+     * Filter which Action_values to aggregate.
+     * 
+    **/
+    where?: Action_valuesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Action_values to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Action_valuesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: Action_valuesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Action_values from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Action_values.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Action_values
+    **/
+    _count?: true | Action_valuesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Action_valuesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Action_valuesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Action_valuesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Action_valuesMaxAggregateInputType
+  }
+
+  export type GetAction_valuesAggregateType<T extends Action_valuesAggregateArgs> = {
+        [P in keyof T & keyof AggregateAction_values]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAction_values[P]>
+      : GetScalarType<T[P], AggregateAction_values[P]>
+  }
+
+
+
+
+  export type Action_valuesGroupByArgs = {
+    where?: Action_valuesWhereInput
+    orderBy?: Enumerable<Action_valuesOrderByWithAggregationInput>
+    by: Array<Action_valuesScalarFieldEnum>
+    having?: Action_valuesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Action_valuesCountAggregateInputType | true
+    _avg?: Action_valuesAvgAggregateInputType
+    _sum?: Action_valuesSumAggregateInputType
+    _min?: Action_valuesMinAggregateInputType
+    _max?: Action_valuesMaxAggregateInputType
+  }
+
+
+  export type Action_valuesGroupByOutputType = {
+    action_value_id: string
+    account_id: string | null
+    action_id: string | null
+    unit_id: string | null
+    value_integer: number | null
+    value_numeric: number | null
+    value_text: string | null
+    label: string | null
+    deleted: boolean | null
+    _count: Action_valuesCountAggregateOutputType | null
+    _avg: Action_valuesAvgAggregateOutputType | null
+    _sum: Action_valuesSumAggregateOutputType | null
+    _min: Action_valuesMinAggregateOutputType | null
+    _max: Action_valuesMaxAggregateOutputType | null
+  }
+
+  type GetAction_valuesGroupByPayload<T extends Action_valuesGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Action_valuesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Action_valuesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Action_valuesGroupByOutputType[P]>
+            : GetScalarType<T[P], Action_valuesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Action_valuesSelect = {
+    action_value_id?: boolean
+    account_id?: boolean
+    action_id?: boolean
+    unit_id?: boolean
+    value_integer?: boolean
+    value_numeric?: boolean
+    value_text?: boolean
+    label?: boolean
+    deleted?: boolean
+    accounts?: boolean | Action_values$accountsArgs
+    actions?: boolean | Action_values$actionsArgs
+    units?: boolean | Action_values$unitsArgs
+  }
+
+
+  export type Action_valuesInclude = {
+    accounts?: boolean | Action_values$accountsArgs
+    actions?: boolean | Action_values$actionsArgs
+    units?: boolean | Action_values$unitsArgs
+  } 
+
+  export type Action_valuesGetPayload<S extends boolean | null | undefined | Action_valuesArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Action_values :
+    S extends undefined ? never :
+    S extends { include: any } & (Action_valuesArgs | Action_valuesFindManyArgs)
+    ? Action_values  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'actions' ? ActionsGetPayload<S['include'][P]> | null :
+        P extends 'units' ? UnitsGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (Action_valuesArgs | Action_valuesFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'actions' ? ActionsGetPayload<S['select'][P]> | null :
+        P extends 'units' ? UnitsGetPayload<S['select'][P]> | null :  P extends keyof Action_values ? Action_values[P] : never
+  } 
+      : Action_values
+
+
+  type Action_valuesCountArgs = Merge<
+    Omit<Action_valuesFindManyArgs, 'select' | 'include'> & {
+      select?: Action_valuesCountAggregateInputType | true
+    }
+  >
+
+  export interface Action_valuesDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Action_values that matches the filter.
+     * @param {Action_valuesFindUniqueArgs} args - Arguments to find a Action_values
+     * @example
+     * // Get one Action_values
+     * const action_values = await prisma.action_values.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends Action_valuesFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Action_valuesFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Action_values'> extends True ? Prisma__Action_valuesClient<Action_valuesGetPayload<T>> : Prisma__Action_valuesClient<Action_valuesGetPayload<T> | null, null>
+
+    /**
+     * Find one Action_values that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {Action_valuesFindUniqueOrThrowArgs} args - Arguments to find a Action_values
+     * @example
+     * // Get one Action_values
+     * const action_values = await prisma.action_values.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends Action_valuesFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, Action_valuesFindUniqueOrThrowArgs>
+    ): Prisma__Action_valuesClient<Action_valuesGetPayload<T>>
+
+    /**
+     * Find the first Action_values that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Action_valuesFindFirstArgs} args - Arguments to find a Action_values
+     * @example
+     * // Get one Action_values
+     * const action_values = await prisma.action_values.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends Action_valuesFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Action_valuesFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Action_values'> extends True ? Prisma__Action_valuesClient<Action_valuesGetPayload<T>> : Prisma__Action_valuesClient<Action_valuesGetPayload<T> | null, null>
+
+    /**
+     * Find the first Action_values that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Action_valuesFindFirstOrThrowArgs} args - Arguments to find a Action_values
+     * @example
+     * // Get one Action_values
+     * const action_values = await prisma.action_values.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends Action_valuesFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, Action_valuesFindFirstOrThrowArgs>
+    ): Prisma__Action_valuesClient<Action_valuesGetPayload<T>>
+
+    /**
+     * Find zero or more Action_values that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Action_valuesFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Action_values
+     * const action_values = await prisma.action_values.findMany()
+     * 
+     * // Get first 10 Action_values
+     * const action_values = await prisma.action_values.findMany({ take: 10 })
+     * 
+     * // Only select the `action_value_id`
+     * const action_valuesWithAction_value_idOnly = await prisma.action_values.findMany({ select: { action_value_id: true } })
+     * 
+    **/
+    findMany<T extends Action_valuesFindManyArgs>(
+      args?: SelectSubset<T, Action_valuesFindManyArgs>
+    ): PrismaPromise<Array<Action_valuesGetPayload<T>>>
+
+    /**
+     * Create a Action_values.
+     * @param {Action_valuesCreateArgs} args - Arguments to create a Action_values.
+     * @example
+     * // Create one Action_values
+     * const Action_values = await prisma.action_values.create({
+     *   data: {
+     *     // ... data to create a Action_values
+     *   }
+     * })
+     * 
+    **/
+    create<T extends Action_valuesCreateArgs>(
+      args: SelectSubset<T, Action_valuesCreateArgs>
+    ): Prisma__Action_valuesClient<Action_valuesGetPayload<T>>
+
+    /**
+     * Create many Action_values.
+     *     @param {Action_valuesCreateManyArgs} args - Arguments to create many Action_values.
+     *     @example
+     *     // Create many Action_values
+     *     const action_values = await prisma.action_values.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends Action_valuesCreateManyArgs>(
+      args?: SelectSubset<T, Action_valuesCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Action_values.
+     * @param {Action_valuesDeleteArgs} args - Arguments to delete one Action_values.
+     * @example
+     * // Delete one Action_values
+     * const Action_values = await prisma.action_values.delete({
+     *   where: {
+     *     // ... filter to delete one Action_values
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends Action_valuesDeleteArgs>(
+      args: SelectSubset<T, Action_valuesDeleteArgs>
+    ): Prisma__Action_valuesClient<Action_valuesGetPayload<T>>
+
+    /**
+     * Update one Action_values.
+     * @param {Action_valuesUpdateArgs} args - Arguments to update one Action_values.
+     * @example
+     * // Update one Action_values
+     * const action_values = await prisma.action_values.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends Action_valuesUpdateArgs>(
+      args: SelectSubset<T, Action_valuesUpdateArgs>
+    ): Prisma__Action_valuesClient<Action_valuesGetPayload<T>>
+
+    /**
+     * Delete zero or more Action_values.
+     * @param {Action_valuesDeleteManyArgs} args - Arguments to filter Action_values to delete.
+     * @example
+     * // Delete a few Action_values
+     * const { count } = await prisma.action_values.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends Action_valuesDeleteManyArgs>(
+      args?: SelectSubset<T, Action_valuesDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Action_values.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Action_valuesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Action_values
+     * const action_values = await prisma.action_values.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends Action_valuesUpdateManyArgs>(
+      args: SelectSubset<T, Action_valuesUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Action_values.
+     * @param {Action_valuesUpsertArgs} args - Arguments to update or create a Action_values.
+     * @example
+     * // Update or create a Action_values
+     * const action_values = await prisma.action_values.upsert({
+     *   create: {
+     *     // ... data to create a Action_values
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Action_values we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends Action_valuesUpsertArgs>(
+      args: SelectSubset<T, Action_valuesUpsertArgs>
+    ): Prisma__Action_valuesClient<Action_valuesGetPayload<T>>
+
+    /**
+     * Count the number of Action_values.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Action_valuesCountArgs} args - Arguments to filter Action_values to count.
+     * @example
+     * // Count the number of Action_values
+     * const count = await prisma.action_values.count({
+     *   where: {
+     *     // ... the filter for the Action_values we want to count
+     *   }
+     * })
+    **/
+    count<T extends Action_valuesCountArgs>(
+      args?: Subset<T, Action_valuesCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Action_valuesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Action_values.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Action_valuesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Action_valuesAggregateArgs>(args: Subset<T, Action_valuesAggregateArgs>): PrismaPromise<GetAction_valuesAggregateType<T>>
+
+    /**
+     * Group by Action_values.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Action_valuesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Action_valuesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Action_valuesGroupByArgs['orderBy'] }
+        : { orderBy?: Action_valuesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Action_valuesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAction_valuesGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Action_values.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__Action_valuesClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Action_values$accountsArgs= {}>(args?: Subset<T, Action_values$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    actions<T extends Action_values$actionsArgs= {}>(args?: Subset<T, Action_values$actionsArgs>): Prisma__ActionsClient<ActionsGetPayload<T> | Null>;
+
+    units<T extends Action_values$unitsArgs= {}>(args?: Subset<T, Action_values$unitsArgs>): Prisma__UnitsClient<UnitsGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Action_values base type for findUnique actions
+   */
+  export type Action_valuesFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Action_values
+     * 
+    **/
+    select?: Action_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Action_valuesInclude | null
+    /**
+     * Filter, which Action_values to fetch.
+     * 
+    **/
+    where: Action_valuesWhereUniqueInput
+  }
+
+  /**
+   * Action_values findUnique
+   */
+  export interface Action_valuesFindUniqueArgs extends Action_valuesFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Action_values findUniqueOrThrow
+   */
+  export type Action_valuesFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Action_values
+     * 
+    **/
+    select?: Action_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Action_valuesInclude | null
+    /**
+     * Filter, which Action_values to fetch.
+     * 
+    **/
+    where: Action_valuesWhereUniqueInput
+  }
+
+
+  /**
+   * Action_values base type for findFirst actions
+   */
+  export type Action_valuesFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Action_values
+     * 
+    **/
+    select?: Action_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Action_valuesInclude | null
+    /**
+     * Filter, which Action_values to fetch.
+     * 
+    **/
+    where?: Action_valuesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Action_values to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Action_valuesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Action_values.
+     * 
+    **/
+    cursor?: Action_valuesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Action_values from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Action_values.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Action_values.
+     * 
+    **/
+    distinct?: Enumerable<Action_valuesScalarFieldEnum>
+  }
+
+  /**
+   * Action_values findFirst
+   */
+  export interface Action_valuesFindFirstArgs extends Action_valuesFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Action_values findFirstOrThrow
+   */
+  export type Action_valuesFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Action_values
+     * 
+    **/
+    select?: Action_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Action_valuesInclude | null
+    /**
+     * Filter, which Action_values to fetch.
+     * 
+    **/
+    where?: Action_valuesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Action_values to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Action_valuesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Action_values.
+     * 
+    **/
+    cursor?: Action_valuesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Action_values from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Action_values.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Action_values.
+     * 
+    **/
+    distinct?: Enumerable<Action_valuesScalarFieldEnum>
+  }
+
+
+  /**
+   * Action_values findMany
+   */
+  export type Action_valuesFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Action_values
+     * 
+    **/
+    select?: Action_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Action_valuesInclude | null
+    /**
+     * Filter, which Action_values to fetch.
+     * 
+    **/
+    where?: Action_valuesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Action_values to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Action_valuesOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Action_values.
+     * 
+    **/
+    cursor?: Action_valuesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Action_values from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Action_values.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Action_valuesScalarFieldEnum>
+  }
+
+
+  /**
+   * Action_values create
+   */
+  export type Action_valuesCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Action_values
+     * 
+    **/
+    select?: Action_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Action_valuesInclude | null
+    /**
+     * The data needed to create a Action_values.
+     * 
+    **/
+    data: XOR<Action_valuesCreateInput, Action_valuesUncheckedCreateInput>
+  }
+
+
+  /**
+   * Action_values createMany
+   */
+  export type Action_valuesCreateManyArgs = {
+    /**
+     * The data used to create many Action_values.
+     * 
+    **/
+    data: Enumerable<Action_valuesCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Action_values update
+   */
+  export type Action_valuesUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Action_values
+     * 
+    **/
+    select?: Action_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Action_valuesInclude | null
+    /**
+     * The data needed to update a Action_values.
+     * 
+    **/
+    data: XOR<Action_valuesUpdateInput, Action_valuesUncheckedUpdateInput>
+    /**
+     * Choose, which Action_values to update.
+     * 
+    **/
+    where: Action_valuesWhereUniqueInput
+  }
+
+
+  /**
+   * Action_values updateMany
+   */
+  export type Action_valuesUpdateManyArgs = {
+    /**
+     * The data used to update Action_values.
+     * 
+    **/
+    data: XOR<Action_valuesUpdateManyMutationInput, Action_valuesUncheckedUpdateManyInput>
+    /**
+     * Filter which Action_values to update
+     * 
+    **/
+    where?: Action_valuesWhereInput
+  }
+
+
+  /**
+   * Action_values upsert
+   */
+  export type Action_valuesUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Action_values
+     * 
+    **/
+    select?: Action_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Action_valuesInclude | null
+    /**
+     * The filter to search for the Action_values to update in case it exists.
+     * 
+    **/
+    where: Action_valuesWhereUniqueInput
+    /**
+     * In case the Action_values found by the `where` argument doesn't exist, create a new Action_values with this data.
+     * 
+    **/
+    create: XOR<Action_valuesCreateInput, Action_valuesUncheckedCreateInput>
+    /**
+     * In case the Action_values was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<Action_valuesUpdateInput, Action_valuesUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Action_values delete
+   */
+  export type Action_valuesDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Action_values
+     * 
+    **/
+    select?: Action_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Action_valuesInclude | null
+    /**
+     * Filter which Action_values to delete.
+     * 
+    **/
+    where: Action_valuesWhereUniqueInput
+  }
+
+
+  /**
+   * Action_values deleteMany
+   */
+  export type Action_valuesDeleteManyArgs = {
+    /**
+     * Filter which Action_values to delete
+     * 
+    **/
+    where?: Action_valuesWhereInput
+  }
+
+
+  /**
+   * Action_values.accounts
+   */
+  export type Action_values$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Action_values.actions
+   */
+  export type Action_values$actionsArgs = {
+    /**
+     * Select specific fields to fetch from the Actions
+     * 
+    **/
+    select?: ActionsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ActionsInclude | null
+    where?: ActionsWhereInput
+  }
+
+
+  /**
+   * Action_values.units
+   */
+  export type Action_values$unitsArgs = {
+    /**
+     * Select specific fields to fetch from the Units
+     * 
+    **/
+    select?: UnitsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UnitsInclude | null
+    where?: UnitsWhereInput
+  }
+
+
+  /**
+   * Action_values without action
+   */
+  export type Action_valuesArgs = {
+    /**
+     * Select specific fields to fetch from the Action_values
+     * 
+    **/
+    select?: Action_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Action_valuesInclude | null
+  }
+
+
+
+  /**
    * Model Actions
    */
 
@@ -6738,14 +8008,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     relevant_for_reports?: boolean
     label_replace_by_generated_column?: boolean
     deleted?: boolean
+    action_values?: boolean | Actions$action_valuesArgs
     accounts?: boolean | Actions$accountsArgs
     places?: boolean | Actions$placesArgs
+    _count?: boolean | ActionsCountOutputTypeArgs
   }
 
 
   export type ActionsInclude = {
+    action_values?: boolean | Actions$action_valuesArgs
     accounts?: boolean | Actions$accountsArgs
     places?: boolean | Actions$placesArgs
+    _count?: boolean | ActionsCountOutputTypeArgs
   } 
 
   export type ActionsGetPayload<S extends boolean | null | undefined | ActionsArgs> =
@@ -6755,14 +8029,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (ActionsArgs | ActionsFindManyArgs)
     ? Actions  & {
     [P in TruthyKeys<S['include']>]:
+        P extends 'action_values' ? Array < Action_valuesGetPayload<S['include'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
-        P extends 'places' ? PlacesGetPayload<S['include'][P]> | null :  never
+        P extends 'places' ? PlacesGetPayload<S['include'][P]> | null :
+        P extends '_count' ? ActionsCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (ActionsArgs | ActionsFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
+        P extends 'action_values' ? Array < Action_valuesGetPayload<S['select'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
-        P extends 'places' ? PlacesGetPayload<S['select'][P]> | null :  P extends keyof Actions ? Actions[P] : never
+        P extends 'places' ? PlacesGetPayload<S['select'][P]> | null :
+        P extends '_count' ? ActionsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Actions ? Actions[P] : never
   } 
       : Actions
 
@@ -7135,6 +8413,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _requestPromise?;
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    action_values<T extends Actions$action_valuesArgs= {}>(args?: Subset<T, Actions$action_valuesArgs>): PrismaPromise<Array<Action_valuesGetPayload<T>>| Null>;
 
     accounts<T extends Actions$accountsArgs= {}>(args?: Subset<T, Actions$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
 
@@ -7540,6 +8820,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     where?: ActionsWhereInput
+  }
+
+
+  /**
+   * Actions.action_values
+   */
+  export type Actions$action_valuesArgs = {
+    /**
+     * Select specific fields to fetch from the Action_values
+     * 
+    **/
+    select?: Action_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Action_valuesInclude | null
+    where?: Action_valuesWhereInput
+    orderBy?: Enumerable<Action_valuesOrderByWithRelationInput>
+    cursor?: Action_valuesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Action_valuesScalarFieldEnum>
   }
 
 
@@ -45294,6 +46597,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: boolean
     label_replace_by_generated_column?: boolean
     deleted?: boolean
+    action_values?: boolean | Units$action_valuesArgs
     chart_subjects?: boolean | Units$chart_subjectsArgs
     goal_report_values?: boolean | Units$goal_report_valuesArgs
     place_report_values?: boolean | Units$place_report_valuesArgs
@@ -45305,6 +46609,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type UnitsInclude = {
+    action_values?: boolean | Units$action_valuesArgs
     chart_subjects?: boolean | Units$chart_subjectsArgs
     goal_report_values?: boolean | Units$goal_report_valuesArgs
     place_report_values?: boolean | Units$place_report_valuesArgs
@@ -45321,6 +46626,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (UnitsArgs | UnitsFindManyArgs)
     ? Units  & {
     [P in TruthyKeys<S['include']>]:
+        P extends 'action_values' ? Array < Action_valuesGetPayload<S['include'][P]>>  :
         P extends 'chart_subjects' ? Array < Chart_subjectsGetPayload<S['include'][P]>>  :
         P extends 'goal_report_values' ? Array < Goal_report_valuesGetPayload<S['include'][P]>>  :
         P extends 'place_report_values' ? Array < Place_report_valuesGetPayload<S['include'][P]>>  :
@@ -45332,6 +46638,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     : S extends { select: any } & (UnitsArgs | UnitsFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
+        P extends 'action_values' ? Array < Action_valuesGetPayload<S['select'][P]>>  :
         P extends 'chart_subjects' ? Array < Chart_subjectsGetPayload<S['select'][P]>>  :
         P extends 'goal_report_values' ? Array < Goal_report_valuesGetPayload<S['select'][P]>>  :
         P extends 'place_report_values' ? Array < Place_report_valuesGetPayload<S['select'][P]>>  :
@@ -45711,6 +47018,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _requestPromise?;
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    action_values<T extends Units$action_valuesArgs= {}>(args?: Subset<T, Units$action_valuesArgs>): PrismaPromise<Array<Action_valuesGetPayload<T>>| Null>;
 
     chart_subjects<T extends Units$chart_subjectsArgs= {}>(args?: Subset<T, Units$chart_subjectsArgs>): PrismaPromise<Array<Chart_subjectsGetPayload<T>>| Null>;
 
@@ -46124,6 +47433,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     where?: UnitsWhereInput
+  }
+
+
+  /**
+   * Units.action_values
+   */
+  export type Units$action_valuesArgs = {
+    /**
+     * Select specific fields to fetch from the Action_values
+     * 
+    **/
+    select?: Action_valuesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Action_valuesInclude | null
+    where?: Action_valuesWhereInput
+    orderBy?: Enumerable<Action_valuesOrderByWithRelationInput>
+    cursor?: Action_valuesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Action_valuesScalarFieldEnum>
   }
 
 
@@ -54240,6 +55572,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type AccountsScalarFieldEnum = (typeof AccountsScalarFieldEnum)[keyof typeof AccountsScalarFieldEnum]
 
 
+  export const Action_valuesScalarFieldEnum: {
+    action_value_id: 'action_value_id',
+    account_id: 'account_id',
+    action_id: 'action_id',
+    unit_id: 'unit_id',
+    value_integer: 'value_integer',
+    value_numeric: 'value_numeric',
+    value_text: 'value_text',
+    label: 'label',
+    deleted: 'deleted'
+  };
+
+  export type Action_valuesScalarFieldEnum = (typeof Action_valuesScalarFieldEnum)[keyof typeof Action_valuesScalarFieldEnum]
+
+
   export const ActionsScalarFieldEnum: {
     action_id: 'action_id',
     account_id: 'account_id',
@@ -55008,9 +56355,30 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
-   * Reference to a field of type 'Json'
+   * Reference to a field of type 'Int'
    */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 
@@ -55018,6 +56386,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
 
 
@@ -55032,20 +56407,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    * Reference to a field of type 'chart_subject_table[]'
    */
   export type ListEnumchart_subject_tableFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'chart_subject_table[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -55102,20 +56463,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    * Reference to a field of type 'gbif_table[]'
    */
   export type ListEnumgbif_tableFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'gbif_table[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 
@@ -55260,6 +56607,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: StringNullableFilter<"Accounts"> | string | null
     label?: StringNullableFilter<"Accounts"> | string | null
     users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
+    action_values?: Action_valuesListRelationFilter
     actions?: ActionsListRelationFilter
     chart_subjects?: Chart_subjectsListRelationFilter
     charts?: ChartsListRelationFilter
@@ -55308,6 +56656,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: SortOrderInput | SortOrder
     label?: SortOrderInput | SortOrder
     users?: UsersOrderByWithRelationInput
+    action_values?: Action_valuesOrderByRelationAggregateInput
     actions?: ActionsOrderByRelationAggregateInput
     chart_subjects?: Chart_subjectsOrderByRelationAggregateInput
     charts?: ChartsOrderByRelationAggregateInput
@@ -55359,6 +56708,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: StringNullableFilter<"Accounts"> | string | null
     label?: StringNullableFilter<"Accounts"> | string | null
     users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
+    action_values?: Action_valuesListRelationFilter
     actions?: ActionsListRelationFilter
     chart_subjects?: Chart_subjectsListRelationFilter
     charts?: ChartsListRelationFilter
@@ -55424,6 +56774,89 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: StringNullableWithAggregatesFilter<"Accounts"> | string | null
   }
 
+  export type Action_valuesWhereInput = {
+    AND?: Enumerable<Action_valuesWhereInput>
+    OR?: Enumerable<Action_valuesWhereInput>
+    NOT?: Enumerable<Action_valuesWhereInput>
+    action_value_id?: UuidFilter<"Action_values"> | string
+    account_id?: UuidNullableFilter<"Action_values"> | string | null
+    action_id?: UuidNullableFilter<"Action_values"> | string | null
+    unit_id?: UuidNullableFilter<"Action_values"> | string | null
+    value_integer?: IntNullableFilter<"Action_values"> | number | null
+    value_numeric?: FloatNullableFilter<"Action_values"> | number | null
+    value_text?: StringNullableFilter<"Action_values"> | string | null
+    label?: StringNullableFilter<"Action_values"> | string | null
+    deleted?: BoolNullableFilter<"Action_values"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    actions?: XOR<ActionsNullableRelationFilter, ActionsWhereInput> | null
+    units?: XOR<UnitsNullableRelationFilter, UnitsWhereInput> | null
+  }
+
+  export type Action_valuesOrderByWithRelationInput = {
+    action_value_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    action_id?: SortOrderInput | SortOrder
+    unit_id?: SortOrderInput | SortOrder
+    value_integer?: SortOrderInput | SortOrder
+    value_numeric?: SortOrderInput | SortOrder
+    value_text?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    actions?: ActionsOrderByWithRelationInput
+    units?: UnitsOrderByWithRelationInput
+  }
+
+  export type Action_valuesWhereUniqueInput = Prisma.AtLeast<{
+    action_value_id?: string
+    AND?: Enumerable<Action_valuesWhereInput>
+    OR?: Enumerable<Action_valuesWhereInput>
+    NOT?: Enumerable<Action_valuesWhereInput>
+    account_id?: UuidNullableFilter<"Action_values"> | string | null
+    action_id?: UuidNullableFilter<"Action_values"> | string | null
+    unit_id?: UuidNullableFilter<"Action_values"> | string | null
+    value_integer?: IntNullableFilter<"Action_values"> | number | null
+    value_numeric?: FloatNullableFilter<"Action_values"> | number | null
+    value_text?: StringNullableFilter<"Action_values"> | string | null
+    label?: StringNullableFilter<"Action_values"> | string | null
+    deleted?: BoolNullableFilter<"Action_values"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    actions?: XOR<ActionsNullableRelationFilter, ActionsWhereInput> | null
+    units?: XOR<UnitsNullableRelationFilter, UnitsWhereInput> | null
+  }, "action_value_id">
+
+  export type Action_valuesOrderByWithAggregationInput = {
+    action_value_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    action_id?: SortOrderInput | SortOrder
+    unit_id?: SortOrderInput | SortOrder
+    value_integer?: SortOrderInput | SortOrder
+    value_numeric?: SortOrderInput | SortOrder
+    value_text?: SortOrderInput | SortOrder
+    label?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    _count?: Action_valuesCountOrderByAggregateInput
+    _avg?: Action_valuesAvgOrderByAggregateInput
+    _max?: Action_valuesMaxOrderByAggregateInput
+    _min?: Action_valuesMinOrderByAggregateInput
+    _sum?: Action_valuesSumOrderByAggregateInput
+  }
+
+  export type Action_valuesScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<Action_valuesScalarWhereWithAggregatesInput>
+    OR?: Enumerable<Action_valuesScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<Action_valuesScalarWhereWithAggregatesInput>
+    action_value_id?: UuidWithAggregatesFilter<"Action_values"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"Action_values"> | string | null
+    action_id?: UuidNullableWithAggregatesFilter<"Action_values"> | string | null
+    unit_id?: UuidNullableWithAggregatesFilter<"Action_values"> | string | null
+    value_integer?: IntNullableWithAggregatesFilter<"Action_values"> | number | null
+    value_numeric?: FloatNullableWithAggregatesFilter<"Action_values"> | number | null
+    value_text?: StringNullableWithAggregatesFilter<"Action_values"> | string | null
+    label?: StringNullableWithAggregatesFilter<"Action_values"> | string | null
+    deleted?: BoolNullableWithAggregatesFilter<"Action_values"> | boolean | null
+  }
+
   export type ActionsWhereInput = {
     AND?: Enumerable<ActionsWhereInput>
     OR?: Enumerable<ActionsWhereInput>
@@ -55438,6 +56871,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     relevant_for_reports?: BoolNullableFilter<"Actions"> | boolean | null
     label_replace_by_generated_column?: StringNullableFilter<"Actions"> | string | null
     deleted?: BoolNullableFilter<"Actions"> | boolean | null
+    action_values?: Action_valuesListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     places?: XOR<PlacesNullableRelationFilter, PlacesWhereInput> | null
   }
@@ -55453,6 +56887,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     relevant_for_reports?: SortOrderInput | SortOrder
     label_replace_by_generated_column?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    action_values?: Action_valuesOrderByRelationAggregateInput
     accounts?: AccountsOrderByWithRelationInput
     places?: PlacesOrderByWithRelationInput
   }
@@ -55471,6 +56906,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     relevant_for_reports?: BoolNullableFilter<"Actions"> | boolean | null
     label_replace_by_generated_column?: StringNullableFilter<"Actions"> | string | null
     deleted?: BoolNullableFilter<"Actions"> | boolean | null
+    action_values?: Action_valuesListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     places?: XOR<PlacesNullableRelationFilter, PlacesWhereInput> | null
   }, "action_id">
@@ -58510,6 +59946,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: UuidNullableFilter<"Units"> | string | null
     label_replace_by_generated_column?: StringNullableFilter<"Units"> | string | null
     deleted?: BoolNullableFilter<"Units"> | boolean | null
+    action_values?: Action_valuesListRelationFilter
     chart_subjects?: Chart_subjectsListRelationFilter
     goal_report_values?: Goal_report_valuesListRelationFilter
     place_report_values?: Place_report_valuesListRelationFilter
@@ -58536,6 +59973,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: SortOrderInput | SortOrder
     label_replace_by_generated_column?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    action_values?: Action_valuesOrderByRelationAggregateInput
     chart_subjects?: Chart_subjectsOrderByRelationAggregateInput
     goal_report_values?: Goal_report_valuesOrderByRelationAggregateInput
     place_report_values?: Place_report_valuesOrderByRelationAggregateInput
@@ -58565,6 +60003,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: UuidNullableFilter<"Units"> | string | null
     label_replace_by_generated_column?: StringNullableFilter<"Units"> | string | null
     deleted?: BoolNullableFilter<"Units"> | boolean | null
+    action_values?: Action_valuesListRelationFilter
     chart_subjects?: Chart_subjectsListRelationFilter
     goal_report_values?: Goal_report_valuesListRelationFilter
     place_report_values?: Place_report_valuesListRelationFilter
@@ -59267,6 +60706,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -59314,6 +60754,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -59361,6 +60802,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -59408,6 +60850,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -59476,6 +60919,87 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type Action_valuesCreateInput = {
+    action_value_id: string
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutAction_valuesInput
+    actions?: ActionsCreateNestedOneWithoutAction_valuesInput
+    units?: UnitsCreateNestedOneWithoutAction_valuesInput
+  }
+
+  export type Action_valuesUncheckedCreateInput = {
+    action_value_id: string
+    account_id?: string | null
+    action_id?: string | null
+    unit_id?: string | null
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Action_valuesUpdateInput = {
+    action_value_id?: StringFieldUpdateOperationsInput | string
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutAction_valuesNestedInput
+    actions?: ActionsUpdateOneWithoutAction_valuesNestedInput
+    units?: UnitsUpdateOneWithoutAction_valuesNestedInput
+  }
+
+  export type Action_valuesUncheckedUpdateInput = {
+    action_value_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    action_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_id?: NullableStringFieldUpdateOperationsInput | string | null
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Action_valuesCreateManyInput = {
+    action_value_id: string
+    account_id?: string | null
+    action_id?: string | null
+    unit_id?: string | null
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Action_valuesUpdateManyMutationInput = {
+    action_value_id?: StringFieldUpdateOperationsInput | string
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Action_valuesUncheckedUpdateManyInput = {
+    action_value_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    action_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_id?: NullableStringFieldUpdateOperationsInput | string | null
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type ActionsCreateInput = {
     action_id: string
     date?: Date | string | null
@@ -59485,6 +61009,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     relevant_for_reports?: boolean | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesCreateNestedManyWithoutActionsInput
     accounts?: AccountsCreateNestedOneWithoutActionsInput
     places?: PlacesCreateNestedOneWithoutActionsInput
   }
@@ -59500,6 +61025,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     relevant_for_reports?: boolean | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutActionsInput
   }
 
   export type ActionsUpdateInput = {
@@ -59511,6 +61037,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     relevant_for_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUpdateManyWithoutActionsNestedInput
     accounts?: AccountsUpdateOneWithoutActionsNestedInput
     places?: PlacesUpdateOneWithoutActionsNestedInput
   }
@@ -59526,6 +61053,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     relevant_for_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutActionsNestedInput
   }
 
   export type ActionsCreateManyInput = {
@@ -62744,6 +64272,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: unit_type | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesCreateNestedManyWithoutUnitsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutUnitsInput
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutUnitsInput
     place_report_values?: Place_report_valuesCreateNestedManyWithoutUnitsInput
@@ -62770,6 +64299,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutUnitsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutUnitsInput
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
     place_report_values?: Place_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
@@ -62790,6 +64320,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUpdateManyWithoutUnitsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutUnitsNestedInput
     goal_report_values?: Goal_report_valuesUpdateManyWithoutUnitsNestedInput
     place_report_values?: Place_report_valuesUpdateManyWithoutUnitsNestedInput
@@ -62816,6 +64347,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutUnitsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutUnitsNestedInput
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
     place_report_values?: Place_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
@@ -63638,6 +65170,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     isNot?: UsersWhereInput | null
   }
 
+  export type Action_valuesListRelationFilter = {
+    every?: Action_valuesWhereInput
+    some?: Action_valuesWhereInput
+    none?: Action_valuesWhereInput
+  }
+
   export type ActionsListRelationFilter = {
     every?: ActionsWhereInput
     some?: ActionsWhereInput
@@ -63863,6 +65401,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type Action_valuesOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type ActionsOrderByRelationAggregateInput = {
@@ -64104,6 +65646,134 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type AccountsNullableRelationFilter = {
+    is?: AccountsWhereInput | null
+    isNot?: AccountsWhereInput | null
+  }
+
+  export type ActionsNullableRelationFilter = {
+    is?: ActionsWhereInput | null
+    isNot?: ActionsWhereInput | null
+  }
+
+  export type UnitsNullableRelationFilter = {
+    is?: UnitsWhereInput | null
+    isNot?: UnitsWhereInput | null
+  }
+
+  export type Action_valuesCountOrderByAggregateInput = {
+    action_value_id?: SortOrder
+    account_id?: SortOrder
+    action_id?: SortOrder
+    unit_id?: SortOrder
+    value_integer?: SortOrder
+    value_numeric?: SortOrder
+    value_text?: SortOrder
+    label?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Action_valuesAvgOrderByAggregateInput = {
+    value_integer?: SortOrder
+    value_numeric?: SortOrder
+  }
+
+  export type Action_valuesMaxOrderByAggregateInput = {
+    action_value_id?: SortOrder
+    account_id?: SortOrder
+    action_id?: SortOrder
+    unit_id?: SortOrder
+    value_integer?: SortOrder
+    value_numeric?: SortOrder
+    value_text?: SortOrder
+    label?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Action_valuesMinOrderByAggregateInput = {
+    action_value_id?: SortOrder
+    account_id?: SortOrder
+    action_id?: SortOrder
+    unit_id?: SortOrder
+    value_integer?: SortOrder
+    value_numeric?: SortOrder
+    value_text?: SortOrder
+    label?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Action_valuesSumOrderByAggregateInput = {
+    value_integer?: SortOrder
+    value_numeric?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
   export type JsonNullableFilter<$PrismaModel = never> = 
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -64125,16 +65795,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type BoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-  }
-
-  export type AccountsNullableRelationFilter = {
-    is?: AccountsWhereInput | null
-    isNot?: AccountsWhereInput | null
   }
 
   export type PlacesNullableRelationFilter = {
@@ -64200,30 +65860,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
-  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
-  }
-
   export type Enumchart_subject_tableNullableFilter<$PrismaModel = never> = {
     equals?: chart_subject_table | Enumchart_subject_tableFieldRefInput<$PrismaModel> | null
     in?: Enumerable<chart_subject_table> | ListEnumchart_subject_tableFieldRefInput<$PrismaModel> | null
     notIn?: Enumerable<chart_subject_table> | ListEnumchart_subject_tableFieldRefInput<$PrismaModel> | null
     not?: NestedEnumchart_subject_tableNullableFilter<$PrismaModel> | chart_subject_table | null
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type Enumchart_subject_value_sourceNullableFilter<$PrismaModel = never> = {
@@ -64243,11 +65884,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type ChartsNullableRelationFilter = {
     is?: ChartsWhereInput | null
     isNot?: ChartsWhereInput | null
-  }
-
-  export type UnitsNullableRelationFilter = {
-    is?: UnitsWhereInput | null
-    isNot?: UnitsWhereInput | null
   }
 
   export type Chart_subjectsCountOrderByAggregateInput = {
@@ -64329,22 +65965,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumchart_subject_tableNullableFilter<$PrismaModel>
     _max?: NestedEnumchart_subject_tableNullableFilter<$PrismaModel>
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type Enumchart_subject_value_sourceNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -64708,17 +66328,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: SortOrder
   }
 
-  export type FloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type Goal_reportsNullableRelationFilter = {
     is?: Goal_reportsWhereInput | null
     isNot?: Goal_reportsWhereInput | null
@@ -64768,22 +66377,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Goal_report_valuesSumOrderByAggregateInput = {
     value_integer?: SortOrder
     value_numeric?: SortOrder
-  }
-
-  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type GoalsNullableRelationFilter = {
@@ -66456,6 +68049,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: UsersWhereUniqueInput
   }
 
+  export type Action_valuesCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Action_valuesCreateWithoutAccountsInput>, Enumerable<Action_valuesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Action_valuesCreateOrConnectWithoutAccountsInput>
+    createMany?: Action_valuesCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Action_valuesWhereUniqueInput>
+  }
+
   export type ActionsCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<ActionsCreateWithoutAccountsInput>, Enumerable<ActionsUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<ActionsCreateOrConnectWithoutAccountsInput>
@@ -66713,6 +68313,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<Vector_layersCreateOrConnectWithoutAccountsInput>
     createMany?: Vector_layersCreateManyAccountsInputEnvelope
     connect?: Enumerable<Vector_layersWhereUniqueInput>
+  }
+
+  export type Action_valuesUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Action_valuesCreateWithoutAccountsInput>, Enumerable<Action_valuesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Action_valuesCreateOrConnectWithoutAccountsInput>
+    createMany?: Action_valuesCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Action_valuesWhereUniqueInput>
   }
 
   export type ActionsUncheckedCreateNestedManyWithoutAccountsInput = {
@@ -66994,6 +68601,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     delete?: UsersWhereInput | boolean
     connect?: UsersWhereUniqueInput
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutAccountsInput, UsersUpdateWithoutAccountsInput>, UsersUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type Action_valuesUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Action_valuesCreateWithoutAccountsInput>, Enumerable<Action_valuesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Action_valuesCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Action_valuesUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Action_valuesCreateManyAccountsInputEnvelope
+    set?: Enumerable<Action_valuesWhereUniqueInput>
+    disconnect?: Enumerable<Action_valuesWhereUniqueInput>
+    delete?: Enumerable<Action_valuesWhereUniqueInput>
+    connect?: Enumerable<Action_valuesWhereUniqueInput>
+    update?: Enumerable<Action_valuesUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Action_valuesUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Action_valuesScalarWhereInput>
   }
 
   export type ActionsUpdateManyWithoutAccountsNestedInput = {
@@ -67514,6 +69135,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<Vector_layersScalarWhereInput>
   }
 
+  export type Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Action_valuesCreateWithoutAccountsInput>, Enumerable<Action_valuesUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Action_valuesCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Action_valuesUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Action_valuesCreateManyAccountsInputEnvelope
+    set?: Enumerable<Action_valuesWhereUniqueInput>
+    disconnect?: Enumerable<Action_valuesWhereUniqueInput>
+    delete?: Enumerable<Action_valuesWhereUniqueInput>
+    connect?: Enumerable<Action_valuesWhereUniqueInput>
+    update?: Enumerable<Action_valuesUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Action_valuesUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Action_valuesScalarWhereInput>
+  }
+
   export type ActionsUncheckedUpdateManyWithoutAccountsNestedInput = {
     create?: XOR<Enumerable<ActionsCreateWithoutAccountsInput>, Enumerable<ActionsUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<ActionsCreateOrConnectWithoutAccountsInput>
@@ -68032,6 +69667,81 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<Vector_layersScalarWhereInput>
   }
 
+  export type AccountsCreateNestedOneWithoutAction_valuesInput = {
+    create?: XOR<AccountsCreateWithoutAction_valuesInput, AccountsUncheckedCreateWithoutAction_valuesInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutAction_valuesInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type ActionsCreateNestedOneWithoutAction_valuesInput = {
+    create?: XOR<ActionsCreateWithoutAction_valuesInput, ActionsUncheckedCreateWithoutAction_valuesInput>
+    connectOrCreate?: ActionsCreateOrConnectWithoutAction_valuesInput
+    connect?: ActionsWhereUniqueInput
+  }
+
+  export type UnitsCreateNestedOneWithoutAction_valuesInput = {
+    create?: XOR<UnitsCreateWithoutAction_valuesInput, UnitsUncheckedCreateWithoutAction_valuesInput>
+    connectOrCreate?: UnitsCreateOrConnectWithoutAction_valuesInput
+    connect?: UnitsWhereUniqueInput
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
+  }
+
+  export type AccountsUpdateOneWithoutAction_valuesNestedInput = {
+    create?: XOR<AccountsCreateWithoutAction_valuesInput, AccountsUncheckedCreateWithoutAction_valuesInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutAction_valuesInput
+    upsert?: AccountsUpsertWithoutAction_valuesInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutAction_valuesInput, AccountsUpdateWithoutAction_valuesInput>, AccountsUncheckedUpdateWithoutAction_valuesInput>
+  }
+
+  export type ActionsUpdateOneWithoutAction_valuesNestedInput = {
+    create?: XOR<ActionsCreateWithoutAction_valuesInput, ActionsUncheckedCreateWithoutAction_valuesInput>
+    connectOrCreate?: ActionsCreateOrConnectWithoutAction_valuesInput
+    upsert?: ActionsUpsertWithoutAction_valuesInput
+    disconnect?: ActionsWhereInput | boolean
+    delete?: ActionsWhereInput | boolean
+    connect?: ActionsWhereUniqueInput
+    update?: XOR<XOR<ActionsUpdateToOneWithWhereWithoutAction_valuesInput, ActionsUpdateWithoutAction_valuesInput>, ActionsUncheckedUpdateWithoutAction_valuesInput>
+  }
+
+  export type UnitsUpdateOneWithoutAction_valuesNestedInput = {
+    create?: XOR<UnitsCreateWithoutAction_valuesInput, UnitsUncheckedCreateWithoutAction_valuesInput>
+    connectOrCreate?: UnitsCreateOrConnectWithoutAction_valuesInput
+    upsert?: UnitsUpsertWithoutAction_valuesInput
+    disconnect?: UnitsWhereInput | boolean
+    delete?: UnitsWhereInput | boolean
+    connect?: UnitsWhereUniqueInput
+    update?: XOR<XOR<UnitsUpdateToOneWithWhereWithoutAction_valuesInput, UnitsUpdateWithoutAction_valuesInput>, UnitsUncheckedUpdateWithoutAction_valuesInput>
+  }
+
+  export type Action_valuesCreateNestedManyWithoutActionsInput = {
+    create?: XOR<Enumerable<Action_valuesCreateWithoutActionsInput>, Enumerable<Action_valuesUncheckedCreateWithoutActionsInput>>
+    connectOrCreate?: Enumerable<Action_valuesCreateOrConnectWithoutActionsInput>
+    createMany?: Action_valuesCreateManyActionsInputEnvelope
+    connect?: Enumerable<Action_valuesWhereUniqueInput>
+  }
+
   export type AccountsCreateNestedOneWithoutActionsInput = {
     create?: XOR<AccountsCreateWithoutActionsInput, AccountsUncheckedCreateWithoutActionsInput>
     connectOrCreate?: AccountsCreateOrConnectWithoutActionsInput
@@ -68044,8 +69754,25 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: PlacesWhereUniqueInput
   }
 
-  export type NullableBoolFieldUpdateOperationsInput = {
-    set?: boolean | null
+  export type Action_valuesUncheckedCreateNestedManyWithoutActionsInput = {
+    create?: XOR<Enumerable<Action_valuesCreateWithoutActionsInput>, Enumerable<Action_valuesUncheckedCreateWithoutActionsInput>>
+    connectOrCreate?: Enumerable<Action_valuesCreateOrConnectWithoutActionsInput>
+    createMany?: Action_valuesCreateManyActionsInputEnvelope
+    connect?: Enumerable<Action_valuesWhereUniqueInput>
+  }
+
+  export type Action_valuesUpdateManyWithoutActionsNestedInput = {
+    create?: XOR<Enumerable<Action_valuesCreateWithoutActionsInput>, Enumerable<Action_valuesUncheckedCreateWithoutActionsInput>>
+    connectOrCreate?: Enumerable<Action_valuesCreateOrConnectWithoutActionsInput>
+    upsert?: Enumerable<Action_valuesUpsertWithWhereUniqueWithoutActionsInput>
+    createMany?: Action_valuesCreateManyActionsInputEnvelope
+    set?: Enumerable<Action_valuesWhereUniqueInput>
+    disconnect?: Enumerable<Action_valuesWhereUniqueInput>
+    delete?: Enumerable<Action_valuesWhereUniqueInput>
+    connect?: Enumerable<Action_valuesWhereUniqueInput>
+    update?: Enumerable<Action_valuesUpdateWithWhereUniqueWithoutActionsInput>
+    updateMany?: Enumerable<Action_valuesUpdateManyWithWhereWithoutActionsInput>
+    deleteMany?: Enumerable<Action_valuesScalarWhereInput>
   }
 
   export type AccountsUpdateOneWithoutActionsNestedInput = {
@@ -68068,6 +69795,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<XOR<PlacesUpdateToOneWithWhereWithoutActionsInput, PlacesUpdateWithoutActionsInput>, PlacesUncheckedUpdateWithoutActionsInput>
   }
 
+  export type Action_valuesUncheckedUpdateManyWithoutActionsNestedInput = {
+    create?: XOR<Enumerable<Action_valuesCreateWithoutActionsInput>, Enumerable<Action_valuesUncheckedCreateWithoutActionsInput>>
+    connectOrCreate?: Enumerable<Action_valuesCreateOrConnectWithoutActionsInput>
+    upsert?: Enumerable<Action_valuesUpsertWithWhereUniqueWithoutActionsInput>
+    createMany?: Action_valuesCreateManyActionsInputEnvelope
+    set?: Enumerable<Action_valuesWhereUniqueInput>
+    disconnect?: Enumerable<Action_valuesWhereUniqueInput>
+    delete?: Enumerable<Action_valuesWhereUniqueInput>
+    connect?: Enumerable<Action_valuesWhereUniqueInput>
+    update?: Enumerable<Action_valuesUpdateWithWhereUniqueWithoutActionsInput>
+    updateMany?: Enumerable<Action_valuesUpdateManyWithWhereWithoutActionsInput>
+    deleteMany?: Enumerable<Action_valuesScalarWhereInput>
+  }
+
   export type AccountsCreateNestedOneWithoutChart_subjectsInput = {
     create?: XOR<AccountsCreateWithoutChart_subjectsInput, AccountsUncheckedCreateWithoutChart_subjectsInput>
     connectOrCreate?: AccountsCreateOrConnectWithoutChart_subjectsInput
@@ -68088,14 +69829,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type NullableEnumchart_subject_tableFieldUpdateOperationsInput = {
     set?: chart_subject_table | null
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type NullableEnumchart_subject_value_sourceFieldUpdateOperationsInput = {
@@ -68558,14 +70291,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     create?: XOR<UnitsCreateWithoutGoal_report_valuesInput, UnitsUncheckedCreateWithoutGoal_report_valuesInput>
     connectOrCreate?: UnitsCreateOrConnectWithoutGoal_report_valuesInput
     connect?: UnitsWhereUniqueInput
-  }
-
-  export type NullableFloatFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type AccountsUpdateOneWithoutGoal_report_valuesNestedInput = {
@@ -71212,6 +72937,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutUi_optionsInput, UsersUpdateWithoutUi_optionsInput>, UsersUncheckedUpdateWithoutUi_optionsInput>
   }
 
+  export type Action_valuesCreateNestedManyWithoutUnitsInput = {
+    create?: XOR<Enumerable<Action_valuesCreateWithoutUnitsInput>, Enumerable<Action_valuesUncheckedCreateWithoutUnitsInput>>
+    connectOrCreate?: Enumerable<Action_valuesCreateOrConnectWithoutUnitsInput>
+    createMany?: Action_valuesCreateManyUnitsInputEnvelope
+    connect?: Enumerable<Action_valuesWhereUniqueInput>
+  }
+
   export type Chart_subjectsCreateNestedManyWithoutUnitsInput = {
     create?: XOR<Enumerable<Chart_subjectsCreateWithoutUnitsInput>, Enumerable<Chart_subjectsUncheckedCreateWithoutUnitsInput>>
     connectOrCreate?: Enumerable<Chart_subjectsCreateOrConnectWithoutUnitsInput>
@@ -71251,6 +72983,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: ProjectsWhereUniqueInput
   }
 
+  export type Action_valuesUncheckedCreateNestedManyWithoutUnitsInput = {
+    create?: XOR<Enumerable<Action_valuesCreateWithoutUnitsInput>, Enumerable<Action_valuesUncheckedCreateWithoutUnitsInput>>
+    connectOrCreate?: Enumerable<Action_valuesCreateOrConnectWithoutUnitsInput>
+    createMany?: Action_valuesCreateManyUnitsInputEnvelope
+    connect?: Enumerable<Action_valuesWhereUniqueInput>
+  }
+
   export type Chart_subjectsUncheckedCreateNestedManyWithoutUnitsInput = {
     create?: XOR<Enumerable<Chart_subjectsCreateWithoutUnitsInput>, Enumerable<Chart_subjectsUncheckedCreateWithoutUnitsInput>>
     connectOrCreate?: Enumerable<Chart_subjectsCreateOrConnectWithoutUnitsInput>
@@ -71274,6 +73013,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type NullableEnumunit_typeFieldUpdateOperationsInput = {
     set?: unit_type | null
+  }
+
+  export type Action_valuesUpdateManyWithoutUnitsNestedInput = {
+    create?: XOR<Enumerable<Action_valuesCreateWithoutUnitsInput>, Enumerable<Action_valuesUncheckedCreateWithoutUnitsInput>>
+    connectOrCreate?: Enumerable<Action_valuesCreateOrConnectWithoutUnitsInput>
+    upsert?: Enumerable<Action_valuesUpsertWithWhereUniqueWithoutUnitsInput>
+    createMany?: Action_valuesCreateManyUnitsInputEnvelope
+    set?: Enumerable<Action_valuesWhereUniqueInput>
+    disconnect?: Enumerable<Action_valuesWhereUniqueInput>
+    delete?: Enumerable<Action_valuesWhereUniqueInput>
+    connect?: Enumerable<Action_valuesWhereUniqueInput>
+    update?: Enumerable<Action_valuesUpdateWithWhereUniqueWithoutUnitsInput>
+    updateMany?: Enumerable<Action_valuesUpdateManyWithWhereWithoutUnitsInput>
+    deleteMany?: Enumerable<Action_valuesScalarWhereInput>
   }
 
   export type Chart_subjectsUpdateManyWithoutUnitsNestedInput = {
@@ -71346,6 +73099,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     delete?: ProjectsWhereInput | boolean
     connect?: ProjectsWhereUniqueInput
     update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutUnitsInput, ProjectsUpdateWithoutUnitsInput>, ProjectsUncheckedUpdateWithoutUnitsInput>
+  }
+
+  export type Action_valuesUncheckedUpdateManyWithoutUnitsNestedInput = {
+    create?: XOR<Enumerable<Action_valuesCreateWithoutUnitsInput>, Enumerable<Action_valuesUncheckedCreateWithoutUnitsInput>>
+    connectOrCreate?: Enumerable<Action_valuesCreateOrConnectWithoutUnitsInput>
+    upsert?: Enumerable<Action_valuesUpsertWithWhereUniqueWithoutUnitsInput>
+    createMany?: Action_valuesCreateManyUnitsInputEnvelope
+    set?: Enumerable<Action_valuesWhereUniqueInput>
+    disconnect?: Enumerable<Action_valuesWhereUniqueInput>
+    delete?: Enumerable<Action_valuesWhereUniqueInput>
+    connect?: Enumerable<Action_valuesWhereUniqueInput>
+    update?: Enumerable<Action_valuesUpdateWithWhereUniqueWithoutUnitsInput>
+    updateMany?: Enumerable<Action_valuesUpdateManyWithWhereWithoutUnitsInput>
+    deleteMany?: Enumerable<Action_valuesScalarWhereInput>
   }
 
   export type Chart_subjectsUncheckedUpdateManyWithoutUnitsNestedInput = {
@@ -72174,9 +73941,60 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedBoolNullableFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
   export type NestedJsonNullableFilter<$PrismaModel = never> = 
     | PatchUndefined<
@@ -72199,14 +74017,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumchart_subject_tableNullableFilter<$PrismaModel = never> = {
@@ -72238,33 +74048,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumchart_subject_tableNullableFilter<$PrismaModel>
     _max?: NestedEnumchart_subject_tableNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedEnumchart_subject_value_sourceNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -72319,22 +74102,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumgbif_tableNullableFilter<$PrismaModel>
     _max?: NestedEnumgbif_tableNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<number> | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumlayer_options_field_enumNullableFilter<$PrismaModel = never> = {
@@ -72538,6 +74305,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     create: XOR<UsersCreateWithoutAccountsInput, UsersUncheckedCreateWithoutAccountsInput>
   }
 
+  export type Action_valuesCreateWithoutAccountsInput = {
+    action_value_id: string
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+    actions?: ActionsCreateNestedOneWithoutAction_valuesInput
+    units?: UnitsCreateNestedOneWithoutAction_valuesInput
+  }
+
+  export type Action_valuesUncheckedCreateWithoutAccountsInput = {
+    action_value_id: string
+    action_id?: string | null
+    unit_id?: string | null
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Action_valuesCreateOrConnectWithoutAccountsInput = {
+    where: Action_valuesWhereUniqueInput
+    create: XOR<Action_valuesCreateWithoutAccountsInput, Action_valuesUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Action_valuesCreateManyAccountsInputEnvelope = {
+    data: Enumerable<Action_valuesCreateManyAccountsInput>
+    skipDuplicates?: boolean
+  }
+
   export type ActionsCreateWithoutAccountsInput = {
     action_id: string
     date?: Date | string | null
@@ -72547,6 +74346,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     relevant_for_reports?: boolean | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesCreateNestedManyWithoutActionsInput
     places?: PlacesCreateNestedOneWithoutActionsInput
   }
 
@@ -72560,6 +74360,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     relevant_for_reports?: boolean | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutActionsInput
   }
 
   export type ActionsCreateOrConnectWithoutAccountsInput = {
@@ -73761,6 +75562,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: unit_type | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesCreateNestedManyWithoutUnitsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutUnitsInput
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutUnitsInput
     place_report_values?: Place_report_valuesCreateNestedManyWithoutUnitsInput
@@ -73785,6 +75587,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutUnitsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutUnitsInput
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
     place_report_values?: Place_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
@@ -74013,6 +75816,37 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subproject_users?: Subproject_usersUncheckedUpdateManyWithoutUsersNestedInput
     ui_options?: Ui_optionsUncheckedUpdateOneWithoutUsersNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type Action_valuesUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: Action_valuesWhereUniqueInput
+    update: XOR<Action_valuesUpdateWithoutAccountsInput, Action_valuesUncheckedUpdateWithoutAccountsInput>
+    create: XOR<Action_valuesCreateWithoutAccountsInput, Action_valuesUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Action_valuesUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: Action_valuesWhereUniqueInput
+    data: XOR<Action_valuesUpdateWithoutAccountsInput, Action_valuesUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type Action_valuesUpdateManyWithWhereWithoutAccountsInput = {
+    where: Action_valuesScalarWhereInput
+    data: XOR<Action_valuesUpdateManyMutationInput, Action_valuesUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type Action_valuesScalarWhereInput = {
+    AND?: Enumerable<Action_valuesScalarWhereInput>
+    OR?: Enumerable<Action_valuesScalarWhereInput>
+    NOT?: Enumerable<Action_valuesScalarWhereInput>
+    action_value_id?: UuidFilter<"Action_values"> | string
+    account_id?: UuidNullableFilter<"Action_values"> | string | null
+    action_id?: UuidNullableFilter<"Action_values"> | string | null
+    unit_id?: UuidNullableFilter<"Action_values"> | string | null
+    value_integer?: IntNullableFilter<"Action_values"> | number | null
+    value_numeric?: FloatNullableFilter<"Action_values"> | number | null
+    value_text?: StringNullableFilter<"Action_values"> | string | null
+    label?: StringNullableFilter<"Action_values"> | string | null
+    deleted?: BoolNullableFilter<"Action_values"> | boolean | null
   }
 
   export type ActionsUpsertWithWhereUniqueWithoutAccountsInput = {
@@ -75243,6 +77077,418 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableFilter<"Vector_layers"> | boolean | null
   }
 
+  export type AccountsCreateWithoutAction_valuesInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    actions?: ActionsCreateNestedManyWithoutAccountsInput
+    chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
+    fields?: FieldsCreateNestedManyWithoutAccountsInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
+    goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesCreateNestedManyWithoutAccountsInput
+    lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
+    observations?: ObservationsCreateNestedManyWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
+    place_report_values?: Place_report_valuesCreateNestedManyWithoutAccountsInput
+    place_reports?: Place_reportsCreateNestedManyWithoutAccountsInput
+    place_users?: Place_usersCreateNestedManyWithoutAccountsInput
+    places?: PlacesCreateNestedManyWithoutAccountsInput
+    project_reports?: Project_reportsCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    subproject_reports?: Subproject_reportsCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutAction_valuesInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
+    chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
+    fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
+    observations?: ObservationsUncheckedCreateNestedManyWithoutAccountsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
+    place_report_values?: Place_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    place_reports?: Place_reportsUncheckedCreateNestedManyWithoutAccountsInput
+    place_users?: Place_usersUncheckedCreateNestedManyWithoutAccountsInput
+    places?: PlacesUncheckedCreateNestedManyWithoutAccountsInput
+    project_reports?: Project_reportsUncheckedCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_reports?: Subproject_reportsUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutAction_valuesInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutAction_valuesInput, AccountsUncheckedCreateWithoutAction_valuesInput>
+  }
+
+  export type ActionsCreateWithoutAction_valuesInput = {
+    action_id: string
+    date?: Date | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    bbox?: NullableJsonNullValueInput | InputJsonValue
+    relevant_for_reports?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutActionsInput
+    places?: PlacesCreateNestedOneWithoutActionsInput
+  }
+
+  export type ActionsUncheckedCreateWithoutAction_valuesInput = {
+    action_id: string
+    account_id?: string | null
+    place_id?: string | null
+    date?: Date | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    bbox?: NullableJsonNullValueInput | InputJsonValue
+    relevant_for_reports?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type ActionsCreateOrConnectWithoutAction_valuesInput = {
+    where: ActionsWhereUniqueInput
+    create: XOR<ActionsCreateWithoutAction_valuesInput, ActionsUncheckedCreateWithoutAction_valuesInput>
+  }
+
+  export type UnitsCreateWithoutAction_valuesInput = {
+    unit_id: string
+    use_for_action_values?: boolean | null
+    use_for_action_report_values?: boolean | null
+    use_for_check_values?: boolean | null
+    use_for_place_report_values?: boolean | null
+    use_for_goal_report_values?: boolean | null
+    use_for_subproject_taxa?: boolean | null
+    use_for_check_taxa?: boolean | null
+    name?: string | null
+    summable?: boolean | null
+    sort?: number | null
+    type?: unit_type | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    chart_subjects?: Chart_subjectsCreateNestedManyWithoutUnitsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutUnitsInput
+    place_report_values?: Place_report_valuesCreateNestedManyWithoutUnitsInput
+    accounts?: AccountsCreateNestedOneWithoutUnitsInput
+    lists?: ListsCreateNestedOneWithoutUnitsInput
+    projects?: ProjectsCreateNestedOneWithoutUnitsInput
+  }
+
+  export type UnitsUncheckedCreateWithoutAction_valuesInput = {
+    unit_id: string
+    account_id?: string | null
+    project_id?: string | null
+    use_for_action_values?: boolean | null
+    use_for_action_report_values?: boolean | null
+    use_for_check_values?: boolean | null
+    use_for_place_report_values?: boolean | null
+    use_for_goal_report_values?: boolean | null
+    use_for_subproject_taxa?: boolean | null
+    use_for_check_taxa?: boolean | null
+    name?: string | null
+    summable?: boolean | null
+    sort?: number | null
+    type?: unit_type | null
+    list_id?: string | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutUnitsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
+    place_report_values?: Place_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
+  }
+
+  export type UnitsCreateOrConnectWithoutAction_valuesInput = {
+    where: UnitsWhereUniqueInput
+    create: XOR<UnitsCreateWithoutAction_valuesInput, UnitsUncheckedCreateWithoutAction_valuesInput>
+  }
+
+  export type AccountsUpsertWithoutAction_valuesInput = {
+    update: XOR<AccountsUpdateWithoutAction_valuesInput, AccountsUncheckedUpdateWithoutAction_valuesInput>
+    create: XOR<AccountsCreateWithoutAction_valuesInput, AccountsUncheckedCreateWithoutAction_valuesInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutAction_valuesInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutAction_valuesInput, AccountsUncheckedUpdateWithoutAction_valuesInput>
+  }
+
+  export type AccountsUpdateWithoutAction_valuesInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    actions?: ActionsUpdateManyWithoutAccountsNestedInput
+    chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
+    fields?: FieldsUpdateManyWithoutAccountsNestedInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
+    goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
+    observations?: ObservationsUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
+    place_report_values?: Place_report_valuesUpdateManyWithoutAccountsNestedInput
+    place_reports?: Place_reportsUpdateManyWithoutAccountsNestedInput
+    place_users?: Place_usersUpdateManyWithoutAccountsNestedInput
+    places?: PlacesUpdateManyWithoutAccountsNestedInput
+    project_reports?: Project_reportsUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    subproject_reports?: Subproject_reportsUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutAction_valuesInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
+    chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
+    fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
+    observations?: ObservationsUncheckedUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
+    place_report_values?: Place_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    place_reports?: Place_reportsUncheckedUpdateManyWithoutAccountsNestedInput
+    place_users?: Place_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    places?: PlacesUncheckedUpdateManyWithoutAccountsNestedInput
+    project_reports?: Project_reportsUncheckedUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_reports?: Subproject_reportsUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type ActionsUpsertWithoutAction_valuesInput = {
+    update: XOR<ActionsUpdateWithoutAction_valuesInput, ActionsUncheckedUpdateWithoutAction_valuesInput>
+    create: XOR<ActionsCreateWithoutAction_valuesInput, ActionsUncheckedCreateWithoutAction_valuesInput>
+    where?: ActionsWhereInput
+  }
+
+  export type ActionsUpdateToOneWithWhereWithoutAction_valuesInput = {
+    where?: ActionsWhereInput
+    data: XOR<ActionsUpdateWithoutAction_valuesInput, ActionsUncheckedUpdateWithoutAction_valuesInput>
+  }
+
+  export type ActionsUpdateWithoutAction_valuesInput = {
+    action_id?: StringFieldUpdateOperationsInput | string
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    bbox?: NullableJsonNullValueInput | InputJsonValue
+    relevant_for_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutActionsNestedInput
+    places?: PlacesUpdateOneWithoutActionsNestedInput
+  }
+
+  export type ActionsUncheckedUpdateWithoutAction_valuesInput = {
+    action_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    place_id?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    bbox?: NullableJsonNullValueInput | InputJsonValue
+    relevant_for_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type UnitsUpsertWithoutAction_valuesInput = {
+    update: XOR<UnitsUpdateWithoutAction_valuesInput, UnitsUncheckedUpdateWithoutAction_valuesInput>
+    create: XOR<UnitsCreateWithoutAction_valuesInput, UnitsUncheckedCreateWithoutAction_valuesInput>
+    where?: UnitsWhereInput
+  }
+
+  export type UnitsUpdateToOneWithWhereWithoutAction_valuesInput = {
+    where?: UnitsWhereInput
+    data: XOR<UnitsUpdateWithoutAction_valuesInput, UnitsUncheckedUpdateWithoutAction_valuesInput>
+  }
+
+  export type UnitsUpdateWithoutAction_valuesInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    chart_subjects?: Chart_subjectsUpdateManyWithoutUnitsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutUnitsNestedInput
+    place_report_values?: Place_report_valuesUpdateManyWithoutUnitsNestedInput
+    accounts?: AccountsUpdateOneWithoutUnitsNestedInput
+    lists?: ListsUpdateOneWithoutUnitsNestedInput
+    projects?: ProjectsUpdateOneWithoutUnitsNestedInput
+  }
+
+  export type UnitsUncheckedUpdateWithoutAction_valuesInput = {
+    unit_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    use_for_action_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_action_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_place_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_goal_report_values?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_subproject_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    use_for_check_taxa?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    summable?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
+    list_id?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutUnitsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
+    place_report_values?: Place_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
+  }
+
+  export type Action_valuesCreateWithoutActionsInput = {
+    action_value_id: string
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutAction_valuesInput
+    units?: UnitsCreateNestedOneWithoutAction_valuesInput
+  }
+
+  export type Action_valuesUncheckedCreateWithoutActionsInput = {
+    action_value_id: string
+    account_id?: string | null
+    unit_id?: string | null
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Action_valuesCreateOrConnectWithoutActionsInput = {
+    where: Action_valuesWhereUniqueInput
+    create: XOR<Action_valuesCreateWithoutActionsInput, Action_valuesUncheckedCreateWithoutActionsInput>
+  }
+
+  export type Action_valuesCreateManyActionsInputEnvelope = {
+    data: Enumerable<Action_valuesCreateManyActionsInput>
+    skipDuplicates?: boolean
+  }
+
   export type AccountsCreateWithoutActionsInput = {
     account_id: string
     type?: string | null
@@ -75251,6 +77497,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
@@ -75297,6 +77544,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
@@ -75387,6 +77635,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     create: XOR<PlacesCreateWithoutActionsInput, PlacesUncheckedCreateWithoutActionsInput>
   }
 
+  export type Action_valuesUpsertWithWhereUniqueWithoutActionsInput = {
+    where: Action_valuesWhereUniqueInput
+    update: XOR<Action_valuesUpdateWithoutActionsInput, Action_valuesUncheckedUpdateWithoutActionsInput>
+    create: XOR<Action_valuesCreateWithoutActionsInput, Action_valuesUncheckedCreateWithoutActionsInput>
+  }
+
+  export type Action_valuesUpdateWithWhereUniqueWithoutActionsInput = {
+    where: Action_valuesWhereUniqueInput
+    data: XOR<Action_valuesUpdateWithoutActionsInput, Action_valuesUncheckedUpdateWithoutActionsInput>
+  }
+
+  export type Action_valuesUpdateManyWithWhereWithoutActionsInput = {
+    where: Action_valuesScalarWhereInput
+    data: XOR<Action_valuesUpdateManyMutationInput, Action_valuesUncheckedUpdateManyWithoutActionsInput>
+  }
+
   export type AccountsUpsertWithoutActionsInput = {
     update: XOR<AccountsUpdateWithoutActionsInput, AccountsUncheckedUpdateWithoutActionsInput>
     create: XOR<AccountsCreateWithoutActionsInput, AccountsUncheckedCreateWithoutActionsInput>
@@ -75406,6 +77670,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
@@ -75452,6 +77717,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -75551,6 +77817,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
@@ -75597,6 +77864,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
@@ -75702,6 +77970,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: unit_type | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesCreateNestedManyWithoutUnitsInput
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutUnitsInput
     place_report_values?: Place_report_valuesCreateNestedManyWithoutUnitsInput
     accounts?: AccountsCreateNestedOneWithoutUnitsInput
@@ -75727,6 +77996,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutUnitsInput
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
     place_report_values?: Place_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
   }
@@ -75755,6 +78025,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
@@ -75801,6 +78072,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -75918,6 +78190,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUpdateManyWithoutUnitsNestedInput
     goal_report_values?: Goal_report_valuesUpdateManyWithoutUnitsNestedInput
     place_report_values?: Place_report_valuesUpdateManyWithoutUnitsNestedInput
     accounts?: AccountsUpdateOneWithoutUnitsNestedInput
@@ -75943,6 +78216,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutUnitsNestedInput
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
     place_report_values?: Place_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
   }
@@ -76005,6 +78279,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
@@ -76051,6 +78326,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
@@ -76310,6 +78586,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
@@ -76356,6 +78633,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -76710,6 +78988,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -76756,6 +79035,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -76992,6 +79272,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -77038,6 +79319,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -77282,6 +79564,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -77328,6 +79611,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -77524,6 +79808,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -77570,6 +79855,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -77762,6 +80048,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -77808,6 +80095,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -78004,6 +80292,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -78050,6 +80339,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -78242,6 +80532,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -78288,6 +80579,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -78441,6 +80733,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -78487,6 +80780,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -78630,6 +80924,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -78676,6 +80971,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -78757,6 +81053,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: unit_type | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesCreateNestedManyWithoutUnitsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutUnitsInput
     place_report_values?: Place_report_valuesCreateNestedManyWithoutUnitsInput
     accounts?: AccountsCreateNestedOneWithoutUnitsInput
@@ -78782,6 +81079,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutUnitsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutUnitsInput
     place_report_values?: Place_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
   }
@@ -78810,6 +81108,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -78856,6 +81155,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -78949,6 +81249,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUpdateManyWithoutUnitsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutUnitsNestedInput
     place_report_values?: Place_report_valuesUpdateManyWithoutUnitsNestedInput
     accounts?: AccountsUpdateOneWithoutUnitsNestedInput
@@ -78974,6 +81275,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutUnitsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutUnitsNestedInput
     place_report_values?: Place_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
   }
@@ -79018,6 +81320,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -79064,6 +81367,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -79169,6 +81473,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -79215,6 +81520,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -79322,6 +81628,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -79368,6 +81675,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -79489,6 +81797,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -79535,6 +81844,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -79630,6 +81940,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -79676,6 +81987,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -79854,6 +82166,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -79900,6 +82213,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -80074,6 +82388,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -80120,6 +82435,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -80213,6 +82529,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -80259,6 +82576,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -80412,6 +82730,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -80458,6 +82777,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -80607,6 +82927,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: unit_type | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesCreateNestedManyWithoutUnitsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutUnitsInput
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutUnitsInput
     place_report_values?: Place_report_valuesCreateNestedManyWithoutUnitsInput
@@ -80631,6 +82952,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: unit_type | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutUnitsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutUnitsInput
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
     place_report_values?: Place_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
@@ -80697,6 +83019,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -80743,6 +83066,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -80944,6 +83268,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -80990,6 +83315,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -81183,6 +83509,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -81229,6 +83556,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -81388,6 +83716,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -81434,6 +83763,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -81570,6 +83900,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -81616,6 +83947,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -81748,6 +84080,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -81794,6 +84127,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -81947,6 +84281,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -81993,6 +84328,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -82136,6 +84472,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -82182,6 +84519,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -82335,6 +84673,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -82381,6 +84720,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -82524,6 +84864,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -82570,6 +84911,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -82653,6 +84995,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: unit_type | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesCreateNestedManyWithoutUnitsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutUnitsInput
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutUnitsInput
     accounts?: AccountsCreateNestedOneWithoutUnitsInput
@@ -82678,6 +85021,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutUnitsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutUnitsInput
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
   }
@@ -82706,6 +85050,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -82752,6 +85097,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -82847,6 +85193,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUpdateManyWithoutUnitsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutUnitsNestedInput
     goal_report_values?: Goal_report_valuesUpdateManyWithoutUnitsNestedInput
     accounts?: AccountsUpdateOneWithoutUnitsNestedInput
@@ -82872,6 +85219,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutUnitsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutUnitsNestedInput
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
   }
@@ -82916,6 +85264,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -82962,6 +85311,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -83087,6 +85437,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -83133,6 +85484,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -83232,6 +85584,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -83278,6 +85631,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -83418,6 +85772,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -83464,6 +85819,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -83601,6 +85957,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     relevant_for_reports?: boolean | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesCreateNestedManyWithoutActionsInput
     accounts?: AccountsCreateNestedOneWithoutActionsInput
   }
 
@@ -83614,6 +85971,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     relevant_for_reports?: boolean | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutActionsInput
   }
 
   export type ActionsCreateOrConnectWithoutPlacesInput = {
@@ -83784,6 +86142,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -83830,6 +86189,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -84114,6 +86474,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -84160,6 +86521,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -84324,6 +86686,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -84370,6 +86733,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -84523,6 +86887,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -84569,6 +86934,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -84712,6 +87078,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -84758,6 +87125,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -84942,6 +87310,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -84988,6 +87357,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -85554,6 +87924,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -85600,6 +87971,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -85808,6 +88180,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: unit_type | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesCreateNestedManyWithoutUnitsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutUnitsInput
     goal_report_values?: Goal_report_valuesCreateNestedManyWithoutUnitsInput
     place_report_values?: Place_report_valuesCreateNestedManyWithoutUnitsInput
@@ -85832,6 +88205,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: string | null
     label_replace_by_generated_column?: string | null
     deleted?: boolean | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutUnitsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutUnitsInput
     goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
     place_report_values?: Place_report_valuesUncheckedCreateNestedManyWithoutUnitsInput
@@ -86102,6 +88476,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -86148,6 +88523,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -86274,6 +88650,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -86320,6 +88697,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -86425,6 +88803,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -86471,6 +88850,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -86566,6 +88946,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -86612,6 +88993,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -86744,6 +89126,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -86790,6 +89173,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -86918,6 +89302,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -86964,6 +89349,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -87100,6 +89486,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -87146,6 +89533,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -87562,6 +89950,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -87608,6 +89997,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -87889,6 +90279,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -87935,6 +90326,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -88104,6 +90496,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -88150,6 +90543,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -88259,6 +90653,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -88305,6 +90700,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -88420,6 +90816,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -88466,6 +90863,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -88635,6 +91033,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -88681,6 +91080,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -88856,6 +91256,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -88902,6 +91303,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -89071,6 +91473,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -89117,6 +91520,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -89260,6 +91664,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -89306,6 +91711,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -89399,6 +91805,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -89445,6 +91852,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -89518,6 +91926,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutUsersNestedInput
     subproject_users?: Subproject_usersUncheckedUpdateManyWithoutUsersNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type Action_valuesCreateWithoutUnitsInput = {
+    action_value_id: string
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutAction_valuesInput
+    actions?: ActionsCreateNestedOneWithoutAction_valuesInput
+  }
+
+  export type Action_valuesUncheckedCreateWithoutUnitsInput = {
+    action_value_id: string
+    account_id?: string | null
+    action_id?: string | null
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Action_valuesCreateOrConnectWithoutUnitsInput = {
+    where: Action_valuesWhereUniqueInput
+    create: XOR<Action_valuesCreateWithoutUnitsInput, Action_valuesUncheckedCreateWithoutUnitsInput>
+  }
+
+  export type Action_valuesCreateManyUnitsInputEnvelope = {
+    data: Enumerable<Action_valuesCreateManyUnitsInput>
+    skipDuplicates?: boolean
   }
 
   export type Chart_subjectsCreateWithoutUnitsInput = {
@@ -89642,6 +92082,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -89688,6 +92129,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -89853,6 +92295,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     create: XOR<ProjectsCreateWithoutUnitsInput, ProjectsUncheckedCreateWithoutUnitsInput>
   }
 
+  export type Action_valuesUpsertWithWhereUniqueWithoutUnitsInput = {
+    where: Action_valuesWhereUniqueInput
+    update: XOR<Action_valuesUpdateWithoutUnitsInput, Action_valuesUncheckedUpdateWithoutUnitsInput>
+    create: XOR<Action_valuesCreateWithoutUnitsInput, Action_valuesUncheckedCreateWithoutUnitsInput>
+  }
+
+  export type Action_valuesUpdateWithWhereUniqueWithoutUnitsInput = {
+    where: Action_valuesWhereUniqueInput
+    data: XOR<Action_valuesUpdateWithoutUnitsInput, Action_valuesUncheckedUpdateWithoutUnitsInput>
+  }
+
+  export type Action_valuesUpdateManyWithWhereWithoutUnitsInput = {
+    where: Action_valuesScalarWhereInput
+    data: XOR<Action_valuesUpdateManyMutationInput, Action_valuesUncheckedUpdateManyWithoutUnitsInput>
+  }
+
   export type Chart_subjectsUpsertWithWhereUniqueWithoutUnitsInput = {
     where: Chart_subjectsWhereUniqueInput
     update: XOR<Chart_subjectsUpdateWithoutUnitsInput, Chart_subjectsUncheckedUpdateWithoutUnitsInput>
@@ -89920,6 +92378,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -89966,6 +92425,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -90146,6 +92606,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -90192,6 +92653,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -90304,6 +92766,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -90350,6 +92813,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -90457,6 +92921,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -90503,6 +92968,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -90847,6 +93313,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -90893,6 +93360,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -91010,6 +93478,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -91056,6 +93525,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -91163,6 +93633,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -91209,6 +93680,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -91326,6 +93798,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -91372,6 +93845,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -91603,6 +94077,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    action_values?: Action_valuesCreateNestedManyWithoutAccountsInput
     actions?: ActionsCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
     charts?: ChartsCreateNestedManyWithoutAccountsInput
@@ -91649,6 +94124,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    action_values?: Action_valuesUncheckedCreateNestedManyWithoutAccountsInput
     actions?: ActionsUncheckedCreateNestedManyWithoutAccountsInput
     chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
     charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
@@ -91850,6 +94326,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -91896,6 +94373,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
@@ -92243,6 +94721,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     fields?: FieldsUncheckedUpdateManyWithoutWidget_typesNestedInput
+  }
+
+  export type Action_valuesCreateManyAccountsInput = {
+    action_value_id: string
+    action_id?: string | null
+    unit_id?: string | null
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
   }
 
   export type ActionsCreateManyAccountsInput = {
@@ -92733,6 +95222,39 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
   }
 
+  export type Action_valuesUpdateWithoutAccountsInput = {
+    action_value_id?: StringFieldUpdateOperationsInput | string
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    actions?: ActionsUpdateOneWithoutAction_valuesNestedInput
+    units?: UnitsUpdateOneWithoutAction_valuesNestedInput
+  }
+
+  export type Action_valuesUncheckedUpdateWithoutAccountsInput = {
+    action_value_id?: StringFieldUpdateOperationsInput | string
+    action_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_id?: NullableStringFieldUpdateOperationsInput | string | null
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Action_valuesUncheckedUpdateManyWithoutAccountsInput = {
+    action_value_id?: StringFieldUpdateOperationsInput | string
+    action_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_id?: NullableStringFieldUpdateOperationsInput | string | null
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type ActionsUpdateWithoutAccountsInput = {
     action_id?: StringFieldUpdateOperationsInput | string
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -92742,6 +95264,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     relevant_for_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUpdateManyWithoutActionsNestedInput
     places?: PlacesUpdateOneWithoutActionsNestedInput
   }
 
@@ -92755,6 +95278,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     relevant_for_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutActionsNestedInput
   }
 
   export type ActionsUncheckedUpdateManyWithoutAccountsInput = {
@@ -94039,6 +96563,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUpdateManyWithoutUnitsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutUnitsNestedInput
     goal_report_values?: Goal_report_valuesUpdateManyWithoutUnitsNestedInput
     place_report_values?: Place_report_valuesUpdateManyWithoutUnitsNestedInput
@@ -94063,6 +96588,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutUnitsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutUnitsNestedInput
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
     place_report_values?: Place_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
@@ -94288,6 +96814,50 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     point_count?: NullableIntFieldUpdateOperationsInput | number | null
     line_count?: NullableIntFieldUpdateOperationsInput | number | null
     polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Action_valuesCreateManyActionsInput = {
+    action_value_id: string
+    account_id?: string | null
+    unit_id?: string | null
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Action_valuesUpdateWithoutActionsInput = {
+    action_value_id?: StringFieldUpdateOperationsInput | string
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutAction_valuesNestedInput
+    units?: UnitsUpdateOneWithoutAction_valuesNestedInput
+  }
+
+  export type Action_valuesUncheckedUpdateWithoutActionsInput = {
+    action_value_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_id?: NullableStringFieldUpdateOperationsInput | string | null
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Action_valuesUncheckedUpdateManyWithoutActionsInput = {
+    action_value_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    unit_id?: NullableStringFieldUpdateOperationsInput | string | null
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
@@ -94675,6 +97245,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUpdateManyWithoutUnitsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutUnitsNestedInput
     goal_report_values?: Goal_report_valuesUpdateManyWithoutUnitsNestedInput
     place_report_values?: Place_report_valuesUpdateManyWithoutUnitsNestedInput
@@ -94699,6 +97270,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutUnitsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutUnitsNestedInput
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
     place_report_values?: Place_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
@@ -94948,6 +97520,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     relevant_for_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUpdateManyWithoutActionsNestedInput
     accounts?: AccountsUpdateOneWithoutActionsNestedInput
   }
 
@@ -94961,6 +97534,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     relevant_for_reports?: NullableBoolFieldUpdateOperationsInput | boolean | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutActionsNestedInput
   }
 
   export type ActionsUncheckedUpdateManyWithoutPlacesInput = {
@@ -96013,6 +98587,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     type?: NullableEnumunit_typeFieldUpdateOperationsInput | unit_type | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUpdateManyWithoutUnitsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutUnitsNestedInput
     goal_report_values?: Goal_report_valuesUpdateManyWithoutUnitsNestedInput
     place_report_values?: Place_report_valuesUpdateManyWithoutUnitsNestedInput
@@ -96037,6 +98612,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     list_id?: NullableStringFieldUpdateOperationsInput | string | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutUnitsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutUnitsNestedInput
     goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
     place_report_values?: Place_report_valuesUncheckedUpdateManyWithoutUnitsNestedInput
@@ -96643,6 +99219,17 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     legend_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type Action_valuesCreateManyUnitsInput = {
+    action_value_id: string
+    account_id?: string | null
+    action_id?: string | null
+    value_integer?: number | null
+    value_numeric?: number | null
+    value_text?: string | null
+    label?: string | null
+    deleted?: boolean | null
+  }
+
   export type Chart_subjectsCreateManyUnitsInput = {
     chart_subject_id: string
     account_id?: string | null
@@ -96683,6 +99270,39 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     value_text?: string | null
     label?: string | null
     deleted?: boolean | null
+  }
+
+  export type Action_valuesUpdateWithoutUnitsInput = {
+    action_value_id?: StringFieldUpdateOperationsInput | string
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutAction_valuesNestedInput
+    actions?: ActionsUpdateOneWithoutAction_valuesNestedInput
+  }
+
+  export type Action_valuesUncheckedUpdateWithoutUnitsInput = {
+    action_value_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    action_id?: NullableStringFieldUpdateOperationsInput | string | null
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Action_valuesUncheckedUpdateManyWithoutUnitsInput = {
+    action_value_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    action_id?: NullableStringFieldUpdateOperationsInput | string | null
+    value_integer?: NullableIntFieldUpdateOperationsInput | number | null
+    value_numeric?: NullableFloatFieldUpdateOperationsInput | number | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type Chart_subjectsUpdateWithoutUnitsInput = {
@@ -96862,6 +99482,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUpdateManyWithoutAccountsNestedInput
@@ -96908,6 +99529,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    action_values?: Action_valuesUncheckedUpdateManyWithoutAccountsNestedInput
     actions?: ActionsUncheckedUpdateManyWithoutAccountsNestedInput
     chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
     charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
