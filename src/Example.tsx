@@ -95,7 +95,12 @@ const ExampleComponent = () => {
                                 include: { place_report_values: true },
                               },
                               place_users: true,
-                              actions: { include: { action_values: true } },
+                              actions: {
+                                include: {
+                                  action_values: true,
+                                  action_reports: true,
+                                },
+                              },
                             },
                           },
                           charts: { include: { chart_subjects: true } },
@@ -104,7 +109,12 @@ const ExampleComponent = () => {
                             include: { place_report_values: true },
                           },
                           place_users: true,
-                          actions: { include: { action_values: true } },
+                          actions: {
+                            include: {
+                              action_values: true,
+                              action_reports: true,
+                            },
+                          },
                         },
                       },
                       charts: { include: { chart_subjects: true } },
@@ -180,6 +190,7 @@ const ExampleComponent = () => {
               place_report_values: true,
               actions: true,
               action_values: true,
+              action_reports: true,
             },
           },
           ui_options: true,
