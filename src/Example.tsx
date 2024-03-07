@@ -108,6 +108,7 @@ const ExampleComponent = () => {
                                 include: {
                                   check_values: true,
                                   check_taxa: true,
+                                  files: true,
                                 },
                               },
                               files: true,
@@ -129,7 +130,11 @@ const ExampleComponent = () => {
                             },
                           },
                           checks: {
-                            include: { check_values: true, check_taxa: true },
+                            include: {
+                              check_values: true,
+                              check_taxa: true,
+                              files: true,
+                            },
                           },
                           files: true,
                         },
