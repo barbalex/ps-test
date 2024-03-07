@@ -263,6 +263,8 @@ const ExampleComponent = () => {
                   fields: {
                     include: {
                       accounts: { include: { users: true } },
+                      lists: true,
+                      projects: true,
                     },
                   },
                 },
@@ -273,6 +275,8 @@ const ExampleComponent = () => {
             include: {
               accounts: { include: { users: true } },
               field_types: true,
+              lists: true,
+              projects: true,
             },
           },
         },
