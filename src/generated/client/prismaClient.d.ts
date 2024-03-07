@@ -33,6 +33,58 @@ export type Accounts = {
 }
 
 /**
+ * Model Charts
+ * 
+ */
+export type Charts = {
+  /**
+   * @zod.string.uuid()
+   */
+  chart_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  project_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  subproject_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  place_id: string | null
+  years_current: boolean | null
+  years_previous: boolean | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  years_specific: number | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  years_last_x: number | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  years_since: number | null
+  /**
+   * @zod.number.int().gte(-2147483648).lte(2147483647)
+   */
+  years_until: number | null
+  chart_type: chart_type | null
+  title: string | null
+  subjects_stacked: boolean | null
+  subjects_single: boolean | null
+  percent: boolean | null
+  label_replace_by_generated_column: string | null
+  deleted: boolean | null
+}
+
+/**
  * Model Field_types
  * 
  */
@@ -1000,6 +1052,15 @@ export type Widgets_for_fields = {
 // Based on
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
+export const chart_type: {
+  Pie: 'Pie',
+  Radar: 'Radar',
+  Area: 'Area'
+};
+
+export type chart_type = (typeof chart_type)[keyof typeof chart_type]
+
+
 export const gbif_table: {
   gbif_taxa: 'gbif_taxa',
   gbif_occurrences: 'gbif_occurrences'
@@ -1194,6 +1255,16 @@ export class PrismaClient<
     * ```
     */
   get accounts(): Prisma.AccountsDelegate<GlobalReject>;
+
+  /**
+   * `prisma.charts`: Exposes CRUD operations for the **Charts** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Charts
+    * const charts = await prisma.charts.findMany()
+    * ```
+    */
+  get charts(): Prisma.ChartsDelegate<GlobalReject>;
 
   /**
    * `prisma.field_types`: Exposes CRUD operations for the **Field_types** model.
@@ -2009,6 +2080,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export const ModelName: {
     Accounts: 'Accounts',
+    Charts: 'Charts',
     Field_types: 'Field_types',
     Fields: 'Fields',
     Gbif_occurrence_downloads: 'Gbif_occurrence_downloads',
@@ -2212,6 +2284,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type AccountsCountOutputType = {
+    charts: number
     fields: number
     gbif_occurrence_downloads: number
     gbif_occurrences: number
@@ -2243,6 +2316,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type AccountsCountOutputTypeSelect = {
+    charts?: boolean | AccountsCountOutputTypeCountChartsArgs
     fields?: boolean | AccountsCountOutputTypeCountFieldsArgs
     gbif_occurrence_downloads?: boolean | AccountsCountOutputTypeCountGbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | AccountsCountOutputTypeCountGbif_occurrencesArgs
@@ -2300,6 +2374,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: AccountsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountChartsArgs = {
+    where?: ChartsWhereInput
   }
 
 
@@ -2824,10 +2906,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type PlacesCountOutputType = {
+    charts: number
     other_places: number
   }
 
   export type PlacesCountOutputTypeSelect = {
+    charts?: boolean | PlacesCountOutputTypeCountChartsArgs
     other_places?: boolean | PlacesCountOutputTypeCountOther_placesArgs
   }
 
@@ -2864,6 +2948,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   /**
    * PlacesCountOutputType without action
    */
+  export type PlacesCountOutputTypeCountChartsArgs = {
+    where?: ChartsWhereInput
+  }
+
+
+  /**
+   * PlacesCountOutputType without action
+   */
   export type PlacesCountOutputTypeCountOther_placesArgs = {
     where?: PlacesWhereInput
   }
@@ -2876,6 +2968,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type ProjectsCountOutputType = {
+    charts: number
     fields: number
     gbif_occurrence_downloads: number
     gbif_occurrences: number
@@ -2894,6 +2987,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type ProjectsCountOutputTypeSelect = {
+    charts?: boolean | ProjectsCountOutputTypeCountChartsArgs
     fields?: boolean | ProjectsCountOutputTypeCountFieldsArgs
     gbif_occurrence_downloads?: boolean | ProjectsCountOutputTypeCountGbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | ProjectsCountOutputTypeCountGbif_occurrencesArgs
@@ -2938,6 +3032,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: ProjectsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * ProjectsCountOutputType without action
+   */
+  export type ProjectsCountOutputTypeCountChartsArgs = {
+    where?: ChartsWhereInput
   }
 
 
@@ -3068,6 +3170,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type SubprojectsCountOutputType = {
+    charts: number
     gbif_occurrence_downloads: number
     gbif_occurrences: number
     goals: number
@@ -3078,6 +3181,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type SubprojectsCountOutputTypeSelect = {
+    charts?: boolean | SubprojectsCountOutputTypeCountChartsArgs
     gbif_occurrence_downloads?: boolean | SubprojectsCountOutputTypeCountGbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | SubprojectsCountOutputTypeCountGbif_occurrencesArgs
     goals?: boolean | SubprojectsCountOutputTypeCountGoalsArgs
@@ -3114,6 +3218,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     select?: SubprojectsCountOutputTypeSelect | null
+  }
+
+
+  /**
+   * SubprojectsCountOutputType without action
+   */
+  export type SubprojectsCountOutputTypeCountChartsArgs = {
+    where?: ChartsWhereInput
   }
 
 
@@ -3770,6 +3882,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: boolean
     label?: boolean
     users?: boolean | Accounts$usersArgs
+    charts?: boolean | Accounts$chartsArgs
     fields?: boolean | Accounts$fieldsArgs
     gbif_occurrence_downloads?: boolean | Accounts$gbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | Accounts$gbif_occurrencesArgs
@@ -3804,6 +3917,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type AccountsInclude = {
     users?: boolean | Accounts$usersArgs
+    charts?: boolean | Accounts$chartsArgs
     fields?: boolean | Accounts$fieldsArgs
     gbif_occurrence_downloads?: boolean | Accounts$gbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | Accounts$gbif_occurrencesArgs
@@ -3843,6 +3957,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ? Accounts  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'users' ? UsersGetPayload<S['include'][P]> | null :
+        P extends 'charts' ? Array < ChartsGetPayload<S['include'][P]>>  :
         P extends 'fields' ? Array < FieldsGetPayload<S['include'][P]>>  :
         P extends 'gbif_occurrence_downloads' ? Array < Gbif_occurrence_downloadsGetPayload<S['include'][P]>>  :
         P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['include'][P]>>  :
@@ -3877,6 +3992,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'users' ? UsersGetPayload<S['select'][P]> | null :
+        P extends 'charts' ? Array < ChartsGetPayload<S['select'][P]>>  :
         P extends 'fields' ? Array < FieldsGetPayload<S['select'][P]>>  :
         P extends 'gbif_occurrence_downloads' ? Array < Gbif_occurrence_downloadsGetPayload<S['select'][P]>>  :
         P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['select'][P]>>  :
@@ -4280,6 +4396,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
     users<T extends Accounts$usersArgs= {}>(args?: Subset<T, Accounts$usersArgs>): Prisma__UsersClient<UsersGetPayload<T> | Null>;
+
+    charts<T extends Accounts$chartsArgs= {}>(args?: Subset<T, Accounts$chartsArgs>): PrismaPromise<Array<ChartsGetPayload<T>>| Null>;
 
     fields<T extends Accounts$fieldsArgs= {}>(args?: Subset<T, Accounts$fieldsArgs>): PrismaPromise<Array<FieldsGetPayload<T>>| Null>;
 
@@ -4755,6 +4873,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     **/
     include?: UsersInclude | null
     where?: UsersWhereInput
+  }
+
+
+  /**
+   * Accounts.charts
+   */
+  export type Accounts$chartsArgs = {
+    /**
+     * Select specific fields to fetch from the Charts
+     * 
+    **/
+    select?: ChartsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ChartsInclude | null
+    where?: ChartsWhereInput
+    orderBy?: Enumerable<ChartsOrderByWithRelationInput>
+    cursor?: ChartsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ChartsScalarFieldEnum>
   }
 
 
@@ -5416,6 +5557,1234 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     include?: AccountsInclude | null
+  }
+
+
+
+  /**
+   * Model Charts
+   */
+
+
+  export type AggregateCharts = {
+    _count: ChartsCountAggregateOutputType | null
+    _avg: ChartsAvgAggregateOutputType | null
+    _sum: ChartsSumAggregateOutputType | null
+    _min: ChartsMinAggregateOutputType | null
+    _max: ChartsMaxAggregateOutputType | null
+  }
+
+  export type ChartsAvgAggregateOutputType = {
+    years_specific: number | null
+    years_last_x: number | null
+    years_since: number | null
+    years_until: number | null
+  }
+
+  export type ChartsSumAggregateOutputType = {
+    years_specific: number | null
+    years_last_x: number | null
+    years_since: number | null
+    years_until: number | null
+  }
+
+  export type ChartsMinAggregateOutputType = {
+    chart_id: string | null
+    account_id: string | null
+    project_id: string | null
+    subproject_id: string | null
+    place_id: string | null
+    years_current: boolean | null
+    years_previous: boolean | null
+    years_specific: number | null
+    years_last_x: number | null
+    years_since: number | null
+    years_until: number | null
+    chart_type: chart_type | null
+    title: string | null
+    subjects_stacked: boolean | null
+    subjects_single: boolean | null
+    percent: boolean | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+  }
+
+  export type ChartsMaxAggregateOutputType = {
+    chart_id: string | null
+    account_id: string | null
+    project_id: string | null
+    subproject_id: string | null
+    place_id: string | null
+    years_current: boolean | null
+    years_previous: boolean | null
+    years_specific: number | null
+    years_last_x: number | null
+    years_since: number | null
+    years_until: number | null
+    chart_type: chart_type | null
+    title: string | null
+    subjects_stacked: boolean | null
+    subjects_single: boolean | null
+    percent: boolean | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+  }
+
+  export type ChartsCountAggregateOutputType = {
+    chart_id: number
+    account_id: number
+    project_id: number
+    subproject_id: number
+    place_id: number
+    years_current: number
+    years_previous: number
+    years_specific: number
+    years_last_x: number
+    years_since: number
+    years_until: number
+    chart_type: number
+    title: number
+    subjects_stacked: number
+    subjects_single: number
+    percent: number
+    label_replace_by_generated_column: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type ChartsAvgAggregateInputType = {
+    years_specific?: true
+    years_last_x?: true
+    years_since?: true
+    years_until?: true
+  }
+
+  export type ChartsSumAggregateInputType = {
+    years_specific?: true
+    years_last_x?: true
+    years_since?: true
+    years_until?: true
+  }
+
+  export type ChartsMinAggregateInputType = {
+    chart_id?: true
+    account_id?: true
+    project_id?: true
+    subproject_id?: true
+    place_id?: true
+    years_current?: true
+    years_previous?: true
+    years_specific?: true
+    years_last_x?: true
+    years_since?: true
+    years_until?: true
+    chart_type?: true
+    title?: true
+    subjects_stacked?: true
+    subjects_single?: true
+    percent?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+  }
+
+  export type ChartsMaxAggregateInputType = {
+    chart_id?: true
+    account_id?: true
+    project_id?: true
+    subproject_id?: true
+    place_id?: true
+    years_current?: true
+    years_previous?: true
+    years_specific?: true
+    years_last_x?: true
+    years_since?: true
+    years_until?: true
+    chart_type?: true
+    title?: true
+    subjects_stacked?: true
+    subjects_single?: true
+    percent?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+  }
+
+  export type ChartsCountAggregateInputType = {
+    chart_id?: true
+    account_id?: true
+    project_id?: true
+    subproject_id?: true
+    place_id?: true
+    years_current?: true
+    years_previous?: true
+    years_specific?: true
+    years_last_x?: true
+    years_since?: true
+    years_until?: true
+    chart_type?: true
+    title?: true
+    subjects_stacked?: true
+    subjects_single?: true
+    percent?: true
+    label_replace_by_generated_column?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type ChartsAggregateArgs = {
+    /**
+     * Filter which Charts to aggregate.
+     * 
+    **/
+    where?: ChartsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Charts to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<ChartsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: ChartsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Charts from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Charts.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Charts
+    **/
+    _count?: true | ChartsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ChartsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ChartsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ChartsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ChartsMaxAggregateInputType
+  }
+
+  export type GetChartsAggregateType<T extends ChartsAggregateArgs> = {
+        [P in keyof T & keyof AggregateCharts]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCharts[P]>
+      : GetScalarType<T[P], AggregateCharts[P]>
+  }
+
+
+
+
+  export type ChartsGroupByArgs = {
+    where?: ChartsWhereInput
+    orderBy?: Enumerable<ChartsOrderByWithAggregationInput>
+    by: Array<ChartsScalarFieldEnum>
+    having?: ChartsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ChartsCountAggregateInputType | true
+    _avg?: ChartsAvgAggregateInputType
+    _sum?: ChartsSumAggregateInputType
+    _min?: ChartsMinAggregateInputType
+    _max?: ChartsMaxAggregateInputType
+  }
+
+
+  export type ChartsGroupByOutputType = {
+    chart_id: string
+    account_id: string | null
+    project_id: string | null
+    subproject_id: string | null
+    place_id: string | null
+    years_current: boolean | null
+    years_previous: boolean | null
+    years_specific: number | null
+    years_last_x: number | null
+    years_since: number | null
+    years_until: number | null
+    chart_type: chart_type | null
+    title: string | null
+    subjects_stacked: boolean | null
+    subjects_single: boolean | null
+    percent: boolean | null
+    label_replace_by_generated_column: string | null
+    deleted: boolean | null
+    _count: ChartsCountAggregateOutputType | null
+    _avg: ChartsAvgAggregateOutputType | null
+    _sum: ChartsSumAggregateOutputType | null
+    _min: ChartsMinAggregateOutputType | null
+    _max: ChartsMaxAggregateOutputType | null
+  }
+
+  type GetChartsGroupByPayload<T extends ChartsGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<ChartsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ChartsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ChartsGroupByOutputType[P]>
+            : GetScalarType<T[P], ChartsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ChartsSelect = {
+    chart_id?: boolean
+    account_id?: boolean
+    project_id?: boolean
+    subproject_id?: boolean
+    place_id?: boolean
+    years_current?: boolean
+    years_previous?: boolean
+    years_specific?: boolean
+    years_last_x?: boolean
+    years_since?: boolean
+    years_until?: boolean
+    chart_type?: boolean
+    title?: boolean
+    subjects_stacked?: boolean
+    subjects_single?: boolean
+    percent?: boolean
+    label_replace_by_generated_column?: boolean
+    deleted?: boolean
+    accounts?: boolean | Charts$accountsArgs
+    places?: boolean | Charts$placesArgs
+    projects?: boolean | Charts$projectsArgs
+    subprojects?: boolean | Charts$subprojectsArgs
+  }
+
+
+  export type ChartsInclude = {
+    accounts?: boolean | Charts$accountsArgs
+    places?: boolean | Charts$placesArgs
+    projects?: boolean | Charts$projectsArgs
+    subprojects?: boolean | Charts$subprojectsArgs
+  } 
+
+  export type ChartsGetPayload<S extends boolean | null | undefined | ChartsArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Charts :
+    S extends undefined ? never :
+    S extends { include: any } & (ChartsArgs | ChartsFindManyArgs)
+    ? Charts  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'places' ? PlacesGetPayload<S['include'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['include'][P]> | null :
+        P extends 'subprojects' ? SubprojectsGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (ChartsArgs | ChartsFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'places' ? PlacesGetPayload<S['select'][P]> | null :
+        P extends 'projects' ? ProjectsGetPayload<S['select'][P]> | null :
+        P extends 'subprojects' ? SubprojectsGetPayload<S['select'][P]> | null :  P extends keyof Charts ? Charts[P] : never
+  } 
+      : Charts
+
+
+  type ChartsCountArgs = Merge<
+    Omit<ChartsFindManyArgs, 'select' | 'include'> & {
+      select?: ChartsCountAggregateInputType | true
+    }
+  >
+
+  export interface ChartsDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Charts that matches the filter.
+     * @param {ChartsFindUniqueArgs} args - Arguments to find a Charts
+     * @example
+     * // Get one Charts
+     * const charts = await prisma.charts.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends ChartsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ChartsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Charts'> extends True ? Prisma__ChartsClient<ChartsGetPayload<T>> : Prisma__ChartsClient<ChartsGetPayload<T> | null, null>
+
+    /**
+     * Find one Charts that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {ChartsFindUniqueOrThrowArgs} args - Arguments to find a Charts
+     * @example
+     * // Get one Charts
+     * const charts = await prisma.charts.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends ChartsFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ChartsFindUniqueOrThrowArgs>
+    ): Prisma__ChartsClient<ChartsGetPayload<T>>
+
+    /**
+     * Find the first Charts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChartsFindFirstArgs} args - Arguments to find a Charts
+     * @example
+     * // Get one Charts
+     * const charts = await prisma.charts.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends ChartsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ChartsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Charts'> extends True ? Prisma__ChartsClient<ChartsGetPayload<T>> : Prisma__ChartsClient<ChartsGetPayload<T> | null, null>
+
+    /**
+     * Find the first Charts that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChartsFindFirstOrThrowArgs} args - Arguments to find a Charts
+     * @example
+     * // Get one Charts
+     * const charts = await prisma.charts.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends ChartsFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ChartsFindFirstOrThrowArgs>
+    ): Prisma__ChartsClient<ChartsGetPayload<T>>
+
+    /**
+     * Find zero or more Charts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChartsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Charts
+     * const charts = await prisma.charts.findMany()
+     * 
+     * // Get first 10 Charts
+     * const charts = await prisma.charts.findMany({ take: 10 })
+     * 
+     * // Only select the `chart_id`
+     * const chartsWithChart_idOnly = await prisma.charts.findMany({ select: { chart_id: true } })
+     * 
+    **/
+    findMany<T extends ChartsFindManyArgs>(
+      args?: SelectSubset<T, ChartsFindManyArgs>
+    ): PrismaPromise<Array<ChartsGetPayload<T>>>
+
+    /**
+     * Create a Charts.
+     * @param {ChartsCreateArgs} args - Arguments to create a Charts.
+     * @example
+     * // Create one Charts
+     * const Charts = await prisma.charts.create({
+     *   data: {
+     *     // ... data to create a Charts
+     *   }
+     * })
+     * 
+    **/
+    create<T extends ChartsCreateArgs>(
+      args: SelectSubset<T, ChartsCreateArgs>
+    ): Prisma__ChartsClient<ChartsGetPayload<T>>
+
+    /**
+     * Create many Charts.
+     *     @param {ChartsCreateManyArgs} args - Arguments to create many Charts.
+     *     @example
+     *     // Create many Charts
+     *     const charts = await prisma.charts.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends ChartsCreateManyArgs>(
+      args?: SelectSubset<T, ChartsCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Charts.
+     * @param {ChartsDeleteArgs} args - Arguments to delete one Charts.
+     * @example
+     * // Delete one Charts
+     * const Charts = await prisma.charts.delete({
+     *   where: {
+     *     // ... filter to delete one Charts
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends ChartsDeleteArgs>(
+      args: SelectSubset<T, ChartsDeleteArgs>
+    ): Prisma__ChartsClient<ChartsGetPayload<T>>
+
+    /**
+     * Update one Charts.
+     * @param {ChartsUpdateArgs} args - Arguments to update one Charts.
+     * @example
+     * // Update one Charts
+     * const charts = await prisma.charts.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends ChartsUpdateArgs>(
+      args: SelectSubset<T, ChartsUpdateArgs>
+    ): Prisma__ChartsClient<ChartsGetPayload<T>>
+
+    /**
+     * Delete zero or more Charts.
+     * @param {ChartsDeleteManyArgs} args - Arguments to filter Charts to delete.
+     * @example
+     * // Delete a few Charts
+     * const { count } = await prisma.charts.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends ChartsDeleteManyArgs>(
+      args?: SelectSubset<T, ChartsDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Charts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChartsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Charts
+     * const charts = await prisma.charts.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends ChartsUpdateManyArgs>(
+      args: SelectSubset<T, ChartsUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Charts.
+     * @param {ChartsUpsertArgs} args - Arguments to update or create a Charts.
+     * @example
+     * // Update or create a Charts
+     * const charts = await prisma.charts.upsert({
+     *   create: {
+     *     // ... data to create a Charts
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Charts we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends ChartsUpsertArgs>(
+      args: SelectSubset<T, ChartsUpsertArgs>
+    ): Prisma__ChartsClient<ChartsGetPayload<T>>
+
+    /**
+     * Count the number of Charts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChartsCountArgs} args - Arguments to filter Charts to count.
+     * @example
+     * // Count the number of Charts
+     * const count = await prisma.charts.count({
+     *   where: {
+     *     // ... the filter for the Charts we want to count
+     *   }
+     * })
+    **/
+    count<T extends ChartsCountArgs>(
+      args?: Subset<T, ChartsCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ChartsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Charts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChartsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ChartsAggregateArgs>(args: Subset<T, ChartsAggregateArgs>): PrismaPromise<GetChartsAggregateType<T>>
+
+    /**
+     * Group by Charts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChartsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ChartsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ChartsGroupByArgs['orderBy'] }
+        : { orderBy?: ChartsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ChartsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChartsGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Charts.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__ChartsClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Charts$accountsArgs= {}>(args?: Subset<T, Charts$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    places<T extends Charts$placesArgs= {}>(args?: Subset<T, Charts$placesArgs>): Prisma__PlacesClient<PlacesGetPayload<T> | Null>;
+
+    projects<T extends Charts$projectsArgs= {}>(args?: Subset<T, Charts$projectsArgs>): Prisma__ProjectsClient<ProjectsGetPayload<T> | Null>;
+
+    subprojects<T extends Charts$subprojectsArgs= {}>(args?: Subset<T, Charts$subprojectsArgs>): Prisma__SubprojectsClient<SubprojectsGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Charts base type for findUnique actions
+   */
+  export type ChartsFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Charts
+     * 
+    **/
+    select?: ChartsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ChartsInclude | null
+    /**
+     * Filter, which Charts to fetch.
+     * 
+    **/
+    where: ChartsWhereUniqueInput
+  }
+
+  /**
+   * Charts findUnique
+   */
+  export interface ChartsFindUniqueArgs extends ChartsFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Charts findUniqueOrThrow
+   */
+  export type ChartsFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Charts
+     * 
+    **/
+    select?: ChartsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ChartsInclude | null
+    /**
+     * Filter, which Charts to fetch.
+     * 
+    **/
+    where: ChartsWhereUniqueInput
+  }
+
+
+  /**
+   * Charts base type for findFirst actions
+   */
+  export type ChartsFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Charts
+     * 
+    **/
+    select?: ChartsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ChartsInclude | null
+    /**
+     * Filter, which Charts to fetch.
+     * 
+    **/
+    where?: ChartsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Charts to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<ChartsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Charts.
+     * 
+    **/
+    cursor?: ChartsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Charts from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Charts.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Charts.
+     * 
+    **/
+    distinct?: Enumerable<ChartsScalarFieldEnum>
+  }
+
+  /**
+   * Charts findFirst
+   */
+  export interface ChartsFindFirstArgs extends ChartsFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Charts findFirstOrThrow
+   */
+  export type ChartsFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Charts
+     * 
+    **/
+    select?: ChartsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ChartsInclude | null
+    /**
+     * Filter, which Charts to fetch.
+     * 
+    **/
+    where?: ChartsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Charts to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<ChartsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Charts.
+     * 
+    **/
+    cursor?: ChartsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Charts from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Charts.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Charts.
+     * 
+    **/
+    distinct?: Enumerable<ChartsScalarFieldEnum>
+  }
+
+
+  /**
+   * Charts findMany
+   */
+  export type ChartsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Charts
+     * 
+    **/
+    select?: ChartsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ChartsInclude | null
+    /**
+     * Filter, which Charts to fetch.
+     * 
+    **/
+    where?: ChartsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Charts to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<ChartsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Charts.
+     * 
+    **/
+    cursor?: ChartsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Charts from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Charts.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<ChartsScalarFieldEnum>
+  }
+
+
+  /**
+   * Charts create
+   */
+  export type ChartsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Charts
+     * 
+    **/
+    select?: ChartsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ChartsInclude | null
+    /**
+     * The data needed to create a Charts.
+     * 
+    **/
+    data: XOR<ChartsCreateInput, ChartsUncheckedCreateInput>
+  }
+
+
+  /**
+   * Charts createMany
+   */
+  export type ChartsCreateManyArgs = {
+    /**
+     * The data used to create many Charts.
+     * 
+    **/
+    data: Enumerable<ChartsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Charts update
+   */
+  export type ChartsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Charts
+     * 
+    **/
+    select?: ChartsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ChartsInclude | null
+    /**
+     * The data needed to update a Charts.
+     * 
+    **/
+    data: XOR<ChartsUpdateInput, ChartsUncheckedUpdateInput>
+    /**
+     * Choose, which Charts to update.
+     * 
+    **/
+    where: ChartsWhereUniqueInput
+  }
+
+
+  /**
+   * Charts updateMany
+   */
+  export type ChartsUpdateManyArgs = {
+    /**
+     * The data used to update Charts.
+     * 
+    **/
+    data: XOR<ChartsUpdateManyMutationInput, ChartsUncheckedUpdateManyInput>
+    /**
+     * Filter which Charts to update
+     * 
+    **/
+    where?: ChartsWhereInput
+  }
+
+
+  /**
+   * Charts upsert
+   */
+  export type ChartsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Charts
+     * 
+    **/
+    select?: ChartsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ChartsInclude | null
+    /**
+     * The filter to search for the Charts to update in case it exists.
+     * 
+    **/
+    where: ChartsWhereUniqueInput
+    /**
+     * In case the Charts found by the `where` argument doesn't exist, create a new Charts with this data.
+     * 
+    **/
+    create: XOR<ChartsCreateInput, ChartsUncheckedCreateInput>
+    /**
+     * In case the Charts was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<ChartsUpdateInput, ChartsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Charts delete
+   */
+  export type ChartsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Charts
+     * 
+    **/
+    select?: ChartsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ChartsInclude | null
+    /**
+     * Filter which Charts to delete.
+     * 
+    **/
+    where: ChartsWhereUniqueInput
+  }
+
+
+  /**
+   * Charts deleteMany
+   */
+  export type ChartsDeleteManyArgs = {
+    /**
+     * Filter which Charts to delete
+     * 
+    **/
+    where?: ChartsWhereInput
+  }
+
+
+  /**
+   * Charts.accounts
+   */
+  export type Charts$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Charts.places
+   */
+  export type Charts$placesArgs = {
+    /**
+     * Select specific fields to fetch from the Places
+     * 
+    **/
+    select?: PlacesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: PlacesInclude | null
+    where?: PlacesWhereInput
+  }
+
+
+  /**
+   * Charts.projects
+   */
+  export type Charts$projectsArgs = {
+    /**
+     * Select specific fields to fetch from the Projects
+     * 
+    **/
+    select?: ProjectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProjectsInclude | null
+    where?: ProjectsWhereInput
+  }
+
+
+  /**
+   * Charts.subprojects
+   */
+  export type Charts$subprojectsArgs = {
+    /**
+     * Select specific fields to fetch from the Subprojects
+     * 
+    **/
+    select?: SubprojectsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: SubprojectsInclude | null
+    where?: SubprojectsWhereInput
+  }
+
+
+  /**
+   * Charts without action
+   */
+  export type ChartsArgs = {
+    /**
+     * Select specific fields to fetch from the Charts
+     * 
+    **/
+    select?: ChartsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ChartsInclude | null
   }
 
 
@@ -22059,6 +23428,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: boolean
     files_active_places?: boolean
     deleted?: boolean
+    charts?: boolean | Places$chartsArgs
     accounts?: boolean | Places$accountsArgs
     places?: boolean | Places$placesArgs
     other_places?: boolean | Places$other_placesArgs
@@ -22068,6 +23438,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type PlacesInclude = {
+    charts?: boolean | Places$chartsArgs
     accounts?: boolean | Places$accountsArgs
     places?: boolean | Places$placesArgs
     other_places?: boolean | Places$other_placesArgs
@@ -22082,6 +23453,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (PlacesArgs | PlacesFindManyArgs)
     ? Places  & {
     [P in TruthyKeys<S['include']>]:
+        P extends 'charts' ? Array < ChartsGetPayload<S['include'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
         P extends 'places' ? PlacesGetPayload<S['include'][P]> | null :
         P extends 'other_places' ? Array < PlacesGetPayload<S['include'][P]>>  :
@@ -22091,6 +23463,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     : S extends { select: any } & (PlacesArgs | PlacesFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
+        P extends 'charts' ? Array < ChartsGetPayload<S['select'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
         P extends 'places' ? PlacesGetPayload<S['select'][P]> | null :
         P extends 'other_places' ? Array < PlacesGetPayload<S['select'][P]>>  :
@@ -22468,6 +23841,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _requestPromise?;
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    charts<T extends Places$chartsArgs= {}>(args?: Subset<T, Places$chartsArgs>): PrismaPromise<Array<ChartsGetPayload<T>>| Null>;
 
     accounts<T extends Places$accountsArgs= {}>(args?: Subset<T, Places$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
 
@@ -22877,6 +24252,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     where?: PlacesWhereInput
+  }
+
+
+  /**
+   * Places.charts
+   */
+  export type Places$chartsArgs = {
+    /**
+     * Select specific fields to fetch from the Charts
+     * 
+    **/
+    select?: ChartsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ChartsInclude | null
+    where?: ChartsWhereInput
+    orderBy?: Enumerable<ChartsOrderByWithRelationInput>
+    cursor?: ChartsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ChartsScalarFieldEnum>
   }
 
 
@@ -25444,6 +26842,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean
     files_active_checks?: boolean
     deleted?: boolean
+    charts?: boolean | Projects$chartsArgs
     fields?: boolean | Projects$fieldsArgs
     gbif_occurrence_downloads?: boolean | Projects$gbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | Projects$gbif_occurrencesArgs
@@ -25465,6 +26864,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type ProjectsInclude = {
+    charts?: boolean | Projects$chartsArgs
     fields?: boolean | Projects$fieldsArgs
     gbif_occurrence_downloads?: boolean | Projects$gbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | Projects$gbif_occurrencesArgs
@@ -25491,6 +26891,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (ProjectsArgs | ProjectsFindManyArgs)
     ? Projects  & {
     [P in TruthyKeys<S['include']>]:
+        P extends 'charts' ? Array < ChartsGetPayload<S['include'][P]>>  :
         P extends 'fields' ? Array < FieldsGetPayload<S['include'][P]>>  :
         P extends 'gbif_occurrence_downloads' ? Array < Gbif_occurrence_downloadsGetPayload<S['include'][P]>>  :
         P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['include'][P]>>  :
@@ -25512,6 +26913,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     : S extends { select: any } & (ProjectsArgs | ProjectsFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
+        P extends 'charts' ? Array < ChartsGetPayload<S['select'][P]>>  :
         P extends 'fields' ? Array < FieldsGetPayload<S['select'][P]>>  :
         P extends 'gbif_occurrence_downloads' ? Array < Gbif_occurrence_downloadsGetPayload<S['select'][P]>>  :
         P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['select'][P]>>  :
@@ -25901,6 +27303,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _requestPromise?;
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    charts<T extends Projects$chartsArgs= {}>(args?: Subset<T, Projects$chartsArgs>): PrismaPromise<Array<ChartsGetPayload<T>>| Null>;
 
     fields<T extends Projects$fieldsArgs= {}>(args?: Subset<T, Projects$fieldsArgs>): PrismaPromise<Array<FieldsGetPayload<T>>| Null>;
 
@@ -26334,6 +27738,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     where?: ProjectsWhereInput
+  }
+
+
+  /**
+   * Projects.charts
+   */
+  export type Projects$chartsArgs = {
+    /**
+     * Select specific fields to fetch from the Charts
+     * 
+    **/
+    select?: ChartsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ChartsInclude | null
+    where?: ChartsWhereInput
+    orderBy?: Enumerable<ChartsOrderByWithRelationInput>
+    cursor?: ChartsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ChartsScalarFieldEnum>
   }
 
 
@@ -30163,6 +31590,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: boolean
     data?: boolean
     deleted?: boolean
+    charts?: boolean | Subprojects$chartsArgs
     gbif_occurrence_downloads?: boolean | Subprojects$gbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | Subprojects$gbif_occurrencesArgs
     goals?: boolean | Subprojects$goalsArgs
@@ -30177,6 +31605,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   export type SubprojectsInclude = {
+    charts?: boolean | Subprojects$chartsArgs
     gbif_occurrence_downloads?: boolean | Subprojects$gbif_occurrence_downloadsArgs
     gbif_occurrences?: boolean | Subprojects$gbif_occurrencesArgs
     goals?: boolean | Subprojects$goalsArgs
@@ -30196,6 +31625,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     S extends { include: any } & (SubprojectsArgs | SubprojectsFindManyArgs)
     ? Subprojects  & {
     [P in TruthyKeys<S['include']>]:
+        P extends 'charts' ? Array < ChartsGetPayload<S['include'][P]>>  :
         P extends 'gbif_occurrence_downloads' ? Array < Gbif_occurrence_downloadsGetPayload<S['include'][P]>>  :
         P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['include'][P]>>  :
         P extends 'goals' ? Array < GoalsGetPayload<S['include'][P]>>  :
@@ -30210,6 +31640,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     : S extends { select: any } & (SubprojectsArgs | SubprojectsFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
+        P extends 'charts' ? Array < ChartsGetPayload<S['select'][P]>>  :
         P extends 'gbif_occurrence_downloads' ? Array < Gbif_occurrence_downloadsGetPayload<S['select'][P]>>  :
         P extends 'gbif_occurrences' ? Array < Gbif_occurrencesGetPayload<S['select'][P]>>  :
         P extends 'goals' ? Array < GoalsGetPayload<S['select'][P]>>  :
@@ -30592,6 +32023,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     private _requestPromise?;
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    charts<T extends Subprojects$chartsArgs= {}>(args?: Subset<T, Subprojects$chartsArgs>): PrismaPromise<Array<ChartsGetPayload<T>>| Null>;
 
     gbif_occurrence_downloads<T extends Subprojects$gbif_occurrence_downloadsArgs= {}>(args?: Subset<T, Subprojects$gbif_occurrence_downloadsArgs>): PrismaPromise<Array<Gbif_occurrence_downloadsGetPayload<T>>| Null>;
 
@@ -31011,6 +32444,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
      * 
     **/
     where?: SubprojectsWhereInput
+  }
+
+
+  /**
+   * Subprojects.charts
+   */
+  export type Subprojects$chartsArgs = {
+    /**
+     * Select specific fields to fetch from the Charts
+     * 
+    **/
+    select?: ChartsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ChartsInclude | null
+    where?: ChartsWhereInput
+    orderBy?: Enumerable<ChartsOrderByWithRelationInput>
+    cursor?: ChartsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<ChartsScalarFieldEnum>
   }
 
 
@@ -42496,6 +43952,30 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type AccountsScalarFieldEnum = (typeof AccountsScalarFieldEnum)[keyof typeof AccountsScalarFieldEnum]
 
 
+  export const ChartsScalarFieldEnum: {
+    chart_id: 'chart_id',
+    account_id: 'account_id',
+    project_id: 'project_id',
+    subproject_id: 'subproject_id',
+    place_id: 'place_id',
+    years_current: 'years_current',
+    years_previous: 'years_previous',
+    years_specific: 'years_specific',
+    years_last_x: 'years_last_x',
+    years_since: 'years_since',
+    years_until: 'years_until',
+    chart_type: 'chart_type',
+    title: 'title',
+    subjects_stacked: 'subjects_stacked',
+    subjects_single: 'subjects_single',
+    percent: 'percent',
+    label_replace_by_generated_column: 'label_replace_by_generated_column',
+    deleted: 'deleted'
+  };
+
+  export type ChartsScalarFieldEnum = (typeof ChartsScalarFieldEnum)[keyof typeof ChartsScalarFieldEnum]
+
+
   export const Field_typesScalarFieldEnum: {
     field_type_id: 'field_type_id',
     name: 'name',
@@ -43096,6 +44576,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -43110,9 +44597,16 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
-   * Reference to a field of type 'Boolean'
+   * Reference to a field of type 'chart_type'
    */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+  export type Enumchart_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'chart_type'>
+    
+
+
+  /**
+   * Reference to a field of type 'chart_type[]'
+   */
+  export type ListEnumchart_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'chart_type[]'>
     
 
 
@@ -43250,6 +44744,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: StringNullableFilter<"Accounts"> | string | null
     label?: StringNullableFilter<"Accounts"> | string | null
     users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
+    charts?: ChartsListRelationFilter
     fields?: FieldsListRelationFilter
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsListRelationFilter
     gbif_occurrences?: Gbif_occurrencesListRelationFilter
@@ -43289,6 +44784,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: SortOrderInput | SortOrder
     label?: SortOrderInput | SortOrder
     users?: UsersOrderByWithRelationInput
+    charts?: ChartsOrderByRelationAggregateInput
     fields?: FieldsOrderByRelationAggregateInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsOrderByRelationAggregateInput
     gbif_occurrences?: Gbif_occurrencesOrderByRelationAggregateInput
@@ -43331,6 +44827,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: StringNullableFilter<"Accounts"> | string | null
     label?: StringNullableFilter<"Accounts"> | string | null
     users?: XOR<UsersNullableRelationFilter, UsersWhereInput> | null
+    charts?: ChartsListRelationFilter
     fields?: FieldsListRelationFilter
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsListRelationFilter
     gbif_occurrences?: Gbif_occurrencesListRelationFilter
@@ -43385,6 +44882,137 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: DateTimeNullableWithAggregatesFilter<"Accounts"> | Date | string | null
     projects_label_by?: StringNullableWithAggregatesFilter<"Accounts"> | string | null
     label?: StringNullableWithAggregatesFilter<"Accounts"> | string | null
+  }
+
+  export type ChartsWhereInput = {
+    AND?: Enumerable<ChartsWhereInput>
+    OR?: Enumerable<ChartsWhereInput>
+    NOT?: Enumerable<ChartsWhereInput>
+    chart_id?: UuidFilter<"Charts"> | string
+    account_id?: UuidNullableFilter<"Charts"> | string | null
+    project_id?: UuidNullableFilter<"Charts"> | string | null
+    subproject_id?: UuidNullableFilter<"Charts"> | string | null
+    place_id?: UuidNullableFilter<"Charts"> | string | null
+    years_current?: BoolNullableFilter<"Charts"> | boolean | null
+    years_previous?: BoolNullableFilter<"Charts"> | boolean | null
+    years_specific?: IntNullableFilter<"Charts"> | number | null
+    years_last_x?: IntNullableFilter<"Charts"> | number | null
+    years_since?: IntNullableFilter<"Charts"> | number | null
+    years_until?: IntNullableFilter<"Charts"> | number | null
+    chart_type?: Enumchart_typeNullableFilter<"Charts"> | chart_type | null
+    title?: StringNullableFilter<"Charts"> | string | null
+    subjects_stacked?: BoolNullableFilter<"Charts"> | boolean | null
+    subjects_single?: BoolNullableFilter<"Charts"> | boolean | null
+    percent?: BoolNullableFilter<"Charts"> | boolean | null
+    label_replace_by_generated_column?: StringNullableFilter<"Charts"> | string | null
+    deleted?: BoolNullableFilter<"Charts"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    places?: XOR<PlacesNullableRelationFilter, PlacesWhereInput> | null
+    projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
+    subprojects?: XOR<SubprojectsNullableRelationFilter, SubprojectsWhereInput> | null
+  }
+
+  export type ChartsOrderByWithRelationInput = {
+    chart_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    project_id?: SortOrderInput | SortOrder
+    subproject_id?: SortOrderInput | SortOrder
+    place_id?: SortOrderInput | SortOrder
+    years_current?: SortOrderInput | SortOrder
+    years_previous?: SortOrderInput | SortOrder
+    years_specific?: SortOrderInput | SortOrder
+    years_last_x?: SortOrderInput | SortOrder
+    years_since?: SortOrderInput | SortOrder
+    years_until?: SortOrderInput | SortOrder
+    chart_type?: SortOrderInput | SortOrder
+    title?: SortOrderInput | SortOrder
+    subjects_stacked?: SortOrderInput | SortOrder
+    subjects_single?: SortOrderInput | SortOrder
+    percent?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    places?: PlacesOrderByWithRelationInput
+    projects?: ProjectsOrderByWithRelationInput
+    subprojects?: SubprojectsOrderByWithRelationInput
+  }
+
+  export type ChartsWhereUniqueInput = Prisma.AtLeast<{
+    chart_id?: string
+    AND?: Enumerable<ChartsWhereInput>
+    OR?: Enumerable<ChartsWhereInput>
+    NOT?: Enumerable<ChartsWhereInput>
+    account_id?: UuidNullableFilter<"Charts"> | string | null
+    project_id?: UuidNullableFilter<"Charts"> | string | null
+    subproject_id?: UuidNullableFilter<"Charts"> | string | null
+    place_id?: UuidNullableFilter<"Charts"> | string | null
+    years_current?: BoolNullableFilter<"Charts"> | boolean | null
+    years_previous?: BoolNullableFilter<"Charts"> | boolean | null
+    years_specific?: IntNullableFilter<"Charts"> | number | null
+    years_last_x?: IntNullableFilter<"Charts"> | number | null
+    years_since?: IntNullableFilter<"Charts"> | number | null
+    years_until?: IntNullableFilter<"Charts"> | number | null
+    chart_type?: Enumchart_typeNullableFilter<"Charts"> | chart_type | null
+    title?: StringNullableFilter<"Charts"> | string | null
+    subjects_stacked?: BoolNullableFilter<"Charts"> | boolean | null
+    subjects_single?: BoolNullableFilter<"Charts"> | boolean | null
+    percent?: BoolNullableFilter<"Charts"> | boolean | null
+    label_replace_by_generated_column?: StringNullableFilter<"Charts"> | string | null
+    deleted?: BoolNullableFilter<"Charts"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    places?: XOR<PlacesNullableRelationFilter, PlacesWhereInput> | null
+    projects?: XOR<ProjectsNullableRelationFilter, ProjectsWhereInput> | null
+    subprojects?: XOR<SubprojectsNullableRelationFilter, SubprojectsWhereInput> | null
+  }, "chart_id">
+
+  export type ChartsOrderByWithAggregationInput = {
+    chart_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    project_id?: SortOrderInput | SortOrder
+    subproject_id?: SortOrderInput | SortOrder
+    place_id?: SortOrderInput | SortOrder
+    years_current?: SortOrderInput | SortOrder
+    years_previous?: SortOrderInput | SortOrder
+    years_specific?: SortOrderInput | SortOrder
+    years_last_x?: SortOrderInput | SortOrder
+    years_since?: SortOrderInput | SortOrder
+    years_until?: SortOrderInput | SortOrder
+    chart_type?: SortOrderInput | SortOrder
+    title?: SortOrderInput | SortOrder
+    subjects_stacked?: SortOrderInput | SortOrder
+    subjects_single?: SortOrderInput | SortOrder
+    percent?: SortOrderInput | SortOrder
+    label_replace_by_generated_column?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    _count?: ChartsCountOrderByAggregateInput
+    _avg?: ChartsAvgOrderByAggregateInput
+    _max?: ChartsMaxOrderByAggregateInput
+    _min?: ChartsMinOrderByAggregateInput
+    _sum?: ChartsSumOrderByAggregateInput
+  }
+
+  export type ChartsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ChartsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ChartsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ChartsScalarWhereWithAggregatesInput>
+    chart_id?: UuidWithAggregatesFilter<"Charts"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"Charts"> | string | null
+    project_id?: UuidNullableWithAggregatesFilter<"Charts"> | string | null
+    subproject_id?: UuidNullableWithAggregatesFilter<"Charts"> | string | null
+    place_id?: UuidNullableWithAggregatesFilter<"Charts"> | string | null
+    years_current?: BoolNullableWithAggregatesFilter<"Charts"> | boolean | null
+    years_previous?: BoolNullableWithAggregatesFilter<"Charts"> | boolean | null
+    years_specific?: IntNullableWithAggregatesFilter<"Charts"> | number | null
+    years_last_x?: IntNullableWithAggregatesFilter<"Charts"> | number | null
+    years_since?: IntNullableWithAggregatesFilter<"Charts"> | number | null
+    years_until?: IntNullableWithAggregatesFilter<"Charts"> | number | null
+    chart_type?: Enumchart_typeNullableWithAggregatesFilter<"Charts"> | chart_type | null
+    title?: StringNullableWithAggregatesFilter<"Charts"> | string | null
+    subjects_stacked?: BoolNullableWithAggregatesFilter<"Charts"> | boolean | null
+    subjects_single?: BoolNullableWithAggregatesFilter<"Charts"> | boolean | null
+    percent?: BoolNullableWithAggregatesFilter<"Charts"> | boolean | null
+    label_replace_by_generated_column?: StringNullableWithAggregatesFilter<"Charts"> | string | null
+    deleted?: BoolNullableWithAggregatesFilter<"Charts"> | boolean | null
   }
 
   export type Field_typesWhereInput = {
@@ -44584,6 +46212,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: StringNullableFilter<"Places"> | string | null
     files_active_places?: BoolNullableFilter<"Places"> | boolean | null
     deleted?: BoolNullableFilter<"Places"> | boolean | null
+    charts?: ChartsListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     places?: XOR<PlacesNullableRelationFilter, PlacesWhereInput> | null
     other_places?: PlacesListRelationFilter
@@ -44604,6 +46233,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: SortOrderInput | SortOrder
     files_active_places?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    charts?: ChartsOrderByRelationAggregateInput
     accounts?: AccountsOrderByWithRelationInput
     places?: PlacesOrderByWithRelationInput
     other_places?: PlacesOrderByRelationAggregateInput
@@ -44627,6 +46257,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: StringNullableFilter<"Places"> | string | null
     files_active_places?: BoolNullableFilter<"Places"> | boolean | null
     deleted?: BoolNullableFilter<"Places"> | boolean | null
+    charts?: ChartsListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     places?: XOR<PlacesNullableRelationFilter, PlacesWhereInput> | null
     other_places?: PlacesListRelationFilter
@@ -44843,6 +46474,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: BoolNullableFilter<"Projects"> | boolean | null
     files_active_checks?: BoolNullableFilter<"Projects"> | boolean | null
     deleted?: BoolNullableFilter<"Projects"> | boolean | null
+    charts?: ChartsListRelationFilter
     fields?: FieldsListRelationFilter
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsListRelationFilter
     gbif_occurrences?: Gbif_occurrencesListRelationFilter
@@ -44887,6 +46519,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: SortOrderInput | SortOrder
     files_active_checks?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    charts?: ChartsOrderByRelationAggregateInput
     fields?: FieldsOrderByRelationAggregateInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsOrderByRelationAggregateInput
     gbif_occurrences?: Gbif_occurrencesOrderByRelationAggregateInput
@@ -44934,6 +46567,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: BoolNullableFilter<"Projects"> | boolean | null
     files_active_checks?: BoolNullableFilter<"Projects"> | boolean | null
     deleted?: BoolNullableFilter<"Projects"> | boolean | null
+    charts?: ChartsListRelationFilter
     fields?: FieldsListRelationFilter
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsListRelationFilter
     gbif_occurrences?: Gbif_occurrencesListRelationFilter
@@ -45234,6 +46868,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: IntNullableFilter<"Subprojects"> | number | null
     data?: JsonNullableFilter<"Subprojects">
     deleted?: BoolNullableFilter<"Subprojects"> | boolean | null
+    charts?: ChartsListRelationFilter
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsListRelationFilter
     gbif_occurrences?: Gbif_occurrencesListRelationFilter
     goals?: GoalsListRelationFilter
@@ -45255,6 +46890,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: SortOrderInput | SortOrder
     data?: SortOrderInput | SortOrder
     deleted?: SortOrderInput | SortOrder
+    charts?: ChartsOrderByRelationAggregateInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsOrderByRelationAggregateInput
     gbif_occurrences?: Gbif_occurrencesOrderByRelationAggregateInput
     goals?: GoalsOrderByRelationAggregateInput
@@ -45279,6 +46915,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: IntNullableFilter<"Subprojects"> | number | null
     data?: JsonNullableFilter<"Subprojects">
     deleted?: BoolNullableFilter<"Subprojects"> | boolean | null
+    charts?: ChartsListRelationFilter
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsListRelationFilter
     gbif_occurrences?: Gbif_occurrencesListRelationFilter
     goals?: GoalsListRelationFilter
@@ -46288,6 +47925,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -46326,6 +47964,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -46364,6 +48003,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -46402,6 +48042,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -46459,6 +48100,149 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ChartsCreateInput = {
+    chart_id: string
+    years_current?: boolean | null
+    years_previous?: boolean | null
+    years_specific?: number | null
+    years_last_x?: number | null
+    years_since?: number | null
+    years_until?: number | null
+    chart_type?: chart_type | null
+    title?: string | null
+    subjects_stacked?: boolean | null
+    subjects_single?: boolean | null
+    percent?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutChartsInput
+    places?: PlacesCreateNestedOneWithoutChartsInput
+    projects?: ProjectsCreateNestedOneWithoutChartsInput
+    subprojects?: SubprojectsCreateNestedOneWithoutChartsInput
+  }
+
+  export type ChartsUncheckedCreateInput = {
+    chart_id: string
+    account_id?: string | null
+    project_id?: string | null
+    subproject_id?: string | null
+    place_id?: string | null
+    years_current?: boolean | null
+    years_previous?: boolean | null
+    years_specific?: number | null
+    years_last_x?: number | null
+    years_since?: number | null
+    years_until?: number | null
+    chart_type?: chart_type | null
+    title?: string | null
+    subjects_stacked?: boolean | null
+    subjects_single?: boolean | null
+    percent?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type ChartsUpdateInput = {
+    chart_id?: StringFieldUpdateOperationsInput | string
+    years_current?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_previous?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_specific?: NullableIntFieldUpdateOperationsInput | number | null
+    years_last_x?: NullableIntFieldUpdateOperationsInput | number | null
+    years_since?: NullableIntFieldUpdateOperationsInput | number | null
+    years_until?: NullableIntFieldUpdateOperationsInput | number | null
+    chart_type?: NullableEnumchart_typeFieldUpdateOperationsInput | chart_type | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects_stacked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subjects_single?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutChartsNestedInput
+    places?: PlacesUpdateOneWithoutChartsNestedInput
+    projects?: ProjectsUpdateOneWithoutChartsNestedInput
+    subprojects?: SubprojectsUpdateOneWithoutChartsNestedInput
+  }
+
+  export type ChartsUncheckedUpdateInput = {
+    chart_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    place_id?: NullableStringFieldUpdateOperationsInput | string | null
+    years_current?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_previous?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_specific?: NullableIntFieldUpdateOperationsInput | number | null
+    years_last_x?: NullableIntFieldUpdateOperationsInput | number | null
+    years_since?: NullableIntFieldUpdateOperationsInput | number | null
+    years_until?: NullableIntFieldUpdateOperationsInput | number | null
+    chart_type?: NullableEnumchart_typeFieldUpdateOperationsInput | chart_type | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects_stacked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subjects_single?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type ChartsCreateManyInput = {
+    chart_id: string
+    account_id?: string | null
+    project_id?: string | null
+    subproject_id?: string | null
+    place_id?: string | null
+    years_current?: boolean | null
+    years_previous?: boolean | null
+    years_specific?: number | null
+    years_last_x?: number | null
+    years_since?: number | null
+    years_until?: number | null
+    chart_type?: chart_type | null
+    title?: string | null
+    subjects_stacked?: boolean | null
+    subjects_single?: boolean | null
+    percent?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type ChartsUpdateManyMutationInput = {
+    chart_id?: StringFieldUpdateOperationsInput | string
+    years_current?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_previous?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_specific?: NullableIntFieldUpdateOperationsInput | number | null
+    years_last_x?: NullableIntFieldUpdateOperationsInput | number | null
+    years_since?: NullableIntFieldUpdateOperationsInput | number | null
+    years_until?: NullableIntFieldUpdateOperationsInput | number | null
+    chart_type?: NullableEnumchart_typeFieldUpdateOperationsInput | chart_type | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects_stacked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subjects_single?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type ChartsUncheckedUpdateManyInput = {
+    chart_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    place_id?: NullableStringFieldUpdateOperationsInput | string | null
+    years_current?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_previous?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_specific?: NullableIntFieldUpdateOperationsInput | number | null
+    years_last_x?: NullableIntFieldUpdateOperationsInput | number | null
+    years_since?: NullableIntFieldUpdateOperationsInput | number | null
+    years_until?: NullableIntFieldUpdateOperationsInput | number | null
+    chart_type?: NullableEnumchart_typeFieldUpdateOperationsInput | chart_type | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects_stacked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subjects_single?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type Field_typesCreateInput = {
@@ -47682,6 +49466,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     files_active_places?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutPlacesInput
     accounts?: AccountsCreateNestedOneWithoutPlacesInput
     places?: PlacesCreateNestedOneWithoutOther_placesInput
     other_places?: PlacesCreateNestedManyWithoutPlacesInput
@@ -47702,6 +49487,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     files_active_places?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutPlacesInput
     other_places?: PlacesUncheckedCreateNestedManyWithoutPlacesInput
   }
 
@@ -47716,6 +49502,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutPlacesNestedInput
     accounts?: AccountsUpdateOneWithoutPlacesNestedInput
     places?: PlacesUpdateOneWithoutOther_placesNestedInput
     other_places?: PlacesUpdateManyWithoutPlacesNestedInput
@@ -47736,6 +49523,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutPlacesNestedInput
     other_places?: PlacesUncheckedUpdateManyWithoutPlacesNestedInput
   }
 
@@ -47944,6 +49732,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     fields?: FieldsCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
@@ -47988,6 +49777,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
@@ -48030,6 +49820,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
@@ -48074,6 +49865,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -48377,6 +50169,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsCreateNestedManyWithoutSubprojectsInput
@@ -48398,6 +50191,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
@@ -48415,6 +50209,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
@@ -48436,6 +50231,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
@@ -49600,6 +51396,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     isNot?: UsersWhereInput | null
   }
 
+  export type ChartsListRelationFilter = {
+    every?: ChartsWhereInput
+    some?: ChartsWhereInput
+    none?: ChartsWhereInput
+  }
+
   export type FieldsListRelationFilter = {
     every?: FieldsWhereInput
     some?: FieldsWhereInput
@@ -49771,6 +51573,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type ChartsOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type FieldsOrderByRelationAggregateInput = {
@@ -49977,6 +51783,11 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
@@ -49988,9 +51799,142 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type BoolNullableFilter<$PrismaModel = never> = {
+  export type Enumchart_typeNullableFilter<$PrismaModel = never> = {
+    equals?: chart_type | Enumchart_typeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<chart_type> | ListEnumchart_typeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<chart_type> | ListEnumchart_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumchart_typeNullableFilter<$PrismaModel> | chart_type | null
+  }
+
+  export type AccountsNullableRelationFilter = {
+    is?: AccountsWhereInput | null
+    isNot?: AccountsWhereInput | null
+  }
+
+  export type PlacesNullableRelationFilter = {
+    is?: PlacesWhereInput | null
+    isNot?: PlacesWhereInput | null
+  }
+
+  export type ProjectsNullableRelationFilter = {
+    is?: ProjectsWhereInput | null
+    isNot?: ProjectsWhereInput | null
+  }
+
+  export type SubprojectsNullableRelationFilter = {
+    is?: SubprojectsWhereInput | null
+    isNot?: SubprojectsWhereInput | null
+  }
+
+  export type ChartsCountOrderByAggregateInput = {
+    chart_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    subproject_id?: SortOrder
+    place_id?: SortOrder
+    years_current?: SortOrder
+    years_previous?: SortOrder
+    years_specific?: SortOrder
+    years_last_x?: SortOrder
+    years_since?: SortOrder
+    years_until?: SortOrder
+    chart_type?: SortOrder
+    title?: SortOrder
+    subjects_stacked?: SortOrder
+    subjects_single?: SortOrder
+    percent?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type ChartsAvgOrderByAggregateInput = {
+    years_specific?: SortOrder
+    years_last_x?: SortOrder
+    years_since?: SortOrder
+    years_until?: SortOrder
+  }
+
+  export type ChartsMaxOrderByAggregateInput = {
+    chart_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    subproject_id?: SortOrder
+    place_id?: SortOrder
+    years_current?: SortOrder
+    years_previous?: SortOrder
+    years_specific?: SortOrder
+    years_last_x?: SortOrder
+    years_since?: SortOrder
+    years_until?: SortOrder
+    chart_type?: SortOrder
+    title?: SortOrder
+    subjects_stacked?: SortOrder
+    subjects_single?: SortOrder
+    percent?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type ChartsMinOrderByAggregateInput = {
+    chart_id?: SortOrder
+    account_id?: SortOrder
+    project_id?: SortOrder
+    subproject_id?: SortOrder
+    place_id?: SortOrder
+    years_current?: SortOrder
+    years_previous?: SortOrder
+    years_specific?: SortOrder
+    years_last_x?: SortOrder
+    years_since?: SortOrder
+    years_until?: SortOrder
+    chart_type?: SortOrder
+    title?: SortOrder
+    subjects_stacked?: SortOrder
+    subjects_single?: SortOrder
+    percent?: SortOrder
+    label_replace_by_generated_column?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type ChartsSumOrderByAggregateInput = {
+    years_specific?: SortOrder
+    years_last_x?: SortOrder
+    years_since?: SortOrder
+    years_until?: SortOrder
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type Enumchart_typeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: chart_type | Enumchart_typeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<chart_type> | ListEnumchart_typeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<chart_type> | ListEnumchart_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumchart_typeNullableWithAggregatesFilter<$PrismaModel> | chart_type | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumchart_typeNullableFilter<$PrismaModel>
+    _max?: NestedEnumchart_typeNullableFilter<$PrismaModel>
   }
 
   export type Widgets_for_fieldsListRelationFilter = {
@@ -50038,35 +51982,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     sort?: SortOrder
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
-  }
-
-  export type AccountsNullableRelationFilter = {
-    is?: AccountsWhereInput | null
-    isNot?: AccountsWhereInput | null
-  }
-
   export type Field_typesNullableRelationFilter = {
     is?: Field_typesWhereInput | null
     isNot?: Field_typesWhereInput | null
@@ -50075,11 +51990,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type ListsNullableRelationFilter = {
     is?: ListsWhereInput | null
     isNot?: ListsWhereInput | null
-  }
-
-  export type ProjectsNullableRelationFilter = {
-    is?: ProjectsWhereInput | null
-    isNot?: ProjectsWhereInput | null
   }
 
   export type Widget_typesNullableRelationFilter = {
@@ -50173,11 +52083,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type SubprojectsNullableRelationFilter = {
-    is?: SubprojectsWhereInput | null
-    isNot?: SubprojectsWhereInput | null
   }
 
   export type Gbif_occurrence_downloadsCountOrderByAggregateInput = {
@@ -50774,11 +52679,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type Place_levelsSumOrderByAggregateInput = {
     level?: SortOrder
-  }
-
-  export type PlacesNullableRelationFilter = {
-    is?: PlacesWhereInput | null
-    isNot?: PlacesWhereInput | null
   }
 
   export type PlacesCountOrderByAggregateInput = {
@@ -51719,6 +53619,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: UsersWhereUniqueInput
   }
 
+  export type ChartsCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<ChartsCreateWithoutAccountsInput>, Enumerable<ChartsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<ChartsCreateOrConnectWithoutAccountsInput>
+    createMany?: ChartsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<ChartsWhereUniqueInput>
+  }
+
   export type FieldsCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<FieldsCreateWithoutAccountsInput>, Enumerable<FieldsUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<FieldsCreateOrConnectWithoutAccountsInput>
@@ -51913,6 +53820,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<Vector_layersCreateOrConnectWithoutAccountsInput>
     createMany?: Vector_layersCreateManyAccountsInputEnvelope
     connect?: Enumerable<Vector_layersWhereUniqueInput>
+  }
+
+  export type ChartsUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<ChartsCreateWithoutAccountsInput>, Enumerable<ChartsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<ChartsCreateOrConnectWithoutAccountsInput>
+    createMany?: ChartsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<ChartsWhereUniqueInput>
   }
 
   export type FieldsUncheckedCreateNestedManyWithoutAccountsInput = {
@@ -52131,6 +54045,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     delete?: UsersWhereInput | boolean
     connect?: UsersWhereUniqueInput
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutAccountsInput, UsersUpdateWithoutAccountsInput>, UsersUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type ChartsUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<ChartsCreateWithoutAccountsInput>, Enumerable<ChartsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<ChartsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<ChartsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: ChartsCreateManyAccountsInputEnvelope
+    set?: Enumerable<ChartsWhereUniqueInput>
+    disconnect?: Enumerable<ChartsWhereUniqueInput>
+    delete?: Enumerable<ChartsWhereUniqueInput>
+    connect?: Enumerable<ChartsWhereUniqueInput>
+    update?: Enumerable<ChartsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<ChartsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<ChartsScalarWhereInput>
   }
 
   export type FieldsUpdateManyWithoutAccountsNestedInput = {
@@ -52525,6 +54453,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<Vector_layersScalarWhereInput>
   }
 
+  export type ChartsUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<ChartsCreateWithoutAccountsInput>, Enumerable<ChartsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<ChartsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<ChartsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: ChartsCreateManyAccountsInputEnvelope
+    set?: Enumerable<ChartsWhereUniqueInput>
+    disconnect?: Enumerable<ChartsWhereUniqueInput>
+    delete?: Enumerable<ChartsWhereUniqueInput>
+    connect?: Enumerable<ChartsWhereUniqueInput>
+    update?: Enumerable<ChartsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<ChartsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<ChartsScalarWhereInput>
+  }
+
   export type FieldsUncheckedUpdateManyWithoutAccountsNestedInput = {
     create?: XOR<Enumerable<FieldsCreateWithoutAccountsInput>, Enumerable<FieldsUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<FieldsCreateOrConnectWithoutAccountsInput>
@@ -52917,6 +54859,86 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<Vector_layersScalarWhereInput>
   }
 
+  export type AccountsCreateNestedOneWithoutChartsInput = {
+    create?: XOR<AccountsCreateWithoutChartsInput, AccountsUncheckedCreateWithoutChartsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutChartsInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type PlacesCreateNestedOneWithoutChartsInput = {
+    create?: XOR<PlacesCreateWithoutChartsInput, PlacesUncheckedCreateWithoutChartsInput>
+    connectOrCreate?: PlacesCreateOrConnectWithoutChartsInput
+    connect?: PlacesWhereUniqueInput
+  }
+
+  export type ProjectsCreateNestedOneWithoutChartsInput = {
+    create?: XOR<ProjectsCreateWithoutChartsInput, ProjectsUncheckedCreateWithoutChartsInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutChartsInput
+    connect?: ProjectsWhereUniqueInput
+  }
+
+  export type SubprojectsCreateNestedOneWithoutChartsInput = {
+    create?: XOR<SubprojectsCreateWithoutChartsInput, SubprojectsUncheckedCreateWithoutChartsInput>
+    connectOrCreate?: SubprojectsCreateOrConnectWithoutChartsInput
+    connect?: SubprojectsWhereUniqueInput
+  }
+
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableEnumchart_typeFieldUpdateOperationsInput = {
+    set?: chart_type | null
+  }
+
+  export type AccountsUpdateOneWithoutChartsNestedInput = {
+    create?: XOR<AccountsCreateWithoutChartsInput, AccountsUncheckedCreateWithoutChartsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutChartsInput
+    upsert?: AccountsUpsertWithoutChartsInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutChartsInput, AccountsUpdateWithoutChartsInput>, AccountsUncheckedUpdateWithoutChartsInput>
+  }
+
+  export type PlacesUpdateOneWithoutChartsNestedInput = {
+    create?: XOR<PlacesCreateWithoutChartsInput, PlacesUncheckedCreateWithoutChartsInput>
+    connectOrCreate?: PlacesCreateOrConnectWithoutChartsInput
+    upsert?: PlacesUpsertWithoutChartsInput
+    disconnect?: PlacesWhereInput | boolean
+    delete?: PlacesWhereInput | boolean
+    connect?: PlacesWhereUniqueInput
+    update?: XOR<XOR<PlacesUpdateToOneWithWhereWithoutChartsInput, PlacesUpdateWithoutChartsInput>, PlacesUncheckedUpdateWithoutChartsInput>
+  }
+
+  export type ProjectsUpdateOneWithoutChartsNestedInput = {
+    create?: XOR<ProjectsCreateWithoutChartsInput, ProjectsUncheckedCreateWithoutChartsInput>
+    connectOrCreate?: ProjectsCreateOrConnectWithoutChartsInput
+    upsert?: ProjectsUpsertWithoutChartsInput
+    disconnect?: ProjectsWhereInput | boolean
+    delete?: ProjectsWhereInput | boolean
+    connect?: ProjectsWhereUniqueInput
+    update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutChartsInput, ProjectsUpdateWithoutChartsInput>, ProjectsUncheckedUpdateWithoutChartsInput>
+  }
+
+  export type SubprojectsUpdateOneWithoutChartsNestedInput = {
+    create?: XOR<SubprojectsCreateWithoutChartsInput, SubprojectsUncheckedCreateWithoutChartsInput>
+    connectOrCreate?: SubprojectsCreateOrConnectWithoutChartsInput
+    upsert?: SubprojectsUpsertWithoutChartsInput
+    disconnect?: SubprojectsWhereInput | boolean
+    delete?: SubprojectsWhereInput | boolean
+    connect?: SubprojectsWhereUniqueInput
+    update?: XOR<XOR<SubprojectsUpdateToOneWithWhereWithoutChartsInput, SubprojectsUpdateWithoutChartsInput>, SubprojectsUncheckedUpdateWithoutChartsInput>
+  }
+
   export type FieldsCreateNestedManyWithoutField_typesInput = {
     create?: XOR<Enumerable<FieldsCreateWithoutField_typesInput>, Enumerable<FieldsUncheckedCreateWithoutField_typesInput>>
     connectOrCreate?: Enumerable<FieldsCreateOrConnectWithoutField_typesInput>
@@ -52943,18 +54965,6 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<Widgets_for_fieldsCreateOrConnectWithoutField_typesInput>
     createMany?: Widgets_for_fieldsCreateManyField_typesInputEnvelope
     connect?: Enumerable<Widgets_for_fieldsWhereUniqueInput>
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
-  export type NullableBoolFieldUpdateOperationsInput = {
-    set?: boolean | null
   }
 
   export type FieldsUpdateManyWithoutField_typesNestedInput = {
@@ -53809,6 +55819,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutPlace_levelsInput, ProjectsUpdateWithoutPlace_levelsInput>, ProjectsUncheckedUpdateWithoutPlace_levelsInput>
   }
 
+  export type ChartsCreateNestedManyWithoutPlacesInput = {
+    create?: XOR<Enumerable<ChartsCreateWithoutPlacesInput>, Enumerable<ChartsUncheckedCreateWithoutPlacesInput>>
+    connectOrCreate?: Enumerable<ChartsCreateOrConnectWithoutPlacesInput>
+    createMany?: ChartsCreateManyPlacesInputEnvelope
+    connect?: Enumerable<ChartsWhereUniqueInput>
+  }
+
   export type AccountsCreateNestedOneWithoutPlacesInput = {
     create?: XOR<AccountsCreateWithoutPlacesInput, AccountsUncheckedCreateWithoutPlacesInput>
     connectOrCreate?: AccountsCreateOrConnectWithoutPlacesInput
@@ -53834,11 +55851,32 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: SubprojectsWhereUniqueInput
   }
 
+  export type ChartsUncheckedCreateNestedManyWithoutPlacesInput = {
+    create?: XOR<Enumerable<ChartsCreateWithoutPlacesInput>, Enumerable<ChartsUncheckedCreateWithoutPlacesInput>>
+    connectOrCreate?: Enumerable<ChartsCreateOrConnectWithoutPlacesInput>
+    createMany?: ChartsCreateManyPlacesInputEnvelope
+    connect?: Enumerable<ChartsWhereUniqueInput>
+  }
+
   export type PlacesUncheckedCreateNestedManyWithoutPlacesInput = {
     create?: XOR<Enumerable<PlacesCreateWithoutPlacesInput>, Enumerable<PlacesUncheckedCreateWithoutPlacesInput>>
     connectOrCreate?: Enumerable<PlacesCreateOrConnectWithoutPlacesInput>
     createMany?: PlacesCreateManyPlacesInputEnvelope
     connect?: Enumerable<PlacesWhereUniqueInput>
+  }
+
+  export type ChartsUpdateManyWithoutPlacesNestedInput = {
+    create?: XOR<Enumerable<ChartsCreateWithoutPlacesInput>, Enumerable<ChartsUncheckedCreateWithoutPlacesInput>>
+    connectOrCreate?: Enumerable<ChartsCreateOrConnectWithoutPlacesInput>
+    upsert?: Enumerable<ChartsUpsertWithWhereUniqueWithoutPlacesInput>
+    createMany?: ChartsCreateManyPlacesInputEnvelope
+    set?: Enumerable<ChartsWhereUniqueInput>
+    disconnect?: Enumerable<ChartsWhereUniqueInput>
+    delete?: Enumerable<ChartsWhereUniqueInput>
+    connect?: Enumerable<ChartsWhereUniqueInput>
+    update?: Enumerable<ChartsUpdateWithWhereUniqueWithoutPlacesInput>
+    updateMany?: Enumerable<ChartsUpdateManyWithWhereWithoutPlacesInput>
+    deleteMany?: Enumerable<ChartsScalarWhereInput>
   }
 
   export type AccountsUpdateOneWithoutPlacesNestedInput = {
@@ -53883,6 +55921,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     delete?: SubprojectsWhereInput | boolean
     connect?: SubprojectsWhereUniqueInput
     update?: XOR<XOR<SubprojectsUpdateToOneWithWhereWithoutPlacesInput, SubprojectsUpdateWithoutPlacesInput>, SubprojectsUncheckedUpdateWithoutPlacesInput>
+  }
+
+  export type ChartsUncheckedUpdateManyWithoutPlacesNestedInput = {
+    create?: XOR<Enumerable<ChartsCreateWithoutPlacesInput>, Enumerable<ChartsUncheckedCreateWithoutPlacesInput>>
+    connectOrCreate?: Enumerable<ChartsCreateOrConnectWithoutPlacesInput>
+    upsert?: Enumerable<ChartsUpsertWithWhereUniqueWithoutPlacesInput>
+    createMany?: ChartsCreateManyPlacesInputEnvelope
+    set?: Enumerable<ChartsWhereUniqueInput>
+    disconnect?: Enumerable<ChartsWhereUniqueInput>
+    delete?: Enumerable<ChartsWhereUniqueInput>
+    connect?: Enumerable<ChartsWhereUniqueInput>
+    update?: Enumerable<ChartsUpdateWithWhereUniqueWithoutPlacesInput>
+    updateMany?: Enumerable<ChartsUpdateManyWithWhereWithoutPlacesInput>
+    deleteMany?: Enumerable<ChartsScalarWhereInput>
   }
 
   export type PlacesUncheckedUpdateManyWithoutPlacesNestedInput = {
@@ -53977,6 +56029,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     delete?: UsersWhereInput | boolean
     connect?: UsersWhereUniqueInput
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutProject_usersInput, UsersUpdateWithoutProject_usersInput>, UsersUncheckedUpdateWithoutProject_usersInput>
+  }
+
+  export type ChartsCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<ChartsCreateWithoutProjectsInput>, Enumerable<ChartsUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<ChartsCreateOrConnectWithoutProjectsInput>
+    createMany?: ChartsCreateManyProjectsInputEnvelope
+    connect?: Enumerable<ChartsWhereUniqueInput>
   }
 
   export type FieldsCreateNestedManyWithoutProjectsInput = {
@@ -54090,6 +56149,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<Vector_layersWhereUniqueInput>
   }
 
+  export type ChartsUncheckedCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<Enumerable<ChartsCreateWithoutProjectsInput>, Enumerable<ChartsUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<ChartsCreateOrConnectWithoutProjectsInput>
+    createMany?: ChartsCreateManyProjectsInputEnvelope
+    connect?: Enumerable<ChartsWhereUniqueInput>
+  }
+
   export type FieldsUncheckedCreateNestedManyWithoutProjectsInput = {
     create?: XOR<Enumerable<FieldsCreateWithoutProjectsInput>, Enumerable<FieldsUncheckedCreateWithoutProjectsInput>>
     connectOrCreate?: Enumerable<FieldsCreateOrConnectWithoutProjectsInput>
@@ -54197,6 +56263,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
   export type NullableEnumproject_typeFieldUpdateOperationsInput = {
     set?: project_type | null
+  }
+
+  export type ChartsUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<ChartsCreateWithoutProjectsInput>, Enumerable<ChartsUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<ChartsCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<ChartsUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: ChartsCreateManyProjectsInputEnvelope
+    set?: Enumerable<ChartsWhereUniqueInput>
+    disconnect?: Enumerable<ChartsWhereUniqueInput>
+    delete?: Enumerable<ChartsWhereUniqueInput>
+    connect?: Enumerable<ChartsWhereUniqueInput>
+    update?: Enumerable<ChartsUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<ChartsUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<ChartsScalarWhereInput>
   }
 
   export type FieldsUpdateManyWithoutProjectsNestedInput = {
@@ -54417,6 +56497,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<Vector_layersUpdateWithWhereUniqueWithoutProjectsInput>
     updateMany?: Enumerable<Vector_layersUpdateManyWithWhereWithoutProjectsInput>
     deleteMany?: Enumerable<Vector_layersScalarWhereInput>
+  }
+
+  export type ChartsUncheckedUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<Enumerable<ChartsCreateWithoutProjectsInput>, Enumerable<ChartsUncheckedCreateWithoutProjectsInput>>
+    connectOrCreate?: Enumerable<ChartsCreateOrConnectWithoutProjectsInput>
+    upsert?: Enumerable<ChartsUpsertWithWhereUniqueWithoutProjectsInput>
+    createMany?: ChartsCreateManyProjectsInputEnvelope
+    set?: Enumerable<ChartsWhereUniqueInput>
+    disconnect?: Enumerable<ChartsWhereUniqueInput>
+    delete?: Enumerable<ChartsWhereUniqueInput>
+    connect?: Enumerable<ChartsWhereUniqueInput>
+    update?: Enumerable<ChartsUpdateWithWhereUniqueWithoutProjectsInput>
+    updateMany?: Enumerable<ChartsUpdateManyWithWhereWithoutProjectsInput>
+    deleteMany?: Enumerable<ChartsScalarWhereInput>
   }
 
   export type FieldsUncheckedUpdateManyWithoutProjectsNestedInput = {
@@ -54757,6 +56851,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<XOR<UsersUpdateToOneWithWhereWithoutSubproject_usersInput, UsersUpdateWithoutSubproject_usersInput>, UsersUncheckedUpdateWithoutSubproject_usersInput>
   }
 
+  export type ChartsCreateNestedManyWithoutSubprojectsInput = {
+    create?: XOR<Enumerable<ChartsCreateWithoutSubprojectsInput>, Enumerable<ChartsUncheckedCreateWithoutSubprojectsInput>>
+    connectOrCreate?: Enumerable<ChartsCreateOrConnectWithoutSubprojectsInput>
+    createMany?: ChartsCreateManySubprojectsInputEnvelope
+    connect?: Enumerable<ChartsWhereUniqueInput>
+  }
+
   export type Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput = {
     create?: XOR<Enumerable<Gbif_occurrence_downloadsCreateWithoutSubprojectsInput>, Enumerable<Gbif_occurrence_downloadsUncheckedCreateWithoutSubprojectsInput>>
     connectOrCreate?: Enumerable<Gbif_occurrence_downloadsCreateOrConnectWithoutSubprojectsInput>
@@ -54818,6 +56919,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: ProjectsWhereUniqueInput
   }
 
+  export type ChartsUncheckedCreateNestedManyWithoutSubprojectsInput = {
+    create?: XOR<Enumerable<ChartsCreateWithoutSubprojectsInput>, Enumerable<ChartsUncheckedCreateWithoutSubprojectsInput>>
+    connectOrCreate?: Enumerable<ChartsCreateOrConnectWithoutSubprojectsInput>
+    createMany?: ChartsCreateManySubprojectsInputEnvelope
+    connect?: Enumerable<ChartsWhereUniqueInput>
+  }
+
   export type Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput = {
     create?: XOR<Enumerable<Gbif_occurrence_downloadsCreateWithoutSubprojectsInput>, Enumerable<Gbif_occurrence_downloadsUncheckedCreateWithoutSubprojectsInput>>
     connectOrCreate?: Enumerable<Gbif_occurrence_downloadsCreateOrConnectWithoutSubprojectsInput>
@@ -54865,6 +56973,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<Subproject_usersCreateOrConnectWithoutSubprojectsInput>
     createMany?: Subproject_usersCreateManySubprojectsInputEnvelope
     connect?: Enumerable<Subproject_usersWhereUniqueInput>
+  }
+
+  export type ChartsUpdateManyWithoutSubprojectsNestedInput = {
+    create?: XOR<Enumerable<ChartsCreateWithoutSubprojectsInput>, Enumerable<ChartsUncheckedCreateWithoutSubprojectsInput>>
+    connectOrCreate?: Enumerable<ChartsCreateOrConnectWithoutSubprojectsInput>
+    upsert?: Enumerable<ChartsUpsertWithWhereUniqueWithoutSubprojectsInput>
+    createMany?: ChartsCreateManySubprojectsInputEnvelope
+    set?: Enumerable<ChartsWhereUniqueInput>
+    disconnect?: Enumerable<ChartsWhereUniqueInput>
+    delete?: Enumerable<ChartsWhereUniqueInput>
+    connect?: Enumerable<ChartsWhereUniqueInput>
+    update?: Enumerable<ChartsUpdateWithWhereUniqueWithoutSubprojectsInput>
+    updateMany?: Enumerable<ChartsUpdateManyWithWhereWithoutSubprojectsInput>
+    deleteMany?: Enumerable<ChartsScalarWhereInput>
   }
 
   export type Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput = {
@@ -54983,6 +57105,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     delete?: ProjectsWhereInput | boolean
     connect?: ProjectsWhereUniqueInput
     update?: XOR<XOR<ProjectsUpdateToOneWithWhereWithoutSubprojectsInput, ProjectsUpdateWithoutSubprojectsInput>, ProjectsUncheckedUpdateWithoutSubprojectsInput>
+  }
+
+  export type ChartsUncheckedUpdateManyWithoutSubprojectsNestedInput = {
+    create?: XOR<Enumerable<ChartsCreateWithoutSubprojectsInput>, Enumerable<ChartsUncheckedCreateWithoutSubprojectsInput>>
+    connectOrCreate?: Enumerable<ChartsCreateOrConnectWithoutSubprojectsInput>
+    upsert?: Enumerable<ChartsUpsertWithWhereUniqueWithoutSubprojectsInput>
+    createMany?: ChartsCreateManySubprojectsInputEnvelope
+    set?: Enumerable<ChartsWhereUniqueInput>
+    disconnect?: Enumerable<ChartsWhereUniqueInput>
+    delete?: Enumerable<ChartsWhereUniqueInput>
+    connect?: Enumerable<ChartsWhereUniqueInput>
+    update?: Enumerable<ChartsUpdateWithWhereUniqueWithoutSubprojectsInput>
+    updateMany?: Enumerable<ChartsUpdateManyWithWhereWithoutSubprojectsInput>
+    deleteMany?: Enumerable<ChartsScalarWhereInput>
   }
 
   export type Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput = {
@@ -56022,6 +58158,21 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
 
+  export type NestedEnumchart_typeNullableFilter<$PrismaModel = never> = {
+    equals?: chart_type | Enumchart_typeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<chart_type> | ListEnumchart_typeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<chart_type> | ListEnumchart_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumchart_typeNullableFilter<$PrismaModel> | chart_type | null
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: Enumerable<number> | ListIntFieldRefInput<$PrismaModel> | null
@@ -56049,12 +58200,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+  export type NestedEnumchart_typeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: chart_type | Enumchart_typeFieldRefInput<$PrismaModel> | null
+    in?: Enumerable<chart_type> | ListEnumchart_typeFieldRefInput<$PrismaModel> | null
+    notIn?: Enumerable<chart_type> | ListEnumchart_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumchart_typeNullableWithAggregatesFilter<$PrismaModel> | chart_type | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
+    _min?: NestedEnumchart_typeNullableFilter<$PrismaModel>
+    _max?: NestedEnumchart_typeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumgbif_tableNullableFilter<$PrismaModel = never> = {
@@ -56258,6 +58411,56 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type UsersCreateOrConnectWithoutAccountsInput = {
     where: UsersWhereUniqueInput
     create: XOR<UsersCreateWithoutAccountsInput, UsersUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type ChartsCreateWithoutAccountsInput = {
+    chart_id: string
+    years_current?: boolean | null
+    years_previous?: boolean | null
+    years_specific?: number | null
+    years_last_x?: number | null
+    years_since?: number | null
+    years_until?: number | null
+    chart_type?: chart_type | null
+    title?: string | null
+    subjects_stacked?: boolean | null
+    subjects_single?: boolean | null
+    percent?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    places?: PlacesCreateNestedOneWithoutChartsInput
+    projects?: ProjectsCreateNestedOneWithoutChartsInput
+    subprojects?: SubprojectsCreateNestedOneWithoutChartsInput
+  }
+
+  export type ChartsUncheckedCreateWithoutAccountsInput = {
+    chart_id: string
+    project_id?: string | null
+    subproject_id?: string | null
+    place_id?: string | null
+    years_current?: boolean | null
+    years_previous?: boolean | null
+    years_specific?: number | null
+    years_last_x?: number | null
+    years_since?: number | null
+    years_until?: number | null
+    chart_type?: chart_type | null
+    title?: string | null
+    subjects_stacked?: boolean | null
+    subjects_single?: boolean | null
+    percent?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type ChartsCreateOrConnectWithoutAccountsInput = {
+    where: ChartsWhereUniqueInput
+    create: XOR<ChartsCreateWithoutAccountsInput, ChartsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type ChartsCreateManyAccountsInputEnvelope = {
+    data: Enumerable<ChartsCreateManyAccountsInput>
+    skipDuplicates?: boolean
   }
 
   export type FieldsCreateWithoutAccountsInput = {
@@ -56699,6 +58902,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     files_active_places?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutPlacesInput
     places?: PlacesCreateNestedOneWithoutOther_placesInput
     other_places?: PlacesCreateNestedManyWithoutPlacesInput
     subprojects?: SubprojectsCreateNestedOneWithoutPlacesInput
@@ -56717,6 +58921,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     files_active_places?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutPlacesInput
     other_places?: PlacesUncheckedCreateNestedManyWithoutPlacesInput
   }
 
@@ -56811,6 +59016,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     fields?: FieldsCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
@@ -56853,6 +59059,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
@@ -56970,6 +59177,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsCreateNestedManyWithoutSubprojectsInput
@@ -56989,6 +59197,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
@@ -57351,6 +59560,46 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subproject_users?: Subproject_usersUncheckedUpdateManyWithoutUsersNestedInput
     ui_options?: Ui_optionsUncheckedUpdateOneWithoutUsersNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type ChartsUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: ChartsWhereUniqueInput
+    update: XOR<ChartsUpdateWithoutAccountsInput, ChartsUncheckedUpdateWithoutAccountsInput>
+    create: XOR<ChartsCreateWithoutAccountsInput, ChartsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type ChartsUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: ChartsWhereUniqueInput
+    data: XOR<ChartsUpdateWithoutAccountsInput, ChartsUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type ChartsUpdateManyWithWhereWithoutAccountsInput = {
+    where: ChartsScalarWhereInput
+    data: XOR<ChartsUpdateManyMutationInput, ChartsUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type ChartsScalarWhereInput = {
+    AND?: Enumerable<ChartsScalarWhereInput>
+    OR?: Enumerable<ChartsScalarWhereInput>
+    NOT?: Enumerable<ChartsScalarWhereInput>
+    chart_id?: UuidFilter<"Charts"> | string
+    account_id?: UuidNullableFilter<"Charts"> | string | null
+    project_id?: UuidNullableFilter<"Charts"> | string | null
+    subproject_id?: UuidNullableFilter<"Charts"> | string | null
+    place_id?: UuidNullableFilter<"Charts"> | string | null
+    years_current?: BoolNullableFilter<"Charts"> | boolean | null
+    years_previous?: BoolNullableFilter<"Charts"> | boolean | null
+    years_specific?: IntNullableFilter<"Charts"> | number | null
+    years_last_x?: IntNullableFilter<"Charts"> | number | null
+    years_since?: IntNullableFilter<"Charts"> | number | null
+    years_until?: IntNullableFilter<"Charts"> | number | null
+    chart_type?: Enumchart_typeNullableFilter<"Charts"> | chart_type | null
+    title?: StringNullableFilter<"Charts"> | string | null
+    subjects_stacked?: BoolNullableFilter<"Charts"> | boolean | null
+    subjects_single?: BoolNullableFilter<"Charts"> | boolean | null
+    percent?: BoolNullableFilter<"Charts"> | boolean | null
+    label_replace_by_generated_column?: StringNullableFilter<"Charts"> | string | null
+    deleted?: BoolNullableFilter<"Charts"> | boolean | null
   }
 
   export type FieldsUpsertWithWhereUniqueWithoutAccountsInput = {
@@ -58269,6 +60518,538 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableFilter<"Vector_layers"> | boolean | null
   }
 
+  export type AccountsCreateWithoutChartsInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    fields?: FieldsCreateNestedManyWithoutAccountsInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
+    goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesCreateNestedManyWithoutAccountsInput
+    lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
+    places?: PlacesCreateNestedManyWithoutAccountsInput
+    project_reports?: Project_reportsCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    subproject_reports?: Subproject_reportsCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutChartsInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
+    places?: PlacesUncheckedCreateNestedManyWithoutAccountsInput
+    project_reports?: Project_reportsUncheckedCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_reports?: Subproject_reportsUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutChartsInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutChartsInput, AccountsUncheckedCreateWithoutChartsInput>
+  }
+
+  export type PlacesCreateWithoutChartsInput = {
+    place_id: string
+    level?: number | null
+    since?: number | null
+    until?: number | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    bbox?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+    files_active_places?: boolean | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutPlacesInput
+    places?: PlacesCreateNestedOneWithoutOther_placesInput
+    other_places?: PlacesCreateNestedManyWithoutPlacesInput
+    subprojects?: SubprojectsCreateNestedOneWithoutPlacesInput
+  }
+
+  export type PlacesUncheckedCreateWithoutChartsInput = {
+    place_id: string
+    account_id?: string | null
+    subproject_id?: string | null
+    parent_id?: string | null
+    level?: number | null
+    since?: number | null
+    until?: number | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    bbox?: NullableJsonNullValueInput | InputJsonValue
+    label?: string | null
+    files_active_places?: boolean | null
+    deleted?: boolean | null
+    other_places?: PlacesUncheckedCreateNestedManyWithoutPlacesInput
+  }
+
+  export type PlacesCreateOrConnectWithoutChartsInput = {
+    where: PlacesWhereUniqueInput
+    create: XOR<PlacesCreateWithoutChartsInput, PlacesUncheckedCreateWithoutChartsInput>
+  }
+
+  export type ProjectsCreateWithoutChartsInput = {
+    project_id: string
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    fields?: FieldsCreateNestedManyWithoutProjectsInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
+    lists?: ListsCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutProjectsInput
+    persons?: PersonsCreateNestedManyWithoutProjectsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutProjectsInput
+    project_reports?: Project_reportsCreateNestedManyWithoutProjectsInput
+    project_users?: Project_usersCreateNestedManyWithoutProjectsInput
+    accounts?: AccountsCreateNestedOneWithoutProjectsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutProjectsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutProjectsInput
+    units?: UnitsCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectsUncheckedCreateWithoutChartsInput = {
+    project_id: string
+    account_id?: string | null
+    name?: string | null
+    label?: string | null
+    type?: project_type | null
+    subproject_name_singular?: string | null
+    subproject_name_plural?: string | null
+    subproject_order_by?: string | null
+    places_label_by?: string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: string | null
+    persons_order_by?: string | null
+    goal_reports_label_by?: string | null
+    goal_reports_order_by?: string | null
+    values_on_multiple_levels?: string | null
+    multiple_action_values_on_same_level?: string | null
+    multiple_check_values_on_same_level?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: boolean | null
+    files_active_projects?: boolean | null
+    files_active_subprojects?: boolean | null
+    files_active_places?: boolean | null
+    files_active_actions?: boolean | null
+    files_active_checks?: boolean | null
+    deleted?: boolean | null
+    fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutProjectsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutProjectsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutProjectsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutProjectsInput
+    project_reports?: Project_reportsUncheckedCreateNestedManyWithoutProjectsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutProjectsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutProjectsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutProjectsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutProjectsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutProjectsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectsCreateOrConnectWithoutChartsInput = {
+    where: ProjectsWhereUniqueInput
+    create: XOR<ProjectsCreateWithoutChartsInput, ProjectsUncheckedCreateWithoutChartsInput>
+  }
+
+  export type SubprojectsCreateWithoutChartsInput = {
+    subproject_id: string
+    name?: string | null
+    label_replace_by_generated_column?: string | null
+    start_year?: number | null
+    end_year?: number | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
+    goals?: GoalsCreateNestedManyWithoutSubprojectsInput
+    places?: PlacesCreateNestedManyWithoutSubprojectsInput
+    subproject_reports?: Subproject_reportsCreateNestedManyWithoutSubprojectsInput
+    subproject_taxa?: Subproject_taxaCreateNestedManyWithoutSubprojectsInput
+    subproject_users?: Subproject_usersCreateNestedManyWithoutSubprojectsInput
+    accounts?: AccountsCreateNestedOneWithoutSubprojectsInput
+    projects?: ProjectsCreateNestedOneWithoutSubprojectsInput
+  }
+
+  export type SubprojectsUncheckedCreateWithoutChartsInput = {
+    subproject_id: string
+    account_id?: string | null
+    project_id?: string | null
+    name?: string | null
+    label_replace_by_generated_column?: string | null
+    start_year?: number | null
+    end_year?: number | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
+    places?: PlacesUncheckedCreateNestedManyWithoutSubprojectsInput
+    subproject_reports?: Subproject_reportsUncheckedCreateNestedManyWithoutSubprojectsInput
+    subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutSubprojectsInput
+    subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutSubprojectsInput
+  }
+
+  export type SubprojectsCreateOrConnectWithoutChartsInput = {
+    where: SubprojectsWhereUniqueInput
+    create: XOR<SubprojectsCreateWithoutChartsInput, SubprojectsUncheckedCreateWithoutChartsInput>
+  }
+
+  export type AccountsUpsertWithoutChartsInput = {
+    update: XOR<AccountsUpdateWithoutChartsInput, AccountsUncheckedUpdateWithoutChartsInput>
+    create: XOR<AccountsCreateWithoutChartsInput, AccountsUncheckedCreateWithoutChartsInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutChartsInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutChartsInput, AccountsUncheckedUpdateWithoutChartsInput>
+  }
+
+  export type AccountsUpdateWithoutChartsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    fields?: FieldsUpdateManyWithoutAccountsNestedInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
+    goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
+    places?: PlacesUpdateManyWithoutAccountsNestedInput
+    project_reports?: Project_reportsUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    subproject_reports?: Subproject_reportsUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutChartsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
+    places?: PlacesUncheckedUpdateManyWithoutAccountsNestedInput
+    project_reports?: Project_reportsUncheckedUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_reports?: Subproject_reportsUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type PlacesUpsertWithoutChartsInput = {
+    update: XOR<PlacesUpdateWithoutChartsInput, PlacesUncheckedUpdateWithoutChartsInput>
+    create: XOR<PlacesCreateWithoutChartsInput, PlacesUncheckedCreateWithoutChartsInput>
+    where?: PlacesWhereInput
+  }
+
+  export type PlacesUpdateToOneWithWhereWithoutChartsInput = {
+    where?: PlacesWhereInput
+    data: XOR<PlacesUpdateWithoutChartsInput, PlacesUncheckedUpdateWithoutChartsInput>
+  }
+
+  export type PlacesUpdateWithoutChartsInput = {
+    place_id?: StringFieldUpdateOperationsInput | string
+    level?: NullableIntFieldUpdateOperationsInput | number | null
+    since?: NullableIntFieldUpdateOperationsInput | number | null
+    until?: NullableIntFieldUpdateOperationsInput | number | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    bbox?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutPlacesNestedInput
+    places?: PlacesUpdateOneWithoutOther_placesNestedInput
+    other_places?: PlacesUpdateManyWithoutPlacesNestedInput
+    subprojects?: SubprojectsUpdateOneWithoutPlacesNestedInput
+  }
+
+  export type PlacesUncheckedUpdateWithoutChartsInput = {
+    place_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parent_id?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: NullableIntFieldUpdateOperationsInput | number | null
+    since?: NullableIntFieldUpdateOperationsInput | number | null
+    until?: NullableIntFieldUpdateOperationsInput | number | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    bbox?: NullableJsonNullValueInput | InputJsonValue
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    other_places?: PlacesUncheckedUpdateManyWithoutPlacesNestedInput
+  }
+
+  export type ProjectsUpsertWithoutChartsInput = {
+    update: XOR<ProjectsUpdateWithoutChartsInput, ProjectsUncheckedUpdateWithoutChartsInput>
+    create: XOR<ProjectsCreateWithoutChartsInput, ProjectsUncheckedCreateWithoutChartsInput>
+    where?: ProjectsWhereInput
+  }
+
+  export type ProjectsUpdateToOneWithWhereWithoutChartsInput = {
+    where?: ProjectsWhereInput
+    data: XOR<ProjectsUpdateWithoutChartsInput, ProjectsUncheckedUpdateWithoutChartsInput>
+  }
+
+  export type ProjectsUpdateWithoutChartsInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    fields?: FieldsUpdateManyWithoutProjectsNestedInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
+    lists?: ListsUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutProjectsNestedInput
+    persons?: PersonsUpdateManyWithoutProjectsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutProjectsNestedInput
+    project_reports?: Project_reportsUpdateManyWithoutProjectsNestedInput
+    project_users?: Project_usersUpdateManyWithoutProjectsNestedInput
+    accounts?: AccountsUpdateOneWithoutProjectsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutProjectsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type ProjectsUncheckedUpdateWithoutChartsInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumproject_typeFieldUpdateOperationsInput | project_type | null
+    subproject_name_singular?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_name_plural?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    places_order_by?: NullableJsonNullValueInput | InputJsonValue
+    persons_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    persons_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    goal_reports_order_by?: NullableStringFieldUpdateOperationsInput | string | null
+    values_on_multiple_levels?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_action_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    multiple_check_values_on_same_level?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    files_offline?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_projects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_subprojects?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutProjectsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutProjectsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutProjectsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutProjectsNestedInput
+    project_reports?: Project_reportsUncheckedUpdateManyWithoutProjectsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutProjectsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutProjectsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutProjectsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutProjectsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutProjectsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type SubprojectsUpsertWithoutChartsInput = {
+    update: XOR<SubprojectsUpdateWithoutChartsInput, SubprojectsUncheckedUpdateWithoutChartsInput>
+    create: XOR<SubprojectsCreateWithoutChartsInput, SubprojectsUncheckedCreateWithoutChartsInput>
+    where?: SubprojectsWhereInput
+  }
+
+  export type SubprojectsUpdateToOneWithWhereWithoutChartsInput = {
+    where?: SubprojectsWhereInput
+    data: XOR<SubprojectsUpdateWithoutChartsInput, SubprojectsUncheckedUpdateWithoutChartsInput>
+  }
+
+  export type SubprojectsUpdateWithoutChartsInput = {
+    subproject_id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    start_year?: NullableIntFieldUpdateOperationsInput | number | null
+    end_year?: NullableIntFieldUpdateOperationsInput | number | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
+    goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
+    places?: PlacesUpdateManyWithoutSubprojectsNestedInput
+    subproject_reports?: Subproject_reportsUpdateManyWithoutSubprojectsNestedInput
+    subproject_taxa?: Subproject_taxaUpdateManyWithoutSubprojectsNestedInput
+    subproject_users?: Subproject_usersUpdateManyWithoutSubprojectsNestedInput
+    accounts?: AccountsUpdateOneWithoutSubprojectsNestedInput
+    projects?: ProjectsUpdateOneWithoutSubprojectsNestedInput
+  }
+
+  export type SubprojectsUncheckedUpdateWithoutChartsInput = {
+    subproject_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    start_year?: NullableIntFieldUpdateOperationsInput | number | null
+    end_year?: NullableIntFieldUpdateOperationsInput | number | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
+    places?: PlacesUncheckedUpdateManyWithoutSubprojectsNestedInput
+    subproject_reports?: Subproject_reportsUncheckedUpdateManyWithoutSubprojectsNestedInput
+    subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutSubprojectsNestedInput
+    subproject_users?: Subproject_usersUncheckedUpdateManyWithoutSubprojectsNestedInput
+  }
+
   export type FieldsCreateWithoutField_typesInput = {
     field_id: string
     table_name?: string | null
@@ -58386,6 +61167,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
@@ -58423,6 +61205,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
@@ -58538,6 +61321,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
@@ -58581,6 +61365,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
@@ -58648,6 +61433,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
@@ -58685,6 +61471,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
@@ -58818,6 +61605,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
@@ -58861,6 +61649,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
@@ -58918,6 +61707,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
@@ -58955,6 +61745,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
@@ -59014,6 +61805,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     fields?: FieldsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
@@ -59057,6 +61849,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
@@ -59086,6 +61879,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsCreateNestedManyWithoutSubprojectsInput
     places?: PlacesCreateNestedManyWithoutSubprojectsInput
@@ -59106,6 +61900,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
     places?: PlacesUncheckedCreateNestedManyWithoutSubprojectsInput
@@ -59138,6 +61933,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
@@ -59175,6 +61971,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
@@ -59240,6 +62037,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
@@ -59283,6 +62081,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
@@ -59318,6 +62117,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
     places?: PlacesUpdateManyWithoutSubprojectsNestedInput
@@ -59338,6 +62138,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
     places?: PlacesUncheckedUpdateManyWithoutSubprojectsNestedInput
@@ -59354,6 +62155,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
@@ -59391,6 +62193,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
@@ -59450,6 +62253,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     fields?: FieldsCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaCreateNestedManyWithoutProjectsInput
@@ -59493,6 +62297,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutProjectsInput
@@ -59522,6 +62327,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsCreateNestedManyWithoutSubprojectsInput
     places?: PlacesCreateNestedManyWithoutSubprojectsInput
@@ -59542,6 +62348,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
     places?: PlacesUncheckedCreateNestedManyWithoutSubprojectsInput
@@ -59574,6 +62381,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
@@ -59611,6 +62419,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
@@ -59676,6 +62485,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUpdateManyWithoutProjectsNestedInput
@@ -59719,6 +62529,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutProjectsNestedInput
@@ -59754,6 +62565,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
     places?: PlacesUpdateManyWithoutSubprojectsNestedInput
@@ -59774,6 +62586,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
     places?: PlacesUncheckedUpdateManyWithoutSubprojectsNestedInput
@@ -59790,6 +62603,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -59827,6 +62641,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -59886,6 +62701,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     fields?: FieldsCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
@@ -59929,6 +62745,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
@@ -59969,6 +62786,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -60006,6 +62824,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -60071,6 +62890,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
@@ -60114,6 +62934,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -60138,6 +62959,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -60175,6 +62997,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -60296,6 +63119,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -60333,6 +63157,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -60482,6 +63307,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -60519,6 +63345,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -60615,6 +63442,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -60652,6 +63480,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -60750,6 +63579,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -60787,6 +63617,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -60829,6 +63660,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
     places?: PlacesCreateNestedManyWithoutSubprojectsInput
@@ -60849,6 +63681,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
     places?: PlacesUncheckedCreateNestedManyWithoutSubprojectsInput
@@ -60897,6 +63730,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -60934,6 +63768,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -60982,6 +63817,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
     places?: PlacesUpdateManyWithoutSubprojectsNestedInput
@@ -61002,6 +63838,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
     places?: PlacesUncheckedUpdateManyWithoutSubprojectsNestedInput
@@ -61018,6 +63855,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -61055,6 +63893,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -61220,6 +64059,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -61257,6 +64097,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -61418,6 +64259,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -61455,6 +64297,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -61539,6 +64382,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -61576,6 +64420,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -61720,6 +64565,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -61757,6 +64603,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -61816,6 +64663,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     fields?: FieldsCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
@@ -61859,6 +64707,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
@@ -61981,6 +64830,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -62018,6 +64868,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -62083,6 +64934,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
@@ -62126,6 +64978,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -62208,6 +65061,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -62245,6 +65099,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -62304,6 +65159,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     fields?: FieldsCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
@@ -62347,6 +65203,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
@@ -62387,6 +65244,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -62424,6 +65282,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -62489,6 +65348,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
@@ -62532,6 +65392,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -62556,6 +65417,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -62593,6 +65455,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -62652,6 +65515,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     fields?: FieldsCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
@@ -62695,6 +65559,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
@@ -62735,6 +65600,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -62772,6 +65638,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -62837,6 +65704,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
@@ -62880,6 +65748,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -62904,6 +65773,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -62941,6 +65811,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -63000,6 +65871,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     fields?: FieldsCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
@@ -63043,6 +65915,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
@@ -63083,6 +65956,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -63120,6 +65994,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -63185,6 +66060,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
@@ -63228,6 +66104,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -63244,6 +66121,56 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
+  export type ChartsCreateWithoutPlacesInput = {
+    chart_id: string
+    years_current?: boolean | null
+    years_previous?: boolean | null
+    years_specific?: number | null
+    years_last_x?: number | null
+    years_since?: number | null
+    years_until?: number | null
+    chart_type?: chart_type | null
+    title?: string | null
+    subjects_stacked?: boolean | null
+    subjects_single?: boolean | null
+    percent?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutChartsInput
+    projects?: ProjectsCreateNestedOneWithoutChartsInput
+    subprojects?: SubprojectsCreateNestedOneWithoutChartsInput
+  }
+
+  export type ChartsUncheckedCreateWithoutPlacesInput = {
+    chart_id: string
+    account_id?: string | null
+    project_id?: string | null
+    subproject_id?: string | null
+    years_current?: boolean | null
+    years_previous?: boolean | null
+    years_specific?: number | null
+    years_last_x?: number | null
+    years_since?: number | null
+    years_until?: number | null
+    chart_type?: chart_type | null
+    title?: string | null
+    subjects_stacked?: boolean | null
+    subjects_single?: boolean | null
+    percent?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type ChartsCreateOrConnectWithoutPlacesInput = {
+    where: ChartsWhereUniqueInput
+    create: XOR<ChartsCreateWithoutPlacesInput, ChartsUncheckedCreateWithoutPlacesInput>
+  }
+
+  export type ChartsCreateManyPlacesInputEnvelope = {
+    data: Enumerable<ChartsCreateManyPlacesInput>
+    skipDuplicates?: boolean
+  }
+
   export type AccountsCreateWithoutPlacesInput = {
     account_id: string
     type?: string | null
@@ -63252,6 +66179,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -63289,6 +66217,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -63334,6 +66263,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     files_active_places?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutPlacesInput
     accounts?: AccountsCreateNestedOneWithoutPlacesInput
     places?: PlacesCreateNestedOneWithoutOther_placesInput
     subprojects?: SubprojectsCreateNestedOneWithoutPlacesInput
@@ -63353,6 +66283,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     files_active_places?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutPlacesInput
   }
 
   export type PlacesCreateOrConnectWithoutOther_placesInput = {
@@ -63371,6 +66302,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     files_active_places?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutPlacesInput
     accounts?: AccountsCreateNestedOneWithoutPlacesInput
     other_places?: PlacesCreateNestedManyWithoutPlacesInput
     subprojects?: SubprojectsCreateNestedOneWithoutPlacesInput
@@ -63389,6 +66321,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     files_active_places?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutPlacesInput
     other_places?: PlacesUncheckedCreateNestedManyWithoutPlacesInput
   }
 
@@ -63410,6 +66343,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsCreateNestedManyWithoutSubprojectsInput
@@ -63430,6 +66364,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
@@ -63441,6 +66376,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type SubprojectsCreateOrConnectWithoutPlacesInput = {
     where: SubprojectsWhereUniqueInput
     create: XOR<SubprojectsCreateWithoutPlacesInput, SubprojectsUncheckedCreateWithoutPlacesInput>
+  }
+
+  export type ChartsUpsertWithWhereUniqueWithoutPlacesInput = {
+    where: ChartsWhereUniqueInput
+    update: XOR<ChartsUpdateWithoutPlacesInput, ChartsUncheckedUpdateWithoutPlacesInput>
+    create: XOR<ChartsCreateWithoutPlacesInput, ChartsUncheckedCreateWithoutPlacesInput>
+  }
+
+  export type ChartsUpdateWithWhereUniqueWithoutPlacesInput = {
+    where: ChartsWhereUniqueInput
+    data: XOR<ChartsUpdateWithoutPlacesInput, ChartsUncheckedUpdateWithoutPlacesInput>
+  }
+
+  export type ChartsUpdateManyWithWhereWithoutPlacesInput = {
+    where: ChartsScalarWhereInput
+    data: XOR<ChartsUpdateManyMutationInput, ChartsUncheckedUpdateManyWithoutPlacesInput>
   }
 
   export type AccountsUpsertWithoutPlacesInput = {
@@ -63462,6 +66413,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -63499,6 +66451,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -63550,6 +66503,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutPlacesNestedInput
     accounts?: AccountsUpdateOneWithoutPlacesNestedInput
     places?: PlacesUpdateOneWithoutOther_placesNestedInput
     subprojects?: SubprojectsUpdateOneWithoutPlacesNestedInput
@@ -63569,6 +66523,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutPlacesNestedInput
   }
 
   export type PlacesUpsertWithWhereUniqueWithoutPlacesInput = {
@@ -63606,6 +66561,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
@@ -63626,6 +66582,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
@@ -63642,6 +66599,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -63679,6 +66637,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -63738,6 +66697,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     fields?: FieldsCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
@@ -63781,6 +66741,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
@@ -63821,6 +66782,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -63858,6 +66820,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -63923,6 +66886,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
@@ -63966,6 +66930,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -63990,6 +66955,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -64027,6 +66993,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -64086,6 +67053,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     fields?: FieldsCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
@@ -64129,6 +67097,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
@@ -64198,6 +67167,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -64235,6 +67205,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -64300,6 +67271,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
@@ -64343,6 +67315,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -64392,6 +67365,56 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     subproject_users?: Subproject_usersUncheckedUpdateManyWithoutUsersNestedInput
     ui_options?: Ui_optionsUncheckedUpdateOneWithoutUsersNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type ChartsCreateWithoutProjectsInput = {
+    chart_id: string
+    years_current?: boolean | null
+    years_previous?: boolean | null
+    years_specific?: number | null
+    years_last_x?: number | null
+    years_since?: number | null
+    years_until?: number | null
+    chart_type?: chart_type | null
+    title?: string | null
+    subjects_stacked?: boolean | null
+    subjects_single?: boolean | null
+    percent?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutChartsInput
+    places?: PlacesCreateNestedOneWithoutChartsInput
+    subprojects?: SubprojectsCreateNestedOneWithoutChartsInput
+  }
+
+  export type ChartsUncheckedCreateWithoutProjectsInput = {
+    chart_id: string
+    account_id?: string | null
+    subproject_id?: string | null
+    place_id?: string | null
+    years_current?: boolean | null
+    years_previous?: boolean | null
+    years_specific?: number | null
+    years_last_x?: number | null
+    years_since?: number | null
+    years_until?: number | null
+    chart_type?: chart_type | null
+    title?: string | null
+    subjects_stacked?: boolean | null
+    subjects_single?: boolean | null
+    percent?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type ChartsCreateOrConnectWithoutProjectsInput = {
+    where: ChartsWhereUniqueInput
+    create: XOR<ChartsCreateWithoutProjectsInput, ChartsUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type ChartsCreateManyProjectsInputEnvelope = {
+    data: Enumerable<ChartsCreateManyProjectsInput>
+    skipDuplicates?: boolean
   }
 
   export type FieldsCreateWithoutProjectsInput = {
@@ -64734,6 +67757,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -64771,6 +67795,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -64813,6 +67838,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsCreateNestedManyWithoutSubprojectsInput
@@ -64832,6 +67858,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
@@ -65059,6 +68086,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     skipDuplicates?: boolean
   }
 
+  export type ChartsUpsertWithWhereUniqueWithoutProjectsInput = {
+    where: ChartsWhereUniqueInput
+    update: XOR<ChartsUpdateWithoutProjectsInput, ChartsUncheckedUpdateWithoutProjectsInput>
+    create: XOR<ChartsCreateWithoutProjectsInput, ChartsUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type ChartsUpdateWithWhereUniqueWithoutProjectsInput = {
+    where: ChartsWhereUniqueInput
+    data: XOR<ChartsUpdateWithoutProjectsInput, ChartsUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type ChartsUpdateManyWithWhereWithoutProjectsInput = {
+    where: ChartsScalarWhereInput
+    data: XOR<ChartsUpdateManyMutationInput, ChartsUncheckedUpdateManyWithoutProjectsInput>
+  }
+
   export type FieldsUpsertWithWhereUniqueWithoutProjectsInput = {
     where: FieldsWhereUniqueInput
     update: XOR<FieldsUpdateWithoutProjectsInput, FieldsUncheckedUpdateWithoutProjectsInput>
@@ -65238,6 +68281,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -65275,6 +68319,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -65392,6 +68437,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -65429,6 +68475,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -65471,6 +68518,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsCreateNestedManyWithoutSubprojectsInput
@@ -65491,6 +68539,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
@@ -65523,6 +68572,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -65560,6 +68610,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -65608,6 +68659,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
@@ -65628,6 +68680,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
@@ -65644,6 +68697,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -65681,6 +68735,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -65723,6 +68778,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsCreateNestedManyWithoutSubprojectsInput
@@ -65743,6 +68799,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
@@ -65802,6 +68859,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -65839,6 +68897,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -65887,6 +68946,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
@@ -65907,6 +68967,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
@@ -65956,6 +69017,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -65993,6 +69055,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -66035,6 +69098,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsCreateNestedManyWithoutSubprojectsInput
@@ -66055,6 +69119,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutSubprojectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutSubprojectsInput
     goals?: GoalsUncheckedCreateNestedManyWithoutSubprojectsInput
@@ -66116,6 +69181,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -66153,6 +69219,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -66201,6 +69268,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
@@ -66221,6 +69289,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
@@ -66262,6 +69331,56 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     project_users?: Project_usersUncheckedUpdateManyWithoutUsersNestedInput
     ui_options?: Ui_optionsUncheckedUpdateOneWithoutUsersNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type ChartsCreateWithoutSubprojectsInput = {
+    chart_id: string
+    years_current?: boolean | null
+    years_previous?: boolean | null
+    years_specific?: number | null
+    years_last_x?: number | null
+    years_since?: number | null
+    years_until?: number | null
+    chart_type?: chart_type | null
+    title?: string | null
+    subjects_stacked?: boolean | null
+    subjects_single?: boolean | null
+    percent?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutChartsInput
+    places?: PlacesCreateNestedOneWithoutChartsInput
+    projects?: ProjectsCreateNestedOneWithoutChartsInput
+  }
+
+  export type ChartsUncheckedCreateWithoutSubprojectsInput = {
+    chart_id: string
+    account_id?: string | null
+    project_id?: string | null
+    place_id?: string | null
+    years_current?: boolean | null
+    years_previous?: boolean | null
+    years_specific?: number | null
+    years_last_x?: number | null
+    years_since?: number | null
+    years_until?: number | null
+    chart_type?: chart_type | null
+    title?: string | null
+    subjects_stacked?: boolean | null
+    subjects_single?: boolean | null
+    percent?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type ChartsCreateOrConnectWithoutSubprojectsInput = {
+    where: ChartsWhereUniqueInput
+    create: XOR<ChartsCreateWithoutSubprojectsInput, ChartsUncheckedCreateWithoutSubprojectsInput>
+  }
+
+  export type ChartsCreateManySubprojectsInputEnvelope = {
+    data: Enumerable<ChartsCreateManySubprojectsInput>
+    skipDuplicates?: boolean
   }
 
   export type Gbif_occurrence_downloadsCreateWithoutSubprojectsInput = {
@@ -66373,6 +69492,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     files_active_places?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutPlacesInput
     accounts?: AccountsCreateNestedOneWithoutPlacesInput
     places?: PlacesCreateNestedOneWithoutOther_placesInput
     other_places?: PlacesCreateNestedManyWithoutPlacesInput
@@ -66391,6 +69511,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: string | null
     files_active_places?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutPlacesInput
     other_places?: PlacesUncheckedCreateNestedManyWithoutPlacesInput
   }
 
@@ -66494,6 +69615,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -66531,6 +69653,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -66590,6 +69713,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     fields?: FieldsCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
@@ -66633,6 +69757,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
@@ -66652,6 +69777,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type ProjectsCreateOrConnectWithoutSubprojectsInput = {
     where: ProjectsWhereUniqueInput
     create: XOR<ProjectsCreateWithoutSubprojectsInput, ProjectsUncheckedCreateWithoutSubprojectsInput>
+  }
+
+  export type ChartsUpsertWithWhereUniqueWithoutSubprojectsInput = {
+    where: ChartsWhereUniqueInput
+    update: XOR<ChartsUpdateWithoutSubprojectsInput, ChartsUncheckedUpdateWithoutSubprojectsInput>
+    create: XOR<ChartsCreateWithoutSubprojectsInput, ChartsUncheckedCreateWithoutSubprojectsInput>
+  }
+
+  export type ChartsUpdateWithWhereUniqueWithoutSubprojectsInput = {
+    where: ChartsWhereUniqueInput
+    data: XOR<ChartsUpdateWithoutSubprojectsInput, ChartsUncheckedUpdateWithoutSubprojectsInput>
+  }
+
+  export type ChartsUpdateManyWithWhereWithoutSubprojectsInput = {
+    where: ChartsScalarWhereInput
+    data: XOR<ChartsUpdateManyMutationInput, ChartsUncheckedUpdateManyWithoutSubprojectsInput>
   }
 
   export type Gbif_occurrence_downloadsUpsertWithWhereUniqueWithoutSubprojectsInput = {
@@ -66785,6 +69926,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -66822,6 +69964,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -66887,6 +70030,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
@@ -66930,6 +70074,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -66980,6 +70125,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -67017,6 +70163,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -67117,6 +70264,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -67154,6 +70302,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -67260,6 +70409,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -67297,6 +70447,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -67356,6 +70507,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     fields?: FieldsCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
@@ -67399,6 +70551,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
@@ -67455,6 +70608,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -67492,6 +70646,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -67557,6 +70712,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
@@ -67600,6 +70756,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -67656,6 +70813,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -67693,6 +70851,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -67752,6 +70911,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     fields?: FieldsCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
@@ -67795,6 +70955,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
@@ -67851,6 +71012,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -67888,6 +71050,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -67953,6 +71116,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
@@ -67996,6 +71160,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -68020,6 +71185,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -68057,6 +71223,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -68139,6 +71306,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -68176,6 +71344,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -68280,6 +71449,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -68317,6 +71487,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -68407,6 +71578,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     fields?: FieldsCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
@@ -68450,6 +71622,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
@@ -68506,6 +71679,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -68543,6 +71717,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -68645,6 +71820,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
@@ -68688,6 +71864,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -68712,6 +71889,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -68749,6 +71927,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -68850,6 +72029,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -68887,6 +72067,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -68983,6 +72164,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -69020,6 +72202,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -69343,6 +72526,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: string | null
     label?: string | null
     users?: UsersCreateNestedOneWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
     fields?: FieldsCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
@@ -69380,6 +72564,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: Date | string | null
     projects_label_by?: string | null
     label?: string | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
@@ -69439,6 +72624,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsCreateNestedManyWithoutProjectsInput
     fields?: FieldsCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutProjectsInput
@@ -69482,6 +72668,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: boolean | null
     files_active_checks?: boolean | null
     deleted?: boolean | null
+    charts?: ChartsUncheckedCreateNestedManyWithoutProjectsInput
     fields?: FieldsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutProjectsInput
     gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutProjectsInput
@@ -69538,6 +72725,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UsersUpdateOneWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -69575,6 +72763,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
@@ -69640,6 +72829,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
@@ -69683,6 +72873,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -69911,6 +73102,26 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     fields?: FieldsUncheckedUpdateManyWithoutWidget_typesNestedInput
+  }
+
+  export type ChartsCreateManyAccountsInput = {
+    chart_id: string
+    project_id?: string | null
+    subproject_id?: string | null
+    place_id?: string | null
+    years_current?: boolean | null
+    years_previous?: boolean | null
+    years_specific?: number | null
+    years_last_x?: number | null
+    years_since?: number | null
+    years_until?: number | null
+    chart_type?: chart_type | null
+    title?: string | null
+    subjects_stacked?: boolean | null
+    subjects_single?: boolean | null
+    percent?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
   }
 
   export type FieldsCreateManyAccountsInput = {
@@ -70267,6 +73478,66 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: number | null
     polygon_count?: number | null
     deleted?: boolean | null
+  }
+
+  export type ChartsUpdateWithoutAccountsInput = {
+    chart_id?: StringFieldUpdateOperationsInput | string
+    years_current?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_previous?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_specific?: NullableIntFieldUpdateOperationsInput | number | null
+    years_last_x?: NullableIntFieldUpdateOperationsInput | number | null
+    years_since?: NullableIntFieldUpdateOperationsInput | number | null
+    years_until?: NullableIntFieldUpdateOperationsInput | number | null
+    chart_type?: NullableEnumchart_typeFieldUpdateOperationsInput | chart_type | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects_stacked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subjects_single?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    places?: PlacesUpdateOneWithoutChartsNestedInput
+    projects?: ProjectsUpdateOneWithoutChartsNestedInput
+    subprojects?: SubprojectsUpdateOneWithoutChartsNestedInput
+  }
+
+  export type ChartsUncheckedUpdateWithoutAccountsInput = {
+    chart_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    place_id?: NullableStringFieldUpdateOperationsInput | string | null
+    years_current?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_previous?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_specific?: NullableIntFieldUpdateOperationsInput | number | null
+    years_last_x?: NullableIntFieldUpdateOperationsInput | number | null
+    years_since?: NullableIntFieldUpdateOperationsInput | number | null
+    years_until?: NullableIntFieldUpdateOperationsInput | number | null
+    chart_type?: NullableEnumchart_typeFieldUpdateOperationsInput | chart_type | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects_stacked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subjects_single?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type ChartsUncheckedUpdateManyWithoutAccountsInput = {
+    chart_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    place_id?: NullableStringFieldUpdateOperationsInput | string | null
+    years_current?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_previous?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_specific?: NullableIntFieldUpdateOperationsInput | number | null
+    years_last_x?: NullableIntFieldUpdateOperationsInput | number | null
+    years_since?: NullableIntFieldUpdateOperationsInput | number | null
+    years_until?: NullableIntFieldUpdateOperationsInput | number | null
+    chart_type?: NullableEnumchart_typeFieldUpdateOperationsInput | chart_type | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects_stacked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subjects_single?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type FieldsUpdateWithoutAccountsInput = {
@@ -70722,6 +73993,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutPlacesNestedInput
     places?: PlacesUpdateOneWithoutOther_placesNestedInput
     other_places?: PlacesUpdateManyWithoutPlacesNestedInput
     subprojects?: SubprojectsUpdateOneWithoutPlacesNestedInput
@@ -70740,6 +74012,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutPlacesNestedInput
     other_places?: PlacesUncheckedUpdateManyWithoutPlacesNestedInput
   }
 
@@ -70837,6 +74110,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutProjectsNestedInput
@@ -70879,6 +74153,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     files_active_actions?: NullableBoolFieldUpdateOperationsInput | boolean | null
     files_active_checks?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutProjectsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutProjectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutProjectsNestedInput
@@ -71009,6 +74284,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
@@ -71028,6 +74304,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
@@ -71783,6 +75060,26 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     read?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type ChartsCreateManyPlacesInput = {
+    chart_id: string
+    account_id?: string | null
+    project_id?: string | null
+    subproject_id?: string | null
+    years_current?: boolean | null
+    years_previous?: boolean | null
+    years_specific?: number | null
+    years_last_x?: number | null
+    years_since?: number | null
+    years_until?: number | null
+    chart_type?: chart_type | null
+    title?: string | null
+    subjects_stacked?: boolean | null
+    subjects_single?: boolean | null
+    percent?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
   export type PlacesCreateManyPlacesInput = {
     place_id: string
     account_id?: string | null
@@ -71798,6 +75095,66 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
   }
 
+  export type ChartsUpdateWithoutPlacesInput = {
+    chart_id?: StringFieldUpdateOperationsInput | string
+    years_current?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_previous?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_specific?: NullableIntFieldUpdateOperationsInput | number | null
+    years_last_x?: NullableIntFieldUpdateOperationsInput | number | null
+    years_since?: NullableIntFieldUpdateOperationsInput | number | null
+    years_until?: NullableIntFieldUpdateOperationsInput | number | null
+    chart_type?: NullableEnumchart_typeFieldUpdateOperationsInput | chart_type | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects_stacked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subjects_single?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutChartsNestedInput
+    projects?: ProjectsUpdateOneWithoutChartsNestedInput
+    subprojects?: SubprojectsUpdateOneWithoutChartsNestedInput
+  }
+
+  export type ChartsUncheckedUpdateWithoutPlacesInput = {
+    chart_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    years_current?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_previous?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_specific?: NullableIntFieldUpdateOperationsInput | number | null
+    years_last_x?: NullableIntFieldUpdateOperationsInput | number | null
+    years_since?: NullableIntFieldUpdateOperationsInput | number | null
+    years_until?: NullableIntFieldUpdateOperationsInput | number | null
+    chart_type?: NullableEnumchart_typeFieldUpdateOperationsInput | chart_type | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects_stacked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subjects_single?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type ChartsUncheckedUpdateManyWithoutPlacesInput = {
+    chart_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    years_current?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_previous?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_specific?: NullableIntFieldUpdateOperationsInput | number | null
+    years_last_x?: NullableIntFieldUpdateOperationsInput | number | null
+    years_since?: NullableIntFieldUpdateOperationsInput | number | null
+    years_until?: NullableIntFieldUpdateOperationsInput | number | null
+    chart_type?: NullableEnumchart_typeFieldUpdateOperationsInput | chart_type | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects_stacked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subjects_single?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type PlacesUpdateWithoutPlacesInput = {
     place_id?: StringFieldUpdateOperationsInput | string
     level?: NullableIntFieldUpdateOperationsInput | number | null
@@ -71809,6 +75166,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutPlacesNestedInput
     accounts?: AccountsUpdateOneWithoutPlacesNestedInput
     other_places?: PlacesUpdateManyWithoutPlacesNestedInput
     subprojects?: SubprojectsUpdateOneWithoutPlacesNestedInput
@@ -71827,6 +75185,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutPlacesNestedInput
     other_places?: PlacesUncheckedUpdateManyWithoutPlacesNestedInput
   }
 
@@ -71843,6 +75202,26 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type ChartsCreateManyProjectsInput = {
+    chart_id: string
+    account_id?: string | null
+    subproject_id?: string | null
+    place_id?: string | null
+    years_current?: boolean | null
+    years_previous?: boolean | null
+    years_specific?: number | null
+    years_last_x?: number | null
+    years_since?: number | null
+    years_until?: number | null
+    chart_type?: chart_type | null
+    title?: string | null
+    subjects_stacked?: boolean | null
+    subjects_single?: boolean | null
+    percent?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
   }
 
   export type FieldsCreateManyProjectsInput = {
@@ -72047,6 +75426,66 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     line_count?: number | null
     polygon_count?: number | null
     deleted?: boolean | null
+  }
+
+  export type ChartsUpdateWithoutProjectsInput = {
+    chart_id?: StringFieldUpdateOperationsInput | string
+    years_current?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_previous?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_specific?: NullableIntFieldUpdateOperationsInput | number | null
+    years_last_x?: NullableIntFieldUpdateOperationsInput | number | null
+    years_since?: NullableIntFieldUpdateOperationsInput | number | null
+    years_until?: NullableIntFieldUpdateOperationsInput | number | null
+    chart_type?: NullableEnumchart_typeFieldUpdateOperationsInput | chart_type | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects_stacked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subjects_single?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutChartsNestedInput
+    places?: PlacesUpdateOneWithoutChartsNestedInput
+    subprojects?: SubprojectsUpdateOneWithoutChartsNestedInput
+  }
+
+  export type ChartsUncheckedUpdateWithoutProjectsInput = {
+    chart_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    place_id?: NullableStringFieldUpdateOperationsInput | string | null
+    years_current?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_previous?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_specific?: NullableIntFieldUpdateOperationsInput | number | null
+    years_last_x?: NullableIntFieldUpdateOperationsInput | number | null
+    years_since?: NullableIntFieldUpdateOperationsInput | number | null
+    years_until?: NullableIntFieldUpdateOperationsInput | number | null
+    chart_type?: NullableEnumchart_typeFieldUpdateOperationsInput | chart_type | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects_stacked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subjects_single?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type ChartsUncheckedUpdateManyWithoutProjectsInput = {
+    chart_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    subproject_id?: NullableStringFieldUpdateOperationsInput | string | null
+    place_id?: NullableStringFieldUpdateOperationsInput | string | null
+    years_current?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_previous?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_specific?: NullableIntFieldUpdateOperationsInput | number | null
+    years_last_x?: NullableIntFieldUpdateOperationsInput | number | null
+    years_since?: NullableIntFieldUpdateOperationsInput | number | null
+    years_until?: NullableIntFieldUpdateOperationsInput | number | null
+    chart_type?: NullableEnumchart_typeFieldUpdateOperationsInput | chart_type | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects_stacked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subjects_single?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type FieldsUpdateWithoutProjectsInput = {
@@ -72402,6 +75841,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUpdateManyWithoutSubprojectsNestedInput
@@ -72421,6 +75861,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     end_year?: NullableIntFieldUpdateOperationsInput | number | null
     data?: NullableJsonNullValueInput | InputJsonValue
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutSubprojectsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutSubprojectsNestedInput
     goals?: GoalsUncheckedUpdateManyWithoutSubprojectsNestedInput
@@ -72689,6 +76130,26 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type ChartsCreateManySubprojectsInput = {
+    chart_id: string
+    account_id?: string | null
+    project_id?: string | null
+    place_id?: string | null
+    years_current?: boolean | null
+    years_previous?: boolean | null
+    years_specific?: number | null
+    years_last_x?: number | null
+    years_since?: number | null
+    years_until?: number | null
+    chart_type?: chart_type | null
+    title?: string | null
+    subjects_stacked?: boolean | null
+    subjects_single?: boolean | null
+    percent?: boolean | null
+    label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
   export type Gbif_occurrence_downloadsCreateManySubprojectsInput = {
     gbif_occurrence_download_id: string
     account_id?: string | null
@@ -72761,6 +76222,66 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     role?: string | null
     label?: string | null
     deleted?: boolean | null
+  }
+
+  export type ChartsUpdateWithoutSubprojectsInput = {
+    chart_id?: StringFieldUpdateOperationsInput | string
+    years_current?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_previous?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_specific?: NullableIntFieldUpdateOperationsInput | number | null
+    years_last_x?: NullableIntFieldUpdateOperationsInput | number | null
+    years_since?: NullableIntFieldUpdateOperationsInput | number | null
+    years_until?: NullableIntFieldUpdateOperationsInput | number | null
+    chart_type?: NullableEnumchart_typeFieldUpdateOperationsInput | chart_type | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects_stacked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subjects_single?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutChartsNestedInput
+    places?: PlacesUpdateOneWithoutChartsNestedInput
+    projects?: ProjectsUpdateOneWithoutChartsNestedInput
+  }
+
+  export type ChartsUncheckedUpdateWithoutSubprojectsInput = {
+    chart_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    place_id?: NullableStringFieldUpdateOperationsInput | string | null
+    years_current?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_previous?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_specific?: NullableIntFieldUpdateOperationsInput | number | null
+    years_last_x?: NullableIntFieldUpdateOperationsInput | number | null
+    years_since?: NullableIntFieldUpdateOperationsInput | number | null
+    years_until?: NullableIntFieldUpdateOperationsInput | number | null
+    chart_type?: NullableEnumchart_typeFieldUpdateOperationsInput | chart_type | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects_stacked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subjects_single?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type ChartsUncheckedUpdateManyWithoutSubprojectsInput = {
+    chart_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    place_id?: NullableStringFieldUpdateOperationsInput | string | null
+    years_current?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_previous?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    years_specific?: NullableIntFieldUpdateOperationsInput | number | null
+    years_last_x?: NullableIntFieldUpdateOperationsInput | number | null
+    years_since?: NullableIntFieldUpdateOperationsInput | number | null
+    years_until?: NullableIntFieldUpdateOperationsInput | number | null
+    chart_type?: NullableEnumchart_typeFieldUpdateOperationsInput | chart_type | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    subjects_stacked?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    subjects_single?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percent?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type Gbif_occurrence_downloadsUpdateWithoutSubprojectsInput = {
@@ -72875,6 +76396,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUpdateManyWithoutPlacesNestedInput
     accounts?: AccountsUpdateOneWithoutPlacesNestedInput
     places?: PlacesUpdateOneWithoutOther_placesNestedInput
     other_places?: PlacesUpdateManyWithoutPlacesNestedInput
@@ -72893,6 +76415,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     label?: NullableStringFieldUpdateOperationsInput | string | null
     files_active_places?: NullableBoolFieldUpdateOperationsInput | boolean | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    charts?: ChartsUncheckedUpdateManyWithoutPlacesNestedInput
     other_places?: PlacesUncheckedUpdateManyWithoutPlacesNestedInput
   }
 
@@ -73193,6 +76716,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
@@ -73230,6 +76754,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
     label?: NullableStringFieldUpdateOperationsInput | string | null
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
     fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
     gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
