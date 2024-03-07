@@ -91,13 +91,17 @@ const ExampleComponent = () => {
                             include: {
                               charts: { include: { chart_subjects: true } },
                               observations: true,
-                              place_reports: true,
+                              place_reports: {
+                                include: { place_report_values: true },
+                              },
                               place_users: true,
                             },
                           },
                           charts: { include: { chart_subjects: true } },
                           observations: true,
-                          place_reports: true,
+                          place_reports: {
+                            include: { place_report_values: true },
+                          },
                           place_users: true,
                         },
                       },
@@ -185,13 +189,17 @@ const ExampleComponent = () => {
                     include: {
                       charts: { include: { chart_subjects: true } },
                       observations: true,
-                      place_reports: true,
+                      place_reports: {
+                        include: { place_report_values: true },
+                      },
                       place_users: true,
                     },
                   },
                   charts: { include: { chart_subjects: true } },
                   observations: true,
-                  place_reports: true,
+                  place_reports: {
+                    include: { place_report_values: true },
+                  },
                   place_users: true,
                 },
               },
@@ -200,8 +208,11 @@ const ExampleComponent = () => {
               vector_layer_displays: true,
               vector_layer_geoms: true,
               observations: true,
-              place_reports: true,
+              place_reports: {
+                include: { place_report_values: true },
+              },
               place_users: true,
+              place_report_values: true,
             },
           },
           ui_options: true,
