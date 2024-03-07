@@ -1040,6 +1040,44 @@ export type Vector_layer_displays = {
 }
 
 /**
+ * Model Vector_layer_geoms
+ * 
+ */
+export type Vector_layer_geoms = {
+  /**
+   * @zod.string.uuid()
+   */
+  vector_layer_geom_id: string
+  /**
+   * @zod.string.uuid()
+   */
+  account_id: string | null
+  /**
+   * @zod.string.uuid()
+   */
+  vector_layer_id: string | null
+  geometry: Prisma.JsonValue | null
+  properties: Prisma.JsonValue | null
+  /**
+   * @zod.custom.use(z.number().or(z.nan()))
+   */
+  bbox_sw_lng: number | null
+  /**
+   * @zod.custom.use(z.number().or(z.nan()))
+   */
+  bbox_sw_lat: number | null
+  /**
+   * @zod.custom.use(z.number().or(z.nan()))
+   */
+  bbox_ne_lng: number | null
+  /**
+   * @zod.custom.use(z.number().or(z.nan()))
+   */
+  bbox_ne_lat: number | null
+  deleted: boolean | null
+}
+
+/**
  * Model Vector_layers
  * 
  */
@@ -1737,6 +1775,16 @@ export class PrismaClient<
   get vector_layer_displays(): Prisma.Vector_layer_displaysDelegate<GlobalReject>;
 
   /**
+   * `prisma.vector_layer_geoms`: Exposes CRUD operations for the **Vector_layer_geoms** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Vector_layer_geoms
+    * const vector_layer_geoms = await prisma.vector_layer_geoms.findMany()
+    * ```
+    */
+  get vector_layer_geoms(): Prisma.Vector_layer_geomsDelegate<GlobalReject>;
+
+  /**
    * `prisma.vector_layers`: Exposes CRUD operations for the **Vector_layers** model.
     * Example usage:
     * ```ts
@@ -2283,6 +2331,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     User_messages: 'User_messages',
     Users: 'Users',
     Vector_layer_displays: 'Vector_layer_displays',
+    Vector_layer_geoms: 'Vector_layer_geoms',
     Vector_layers: 'Vector_layers',
     Widget_types: 'Widget_types',
     Widgets_for_fields: 'Widgets_for_fields'
@@ -2486,6 +2535,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units: number
     user_messages: number
     vector_layer_displays: number
+    vector_layer_geoms: number
     vector_layers: number
   }
 
@@ -2520,6 +2570,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: boolean | AccountsCountOutputTypeCountUnitsArgs
     user_messages?: boolean | AccountsCountOutputTypeCountUser_messagesArgs
     vector_layer_displays?: boolean | AccountsCountOutputTypeCountVector_layer_displaysArgs
+    vector_layer_geoms?: boolean | AccountsCountOutputTypeCountVector_layer_geomsArgs
     vector_layers?: boolean | AccountsCountOutputTypeCountVector_layersArgs
   }
 
@@ -2790,6 +2841,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type AccountsCountOutputTypeCountVector_layer_displaysArgs = {
     where?: Vector_layer_displaysWhereInput
+  }
+
+
+  /**
+   * AccountsCountOutputType without action
+   */
+  export type AccountsCountOutputTypeCountVector_layer_geomsArgs = {
+    where?: Vector_layer_geomsWhereInput
   }
 
 
@@ -3838,11 +3897,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Vector_layersCountOutputType = {
     layer_options: number
     vector_layer_displays: number
+    vector_layer_geoms: number
   }
 
   export type Vector_layersCountOutputTypeSelect = {
     layer_options?: boolean | Vector_layersCountOutputTypeCountLayer_optionsArgs
     vector_layer_displays?: boolean | Vector_layersCountOutputTypeCountVector_layer_displaysArgs
+    vector_layer_geoms?: boolean | Vector_layersCountOutputTypeCountVector_layer_geomsArgs
   }
 
   export type Vector_layersCountOutputTypeGetPayload<S extends boolean | null | undefined | Vector_layersCountOutputTypeArgs> =
@@ -3888,6 +3949,14 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
    */
   export type Vector_layersCountOutputTypeCountVector_layer_displaysArgs = {
     where?: Vector_layer_displaysWhereInput
+  }
+
+
+  /**
+   * Vector_layersCountOutputType without action
+   */
+  export type Vector_layersCountOutputTypeCountVector_layer_geomsArgs = {
+    where?: Vector_layer_geomsWhereInput
   }
 
 
@@ -4176,6 +4245,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: boolean | Accounts$unitsArgs
     user_messages?: boolean | Accounts$user_messagesArgs
     vector_layer_displays?: boolean | Accounts$vector_layer_displaysArgs
+    vector_layer_geoms?: boolean | Accounts$vector_layer_geomsArgs
     vector_layers?: boolean | Accounts$vector_layersArgs
     _count?: boolean | AccountsCountOutputTypeArgs
   }
@@ -4213,6 +4283,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: boolean | Accounts$unitsArgs
     user_messages?: boolean | Accounts$user_messagesArgs
     vector_layer_displays?: boolean | Accounts$vector_layer_displaysArgs
+    vector_layer_geoms?: boolean | Accounts$vector_layer_geomsArgs
     vector_layers?: boolean | Accounts$vector_layersArgs
     _count?: boolean | AccountsCountOutputTypeArgs
   } 
@@ -4255,6 +4326,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'units' ? Array < UnitsGetPayload<S['include'][P]>>  :
         P extends 'user_messages' ? Array < User_messagesGetPayload<S['include'][P]>>  :
         P extends 'vector_layer_displays' ? Array < Vector_layer_displaysGetPayload<S['include'][P]>>  :
+        P extends 'vector_layer_geoms' ? Array < Vector_layer_geomsGetPayload<S['include'][P]>>  :
         P extends 'vector_layers' ? Array < Vector_layersGetPayload<S['include'][P]>>  :
         P extends '_count' ? AccountsCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
@@ -4292,6 +4364,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
         P extends 'units' ? Array < UnitsGetPayload<S['select'][P]>>  :
         P extends 'user_messages' ? Array < User_messagesGetPayload<S['select'][P]>>  :
         P extends 'vector_layer_displays' ? Array < Vector_layer_displaysGetPayload<S['select'][P]>>  :
+        P extends 'vector_layer_geoms' ? Array < Vector_layer_geomsGetPayload<S['select'][P]>>  :
         P extends 'vector_layers' ? Array < Vector_layersGetPayload<S['select'][P]>>  :
         P extends '_count' ? AccountsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Accounts ? Accounts[P] : never
   } 
@@ -4728,6 +4801,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     user_messages<T extends Accounts$user_messagesArgs= {}>(args?: Subset<T, Accounts$user_messagesArgs>): PrismaPromise<Array<User_messagesGetPayload<T>>| Null>;
 
     vector_layer_displays<T extends Accounts$vector_layer_displaysArgs= {}>(args?: Subset<T, Accounts$vector_layer_displaysArgs>): PrismaPromise<Array<Vector_layer_displaysGetPayload<T>>| Null>;
+
+    vector_layer_geoms<T extends Accounts$vector_layer_geomsArgs= {}>(args?: Subset<T, Accounts$vector_layer_geomsArgs>): PrismaPromise<Array<Vector_layer_geomsGetPayload<T>>| Null>;
 
     vector_layers<T extends Accounts$vector_layersArgs= {}>(args?: Subset<T, Accounts$vector_layersArgs>): PrismaPromise<Array<Vector_layersGetPayload<T>>| Null>;
 
@@ -5839,6 +5914,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<Vector_layer_displaysScalarFieldEnum>
+  }
+
+
+  /**
+   * Accounts.vector_layer_geoms
+   */
+  export type Accounts$vector_layer_geomsArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layer_geoms
+     * 
+    **/
+    select?: Vector_layer_geomsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layer_geomsInclude | null
+    where?: Vector_layer_geomsWhereInput
+    orderBy?: Enumerable<Vector_layer_geomsOrderByWithRelationInput>
+    cursor?: Vector_layer_geomsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Vector_layer_geomsScalarFieldEnum>
   }
 
 
@@ -43372,6 +43470,1114 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
 
 
   /**
+   * Model Vector_layer_geoms
+   */
+
+
+  export type AggregateVector_layer_geoms = {
+    _count: Vector_layer_geomsCountAggregateOutputType | null
+    _avg: Vector_layer_geomsAvgAggregateOutputType | null
+    _sum: Vector_layer_geomsSumAggregateOutputType | null
+    _min: Vector_layer_geomsMinAggregateOutputType | null
+    _max: Vector_layer_geomsMaxAggregateOutputType | null
+  }
+
+  export type Vector_layer_geomsAvgAggregateOutputType = {
+    bbox_sw_lng: number | null
+    bbox_sw_lat: number | null
+    bbox_ne_lng: number | null
+    bbox_ne_lat: number | null
+  }
+
+  export type Vector_layer_geomsSumAggregateOutputType = {
+    bbox_sw_lng: number | null
+    bbox_sw_lat: number | null
+    bbox_ne_lng: number | null
+    bbox_ne_lat: number | null
+  }
+
+  export type Vector_layer_geomsMinAggregateOutputType = {
+    vector_layer_geom_id: string | null
+    account_id: string | null
+    vector_layer_id: string | null
+    bbox_sw_lng: number | null
+    bbox_sw_lat: number | null
+    bbox_ne_lng: number | null
+    bbox_ne_lat: number | null
+    deleted: boolean | null
+  }
+
+  export type Vector_layer_geomsMaxAggregateOutputType = {
+    vector_layer_geom_id: string | null
+    account_id: string | null
+    vector_layer_id: string | null
+    bbox_sw_lng: number | null
+    bbox_sw_lat: number | null
+    bbox_ne_lng: number | null
+    bbox_ne_lat: number | null
+    deleted: boolean | null
+  }
+
+  export type Vector_layer_geomsCountAggregateOutputType = {
+    vector_layer_geom_id: number
+    account_id: number
+    vector_layer_id: number
+    geometry: number
+    properties: number
+    bbox_sw_lng: number
+    bbox_sw_lat: number
+    bbox_ne_lng: number
+    bbox_ne_lat: number
+    deleted: number
+    _all: number
+  }
+
+
+  export type Vector_layer_geomsAvgAggregateInputType = {
+    bbox_sw_lng?: true
+    bbox_sw_lat?: true
+    bbox_ne_lng?: true
+    bbox_ne_lat?: true
+  }
+
+  export type Vector_layer_geomsSumAggregateInputType = {
+    bbox_sw_lng?: true
+    bbox_sw_lat?: true
+    bbox_ne_lng?: true
+    bbox_ne_lat?: true
+  }
+
+  export type Vector_layer_geomsMinAggregateInputType = {
+    vector_layer_geom_id?: true
+    account_id?: true
+    vector_layer_id?: true
+    bbox_sw_lng?: true
+    bbox_sw_lat?: true
+    bbox_ne_lng?: true
+    bbox_ne_lat?: true
+    deleted?: true
+  }
+
+  export type Vector_layer_geomsMaxAggregateInputType = {
+    vector_layer_geom_id?: true
+    account_id?: true
+    vector_layer_id?: true
+    bbox_sw_lng?: true
+    bbox_sw_lat?: true
+    bbox_ne_lng?: true
+    bbox_ne_lat?: true
+    deleted?: true
+  }
+
+  export type Vector_layer_geomsCountAggregateInputType = {
+    vector_layer_geom_id?: true
+    account_id?: true
+    vector_layer_id?: true
+    geometry?: true
+    properties?: true
+    bbox_sw_lng?: true
+    bbox_sw_lat?: true
+    bbox_ne_lng?: true
+    bbox_ne_lat?: true
+    deleted?: true
+    _all?: true
+  }
+
+  export type Vector_layer_geomsAggregateArgs = {
+    /**
+     * Filter which Vector_layer_geoms to aggregate.
+     * 
+    **/
+    where?: Vector_layer_geomsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vector_layer_geoms to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Vector_layer_geomsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: Vector_layer_geomsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vector_layer_geoms from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vector_layer_geoms.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Vector_layer_geoms
+    **/
+    _count?: true | Vector_layer_geomsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Vector_layer_geomsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Vector_layer_geomsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Vector_layer_geomsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Vector_layer_geomsMaxAggregateInputType
+  }
+
+  export type GetVector_layer_geomsAggregateType<T extends Vector_layer_geomsAggregateArgs> = {
+        [P in keyof T & keyof AggregateVector_layer_geoms]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVector_layer_geoms[P]>
+      : GetScalarType<T[P], AggregateVector_layer_geoms[P]>
+  }
+
+
+
+
+  export type Vector_layer_geomsGroupByArgs = {
+    where?: Vector_layer_geomsWhereInput
+    orderBy?: Enumerable<Vector_layer_geomsOrderByWithAggregationInput>
+    by: Array<Vector_layer_geomsScalarFieldEnum>
+    having?: Vector_layer_geomsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Vector_layer_geomsCountAggregateInputType | true
+    _avg?: Vector_layer_geomsAvgAggregateInputType
+    _sum?: Vector_layer_geomsSumAggregateInputType
+    _min?: Vector_layer_geomsMinAggregateInputType
+    _max?: Vector_layer_geomsMaxAggregateInputType
+  }
+
+
+  export type Vector_layer_geomsGroupByOutputType = {
+    vector_layer_geom_id: string
+    account_id: string | null
+    vector_layer_id: string | null
+    geometry: JsonValue | null
+    properties: JsonValue | null
+    bbox_sw_lng: number | null
+    bbox_sw_lat: number | null
+    bbox_ne_lng: number | null
+    bbox_ne_lat: number | null
+    deleted: boolean | null
+    _count: Vector_layer_geomsCountAggregateOutputType | null
+    _avg: Vector_layer_geomsAvgAggregateOutputType | null
+    _sum: Vector_layer_geomsSumAggregateOutputType | null
+    _min: Vector_layer_geomsMinAggregateOutputType | null
+    _max: Vector_layer_geomsMaxAggregateOutputType | null
+  }
+
+  type GetVector_layer_geomsGroupByPayload<T extends Vector_layer_geomsGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Vector_layer_geomsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Vector_layer_geomsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Vector_layer_geomsGroupByOutputType[P]>
+            : GetScalarType<T[P], Vector_layer_geomsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Vector_layer_geomsSelect = {
+    vector_layer_geom_id?: boolean
+    account_id?: boolean
+    vector_layer_id?: boolean
+    geometry?: boolean
+    properties?: boolean
+    bbox_sw_lng?: boolean
+    bbox_sw_lat?: boolean
+    bbox_ne_lng?: boolean
+    bbox_ne_lat?: boolean
+    deleted?: boolean
+    accounts?: boolean | Vector_layer_geoms$accountsArgs
+    vector_layers?: boolean | Vector_layer_geoms$vector_layersArgs
+  }
+
+
+  export type Vector_layer_geomsInclude = {
+    accounts?: boolean | Vector_layer_geoms$accountsArgs
+    vector_layers?: boolean | Vector_layer_geoms$vector_layersArgs
+  } 
+
+  export type Vector_layer_geomsGetPayload<S extends boolean | null | undefined | Vector_layer_geomsArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Vector_layer_geoms :
+    S extends undefined ? never :
+    S extends { include: any } & (Vector_layer_geomsArgs | Vector_layer_geomsFindManyArgs)
+    ? Vector_layer_geoms  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
+        P extends 'vector_layers' ? Vector_layersGetPayload<S['include'][P]> | null :  never
+  } 
+    : S extends { select: any } & (Vector_layer_geomsArgs | Vector_layer_geomsFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
+        P extends 'vector_layers' ? Vector_layersGetPayload<S['select'][P]> | null :  P extends keyof Vector_layer_geoms ? Vector_layer_geoms[P] : never
+  } 
+      : Vector_layer_geoms
+
+
+  type Vector_layer_geomsCountArgs = Merge<
+    Omit<Vector_layer_geomsFindManyArgs, 'select' | 'include'> & {
+      select?: Vector_layer_geomsCountAggregateInputType | true
+    }
+  >
+
+  export interface Vector_layer_geomsDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Vector_layer_geoms that matches the filter.
+     * @param {Vector_layer_geomsFindUniqueArgs} args - Arguments to find a Vector_layer_geoms
+     * @example
+     * // Get one Vector_layer_geoms
+     * const vector_layer_geoms = await prisma.vector_layer_geoms.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends Vector_layer_geomsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, Vector_layer_geomsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Vector_layer_geoms'> extends True ? Prisma__Vector_layer_geomsClient<Vector_layer_geomsGetPayload<T>> : Prisma__Vector_layer_geomsClient<Vector_layer_geomsGetPayload<T> | null, null>
+
+    /**
+     * Find one Vector_layer_geoms that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {Vector_layer_geomsFindUniqueOrThrowArgs} args - Arguments to find a Vector_layer_geoms
+     * @example
+     * // Get one Vector_layer_geoms
+     * const vector_layer_geoms = await prisma.vector_layer_geoms.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends Vector_layer_geomsFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, Vector_layer_geomsFindUniqueOrThrowArgs>
+    ): Prisma__Vector_layer_geomsClient<Vector_layer_geomsGetPayload<T>>
+
+    /**
+     * Find the first Vector_layer_geoms that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Vector_layer_geomsFindFirstArgs} args - Arguments to find a Vector_layer_geoms
+     * @example
+     * // Get one Vector_layer_geoms
+     * const vector_layer_geoms = await prisma.vector_layer_geoms.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends Vector_layer_geomsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, Vector_layer_geomsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Vector_layer_geoms'> extends True ? Prisma__Vector_layer_geomsClient<Vector_layer_geomsGetPayload<T>> : Prisma__Vector_layer_geomsClient<Vector_layer_geomsGetPayload<T> | null, null>
+
+    /**
+     * Find the first Vector_layer_geoms that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Vector_layer_geomsFindFirstOrThrowArgs} args - Arguments to find a Vector_layer_geoms
+     * @example
+     * // Get one Vector_layer_geoms
+     * const vector_layer_geoms = await prisma.vector_layer_geoms.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends Vector_layer_geomsFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, Vector_layer_geomsFindFirstOrThrowArgs>
+    ): Prisma__Vector_layer_geomsClient<Vector_layer_geomsGetPayload<T>>
+
+    /**
+     * Find zero or more Vector_layer_geoms that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Vector_layer_geomsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Vector_layer_geoms
+     * const vector_layer_geoms = await prisma.vector_layer_geoms.findMany()
+     * 
+     * // Get first 10 Vector_layer_geoms
+     * const vector_layer_geoms = await prisma.vector_layer_geoms.findMany({ take: 10 })
+     * 
+     * // Only select the `vector_layer_geom_id`
+     * const vector_layer_geomsWithVector_layer_geom_idOnly = await prisma.vector_layer_geoms.findMany({ select: { vector_layer_geom_id: true } })
+     * 
+    **/
+    findMany<T extends Vector_layer_geomsFindManyArgs>(
+      args?: SelectSubset<T, Vector_layer_geomsFindManyArgs>
+    ): PrismaPromise<Array<Vector_layer_geomsGetPayload<T>>>
+
+    /**
+     * Create a Vector_layer_geoms.
+     * @param {Vector_layer_geomsCreateArgs} args - Arguments to create a Vector_layer_geoms.
+     * @example
+     * // Create one Vector_layer_geoms
+     * const Vector_layer_geoms = await prisma.vector_layer_geoms.create({
+     *   data: {
+     *     // ... data to create a Vector_layer_geoms
+     *   }
+     * })
+     * 
+    **/
+    create<T extends Vector_layer_geomsCreateArgs>(
+      args: SelectSubset<T, Vector_layer_geomsCreateArgs>
+    ): Prisma__Vector_layer_geomsClient<Vector_layer_geomsGetPayload<T>>
+
+    /**
+     * Create many Vector_layer_geoms.
+     *     @param {Vector_layer_geomsCreateManyArgs} args - Arguments to create many Vector_layer_geoms.
+     *     @example
+     *     // Create many Vector_layer_geoms
+     *     const vector_layer_geoms = await prisma.vector_layer_geoms.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends Vector_layer_geomsCreateManyArgs>(
+      args?: SelectSubset<T, Vector_layer_geomsCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Vector_layer_geoms.
+     * @param {Vector_layer_geomsDeleteArgs} args - Arguments to delete one Vector_layer_geoms.
+     * @example
+     * // Delete one Vector_layer_geoms
+     * const Vector_layer_geoms = await prisma.vector_layer_geoms.delete({
+     *   where: {
+     *     // ... filter to delete one Vector_layer_geoms
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends Vector_layer_geomsDeleteArgs>(
+      args: SelectSubset<T, Vector_layer_geomsDeleteArgs>
+    ): Prisma__Vector_layer_geomsClient<Vector_layer_geomsGetPayload<T>>
+
+    /**
+     * Update one Vector_layer_geoms.
+     * @param {Vector_layer_geomsUpdateArgs} args - Arguments to update one Vector_layer_geoms.
+     * @example
+     * // Update one Vector_layer_geoms
+     * const vector_layer_geoms = await prisma.vector_layer_geoms.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends Vector_layer_geomsUpdateArgs>(
+      args: SelectSubset<T, Vector_layer_geomsUpdateArgs>
+    ): Prisma__Vector_layer_geomsClient<Vector_layer_geomsGetPayload<T>>
+
+    /**
+     * Delete zero or more Vector_layer_geoms.
+     * @param {Vector_layer_geomsDeleteManyArgs} args - Arguments to filter Vector_layer_geoms to delete.
+     * @example
+     * // Delete a few Vector_layer_geoms
+     * const { count } = await prisma.vector_layer_geoms.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends Vector_layer_geomsDeleteManyArgs>(
+      args?: SelectSubset<T, Vector_layer_geomsDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Vector_layer_geoms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Vector_layer_geomsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Vector_layer_geoms
+     * const vector_layer_geoms = await prisma.vector_layer_geoms.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends Vector_layer_geomsUpdateManyArgs>(
+      args: SelectSubset<T, Vector_layer_geomsUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Vector_layer_geoms.
+     * @param {Vector_layer_geomsUpsertArgs} args - Arguments to update or create a Vector_layer_geoms.
+     * @example
+     * // Update or create a Vector_layer_geoms
+     * const vector_layer_geoms = await prisma.vector_layer_geoms.upsert({
+     *   create: {
+     *     // ... data to create a Vector_layer_geoms
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Vector_layer_geoms we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends Vector_layer_geomsUpsertArgs>(
+      args: SelectSubset<T, Vector_layer_geomsUpsertArgs>
+    ): Prisma__Vector_layer_geomsClient<Vector_layer_geomsGetPayload<T>>
+
+    /**
+     * Count the number of Vector_layer_geoms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Vector_layer_geomsCountArgs} args - Arguments to filter Vector_layer_geoms to count.
+     * @example
+     * // Count the number of Vector_layer_geoms
+     * const count = await prisma.vector_layer_geoms.count({
+     *   where: {
+     *     // ... the filter for the Vector_layer_geoms we want to count
+     *   }
+     * })
+    **/
+    count<T extends Vector_layer_geomsCountArgs>(
+      args?: Subset<T, Vector_layer_geomsCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Vector_layer_geomsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Vector_layer_geoms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Vector_layer_geomsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Vector_layer_geomsAggregateArgs>(args: Subset<T, Vector_layer_geomsAggregateArgs>): PrismaPromise<GetVector_layer_geomsAggregateType<T>>
+
+    /**
+     * Group by Vector_layer_geoms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Vector_layer_geomsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Vector_layer_geomsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Vector_layer_geomsGroupByArgs['orderBy'] }
+        : { orderBy?: Vector_layer_geomsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Vector_layer_geomsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVector_layer_geomsGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Vector_layer_geoms.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__Vector_layer_geomsClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    accounts<T extends Vector_layer_geoms$accountsArgs= {}>(args?: Subset<T, Vector_layer_geoms$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
+
+    vector_layers<T extends Vector_layer_geoms$vector_layersArgs= {}>(args?: Subset<T, Vector_layer_geoms$vector_layersArgs>): Prisma__Vector_layersClient<Vector_layersGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Vector_layer_geoms base type for findUnique actions
+   */
+  export type Vector_layer_geomsFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Vector_layer_geoms
+     * 
+    **/
+    select?: Vector_layer_geomsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layer_geomsInclude | null
+    /**
+     * Filter, which Vector_layer_geoms to fetch.
+     * 
+    **/
+    where: Vector_layer_geomsWhereUniqueInput
+  }
+
+  /**
+   * Vector_layer_geoms findUnique
+   */
+  export interface Vector_layer_geomsFindUniqueArgs extends Vector_layer_geomsFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Vector_layer_geoms findUniqueOrThrow
+   */
+  export type Vector_layer_geomsFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layer_geoms
+     * 
+    **/
+    select?: Vector_layer_geomsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layer_geomsInclude | null
+    /**
+     * Filter, which Vector_layer_geoms to fetch.
+     * 
+    **/
+    where: Vector_layer_geomsWhereUniqueInput
+  }
+
+
+  /**
+   * Vector_layer_geoms base type for findFirst actions
+   */
+  export type Vector_layer_geomsFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Vector_layer_geoms
+     * 
+    **/
+    select?: Vector_layer_geomsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layer_geomsInclude | null
+    /**
+     * Filter, which Vector_layer_geoms to fetch.
+     * 
+    **/
+    where?: Vector_layer_geomsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vector_layer_geoms to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Vector_layer_geomsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Vector_layer_geoms.
+     * 
+    **/
+    cursor?: Vector_layer_geomsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vector_layer_geoms from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vector_layer_geoms.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Vector_layer_geoms.
+     * 
+    **/
+    distinct?: Enumerable<Vector_layer_geomsScalarFieldEnum>
+  }
+
+  /**
+   * Vector_layer_geoms findFirst
+   */
+  export interface Vector_layer_geomsFindFirstArgs extends Vector_layer_geomsFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Vector_layer_geoms findFirstOrThrow
+   */
+  export type Vector_layer_geomsFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layer_geoms
+     * 
+    **/
+    select?: Vector_layer_geomsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layer_geomsInclude | null
+    /**
+     * Filter, which Vector_layer_geoms to fetch.
+     * 
+    **/
+    where?: Vector_layer_geomsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vector_layer_geoms to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Vector_layer_geomsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Vector_layer_geoms.
+     * 
+    **/
+    cursor?: Vector_layer_geomsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vector_layer_geoms from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vector_layer_geoms.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Vector_layer_geoms.
+     * 
+    **/
+    distinct?: Enumerable<Vector_layer_geomsScalarFieldEnum>
+  }
+
+
+  /**
+   * Vector_layer_geoms findMany
+   */
+  export type Vector_layer_geomsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layer_geoms
+     * 
+    **/
+    select?: Vector_layer_geomsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layer_geomsInclude | null
+    /**
+     * Filter, which Vector_layer_geoms to fetch.
+     * 
+    **/
+    where?: Vector_layer_geomsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Vector_layer_geoms to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<Vector_layer_geomsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Vector_layer_geoms.
+     * 
+    **/
+    cursor?: Vector_layer_geomsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Vector_layer_geoms from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Vector_layer_geoms.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Vector_layer_geomsScalarFieldEnum>
+  }
+
+
+  /**
+   * Vector_layer_geoms create
+   */
+  export type Vector_layer_geomsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layer_geoms
+     * 
+    **/
+    select?: Vector_layer_geomsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layer_geomsInclude | null
+    /**
+     * The data needed to create a Vector_layer_geoms.
+     * 
+    **/
+    data: XOR<Vector_layer_geomsCreateInput, Vector_layer_geomsUncheckedCreateInput>
+  }
+
+
+  /**
+   * Vector_layer_geoms createMany
+   */
+  export type Vector_layer_geomsCreateManyArgs = {
+    /**
+     * The data used to create many Vector_layer_geoms.
+     * 
+    **/
+    data: Enumerable<Vector_layer_geomsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Vector_layer_geoms update
+   */
+  export type Vector_layer_geomsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layer_geoms
+     * 
+    **/
+    select?: Vector_layer_geomsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layer_geomsInclude | null
+    /**
+     * The data needed to update a Vector_layer_geoms.
+     * 
+    **/
+    data: XOR<Vector_layer_geomsUpdateInput, Vector_layer_geomsUncheckedUpdateInput>
+    /**
+     * Choose, which Vector_layer_geoms to update.
+     * 
+    **/
+    where: Vector_layer_geomsWhereUniqueInput
+  }
+
+
+  /**
+   * Vector_layer_geoms updateMany
+   */
+  export type Vector_layer_geomsUpdateManyArgs = {
+    /**
+     * The data used to update Vector_layer_geoms.
+     * 
+    **/
+    data: XOR<Vector_layer_geomsUpdateManyMutationInput, Vector_layer_geomsUncheckedUpdateManyInput>
+    /**
+     * Filter which Vector_layer_geoms to update
+     * 
+    **/
+    where?: Vector_layer_geomsWhereInput
+  }
+
+
+  /**
+   * Vector_layer_geoms upsert
+   */
+  export type Vector_layer_geomsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layer_geoms
+     * 
+    **/
+    select?: Vector_layer_geomsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layer_geomsInclude | null
+    /**
+     * The filter to search for the Vector_layer_geoms to update in case it exists.
+     * 
+    **/
+    where: Vector_layer_geomsWhereUniqueInput
+    /**
+     * In case the Vector_layer_geoms found by the `where` argument doesn't exist, create a new Vector_layer_geoms with this data.
+     * 
+    **/
+    create: XOR<Vector_layer_geomsCreateInput, Vector_layer_geomsUncheckedCreateInput>
+    /**
+     * In case the Vector_layer_geoms was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<Vector_layer_geomsUpdateInput, Vector_layer_geomsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Vector_layer_geoms delete
+   */
+  export type Vector_layer_geomsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layer_geoms
+     * 
+    **/
+    select?: Vector_layer_geomsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layer_geomsInclude | null
+    /**
+     * Filter which Vector_layer_geoms to delete.
+     * 
+    **/
+    where: Vector_layer_geomsWhereUniqueInput
+  }
+
+
+  /**
+   * Vector_layer_geoms deleteMany
+   */
+  export type Vector_layer_geomsDeleteManyArgs = {
+    /**
+     * Filter which Vector_layer_geoms to delete
+     * 
+    **/
+    where?: Vector_layer_geomsWhereInput
+  }
+
+
+  /**
+   * Vector_layer_geoms.accounts
+   */
+  export type Vector_layer_geoms$accountsArgs = {
+    /**
+     * Select specific fields to fetch from the Accounts
+     * 
+    **/
+    select?: AccountsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: AccountsInclude | null
+    where?: AccountsWhereInput
+  }
+
+
+  /**
+   * Vector_layer_geoms.vector_layers
+   */
+  export type Vector_layer_geoms$vector_layersArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layers
+     * 
+    **/
+    select?: Vector_layersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layersInclude | null
+    where?: Vector_layersWhereInput
+  }
+
+
+  /**
+   * Vector_layer_geoms without action
+   */
+  export type Vector_layer_geomsArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layer_geoms
+     * 
+    **/
+    select?: Vector_layer_geomsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layer_geomsInclude | null
+  }
+
+
+
+  /**
    * Model Vector_layers
    */
 
@@ -43718,6 +44924,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean
     layer_options?: boolean | Vector_layers$layer_optionsArgs
     vector_layer_displays?: boolean | Vector_layers$vector_layer_displaysArgs
+    vector_layer_geoms?: boolean | Vector_layers$vector_layer_geomsArgs
     accounts?: boolean | Vector_layers$accountsArgs
     projects?: boolean | ProjectsArgs
     _count?: boolean | Vector_layersCountOutputTypeArgs
@@ -43727,6 +44934,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Vector_layersInclude = {
     layer_options?: boolean | Vector_layers$layer_optionsArgs
     vector_layer_displays?: boolean | Vector_layers$vector_layer_displaysArgs
+    vector_layer_geoms?: boolean | Vector_layers$vector_layer_geomsArgs
     accounts?: boolean | Vector_layers$accountsArgs
     projects?: boolean | ProjectsArgs
     _count?: boolean | Vector_layersCountOutputTypeArgs
@@ -43741,6 +44949,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     [P in TruthyKeys<S['include']>]:
         P extends 'layer_options' ? Array < Layer_optionsGetPayload<S['include'][P]>>  :
         P extends 'vector_layer_displays' ? Array < Vector_layer_displaysGetPayload<S['include'][P]>>  :
+        P extends 'vector_layer_geoms' ? Array < Vector_layer_geomsGetPayload<S['include'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['include'][P]> | null :
         P extends 'projects' ? ProjectsGetPayload<S['include'][P]> :
         P extends '_count' ? Vector_layersCountOutputTypeGetPayload<S['include'][P]> :  never
@@ -43750,6 +44959,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     [P in TruthyKeys<S['select']>]:
         P extends 'layer_options' ? Array < Layer_optionsGetPayload<S['select'][P]>>  :
         P extends 'vector_layer_displays' ? Array < Vector_layer_displaysGetPayload<S['select'][P]>>  :
+        P extends 'vector_layer_geoms' ? Array < Vector_layer_geomsGetPayload<S['select'][P]>>  :
         P extends 'accounts' ? AccountsGetPayload<S['select'][P]> | null :
         P extends 'projects' ? ProjectsGetPayload<S['select'][P]> :
         P extends '_count' ? Vector_layersCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Vector_layers ? Vector_layers[P] : never
@@ -44129,6 +45339,8 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     layer_options<T extends Vector_layers$layer_optionsArgs= {}>(args?: Subset<T, Vector_layers$layer_optionsArgs>): PrismaPromise<Array<Layer_optionsGetPayload<T>>| Null>;
 
     vector_layer_displays<T extends Vector_layers$vector_layer_displaysArgs= {}>(args?: Subset<T, Vector_layers$vector_layer_displaysArgs>): PrismaPromise<Array<Vector_layer_displaysGetPayload<T>>| Null>;
+
+    vector_layer_geoms<T extends Vector_layers$vector_layer_geomsArgs= {}>(args?: Subset<T, Vector_layers$vector_layer_geomsArgs>): PrismaPromise<Array<Vector_layer_geomsGetPayload<T>>| Null>;
 
     accounts<T extends Vector_layers$accountsArgs= {}>(args?: Subset<T, Vector_layers$accountsArgs>): Prisma__AccountsClient<AccountsGetPayload<T> | Null>;
 
@@ -44580,6 +45792,29 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     take?: number
     skip?: number
     distinct?: Enumerable<Vector_layer_displaysScalarFieldEnum>
+  }
+
+
+  /**
+   * Vector_layers.vector_layer_geoms
+   */
+  export type Vector_layers$vector_layer_geomsArgs = {
+    /**
+     * Select specific fields to fetch from the Vector_layer_geoms
+     * 
+    **/
+    select?: Vector_layer_geomsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: Vector_layer_geomsInclude | null
+    where?: Vector_layer_geomsWhereInput
+    orderBy?: Enumerable<Vector_layer_geomsOrderByWithRelationInput>
+    cursor?: Vector_layer_geomsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<Vector_layer_geomsScalarFieldEnum>
   }
 
 
@@ -47324,6 +48559,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   export type Vector_layer_displaysScalarFieldEnum = (typeof Vector_layer_displaysScalarFieldEnum)[keyof typeof Vector_layer_displaysScalarFieldEnum]
 
 
+  export const Vector_layer_geomsScalarFieldEnum: {
+    vector_layer_geom_id: 'vector_layer_geom_id',
+    account_id: 'account_id',
+    vector_layer_id: 'vector_layer_id',
+    geometry: 'geometry',
+    properties: 'properties',
+    bbox_sw_lng: 'bbox_sw_lng',
+    bbox_sw_lat: 'bbox_sw_lat',
+    bbox_ne_lng: 'bbox_ne_lng',
+    bbox_ne_lat: 'bbox_ne_lat',
+    deleted: 'deleted'
+  };
+
+  export type Vector_layer_geomsScalarFieldEnum = (typeof Vector_layer_geomsScalarFieldEnum)[keyof typeof Vector_layer_geomsScalarFieldEnum]
+
+
   export const Vector_layersScalarFieldEnum: {
     vector_layer_id: 'vector_layer_id',
     account_id: 'account_id',
@@ -47731,6 +48982,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsListRelationFilter
     user_messages?: User_messagesListRelationFilter
     vector_layer_displays?: Vector_layer_displaysListRelationFilter
+    vector_layer_geoms?: Vector_layer_geomsListRelationFilter
     vector_layers?: Vector_layersListRelationFilter
   }
 
@@ -47773,6 +49025,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsOrderByRelationAggregateInput
     user_messages?: User_messagesOrderByRelationAggregateInput
     vector_layer_displays?: Vector_layer_displaysOrderByRelationAggregateInput
+    vector_layer_geoms?: Vector_layer_geomsOrderByRelationAggregateInput
     vector_layers?: Vector_layersOrderByRelationAggregateInput
   }
 
@@ -47818,6 +49071,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsListRelationFilter
     user_messages?: User_messagesListRelationFilter
     vector_layer_displays?: Vector_layer_displaysListRelationFilter
+    vector_layer_geoms?: Vector_layer_geomsListRelationFilter
     vector_layers?: Vector_layersListRelationFilter
   }, "account_id">
 
@@ -50893,6 +52147,91 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableWithAggregatesFilter<"Vector_layer_displays"> | boolean | null
   }
 
+  export type Vector_layer_geomsWhereInput = {
+    AND?: Enumerable<Vector_layer_geomsWhereInput>
+    OR?: Enumerable<Vector_layer_geomsWhereInput>
+    NOT?: Enumerable<Vector_layer_geomsWhereInput>
+    vector_layer_geom_id?: UuidFilter<"Vector_layer_geoms"> | string
+    account_id?: UuidNullableFilter<"Vector_layer_geoms"> | string | null
+    vector_layer_id?: UuidNullableFilter<"Vector_layer_geoms"> | string | null
+    geometry?: JsonNullableFilter<"Vector_layer_geoms">
+    properties?: JsonNullableFilter<"Vector_layer_geoms">
+    bbox_sw_lng?: FloatNullableFilter<"Vector_layer_geoms"> | number | null
+    bbox_sw_lat?: FloatNullableFilter<"Vector_layer_geoms"> | number | null
+    bbox_ne_lng?: FloatNullableFilter<"Vector_layer_geoms"> | number | null
+    bbox_ne_lat?: FloatNullableFilter<"Vector_layer_geoms"> | number | null
+    deleted?: BoolNullableFilter<"Vector_layer_geoms"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    vector_layers?: XOR<Vector_layersNullableRelationFilter, Vector_layersWhereInput> | null
+  }
+
+  export type Vector_layer_geomsOrderByWithRelationInput = {
+    vector_layer_geom_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    vector_layer_id?: SortOrderInput | SortOrder
+    geometry?: SortOrderInput | SortOrder
+    properties?: SortOrderInput | SortOrder
+    bbox_sw_lng?: SortOrderInput | SortOrder
+    bbox_sw_lat?: SortOrderInput | SortOrder
+    bbox_ne_lng?: SortOrderInput | SortOrder
+    bbox_ne_lat?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    accounts?: AccountsOrderByWithRelationInput
+    vector_layers?: Vector_layersOrderByWithRelationInput
+  }
+
+  export type Vector_layer_geomsWhereUniqueInput = Prisma.AtLeast<{
+    vector_layer_geom_id?: string
+    AND?: Enumerable<Vector_layer_geomsWhereInput>
+    OR?: Enumerable<Vector_layer_geomsWhereInput>
+    NOT?: Enumerable<Vector_layer_geomsWhereInput>
+    account_id?: UuidNullableFilter<"Vector_layer_geoms"> | string | null
+    vector_layer_id?: UuidNullableFilter<"Vector_layer_geoms"> | string | null
+    geometry?: JsonNullableFilter<"Vector_layer_geoms">
+    properties?: JsonNullableFilter<"Vector_layer_geoms">
+    bbox_sw_lng?: FloatNullableFilter<"Vector_layer_geoms"> | number | null
+    bbox_sw_lat?: FloatNullableFilter<"Vector_layer_geoms"> | number | null
+    bbox_ne_lng?: FloatNullableFilter<"Vector_layer_geoms"> | number | null
+    bbox_ne_lat?: FloatNullableFilter<"Vector_layer_geoms"> | number | null
+    deleted?: BoolNullableFilter<"Vector_layer_geoms"> | boolean | null
+    accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
+    vector_layers?: XOR<Vector_layersNullableRelationFilter, Vector_layersWhereInput> | null
+  }, "vector_layer_geom_id">
+
+  export type Vector_layer_geomsOrderByWithAggregationInput = {
+    vector_layer_geom_id?: SortOrder
+    account_id?: SortOrderInput | SortOrder
+    vector_layer_id?: SortOrderInput | SortOrder
+    geometry?: SortOrderInput | SortOrder
+    properties?: SortOrderInput | SortOrder
+    bbox_sw_lng?: SortOrderInput | SortOrder
+    bbox_sw_lat?: SortOrderInput | SortOrder
+    bbox_ne_lng?: SortOrderInput | SortOrder
+    bbox_ne_lat?: SortOrderInput | SortOrder
+    deleted?: SortOrderInput | SortOrder
+    _count?: Vector_layer_geomsCountOrderByAggregateInput
+    _avg?: Vector_layer_geomsAvgOrderByAggregateInput
+    _max?: Vector_layer_geomsMaxOrderByAggregateInput
+    _min?: Vector_layer_geomsMinOrderByAggregateInput
+    _sum?: Vector_layer_geomsSumOrderByAggregateInput
+  }
+
+  export type Vector_layer_geomsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<Vector_layer_geomsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<Vector_layer_geomsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<Vector_layer_geomsScalarWhereWithAggregatesInput>
+    vector_layer_geom_id?: UuidWithAggregatesFilter<"Vector_layer_geoms"> | string
+    account_id?: UuidNullableWithAggregatesFilter<"Vector_layer_geoms"> | string | null
+    vector_layer_id?: UuidNullableWithAggregatesFilter<"Vector_layer_geoms"> | string | null
+    geometry?: JsonNullableWithAggregatesFilter<"Vector_layer_geoms">
+    properties?: JsonNullableWithAggregatesFilter<"Vector_layer_geoms">
+    bbox_sw_lng?: FloatNullableWithAggregatesFilter<"Vector_layer_geoms"> | number | null
+    bbox_sw_lat?: FloatNullableWithAggregatesFilter<"Vector_layer_geoms"> | number | null
+    bbox_ne_lng?: FloatNullableWithAggregatesFilter<"Vector_layer_geoms"> | number | null
+    bbox_ne_lat?: FloatNullableWithAggregatesFilter<"Vector_layer_geoms"> | number | null
+    deleted?: BoolNullableWithAggregatesFilter<"Vector_layer_geoms"> | boolean | null
+  }
+
   export type Vector_layersWhereInput = {
     AND?: Enumerable<Vector_layersWhereInput>
     OR?: Enumerable<Vector_layersWhereInput>
@@ -50919,6 +52258,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableFilter<"Vector_layers"> | boolean | null
     layer_options?: Layer_optionsListRelationFilter
     vector_layer_displays?: Vector_layer_displaysListRelationFilter
+    vector_layer_geoms?: Vector_layer_geomsListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     projects?: XOR<ProjectsRelationFilter, ProjectsWhereInput>
   }
@@ -50946,6 +52286,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: SortOrderInput | SortOrder
     layer_options?: Layer_optionsOrderByRelationAggregateInput
     vector_layer_displays?: Vector_layer_displaysOrderByRelationAggregateInput
+    vector_layer_geoms?: Vector_layer_geomsOrderByRelationAggregateInput
     accounts?: AccountsOrderByWithRelationInput
     projects?: ProjectsOrderByWithRelationInput
   }
@@ -50976,6 +52317,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableFilter<"Vector_layers"> | boolean | null
     layer_options?: Layer_optionsListRelationFilter
     vector_layer_displays?: Vector_layer_displaysListRelationFilter
+    vector_layer_geoms?: Vector_layer_geomsListRelationFilter
     accounts?: XOR<AccountsNullableRelationFilter, AccountsWhereInput> | null
     projects?: XOR<ProjectsRelationFilter, ProjectsWhereInput>
   }, "vector_layer_id">
@@ -51200,6 +52542,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -51241,6 +52584,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -51282,6 +52626,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -51323,6 +52668,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -54624,6 +55970,95 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Vector_layer_geomsCreateInput = {
+    vector_layer_geom_id: string
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: number | null
+    bbox_sw_lat?: number | null
+    bbox_ne_lng?: number | null
+    bbox_ne_lat?: number | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutVector_layer_geomsInput
+    vector_layers?: Vector_layersCreateNestedOneWithoutVector_layer_geomsInput
+  }
+
+  export type Vector_layer_geomsUncheckedCreateInput = {
+    vector_layer_geom_id: string
+    account_id?: string | null
+    vector_layer_id?: string | null
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: number | null
+    bbox_sw_lat?: number | null
+    bbox_ne_lng?: number | null
+    bbox_ne_lat?: number | null
+    deleted?: boolean | null
+  }
+
+  export type Vector_layer_geomsUpdateInput = {
+    vector_layer_geom_id?: StringFieldUpdateOperationsInput | string
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_sw_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutVector_layer_geomsNestedInput
+    vector_layers?: Vector_layersUpdateOneWithoutVector_layer_geomsNestedInput
+  }
+
+  export type Vector_layer_geomsUncheckedUpdateInput = {
+    vector_layer_geom_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_sw_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Vector_layer_geomsCreateManyInput = {
+    vector_layer_geom_id: string
+    account_id?: string | null
+    vector_layer_id?: string | null
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: number | null
+    bbox_sw_lat?: number | null
+    bbox_ne_lng?: number | null
+    bbox_ne_lat?: number | null
+    deleted?: boolean | null
+  }
+
+  export type Vector_layer_geomsUpdateManyMutationInput = {
+    vector_layer_geom_id?: StringFieldUpdateOperationsInput | string
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_sw_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Vector_layer_geomsUncheckedUpdateManyInput = {
+    vector_layer_geom_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    vector_layer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_sw_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type Vector_layersCreateInput = {
     vector_layer_id: string
     label?: string | null
@@ -54645,6 +56080,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     layer_options?: Layer_optionsCreateNestedManyWithoutVector_layersInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutVector_layersInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutVector_layersInput
     accounts?: AccountsCreateNestedOneWithoutVector_layersInput
     projects: ProjectsCreateNestedOneWithoutVector_layersInput
   }
@@ -54672,6 +56108,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutVector_layersInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutVector_layersInput
   }
 
   export type Vector_layersUpdateInput = {
@@ -54695,6 +56132,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     layer_options?: Layer_optionsUpdateManyWithoutVector_layersNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutVector_layersNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutVector_layersNestedInput
     accounts?: AccountsUpdateOneWithoutVector_layersNestedInput
     projects?: ProjectsUpdateOneRequiredWithoutVector_layersNestedInput
   }
@@ -54722,6 +56160,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     layer_options?: Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutVector_layersNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutVector_layersNestedInput
   }
 
   export type Vector_layersCreateManyInput = {
@@ -55158,6 +56597,12 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     none?: Vector_layer_displaysWhereInput
   }
 
+  export type Vector_layer_geomsListRelationFilter = {
+    every?: Vector_layer_geomsWhereInput
+    some?: Vector_layer_geomsWhereInput
+    none?: Vector_layer_geomsWhereInput
+  }
+
   export type Vector_layersListRelationFilter = {
     every?: Vector_layersWhereInput
     some?: Vector_layersWhereInput
@@ -55286,6 +56731,10 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
   }
 
   export type Vector_layer_displaysOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type Vector_layer_geomsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -57318,6 +58767,55 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     _max?: NestedEnumfill_rule_enumNullableFilter<$PrismaModel>
   }
 
+  export type Vector_layer_geomsCountOrderByAggregateInput = {
+    vector_layer_geom_id?: SortOrder
+    account_id?: SortOrder
+    vector_layer_id?: SortOrder
+    geometry?: SortOrder
+    properties?: SortOrder
+    bbox_sw_lng?: SortOrder
+    bbox_sw_lat?: SortOrder
+    bbox_ne_lng?: SortOrder
+    bbox_ne_lat?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Vector_layer_geomsAvgOrderByAggregateInput = {
+    bbox_sw_lng?: SortOrder
+    bbox_sw_lat?: SortOrder
+    bbox_ne_lng?: SortOrder
+    bbox_ne_lat?: SortOrder
+  }
+
+  export type Vector_layer_geomsMaxOrderByAggregateInput = {
+    vector_layer_geom_id?: SortOrder
+    account_id?: SortOrder
+    vector_layer_id?: SortOrder
+    bbox_sw_lng?: SortOrder
+    bbox_sw_lat?: SortOrder
+    bbox_ne_lng?: SortOrder
+    bbox_ne_lat?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Vector_layer_geomsMinOrderByAggregateInput = {
+    vector_layer_geom_id?: SortOrder
+    account_id?: SortOrder
+    vector_layer_id?: SortOrder
+    bbox_sw_lng?: SortOrder
+    bbox_sw_lat?: SortOrder
+    bbox_ne_lng?: SortOrder
+    bbox_ne_lat?: SortOrder
+    deleted?: SortOrder
+  }
+
+  export type Vector_layer_geomsSumOrderByAggregateInput = {
+    bbox_sw_lng?: SortOrder
+    bbox_sw_lat?: SortOrder
+    bbox_ne_lng?: SortOrder
+    bbox_ne_lat?: SortOrder
+  }
+
   export type Enumvector_layer_type_enumNullableFilter<$PrismaModel = never> = {
     equals?: vector_layer_type_enum | Enumvector_layer_type_enumFieldRefInput<$PrismaModel> | null
     in?: Enumerable<vector_layer_type_enum> | ListEnumvector_layer_type_enumFieldRefInput<$PrismaModel> | null
@@ -57700,6 +59198,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connect?: Enumerable<Vector_layer_displaysWhereUniqueInput>
   }
 
+  export type Vector_layer_geomsCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Vector_layer_geomsCreateWithoutAccountsInput>, Enumerable<Vector_layer_geomsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Vector_layer_geomsCreateOrConnectWithoutAccountsInput>
+    createMany?: Vector_layer_geomsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+  }
+
   export type Vector_layersCreateNestedManyWithoutAccountsInput = {
     create?: XOR<Enumerable<Vector_layersCreateWithoutAccountsInput>, Enumerable<Vector_layersUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<Vector_layersCreateOrConnectWithoutAccountsInput>
@@ -57915,6 +59420,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<Vector_layer_displaysCreateOrConnectWithoutAccountsInput>
     createMany?: Vector_layer_displaysCreateManyAccountsInputEnvelope
     connect?: Enumerable<Vector_layer_displaysWhereUniqueInput>
+  }
+
+  export type Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput = {
+    create?: XOR<Enumerable<Vector_layer_geomsCreateWithoutAccountsInput>, Enumerable<Vector_layer_geomsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Vector_layer_geomsCreateOrConnectWithoutAccountsInput>
+    createMany?: Vector_layer_geomsCreateManyAccountsInputEnvelope
+    connect?: Enumerable<Vector_layer_geomsWhereUniqueInput>
   }
 
   export type Vector_layersUncheckedCreateNestedManyWithoutAccountsInput = {
@@ -58366,6 +59878,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleteMany?: Enumerable<Vector_layer_displaysScalarWhereInput>
   }
 
+  export type Vector_layer_geomsUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Vector_layer_geomsCreateWithoutAccountsInput>, Enumerable<Vector_layer_geomsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Vector_layer_geomsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Vector_layer_geomsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Vector_layer_geomsCreateManyAccountsInputEnvelope
+    set?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+    disconnect?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+    delete?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+    connect?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+    update?: Enumerable<Vector_layer_geomsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Vector_layer_geomsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Vector_layer_geomsScalarWhereInput>
+  }
+
   export type Vector_layersUpdateManyWithoutAccountsNestedInput = {
     create?: XOR<Enumerable<Vector_layersCreateWithoutAccountsInput>, Enumerable<Vector_layersUncheckedCreateWithoutAccountsInput>>
     connectOrCreate?: Enumerable<Vector_layersCreateOrConnectWithoutAccountsInput>
@@ -58798,6 +60324,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<Vector_layer_displaysUpdateWithWhereUniqueWithoutAccountsInput>
     updateMany?: Enumerable<Vector_layer_displaysUpdateManyWithWhereWithoutAccountsInput>
     deleteMany?: Enumerable<Vector_layer_displaysScalarWhereInput>
+  }
+
+  export type Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput = {
+    create?: XOR<Enumerable<Vector_layer_geomsCreateWithoutAccountsInput>, Enumerable<Vector_layer_geomsUncheckedCreateWithoutAccountsInput>>
+    connectOrCreate?: Enumerable<Vector_layer_geomsCreateOrConnectWithoutAccountsInput>
+    upsert?: Enumerable<Vector_layer_geomsUpsertWithWhereUniqueWithoutAccountsInput>
+    createMany?: Vector_layer_geomsCreateManyAccountsInputEnvelope
+    set?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+    disconnect?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+    delete?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+    connect?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+    update?: Enumerable<Vector_layer_geomsUpdateWithWhereUniqueWithoutAccountsInput>
+    updateMany?: Enumerable<Vector_layer_geomsUpdateManyWithWhereWithoutAccountsInput>
+    deleteMany?: Enumerable<Vector_layer_geomsScalarWhereInput>
   }
 
   export type Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput = {
@@ -61962,6 +63502,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: XOR<XOR<Vector_layersUpdateToOneWithWhereWithoutVector_layer_displaysInput, Vector_layersUpdateWithoutVector_layer_displaysInput>, Vector_layersUncheckedUpdateWithoutVector_layer_displaysInput>
   }
 
+  export type AccountsCreateNestedOneWithoutVector_layer_geomsInput = {
+    create?: XOR<AccountsCreateWithoutVector_layer_geomsInput, AccountsUncheckedCreateWithoutVector_layer_geomsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutVector_layer_geomsInput
+    connect?: AccountsWhereUniqueInput
+  }
+
+  export type Vector_layersCreateNestedOneWithoutVector_layer_geomsInput = {
+    create?: XOR<Vector_layersCreateWithoutVector_layer_geomsInput, Vector_layersUncheckedCreateWithoutVector_layer_geomsInput>
+    connectOrCreate?: Vector_layersCreateOrConnectWithoutVector_layer_geomsInput
+    connect?: Vector_layersWhereUniqueInput
+  }
+
+  export type AccountsUpdateOneWithoutVector_layer_geomsNestedInput = {
+    create?: XOR<AccountsCreateWithoutVector_layer_geomsInput, AccountsUncheckedCreateWithoutVector_layer_geomsInput>
+    connectOrCreate?: AccountsCreateOrConnectWithoutVector_layer_geomsInput
+    upsert?: AccountsUpsertWithoutVector_layer_geomsInput
+    disconnect?: AccountsWhereInput | boolean
+    delete?: AccountsWhereInput | boolean
+    connect?: AccountsWhereUniqueInput
+    update?: XOR<XOR<AccountsUpdateToOneWithWhereWithoutVector_layer_geomsInput, AccountsUpdateWithoutVector_layer_geomsInput>, AccountsUncheckedUpdateWithoutVector_layer_geomsInput>
+  }
+
+  export type Vector_layersUpdateOneWithoutVector_layer_geomsNestedInput = {
+    create?: XOR<Vector_layersCreateWithoutVector_layer_geomsInput, Vector_layersUncheckedCreateWithoutVector_layer_geomsInput>
+    connectOrCreate?: Vector_layersCreateOrConnectWithoutVector_layer_geomsInput
+    upsert?: Vector_layersUpsertWithoutVector_layer_geomsInput
+    disconnect?: Vector_layersWhereInput | boolean
+    delete?: Vector_layersWhereInput | boolean
+    connect?: Vector_layersWhereUniqueInput
+    update?: XOR<XOR<Vector_layersUpdateToOneWithWhereWithoutVector_layer_geomsInput, Vector_layersUpdateWithoutVector_layer_geomsInput>, Vector_layersUncheckedUpdateWithoutVector_layer_geomsInput>
+  }
+
   export type Layer_optionsCreateNestedManyWithoutVector_layersInput = {
     create?: XOR<Enumerable<Layer_optionsCreateWithoutVector_layersInput>, Enumerable<Layer_optionsUncheckedCreateWithoutVector_layersInput>>
     connectOrCreate?: Enumerable<Layer_optionsCreateOrConnectWithoutVector_layersInput>
@@ -61974,6 +63546,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<Vector_layer_displaysCreateOrConnectWithoutVector_layersInput>
     createMany?: Vector_layer_displaysCreateManyVector_layersInputEnvelope
     connect?: Enumerable<Vector_layer_displaysWhereUniqueInput>
+  }
+
+  export type Vector_layer_geomsCreateNestedManyWithoutVector_layersInput = {
+    create?: XOR<Enumerable<Vector_layer_geomsCreateWithoutVector_layersInput>, Enumerable<Vector_layer_geomsUncheckedCreateWithoutVector_layersInput>>
+    connectOrCreate?: Enumerable<Vector_layer_geomsCreateOrConnectWithoutVector_layersInput>
+    createMany?: Vector_layer_geomsCreateManyVector_layersInputEnvelope
+    connect?: Enumerable<Vector_layer_geomsWhereUniqueInput>
   }
 
   export type AccountsCreateNestedOneWithoutVector_layersInput = {
@@ -62000,6 +63579,13 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     connectOrCreate?: Enumerable<Vector_layer_displaysCreateOrConnectWithoutVector_layersInput>
     createMany?: Vector_layer_displaysCreateManyVector_layersInputEnvelope
     connect?: Enumerable<Vector_layer_displaysWhereUniqueInput>
+  }
+
+  export type Vector_layer_geomsUncheckedCreateNestedManyWithoutVector_layersInput = {
+    create?: XOR<Enumerable<Vector_layer_geomsCreateWithoutVector_layersInput>, Enumerable<Vector_layer_geomsUncheckedCreateWithoutVector_layersInput>>
+    connectOrCreate?: Enumerable<Vector_layer_geomsCreateOrConnectWithoutVector_layersInput>
+    createMany?: Vector_layer_geomsCreateManyVector_layersInputEnvelope
+    connect?: Enumerable<Vector_layer_geomsWhereUniqueInput>
   }
 
   export type NullableEnumvector_layer_type_enumFieldUpdateOperationsInput = {
@@ -62032,6 +63618,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<Vector_layer_displaysUpdateWithWhereUniqueWithoutVector_layersInput>
     updateMany?: Enumerable<Vector_layer_displaysUpdateManyWithWhereWithoutVector_layersInput>
     deleteMany?: Enumerable<Vector_layer_displaysScalarWhereInput>
+  }
+
+  export type Vector_layer_geomsUpdateManyWithoutVector_layersNestedInput = {
+    create?: XOR<Enumerable<Vector_layer_geomsCreateWithoutVector_layersInput>, Enumerable<Vector_layer_geomsUncheckedCreateWithoutVector_layersInput>>
+    connectOrCreate?: Enumerable<Vector_layer_geomsCreateOrConnectWithoutVector_layersInput>
+    upsert?: Enumerable<Vector_layer_geomsUpsertWithWhereUniqueWithoutVector_layersInput>
+    createMany?: Vector_layer_geomsCreateManyVector_layersInputEnvelope
+    set?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+    disconnect?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+    delete?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+    connect?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+    update?: Enumerable<Vector_layer_geomsUpdateWithWhereUniqueWithoutVector_layersInput>
+    updateMany?: Enumerable<Vector_layer_geomsUpdateManyWithWhereWithoutVector_layersInput>
+    deleteMany?: Enumerable<Vector_layer_geomsScalarWhereInput>
   }
 
   export type AccountsUpdateOneWithoutVector_layersNestedInput = {
@@ -62078,6 +63678,20 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     update?: Enumerable<Vector_layer_displaysUpdateWithWhereUniqueWithoutVector_layersInput>
     updateMany?: Enumerable<Vector_layer_displaysUpdateManyWithWhereWithoutVector_layersInput>
     deleteMany?: Enumerable<Vector_layer_displaysScalarWhereInput>
+  }
+
+  export type Vector_layer_geomsUncheckedUpdateManyWithoutVector_layersNestedInput = {
+    create?: XOR<Enumerable<Vector_layer_geomsCreateWithoutVector_layersInput>, Enumerable<Vector_layer_geomsUncheckedCreateWithoutVector_layersInput>>
+    connectOrCreate?: Enumerable<Vector_layer_geomsCreateOrConnectWithoutVector_layersInput>
+    upsert?: Enumerable<Vector_layer_geomsUpsertWithWhereUniqueWithoutVector_layersInput>
+    createMany?: Vector_layer_geomsCreateManyVector_layersInputEnvelope
+    set?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+    disconnect?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+    delete?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+    connect?: Enumerable<Vector_layer_geomsWhereUniqueInput>
+    update?: Enumerable<Vector_layer_geomsUpdateWithWhereUniqueWithoutVector_layersInput>
+    updateMany?: Enumerable<Vector_layer_geomsUpdateManyWithWhereWithoutVector_layersInput>
+    deleteMany?: Enumerable<Vector_layer_geomsScalarWhereInput>
   }
 
   export type FieldsCreateNestedManyWithoutWidget_typesInput = {
@@ -63870,6 +65484,40 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     skipDuplicates?: boolean
   }
 
+  export type Vector_layer_geomsCreateWithoutAccountsInput = {
+    vector_layer_geom_id: string
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: number | null
+    bbox_sw_lat?: number | null
+    bbox_ne_lng?: number | null
+    bbox_ne_lat?: number | null
+    deleted?: boolean | null
+    vector_layers?: Vector_layersCreateNestedOneWithoutVector_layer_geomsInput
+  }
+
+  export type Vector_layer_geomsUncheckedCreateWithoutAccountsInput = {
+    vector_layer_geom_id: string
+    vector_layer_id?: string | null
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: number | null
+    bbox_sw_lat?: number | null
+    bbox_ne_lng?: number | null
+    bbox_ne_lat?: number | null
+    deleted?: boolean | null
+  }
+
+  export type Vector_layer_geomsCreateOrConnectWithoutAccountsInput = {
+    where: Vector_layer_geomsWhereUniqueInput
+    create: XOR<Vector_layer_geomsCreateWithoutAccountsInput, Vector_layer_geomsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Vector_layer_geomsCreateManyAccountsInputEnvelope = {
+    data: Enumerable<Vector_layer_geomsCreateManyAccountsInput>
+    skipDuplicates?: boolean
+  }
+
   export type Vector_layersCreateWithoutAccountsInput = {
     vector_layer_id: string
     label?: string | null
@@ -63891,6 +65539,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     layer_options?: Layer_optionsCreateNestedManyWithoutVector_layersInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutVector_layersInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutVector_layersInput
     projects: ProjectsCreateNestedOneWithoutVector_layersInput
   }
 
@@ -63916,6 +65565,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutVector_layersInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutVector_layersInput
   }
 
   export type Vector_layersCreateOrConnectWithoutAccountsInput = {
@@ -64961,6 +66611,38 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: BoolNullableFilter<"Vector_layer_displays"> | boolean | null
   }
 
+  export type Vector_layer_geomsUpsertWithWhereUniqueWithoutAccountsInput = {
+    where: Vector_layer_geomsWhereUniqueInput
+    update: XOR<Vector_layer_geomsUpdateWithoutAccountsInput, Vector_layer_geomsUncheckedUpdateWithoutAccountsInput>
+    create: XOR<Vector_layer_geomsCreateWithoutAccountsInput, Vector_layer_geomsUncheckedCreateWithoutAccountsInput>
+  }
+
+  export type Vector_layer_geomsUpdateWithWhereUniqueWithoutAccountsInput = {
+    where: Vector_layer_geomsWhereUniqueInput
+    data: XOR<Vector_layer_geomsUpdateWithoutAccountsInput, Vector_layer_geomsUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type Vector_layer_geomsUpdateManyWithWhereWithoutAccountsInput = {
+    where: Vector_layer_geomsScalarWhereInput
+    data: XOR<Vector_layer_geomsUpdateManyMutationInput, Vector_layer_geomsUncheckedUpdateManyWithoutAccountsInput>
+  }
+
+  export type Vector_layer_geomsScalarWhereInput = {
+    AND?: Enumerable<Vector_layer_geomsScalarWhereInput>
+    OR?: Enumerable<Vector_layer_geomsScalarWhereInput>
+    NOT?: Enumerable<Vector_layer_geomsScalarWhereInput>
+    vector_layer_geom_id?: UuidFilter<"Vector_layer_geoms"> | string
+    account_id?: UuidNullableFilter<"Vector_layer_geoms"> | string | null
+    vector_layer_id?: UuidNullableFilter<"Vector_layer_geoms"> | string | null
+    geometry?: JsonNullableFilter<"Vector_layer_geoms">
+    properties?: JsonNullableFilter<"Vector_layer_geoms">
+    bbox_sw_lng?: FloatNullableFilter<"Vector_layer_geoms"> | number | null
+    bbox_sw_lat?: FloatNullableFilter<"Vector_layer_geoms"> | number | null
+    bbox_ne_lng?: FloatNullableFilter<"Vector_layer_geoms"> | number | null
+    bbox_ne_lat?: FloatNullableFilter<"Vector_layer_geoms"> | number | null
+    deleted?: BoolNullableFilter<"Vector_layer_geoms"> | boolean | null
+  }
+
   export type Vector_layersUpsertWithWhereUniqueWithoutAccountsInput = {
     where: Vector_layersWhereUniqueInput
     update: XOR<Vector_layersUpdateWithoutAccountsInput, Vector_layersUncheckedUpdateWithoutAccountsInput>
@@ -65040,6 +66722,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -65080,6 +66763,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -65230,6 +66914,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -65270,6 +66955,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -65466,6 +67152,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -65506,6 +67193,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -65751,6 +67439,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -65791,6 +67480,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -66131,6 +67821,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -66171,6 +67862,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -66401,6 +68093,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -66441,6 +68134,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -66679,6 +68373,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -66719,6 +68414,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -66909,6 +68605,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -66949,6 +68646,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -67135,6 +68833,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -67175,6 +68874,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -67365,6 +69065,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -67405,6 +69106,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -67591,6 +69293,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -67631,6 +69334,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -67778,6 +69482,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -67818,6 +69523,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -67955,6 +69661,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -67995,6 +69702,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -68121,6 +69829,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -68161,6 +69870,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -68315,6 +70025,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -68355,6 +70066,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -68454,6 +70166,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -68494,6 +70207,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -68595,6 +70309,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -68635,6 +70350,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -68750,6 +70466,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -68790,6 +70507,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -68879,6 +70597,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -68919,6 +70638,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -69008,6 +70728,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     polygon_count?: number | null
     deleted?: boolean | null
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutVector_layersInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutVector_layersInput
     accounts?: AccountsCreateNestedOneWithoutVector_layersInput
     projects: ProjectsCreateNestedOneWithoutVector_layersInput
   }
@@ -69034,6 +70755,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     polygon_count?: number | null
     deleted?: boolean | null
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutVector_layersInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutVector_layersInput
   }
 
   export type Vector_layersCreateOrConnectWithoutLayer_optionsInput = {
@@ -69089,6 +70811,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -69129,6 +70852,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -69230,6 +70954,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutVector_layersNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutVector_layersNestedInput
     accounts?: AccountsUpdateOneWithoutVector_layersNestedInput
     projects?: ProjectsUpdateOneRequiredWithoutVector_layersNestedInput
   }
@@ -69256,6 +70981,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutVector_layersNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutVector_layersNestedInput
   }
 
   export type AccountsCreateWithoutList_valuesInput = {
@@ -69295,6 +71021,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -69335,6 +71062,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -69422,6 +71150,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -69462,6 +71191,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -69609,6 +71339,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -69649,6 +71380,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -69880,6 +71612,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -69920,6 +71653,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -70115,6 +71849,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -70155,6 +71890,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -70302,6 +72038,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -70342,6 +72079,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -70479,6 +72217,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -70519,6 +72258,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -70666,6 +72406,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -70706,6 +72447,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -70843,6 +72585,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -70883,6 +72626,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -71030,6 +72774,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -71070,6 +72815,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -71259,6 +73005,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -71299,6 +73046,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -71497,6 +73245,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -71537,6 +73286,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -71687,6 +73437,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -71727,6 +73478,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -71874,6 +73626,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -71914,6 +73667,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -72051,6 +73805,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -72091,6 +73846,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -72267,6 +74023,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -72307,6 +74064,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -72863,6 +74621,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -72903,6 +74662,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -73134,6 +74894,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     layer_options?: Layer_optionsCreateNestedManyWithoutVector_layersInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutVector_layersInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutVector_layersInput
     accounts?: AccountsCreateNestedOneWithoutVector_layersInput
   }
 
@@ -73159,6 +74920,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
     layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutVector_layersInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutVector_layersInput
   }
 
   export type Vector_layersCreateOrConnectWithoutProjectsInput = {
@@ -73395,6 +75157,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -73435,6 +75198,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -73555,6 +75319,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -73595,6 +75360,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -73694,6 +75460,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -73734,6 +75501,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -73823,6 +75591,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -73863,6 +75632,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -73989,6 +75759,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -74029,6 +75800,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -74151,6 +75923,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -74191,6 +75964,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -74319,6 +76093,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -74359,6 +76134,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -74759,6 +76535,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -74799,6 +76576,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -75074,6 +76852,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -75114,6 +76893,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -75277,6 +77057,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -75317,6 +77098,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -75420,6 +77202,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -75460,6 +77243,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -75569,6 +77353,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -75609,6 +77394,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -75772,6 +77558,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -75812,6 +77599,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -75981,6 +77769,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -76021,6 +77810,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -76184,6 +77974,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -76224,6 +78015,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -76361,6 +78153,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -76401,6 +78194,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -76486,6 +78280,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -76526,6 +78321,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -76683,6 +78479,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -76723,6 +78520,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -76933,6 +78731,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -76973,6 +78772,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -77147,6 +78947,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -77187,6 +78988,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -77291,6 +79093,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -77331,6 +79134,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -77431,6 +79235,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -77471,6 +79276,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -77764,6 +79570,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
   }
 
@@ -77804,6 +79611,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
     vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
   }
 
@@ -77832,6 +79640,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     polygon_count?: number | null
     deleted?: boolean | null
     layer_options?: Layer_optionsCreateNestedManyWithoutVector_layersInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutVector_layersInput
     accounts?: AccountsCreateNestedOneWithoutVector_layersInput
     projects: ProjectsCreateNestedOneWithoutVector_layersInput
   }
@@ -77858,6 +79667,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     polygon_count?: number | null
     deleted?: boolean | null
     layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutVector_layersInput
   }
 
   export type Vector_layersCreateOrConnectWithoutVector_layer_displaysInput = {
@@ -77913,6 +79723,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -77953,6 +79764,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -77987,6 +79799,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     layer_options?: Layer_optionsUpdateManyWithoutVector_layersNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutVector_layersNestedInput
     accounts?: AccountsUpdateOneWithoutVector_layersNestedInput
     projects?: ProjectsUpdateOneRequiredWithoutVector_layersNestedInput
   }
@@ -78013,6 +79826,303 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     layer_options?: Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutVector_layersNestedInput
+  }
+
+  export type AccountsCreateWithoutVector_layer_geomsInput = {
+    account_id: string
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    users?: UsersCreateNestedOneWithoutAccountsInput
+    chart_subjects?: Chart_subjectsCreateNestedManyWithoutAccountsInput
+    charts?: ChartsCreateNestedManyWithoutAccountsInput
+    fields?: FieldsCreateNestedManyWithoutAccountsInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesCreateNestedManyWithoutAccountsInput
+    goal_reports?: Goal_reportsCreateNestedManyWithoutAccountsInput
+    goals?: GoalsCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesCreateNestedManyWithoutAccountsInput
+    lists?: ListsCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesCreateNestedManyWithoutAccountsInput
+    persons?: PersonsCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsCreateNestedManyWithoutAccountsInput
+    places?: PlacesCreateNestedManyWithoutAccountsInput
+    project_reports?: Project_reportsCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsCreateNestedManyWithoutAccountsInput
+    subproject_reports?: Subproject_reportsCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsCreateNestedManyWithoutAccountsInput
+    units?: UnitsCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
+    vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsUncheckedCreateWithoutVector_layer_geomsInput = {
+    account_id: string
+    user_id?: string | null
+    type?: string | null
+    period_start?: Date | string | null
+    period_end?: Date | string | null
+    projects_label_by?: string | null
+    label?: string | null
+    chart_subjects?: Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInput
+    charts?: ChartsUncheckedCreateNestedManyWithoutAccountsInput
+    fields?: FieldsUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInput
+    gbif_taxa?: Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    goal_report_values?: Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    goal_reports?: Goal_reportsUncheckedCreateNestedManyWithoutAccountsInput
+    goals?: GoalsUncheckedCreateNestedManyWithoutAccountsInput
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    list_values?: List_valuesUncheckedCreateNestedManyWithoutAccountsInput
+    lists?: ListsUncheckedCreateNestedManyWithoutAccountsInput
+    observation_sources?: Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInput
+    persons?: PersonsUncheckedCreateNestedManyWithoutAccountsInput
+    place_levels?: Place_levelsUncheckedCreateNestedManyWithoutAccountsInput
+    places?: PlacesUncheckedCreateNestedManyWithoutAccountsInput
+    project_reports?: Project_reportsUncheckedCreateNestedManyWithoutAccountsInput
+    project_users?: Project_usersUncheckedCreateNestedManyWithoutAccountsInput
+    projects?: ProjectsUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_reports?: Subproject_reportsUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_taxa?: Subproject_taxaUncheckedCreateNestedManyWithoutAccountsInput
+    subproject_users?: Subproject_usersUncheckedCreateNestedManyWithoutAccountsInput
+    subprojects?: SubprojectsUncheckedCreateNestedManyWithoutAccountsInput
+    taxa?: TaxaUncheckedCreateNestedManyWithoutAccountsInput
+    taxonomies?: TaxonomiesUncheckedCreateNestedManyWithoutAccountsInput
+    tile_layers?: Tile_layersUncheckedCreateNestedManyWithoutAccountsInput
+    ui_options?: Ui_optionsUncheckedCreateNestedManyWithoutAccountsInput
+    units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
+    user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layers?: Vector_layersUncheckedCreateNestedManyWithoutAccountsInput
+  }
+
+  export type AccountsCreateOrConnectWithoutVector_layer_geomsInput = {
+    where: AccountsWhereUniqueInput
+    create: XOR<AccountsCreateWithoutVector_layer_geomsInput, AccountsUncheckedCreateWithoutVector_layer_geomsInput>
+  }
+
+  export type Vector_layersCreateWithoutVector_layer_geomsInput = {
+    vector_layer_id: string
+    label?: string | null
+    type?: vector_layer_type_enum | null
+    display_by_property_field?: string | null
+    sort?: number | null
+    active?: boolean | null
+    max_zoom?: number | null
+    min_zoom?: number | null
+    max_features?: number | null
+    wfs_url?: string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: number | null
+    point_count?: number | null
+    line_count?: number | null
+    polygon_count?: number | null
+    deleted?: boolean | null
+    layer_options?: Layer_optionsCreateNestedManyWithoutVector_layersInput
+    vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutVector_layersInput
+    accounts?: AccountsCreateNestedOneWithoutVector_layersInput
+    projects: ProjectsCreateNestedOneWithoutVector_layersInput
+  }
+
+  export type Vector_layersUncheckedCreateWithoutVector_layer_geomsInput = {
+    vector_layer_id: string
+    account_id?: string | null
+    project_id: string
+    label?: string | null
+    type?: vector_layer_type_enum | null
+    display_by_property_field?: string | null
+    sort?: number | null
+    active?: boolean | null
+    max_zoom?: number | null
+    min_zoom?: number | null
+    max_features?: number | null
+    wfs_url?: string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: number | null
+    point_count?: number | null
+    line_count?: number | null
+    polygon_count?: number | null
+    deleted?: boolean | null
+    layer_options?: Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInput
+    vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutVector_layersInput
+  }
+
+  export type Vector_layersCreateOrConnectWithoutVector_layer_geomsInput = {
+    where: Vector_layersWhereUniqueInput
+    create: XOR<Vector_layersCreateWithoutVector_layer_geomsInput, Vector_layersUncheckedCreateWithoutVector_layer_geomsInput>
+  }
+
+  export type AccountsUpsertWithoutVector_layer_geomsInput = {
+    update: XOR<AccountsUpdateWithoutVector_layer_geomsInput, AccountsUncheckedUpdateWithoutVector_layer_geomsInput>
+    create: XOR<AccountsCreateWithoutVector_layer_geomsInput, AccountsUncheckedCreateWithoutVector_layer_geomsInput>
+    where?: AccountsWhereInput
+  }
+
+  export type AccountsUpdateToOneWithWhereWithoutVector_layer_geomsInput = {
+    where?: AccountsWhereInput
+    data: XOR<AccountsUpdateWithoutVector_layer_geomsInput, AccountsUncheckedUpdateWithoutVector_layer_geomsInput>
+  }
+
+  export type AccountsUpdateWithoutVector_layer_geomsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    users?: UsersUpdateOneWithoutAccountsNestedInput
+    chart_subjects?: Chart_subjectsUpdateManyWithoutAccountsNestedInput
+    charts?: ChartsUpdateManyWithoutAccountsNestedInput
+    fields?: FieldsUpdateManyWithoutAccountsNestedInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUpdateManyWithoutAccountsNestedInput
+    goal_reports?: Goal_reportsUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUpdateManyWithoutAccountsNestedInput
+    places?: PlacesUpdateManyWithoutAccountsNestedInput
+    project_reports?: Project_reportsUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUpdateManyWithoutAccountsNestedInput
+    subproject_reports?: Subproject_reportsUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
+    vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type AccountsUncheckedUpdateWithoutVector_layer_geomsInput = {
+    account_id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    period_start?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    period_end?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    projects_label_by?: NullableStringFieldUpdateOperationsInput | string | null
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    chart_subjects?: Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    charts?: ChartsUncheckedUpdateManyWithoutAccountsNestedInput
+    fields?: FieldsUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_occurrence_downloads?: Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_occurrences?: Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInput
+    gbif_taxa?: Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_report_values?: Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    goal_reports?: Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInput
+    goals?: GoalsUncheckedUpdateManyWithoutAccountsNestedInput
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    list_values?: List_valuesUncheckedUpdateManyWithoutAccountsNestedInput
+    lists?: ListsUncheckedUpdateManyWithoutAccountsNestedInput
+    observation_sources?: Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInput
+    persons?: PersonsUncheckedUpdateManyWithoutAccountsNestedInput
+    place_levels?: Place_levelsUncheckedUpdateManyWithoutAccountsNestedInput
+    places?: PlacesUncheckedUpdateManyWithoutAccountsNestedInput
+    project_reports?: Project_reportsUncheckedUpdateManyWithoutAccountsNestedInput
+    project_users?: Project_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    projects?: ProjectsUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_reports?: Subproject_reportsUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_taxa?: Subproject_taxaUncheckedUpdateManyWithoutAccountsNestedInput
+    subproject_users?: Subproject_usersUncheckedUpdateManyWithoutAccountsNestedInput
+    subprojects?: SubprojectsUncheckedUpdateManyWithoutAccountsNestedInput
+    taxa?: TaxaUncheckedUpdateManyWithoutAccountsNestedInput
+    taxonomies?: TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInput
+    tile_layers?: Tile_layersUncheckedUpdateManyWithoutAccountsNestedInput
+    ui_options?: Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInput
+    units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
+    user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
+  }
+
+  export type Vector_layersUpsertWithoutVector_layer_geomsInput = {
+    update: XOR<Vector_layersUpdateWithoutVector_layer_geomsInput, Vector_layersUncheckedUpdateWithoutVector_layer_geomsInput>
+    create: XOR<Vector_layersCreateWithoutVector_layer_geomsInput, Vector_layersUncheckedCreateWithoutVector_layer_geomsInput>
+    where?: Vector_layersWhereInput
+  }
+
+  export type Vector_layersUpdateToOneWithWhereWithoutVector_layer_geomsInput = {
+    where?: Vector_layersWhereInput
+    data: XOR<Vector_layersUpdateWithoutVector_layer_geomsInput, Vector_layersUncheckedUpdateWithoutVector_layer_geomsInput>
+  }
+
+  export type Vector_layersUpdateWithoutVector_layer_geomsInput = {
+    vector_layer_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumvector_layer_type_enumFieldUpdateOperationsInput | vector_layer_type_enum | null
+    display_by_property_field?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    max_features?: NullableIntFieldUpdateOperationsInput | number | null
+    wfs_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: NullableIntFieldUpdateOperationsInput | number | null
+    point_count?: NullableIntFieldUpdateOperationsInput | number | null
+    line_count?: NullableIntFieldUpdateOperationsInput | number | null
+    polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    layer_options?: Layer_optionsUpdateManyWithoutVector_layersNestedInput
+    vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutVector_layersNestedInput
+    accounts?: AccountsUpdateOneWithoutVector_layersNestedInput
+    projects?: ProjectsUpdateOneRequiredWithoutVector_layersNestedInput
+  }
+
+  export type Vector_layersUncheckedUpdateWithoutVector_layer_geomsInput = {
+    vector_layer_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    project_id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumvector_layer_type_enumFieldUpdateOperationsInput | vector_layer_type_enum | null
+    display_by_property_field?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: NullableIntFieldUpdateOperationsInput | number | null
+    active?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    max_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    min_zoom?: NullableIntFieldUpdateOperationsInput | number | null
+    max_features?: NullableIntFieldUpdateOperationsInput | number | null
+    wfs_url?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_layer?: NullableJsonNullValueInput | InputJsonValue
+    wfs_version?: NullableStringFieldUpdateOperationsInput | string | null
+    wfs_output_format?: NullableJsonNullValueInput | InputJsonValue
+    feature_count?: NullableIntFieldUpdateOperationsInput | number | null
+    point_count?: NullableIntFieldUpdateOperationsInput | number | null
+    line_count?: NullableIntFieldUpdateOperationsInput | number | null
+    polygon_count?: NullableIntFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    layer_options?: Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInput
+    vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutVector_layersNestedInput
   }
 
   export type Layer_optionsCreateWithoutVector_layersInput = {
@@ -78105,6 +80215,40 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     skipDuplicates?: boolean
   }
 
+  export type Vector_layer_geomsCreateWithoutVector_layersInput = {
+    vector_layer_geom_id: string
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: number | null
+    bbox_sw_lat?: number | null
+    bbox_ne_lng?: number | null
+    bbox_ne_lat?: number | null
+    deleted?: boolean | null
+    accounts?: AccountsCreateNestedOneWithoutVector_layer_geomsInput
+  }
+
+  export type Vector_layer_geomsUncheckedCreateWithoutVector_layersInput = {
+    vector_layer_geom_id: string
+    account_id?: string | null
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: number | null
+    bbox_sw_lat?: number | null
+    bbox_ne_lng?: number | null
+    bbox_ne_lat?: number | null
+    deleted?: boolean | null
+  }
+
+  export type Vector_layer_geomsCreateOrConnectWithoutVector_layersInput = {
+    where: Vector_layer_geomsWhereUniqueInput
+    create: XOR<Vector_layer_geomsCreateWithoutVector_layersInput, Vector_layer_geomsUncheckedCreateWithoutVector_layersInput>
+  }
+
+  export type Vector_layer_geomsCreateManyVector_layersInputEnvelope = {
+    data: Enumerable<Vector_layer_geomsCreateManyVector_layersInput>
+    skipDuplicates?: boolean
+  }
+
   export type AccountsCreateWithoutVector_layersInput = {
     account_id: string
     type?: string | null
@@ -78143,6 +80287,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsUncheckedCreateWithoutVector_layersInput = {
@@ -78183,6 +80328,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedCreateNestedManyWithoutAccountsInput
     user_messages?: User_messagesUncheckedCreateNestedManyWithoutAccountsInput
     vector_layer_displays?: Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedCreateNestedManyWithoutAccountsInput
   }
 
   export type AccountsCreateOrConnectWithoutVector_layersInput = {
@@ -78313,6 +80459,22 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     data: XOR<Vector_layer_displaysUpdateManyMutationInput, Vector_layer_displaysUncheckedUpdateManyWithoutVector_layersInput>
   }
 
+  export type Vector_layer_geomsUpsertWithWhereUniqueWithoutVector_layersInput = {
+    where: Vector_layer_geomsWhereUniqueInput
+    update: XOR<Vector_layer_geomsUpdateWithoutVector_layersInput, Vector_layer_geomsUncheckedUpdateWithoutVector_layersInput>
+    create: XOR<Vector_layer_geomsCreateWithoutVector_layersInput, Vector_layer_geomsUncheckedCreateWithoutVector_layersInput>
+  }
+
+  export type Vector_layer_geomsUpdateWithWhereUniqueWithoutVector_layersInput = {
+    where: Vector_layer_geomsWhereUniqueInput
+    data: XOR<Vector_layer_geomsUpdateWithoutVector_layersInput, Vector_layer_geomsUncheckedUpdateWithoutVector_layersInput>
+  }
+
+  export type Vector_layer_geomsUpdateManyWithWhereWithoutVector_layersInput = {
+    where: Vector_layer_geomsScalarWhereInput
+    data: XOR<Vector_layer_geomsUpdateManyMutationInput, Vector_layer_geomsUncheckedUpdateManyWithoutVector_layersInput>
+  }
+
   export type AccountsUpsertWithoutVector_layersInput = {
     update: XOR<AccountsUpdateWithoutVector_layersInput, AccountsUncheckedUpdateWithoutVector_layersInput>
     create: XOR<AccountsCreateWithoutVector_layersInput, AccountsUncheckedCreateWithoutVector_layersInput>
@@ -78362,6 +80524,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
   }
 
   export type AccountsUncheckedUpdateWithoutVector_layersInput = {
@@ -78402,6 +80565,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
   export type ProjectsUpsertWithoutVector_layersInput = {
@@ -79110,6 +81274,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     fill_opacity_percent?: number | null
     fill_rule?: fill_rule_enum | null
     label_replace_by_generated_column?: string | null
+    deleted?: boolean | null
+  }
+
+  export type Vector_layer_geomsCreateManyAccountsInput = {
+    vector_layer_geom_id: string
+    vector_layer_id?: string | null
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: number | null
+    bbox_sw_lat?: number | null
+    bbox_ne_lng?: number | null
+    bbox_ne_lat?: number | null
     deleted?: boolean | null
   }
 
@@ -80403,6 +82579,42 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
+  export type Vector_layer_geomsUpdateWithoutAccountsInput = {
+    vector_layer_geom_id?: StringFieldUpdateOperationsInput | string
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_sw_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    vector_layers?: Vector_layersUpdateOneWithoutVector_layer_geomsNestedInput
+  }
+
+  export type Vector_layer_geomsUncheckedUpdateWithoutAccountsInput = {
+    vector_layer_geom_id?: StringFieldUpdateOperationsInput | string
+    vector_layer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_sw_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Vector_layer_geomsUncheckedUpdateManyWithoutAccountsInput = {
+    vector_layer_geom_id?: StringFieldUpdateOperationsInput | string
+    vector_layer_id?: NullableStringFieldUpdateOperationsInput | string | null
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_sw_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
   export type Vector_layersUpdateWithoutAccountsInput = {
     vector_layer_id?: StringFieldUpdateOperationsInput | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
@@ -80424,6 +82636,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     layer_options?: Layer_optionsUpdateManyWithoutVector_layersNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutVector_layersNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutVector_layersNestedInput
     projects?: ProjectsUpdateOneRequiredWithoutVector_layersNestedInput
   }
 
@@ -80449,6 +82662,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     layer_options?: Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutVector_layersNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutVector_layersNestedInput
   }
 
   export type Vector_layersUncheckedUpdateManyWithoutAccountsInput = {
@@ -81964,6 +84178,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     layer_options?: Layer_optionsUpdateManyWithoutVector_layersNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutVector_layersNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutVector_layersNestedInput
     accounts?: AccountsUpdateOneWithoutVector_layersNestedInput
   }
 
@@ -81989,6 +84204,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
     layer_options?: Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutVector_layersNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutVector_layersNestedInput
   }
 
   export type Vector_layersUncheckedUpdateManyWithoutProjectsInput = {
@@ -82711,6 +84927,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUpdateManyWithoutAccountsNestedInput
   }
 
@@ -82751,6 +84968,7 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     units?: UnitsUncheckedUpdateManyWithoutAccountsNestedInput
     user_messages?: User_messagesUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layer_displays?: Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput
+    vector_layer_geoms?: Vector_layer_geomsUncheckedUpdateManyWithoutAccountsNestedInput
     vector_layers?: Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput
   }
 
@@ -82876,6 +85094,18 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     deleted?: boolean | null
   }
 
+  export type Vector_layer_geomsCreateManyVector_layersInput = {
+    vector_layer_geom_id: string
+    account_id?: string | null
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: number | null
+    bbox_sw_lat?: number | null
+    bbox_ne_lng?: number | null
+    bbox_ne_lat?: number | null
+    deleted?: boolean | null
+  }
+
   export type Layer_optionsUpdateWithoutVector_layersInput = {
     layer_option_id?: StringFieldUpdateOperationsInput | string
     field?: NullableEnumlayer_options_field_enumFieldUpdateOperationsInput | layer_options_field_enum | null
@@ -82978,6 +85208,42 @@ export type InputJsonValue = null | string | number | boolean | InputJsonObject 
     fill_opacity_percent?: NullableIntFieldUpdateOperationsInput | number | null
     fill_rule?: NullableEnumfill_rule_enumFieldUpdateOperationsInput | fill_rule_enum | null
     label_replace_by_generated_column?: NullableStringFieldUpdateOperationsInput | string | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Vector_layer_geomsUpdateWithoutVector_layersInput = {
+    vector_layer_geom_id?: StringFieldUpdateOperationsInput | string
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_sw_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    accounts?: AccountsUpdateOneWithoutVector_layer_geomsNestedInput
+  }
+
+  export type Vector_layer_geomsUncheckedUpdateWithoutVector_layersInput = {
+    vector_layer_geom_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_sw_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
+  }
+
+  export type Vector_layer_geomsUncheckedUpdateManyWithoutVector_layersInput = {
+    vector_layer_geom_id?: StringFieldUpdateOperationsInput | string
+    account_id?: NullableStringFieldUpdateOperationsInput | string | null
+    geometry?: NullableJsonNullValueInput | InputJsonValue
+    properties?: NullableJsonNullValueInput | InputJsonValue
+    bbox_sw_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_sw_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    bbox_ne_lat?: NullableFloatFieldUpdateOperationsInput | number | null
     deleted?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
