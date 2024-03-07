@@ -90,9 +90,11 @@ const ExampleComponent = () => {
                           other_places: {
                             include: {
                               charts: { include: { chart_subjects: true } },
+                              observations: true,
                             },
                           },
                           charts: { include: { chart_subjects: true } },
+                          observations: true,
                         },
                       },
                       charts: { include: { chart_subjects: true } },
@@ -116,7 +118,7 @@ const ExampleComponent = () => {
                   gbif_occurrences: true,
                   gbif_occurrence_downloads: true,
                   units: true,
-                  observation_sources: true,
+                  observation_sources: { include: { observations: true } },
                   tile_layers: { include: { layer_options: true } },
                   vector_layers: {
                     include: {
@@ -157,7 +159,7 @@ const ExampleComponent = () => {
               units: true,
               goals: true,
               goal_reports: true,
-              observation_sources: true,
+              observation_sources: { include: { observations: true } },
               goal_report_values: true,
               tile_layers: true,
               vector_layers: {
@@ -176,15 +178,20 @@ const ExampleComponent = () => {
               places: {
                 include: {
                   other_places: {
-                    include: { charts: { include: { chart_subjects: true } } },
+                    include: {
+                      charts: { include: { chart_subjects: true } },
+                      observations: true,
+                    },
                   },
                   charts: { include: { chart_subjects: true } },
+                  observations: true,
                 },
               },
               charts: { include: { chart_subjects: true } },
               chart_subjects: true,
               vector_layer_displays: true,
               vector_layer_geoms: true,
+              observations: true,
             },
           },
           ui_options: true,
