@@ -118,7 +118,12 @@ const ExampleComponent = () => {
                   units: true,
                   observation_sources: true,
                   tile_layers: { include: { layer_options: true } },
-                  vector_layers: { include: { layer_options: true } },
+                  vector_layers: {
+                    include: {
+                      layer_options: true,
+                      vector_layer_displays: true,
+                    },
+                  },
                   project_reports: true,
                   fields: {
                     include: { field_types: true, widget_types: true },
@@ -154,7 +159,9 @@ const ExampleComponent = () => {
               observation_sources: true,
               goal_report_values: true,
               tile_layers: true,
-              vector_layers: true,
+              vector_layers: {
+                include: { layer_options: true, vector_layer_displays: true },
+              },
               layer_options: true,
               project_reports: true,
               subproject_reports: true,
@@ -171,6 +178,7 @@ const ExampleComponent = () => {
               },
               charts: { include: { chart_subjects: true } },
               chart_subjects: true,
+              vector_layer_displays: true,
             },
           },
           ui_options: true,

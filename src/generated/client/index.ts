@@ -121,6 +121,8 @@ export const User_messagesScalarFieldEnumSchema = z.enum(['user_message_id','acc
 
 export const UsersScalarFieldEnumSchema = z.enum(['user_id','email','auth_id','label_replace_by_generated_column','deleted']);
 
+export const Vector_layer_displaysScalarFieldEnumSchema = z.enum(['vector_layer_display_id','account_id','vector_layer_id','display_property_value','marker_type','circle_marker_radius','marker_symbol','marker_size','stroke','color','weight','opacity_percent','line_cap','line_join','dash_array','dash_offset','fill','fill_color','fill_opacity_percent','fill_rule','label_replace_by_generated_column','deleted']);
+
 export const Vector_layersScalarFieldEnumSchema = z.enum(['vector_layer_id','account_id','project_id','label','type','display_by_property_field','sort','active','max_zoom','min_zoom','max_features','wfs_url','wfs_layer','wfs_version','wfs_output_format','feature_count','point_count','line_count','polygon_count','deleted']);
 
 export const Widget_typesScalarFieldEnumSchema = z.enum(['widget_type_id','name','needs_list','sort','comment','label_replace_by_generated_column','deleted']);
@@ -143,6 +145,10 @@ export const chart_typeSchema = z.enum(['Pie','Radar','Area']);
 
 export type chart_typeType = `${z.infer<typeof chart_typeSchema>}`
 
+export const fill_rule_enumSchema = z.enum(['nonzero','evenodd']);
+
+export type fill_rule_enumType = `${z.infer<typeof fill_rule_enumSchema>}`
+
 export const gbif_tableSchema = z.enum(['gbif_taxa','gbif_occurrences']);
 
 export type gbif_tableType = `${z.infer<typeof gbif_tableSchema>}`
@@ -150,6 +156,14 @@ export type gbif_tableType = `${z.infer<typeof gbif_tableSchema>}`
 export const layer_options_field_enumSchema = z.enum(['wms_format','wms_layer','wms_info_format','wfs_output_format','wfs_layer']);
 
 export type layer_options_field_enumType = `${z.infer<typeof layer_options_field_enumSchema>}`
+
+export const line_cap_enumSchema = z.enum(['butt','round','square']);
+
+export type line_cap_enumType = `${z.infer<typeof line_cap_enumSchema>}`
+
+export const marker_type_enumSchema = z.enum(['circle','marker']);
+
+export type marker_type_enumType = `${z.infer<typeof marker_type_enumSchema>}`
 
 export const project_typeSchema = z.enum(['species','biotope']);
 
@@ -811,6 +825,37 @@ export const UsersSchema = z.object({
 export type Users = z.infer<typeof UsersSchema>
 
 /////////////////////////////////////////
+// VECTOR LAYER DISPLAYS SCHEMA
+/////////////////////////////////////////
+
+export const Vector_layer_displaysSchema = z.object({
+  marker_type: marker_type_enumSchema.nullable(),
+  line_cap: line_cap_enumSchema.nullable(),
+  fill_rule: fill_rule_enumSchema.nullable(),
+  vector_layer_display_id: z.string().uuid(),
+  account_id: z.string().uuid().nullable(),
+  vector_layer_id: z.string().uuid().nullable(),
+  display_property_value: z.string().nullable(),
+  circle_marker_radius: z.number().int().gte(-2147483648).lte(2147483647).nullable(),
+  marker_symbol: z.string().nullable(),
+  marker_size: z.number().int().gte(-2147483648).lte(2147483647).nullable(),
+  stroke: z.boolean().nullable(),
+  color: z.string().nullable(),
+  weight: z.number().int().gte(-2147483648).lte(2147483647).nullable(),
+  opacity_percent: z.number().int().gte(-2147483648).lte(2147483647).nullable(),
+  line_join: z.string().nullable(),
+  dash_array: z.string().nullable(),
+  dash_offset: z.string().nullable(),
+  fill: z.boolean().nullable(),
+  fill_color: z.string().nullable(),
+  fill_opacity_percent: z.number().int().gte(-2147483648).lte(2147483647).nullable(),
+  label_replace_by_generated_column: z.string().nullable(),
+  deleted: z.boolean().nullable(),
+})
+
+export type Vector_layer_displays = z.infer<typeof Vector_layer_displaysSchema>
+
+/////////////////////////////////////////
 // VECTOR LAYERS SCHEMA
 /////////////////////////////////////////
 
@@ -907,6 +952,7 @@ export const AccountsIncludeSchema: z.ZodType<Prisma.AccountsInclude> = z.object
   ui_options: z.union([z.boolean(),z.lazy(() => Ui_optionsFindManyArgsSchema)]).optional(),
   units: z.union([z.boolean(),z.lazy(() => UnitsFindManyArgsSchema)]).optional(),
   user_messages: z.union([z.boolean(),z.lazy(() => User_messagesFindManyArgsSchema)]).optional(),
+  vector_layer_displays: z.union([z.boolean(),z.lazy(() => Vector_layer_displaysFindManyArgsSchema)]).optional(),
   vector_layers: z.union([z.boolean(),z.lazy(() => Vector_layersFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => AccountsCountOutputTypeArgsSchema)]).optional(),
 }).strict()
@@ -950,6 +996,7 @@ export const AccountsCountOutputTypeSelectSchema: z.ZodType<Prisma.AccountsCount
   ui_options: z.boolean().optional(),
   units: z.boolean().optional(),
   user_messages: z.boolean().optional(),
+  vector_layer_displays: z.boolean().optional(),
   vector_layers: z.boolean().optional(),
 }).strict();
 
@@ -991,6 +1038,7 @@ export const AccountsSelectSchema: z.ZodType<Prisma.AccountsSelect> = z.object({
   ui_options: z.union([z.boolean(),z.lazy(() => Ui_optionsFindManyArgsSchema)]).optional(),
   units: z.union([z.boolean(),z.lazy(() => UnitsFindManyArgsSchema)]).optional(),
   user_messages: z.union([z.boolean(),z.lazy(() => User_messagesFindManyArgsSchema)]).optional(),
+  vector_layer_displays: z.union([z.boolean(),z.lazy(() => Vector_layer_displaysFindManyArgsSchema)]).optional(),
   vector_layers: z.union([z.boolean(),z.lazy(() => Vector_layersFindManyArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => AccountsCountOutputTypeArgsSchema)]).optional(),
 }).strict()
@@ -2180,11 +2228,52 @@ export const UsersSelectSchema: z.ZodType<Prisma.UsersSelect> = z.object({
   _count: z.union([z.boolean(),z.lazy(() => UsersCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
+// VECTOR LAYER DISPLAYS
+//------------------------------------------------------
+
+export const Vector_layer_displaysIncludeSchema: z.ZodType<Prisma.Vector_layer_displaysInclude> = z.object({
+  accounts: z.union([z.boolean(),z.lazy(() => AccountsArgsSchema)]).optional(),
+  vector_layers: z.union([z.boolean(),z.lazy(() => Vector_layersArgsSchema)]).optional(),
+}).strict()
+
+export const Vector_layer_displaysArgsSchema: z.ZodType<Prisma.Vector_layer_displaysArgs> = z.object({
+  select: z.lazy(() => Vector_layer_displaysSelectSchema).optional(),
+  include: z.lazy(() => Vector_layer_displaysIncludeSchema).optional(),
+}).strict();
+
+export const Vector_layer_displaysSelectSchema: z.ZodType<Prisma.Vector_layer_displaysSelect> = z.object({
+  vector_layer_display_id: z.boolean().optional(),
+  account_id: z.boolean().optional(),
+  vector_layer_id: z.boolean().optional(),
+  display_property_value: z.boolean().optional(),
+  marker_type: z.boolean().optional(),
+  circle_marker_radius: z.boolean().optional(),
+  marker_symbol: z.boolean().optional(),
+  marker_size: z.boolean().optional(),
+  stroke: z.boolean().optional(),
+  color: z.boolean().optional(),
+  weight: z.boolean().optional(),
+  opacity_percent: z.boolean().optional(),
+  line_cap: z.boolean().optional(),
+  line_join: z.boolean().optional(),
+  dash_array: z.boolean().optional(),
+  dash_offset: z.boolean().optional(),
+  fill: z.boolean().optional(),
+  fill_color: z.boolean().optional(),
+  fill_opacity_percent: z.boolean().optional(),
+  fill_rule: z.boolean().optional(),
+  label_replace_by_generated_column: z.boolean().optional(),
+  deleted: z.boolean().optional(),
+  accounts: z.union([z.boolean(),z.lazy(() => AccountsArgsSchema)]).optional(),
+  vector_layers: z.union([z.boolean(),z.lazy(() => Vector_layersArgsSchema)]).optional(),
+}).strict()
+
 // VECTOR LAYERS
 //------------------------------------------------------
 
 export const Vector_layersIncludeSchema: z.ZodType<Prisma.Vector_layersInclude> = z.object({
   layer_options: z.union([z.boolean(),z.lazy(() => Layer_optionsFindManyArgsSchema)]).optional(),
+  vector_layer_displays: z.union([z.boolean(),z.lazy(() => Vector_layer_displaysFindManyArgsSchema)]).optional(),
   accounts: z.union([z.boolean(),z.lazy(() => AccountsArgsSchema)]).optional(),
   projects: z.union([z.boolean(),z.lazy(() => ProjectsArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => Vector_layersCountOutputTypeArgsSchema)]).optional(),
@@ -2201,6 +2290,7 @@ export const Vector_layersCountOutputTypeArgsSchema: z.ZodType<Prisma.Vector_lay
 
 export const Vector_layersCountOutputTypeSelectSchema: z.ZodType<Prisma.Vector_layersCountOutputTypeSelect> = z.object({
   layer_options: z.boolean().optional(),
+  vector_layer_displays: z.boolean().optional(),
 }).strict();
 
 export const Vector_layersSelectSchema: z.ZodType<Prisma.Vector_layersSelect> = z.object({
@@ -2225,6 +2315,7 @@ export const Vector_layersSelectSchema: z.ZodType<Prisma.Vector_layersSelect> = 
   polygon_count: z.boolean().optional(),
   deleted: z.boolean().optional(),
   layer_options: z.union([z.boolean(),z.lazy(() => Layer_optionsFindManyArgsSchema)]).optional(),
+  vector_layer_displays: z.union([z.boolean(),z.lazy(() => Vector_layer_displaysFindManyArgsSchema)]).optional(),
   accounts: z.union([z.boolean(),z.lazy(() => AccountsArgsSchema)]).optional(),
   projects: z.union([z.boolean(),z.lazy(() => ProjectsArgsSchema)]).optional(),
   _count: z.union([z.boolean(),z.lazy(() => Vector_layersCountOutputTypeArgsSchema)]).optional(),
@@ -2335,6 +2426,7 @@ export const AccountsWhereInputSchema: z.ZodType<Prisma.AccountsWhereInput> = z.
   ui_options: z.lazy(() => Ui_optionsListRelationFilterSchema).optional(),
   units: z.lazy(() => UnitsListRelationFilterSchema).optional(),
   user_messages: z.lazy(() => User_messagesListRelationFilterSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysListRelationFilterSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersListRelationFilterSchema).optional()
 }).strict();
 
@@ -2376,6 +2468,7 @@ export const AccountsOrderByWithRelationInputSchema: z.ZodType<Prisma.AccountsOr
   ui_options: z.lazy(() => Ui_optionsOrderByRelationAggregateInputSchema).optional(),
   units: z.lazy(() => UnitsOrderByRelationAggregateInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesOrderByRelationAggregateInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysOrderByRelationAggregateInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersOrderByRelationAggregateInputSchema).optional()
 }).strict();
 
@@ -4797,6 +4890,125 @@ export const UsersScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.UsersSc
   deleted: z.union([ z.lazy(() => BoolNullableWithAggregatesFilterSchema),z.boolean() ]).optional().nullable(),
 }).strict();
 
+export const Vector_layer_displaysWhereInputSchema: z.ZodType<Prisma.Vector_layer_displaysWhereInput> = z.object({
+  AND: z.union([ z.lazy(() => Vector_layer_displaysWhereInputSchema),z.lazy(() => Vector_layer_displaysWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => Vector_layer_displaysWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => Vector_layer_displaysWhereInputSchema),z.lazy(() => Vector_layer_displaysWhereInputSchema).array() ]).optional(),
+  vector_layer_display_id: z.union([ z.lazy(() => UuidFilterSchema),z.string() ]).optional(),
+  account_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  vector_layer_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  display_property_value: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  marker_type: z.union([ z.lazy(() => Enummarker_type_enumNullableFilterSchema),z.lazy(() => marker_type_enumSchema) ]).optional().nullable(),
+  circle_marker_radius: z.union([ z.lazy(() => IntNullableFilterSchema),z.number() ]).optional().nullable(),
+  marker_symbol: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  marker_size: z.union([ z.lazy(() => IntNullableFilterSchema),z.number() ]).optional().nullable(),
+  stroke: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+  color: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  weight: z.union([ z.lazy(() => IntNullableFilterSchema),z.number() ]).optional().nullable(),
+  opacity_percent: z.union([ z.lazy(() => IntNullableFilterSchema),z.number() ]).optional().nullable(),
+  line_cap: z.union([ z.lazy(() => Enumline_cap_enumNullableFilterSchema),z.lazy(() => line_cap_enumSchema) ]).optional().nullable(),
+  line_join: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  dash_array: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  dash_offset: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  fill: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+  fill_color: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  fill_opacity_percent: z.union([ z.lazy(() => IntNullableFilterSchema),z.number() ]).optional().nullable(),
+  fill_rule: z.union([ z.lazy(() => Enumfill_rule_enumNullableFilterSchema),z.lazy(() => fill_rule_enumSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  deleted: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+  accounts: z.union([ z.lazy(() => AccountsRelationFilterSchema),z.lazy(() => AccountsWhereInputSchema) ]).optional().nullable(),
+  vector_layers: z.union([ z.lazy(() => Vector_layersRelationFilterSchema),z.lazy(() => Vector_layersWhereInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const Vector_layer_displaysOrderByWithRelationInputSchema: z.ZodType<Prisma.Vector_layer_displaysOrderByWithRelationInput> = z.object({
+  vector_layer_display_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  vector_layer_id: z.lazy(() => SortOrderSchema).optional(),
+  display_property_value: z.lazy(() => SortOrderSchema).optional(),
+  marker_type: z.lazy(() => SortOrderSchema).optional(),
+  circle_marker_radius: z.lazy(() => SortOrderSchema).optional(),
+  marker_symbol: z.lazy(() => SortOrderSchema).optional(),
+  marker_size: z.lazy(() => SortOrderSchema).optional(),
+  stroke: z.lazy(() => SortOrderSchema).optional(),
+  color: z.lazy(() => SortOrderSchema).optional(),
+  weight: z.lazy(() => SortOrderSchema).optional(),
+  opacity_percent: z.lazy(() => SortOrderSchema).optional(),
+  line_cap: z.lazy(() => SortOrderSchema).optional(),
+  line_join: z.lazy(() => SortOrderSchema).optional(),
+  dash_array: z.lazy(() => SortOrderSchema).optional(),
+  dash_offset: z.lazy(() => SortOrderSchema).optional(),
+  fill: z.lazy(() => SortOrderSchema).optional(),
+  fill_color: z.lazy(() => SortOrderSchema).optional(),
+  fill_opacity_percent: z.lazy(() => SortOrderSchema).optional(),
+  fill_rule: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  deleted: z.lazy(() => SortOrderSchema).optional(),
+  accounts: z.lazy(() => AccountsOrderByWithRelationInputSchema).optional(),
+  vector_layers: z.lazy(() => Vector_layersOrderByWithRelationInputSchema).optional()
+}).strict();
+
+export const Vector_layer_displaysWhereUniqueInputSchema: z.ZodType<Prisma.Vector_layer_displaysWhereUniqueInput> = z.object({
+  vector_layer_display_id: z.string().uuid().optional()
+}).strict();
+
+export const Vector_layer_displaysOrderByWithAggregationInputSchema: z.ZodType<Prisma.Vector_layer_displaysOrderByWithAggregationInput> = z.object({
+  vector_layer_display_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  vector_layer_id: z.lazy(() => SortOrderSchema).optional(),
+  display_property_value: z.lazy(() => SortOrderSchema).optional(),
+  marker_type: z.lazy(() => SortOrderSchema).optional(),
+  circle_marker_radius: z.lazy(() => SortOrderSchema).optional(),
+  marker_symbol: z.lazy(() => SortOrderSchema).optional(),
+  marker_size: z.lazy(() => SortOrderSchema).optional(),
+  stroke: z.lazy(() => SortOrderSchema).optional(),
+  color: z.lazy(() => SortOrderSchema).optional(),
+  weight: z.lazy(() => SortOrderSchema).optional(),
+  opacity_percent: z.lazy(() => SortOrderSchema).optional(),
+  line_cap: z.lazy(() => SortOrderSchema).optional(),
+  line_join: z.lazy(() => SortOrderSchema).optional(),
+  dash_array: z.lazy(() => SortOrderSchema).optional(),
+  dash_offset: z.lazy(() => SortOrderSchema).optional(),
+  fill: z.lazy(() => SortOrderSchema).optional(),
+  fill_color: z.lazy(() => SortOrderSchema).optional(),
+  fill_opacity_percent: z.lazy(() => SortOrderSchema).optional(),
+  fill_rule: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  deleted: z.lazy(() => SortOrderSchema).optional(),
+  _count: z.lazy(() => Vector_layer_displaysCountOrderByAggregateInputSchema).optional(),
+  _avg: z.lazy(() => Vector_layer_displaysAvgOrderByAggregateInputSchema).optional(),
+  _max: z.lazy(() => Vector_layer_displaysMaxOrderByAggregateInputSchema).optional(),
+  _min: z.lazy(() => Vector_layer_displaysMinOrderByAggregateInputSchema).optional(),
+  _sum: z.lazy(() => Vector_layer_displaysSumOrderByAggregateInputSchema).optional()
+}).strict();
+
+export const Vector_layer_displaysScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Vector_layer_displaysScalarWhereWithAggregatesInput> = z.object({
+  AND: z.union([ z.lazy(() => Vector_layer_displaysScalarWhereWithAggregatesInputSchema),z.lazy(() => Vector_layer_displaysScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  OR: z.lazy(() => Vector_layer_displaysScalarWhereWithAggregatesInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => Vector_layer_displaysScalarWhereWithAggregatesInputSchema),z.lazy(() => Vector_layer_displaysScalarWhereWithAggregatesInputSchema).array() ]).optional(),
+  vector_layer_display_id: z.union([ z.lazy(() => UuidWithAggregatesFilterSchema),z.string() ]).optional(),
+  account_id: z.union([ z.lazy(() => UuidNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  vector_layer_id: z.union([ z.lazy(() => UuidNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  display_property_value: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  marker_type: z.union([ z.lazy(() => Enummarker_type_enumNullableWithAggregatesFilterSchema),z.lazy(() => marker_type_enumSchema) ]).optional().nullable(),
+  circle_marker_radius: z.union([ z.lazy(() => IntNullableWithAggregatesFilterSchema),z.number() ]).optional().nullable(),
+  marker_symbol: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  marker_size: z.union([ z.lazy(() => IntNullableWithAggregatesFilterSchema),z.number() ]).optional().nullable(),
+  stroke: z.union([ z.lazy(() => BoolNullableWithAggregatesFilterSchema),z.boolean() ]).optional().nullable(),
+  color: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  weight: z.union([ z.lazy(() => IntNullableWithAggregatesFilterSchema),z.number() ]).optional().nullable(),
+  opacity_percent: z.union([ z.lazy(() => IntNullableWithAggregatesFilterSchema),z.number() ]).optional().nullable(),
+  line_cap: z.union([ z.lazy(() => Enumline_cap_enumNullableWithAggregatesFilterSchema),z.lazy(() => line_cap_enumSchema) ]).optional().nullable(),
+  line_join: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  dash_array: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  dash_offset: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  fill: z.union([ z.lazy(() => BoolNullableWithAggregatesFilterSchema),z.boolean() ]).optional().nullable(),
+  fill_color: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  fill_opacity_percent: z.union([ z.lazy(() => IntNullableWithAggregatesFilterSchema),z.number() ]).optional().nullable(),
+  fill_rule: z.union([ z.lazy(() => Enumfill_rule_enumNullableWithAggregatesFilterSchema),z.lazy(() => fill_rule_enumSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  deleted: z.union([ z.lazy(() => BoolNullableWithAggregatesFilterSchema),z.boolean() ]).optional().nullable(),
+}).strict();
+
 export const Vector_layersWhereInputSchema: z.ZodType<Prisma.Vector_layersWhereInput> = z.object({
   AND: z.union([ z.lazy(() => Vector_layersWhereInputSchema),z.lazy(() => Vector_layersWhereInputSchema).array() ]).optional(),
   OR: z.lazy(() => Vector_layersWhereInputSchema).array().optional(),
@@ -4822,6 +5034,7 @@ export const Vector_layersWhereInputSchema: z.ZodType<Prisma.Vector_layersWhereI
   polygon_count: z.union([ z.lazy(() => IntNullableFilterSchema),z.number() ]).optional().nullable(),
   deleted: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
   layer_options: z.lazy(() => Layer_optionsListRelationFilterSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysListRelationFilterSchema).optional(),
   accounts: z.union([ z.lazy(() => AccountsRelationFilterSchema),z.lazy(() => AccountsWhereInputSchema) ]).optional().nullable(),
   projects: z.union([ z.lazy(() => ProjectsRelationFilterSchema),z.lazy(() => ProjectsWhereInputSchema) ]).optional(),
 }).strict();
@@ -4848,6 +5061,7 @@ export const Vector_layersOrderByWithRelationInputSchema: z.ZodType<Prisma.Vecto
   polygon_count: z.lazy(() => SortOrderSchema).optional(),
   deleted: z.lazy(() => SortOrderSchema).optional(),
   layer_options: z.lazy(() => Layer_optionsOrderByRelationAggregateInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysOrderByRelationAggregateInputSchema).optional(),
   accounts: z.lazy(() => AccountsOrderByWithRelationInputSchema).optional(),
   projects: z.lazy(() => ProjectsOrderByWithRelationInputSchema).optional()
 }).strict();
@@ -5055,6 +5269,7 @@ export const AccountsCreateInputSchema: z.ZodType<Prisma.AccountsCreateInput> = 
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -5095,6 +5310,7 @@ export const AccountsUncheckedCreateInputSchema: z.ZodType<Prisma.AccountsUnchec
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -5135,6 +5351,7 @@ export const AccountsUpdateInputSchema: z.ZodType<Prisma.AccountsUpdateInput> = 
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -5175,6 +5392,7 @@ export const AccountsUncheckedUpdateInputSchema: z.ZodType<Prisma.AccountsUnchec
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -8303,6 +8521,179 @@ export const UsersUncheckedUpdateManyInputSchema: z.ZodType<Prisma.UsersUnchecke
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
+export const Vector_layer_displaysCreateInputSchema: z.ZodType<Prisma.Vector_layer_displaysCreateInput> = z.object({
+  vector_layer_display_id: z.string().uuid(),
+  display_property_value: z.string().optional().nullable(),
+  marker_type: z.lazy(() => marker_type_enumSchema).optional().nullable(),
+  circle_marker_radius: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  marker_symbol: z.string().optional().nullable(),
+  marker_size: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  stroke: z.boolean().optional().nullable(),
+  color: z.string().optional().nullable(),
+  weight: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  opacity_percent: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  line_cap: z.lazy(() => line_cap_enumSchema).optional().nullable(),
+  line_join: z.string().optional().nullable(),
+  dash_array: z.string().optional().nullable(),
+  dash_offset: z.string().optional().nullable(),
+  fill: z.boolean().optional().nullable(),
+  fill_color: z.string().optional().nullable(),
+  fill_opacity_percent: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  fill_rule: z.lazy(() => fill_rule_enumSchema).optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable(),
+  accounts: z.lazy(() => AccountsCreateNestedOneWithoutVector_layer_displaysInputSchema).optional(),
+  vector_layers: z.lazy(() => Vector_layersCreateNestedOneWithoutVector_layer_displaysInputSchema).optional()
+}).strict();
+
+export const Vector_layer_displaysUncheckedCreateInputSchema: z.ZodType<Prisma.Vector_layer_displaysUncheckedCreateInput> = z.object({
+  vector_layer_display_id: z.string().uuid(),
+  account_id: z.string().uuid().optional().nullable(),
+  vector_layer_id: z.string().uuid().optional().nullable(),
+  display_property_value: z.string().optional().nullable(),
+  marker_type: z.lazy(() => marker_type_enumSchema).optional().nullable(),
+  circle_marker_radius: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  marker_symbol: z.string().optional().nullable(),
+  marker_size: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  stroke: z.boolean().optional().nullable(),
+  color: z.string().optional().nullable(),
+  weight: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  opacity_percent: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  line_cap: z.lazy(() => line_cap_enumSchema).optional().nullable(),
+  line_join: z.string().optional().nullable(),
+  dash_array: z.string().optional().nullable(),
+  dash_offset: z.string().optional().nullable(),
+  fill: z.boolean().optional().nullable(),
+  fill_color: z.string().optional().nullable(),
+  fill_opacity_percent: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  fill_rule: z.lazy(() => fill_rule_enumSchema).optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable()
+}).strict();
+
+export const Vector_layer_displaysUpdateInputSchema: z.ZodType<Prisma.Vector_layer_displaysUpdateInput> = z.object({
+  vector_layer_display_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  display_property_value: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_type: z.union([ z.lazy(() => marker_type_enumSchema),z.lazy(() => NullableEnummarker_type_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  circle_marker_radius: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_symbol: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_size: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  stroke: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  weight: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  opacity_percent: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_cap: z.union([ z.lazy(() => line_cap_enumSchema),z.lazy(() => NullableEnumline_cap_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_join: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_array: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_offset: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_opacity_percent: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_rule: z.union([ z.lazy(() => fill_rule_enumSchema),z.lazy(() => NullableEnumfill_rule_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  accounts: z.lazy(() => AccountsUpdateOneWithoutVector_layer_displaysNestedInputSchema).optional(),
+  vector_layers: z.lazy(() => Vector_layersUpdateOneWithoutVector_layer_displaysNestedInputSchema).optional()
+}).strict();
+
+export const Vector_layer_displaysUncheckedUpdateInputSchema: z.ZodType<Prisma.Vector_layer_displaysUncheckedUpdateInput> = z.object({
+  vector_layer_display_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  account_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  vector_layer_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  display_property_value: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_type: z.union([ z.lazy(() => marker_type_enumSchema),z.lazy(() => NullableEnummarker_type_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  circle_marker_radius: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_symbol: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_size: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  stroke: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  weight: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  opacity_percent: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_cap: z.union([ z.lazy(() => line_cap_enumSchema),z.lazy(() => NullableEnumline_cap_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_join: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_array: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_offset: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_opacity_percent: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_rule: z.union([ z.lazy(() => fill_rule_enumSchema),z.lazy(() => NullableEnumfill_rule_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const Vector_layer_displaysCreateManyInputSchema: z.ZodType<Prisma.Vector_layer_displaysCreateManyInput> = z.object({
+  vector_layer_display_id: z.string().uuid(),
+  account_id: z.string().uuid().optional().nullable(),
+  vector_layer_id: z.string().uuid().optional().nullable(),
+  display_property_value: z.string().optional().nullable(),
+  marker_type: z.lazy(() => marker_type_enumSchema).optional().nullable(),
+  circle_marker_radius: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  marker_symbol: z.string().optional().nullable(),
+  marker_size: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  stroke: z.boolean().optional().nullable(),
+  color: z.string().optional().nullable(),
+  weight: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  opacity_percent: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  line_cap: z.lazy(() => line_cap_enumSchema).optional().nullable(),
+  line_join: z.string().optional().nullable(),
+  dash_array: z.string().optional().nullable(),
+  dash_offset: z.string().optional().nullable(),
+  fill: z.boolean().optional().nullable(),
+  fill_color: z.string().optional().nullable(),
+  fill_opacity_percent: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  fill_rule: z.lazy(() => fill_rule_enumSchema).optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable()
+}).strict();
+
+export const Vector_layer_displaysUpdateManyMutationInputSchema: z.ZodType<Prisma.Vector_layer_displaysUpdateManyMutationInput> = z.object({
+  vector_layer_display_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  display_property_value: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_type: z.union([ z.lazy(() => marker_type_enumSchema),z.lazy(() => NullableEnummarker_type_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  circle_marker_radius: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_symbol: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_size: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  stroke: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  weight: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  opacity_percent: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_cap: z.union([ z.lazy(() => line_cap_enumSchema),z.lazy(() => NullableEnumline_cap_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_join: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_array: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_offset: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_opacity_percent: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_rule: z.union([ z.lazy(() => fill_rule_enumSchema),z.lazy(() => NullableEnumfill_rule_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const Vector_layer_displaysUncheckedUpdateManyInputSchema: z.ZodType<Prisma.Vector_layer_displaysUncheckedUpdateManyInput> = z.object({
+  vector_layer_display_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  account_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  vector_layer_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  display_property_value: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_type: z.union([ z.lazy(() => marker_type_enumSchema),z.lazy(() => NullableEnummarker_type_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  circle_marker_radius: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_symbol: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_size: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  stroke: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  weight: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  opacity_percent: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_cap: z.union([ z.lazy(() => line_cap_enumSchema),z.lazy(() => NullableEnumline_cap_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_join: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_array: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_offset: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_opacity_percent: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_rule: z.union([ z.lazy(() => fill_rule_enumSchema),z.lazy(() => NullableEnumfill_rule_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
 export const Vector_layersCreateInputSchema: z.ZodType<Prisma.Vector_layersCreateInput> = z.object({
   vector_layer_id: z.string().uuid(),
   label: z.string().optional().nullable(),
@@ -8323,6 +8714,7 @@ export const Vector_layersCreateInputSchema: z.ZodType<Prisma.Vector_layersCreat
   polygon_count: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
   deleted: z.boolean().optional().nullable(),
   layer_options: z.lazy(() => Layer_optionsCreateNestedManyWithoutVector_layersInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutVector_layersInputSchema).optional(),
   accounts: z.lazy(() => AccountsCreateNestedOneWithoutVector_layersInputSchema).optional(),
   projects: z.lazy(() => ProjectsCreateNestedOneWithoutVector_layersInputSchema)
 }).strict();
@@ -8348,7 +8740,8 @@ export const Vector_layersUncheckedCreateInputSchema: z.ZodType<Prisma.Vector_la
   line_count: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
   polygon_count: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
   deleted: z.boolean().optional().nullable(),
-  layer_options: z.lazy(() => Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInputSchema).optional()
+  layer_options: z.lazy(() => Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutVector_layersInputSchema).optional()
 }).strict();
 
 export const Vector_layersUpdateInputSchema: z.ZodType<Prisma.Vector_layersUpdateInput> = z.object({
@@ -8371,6 +8764,7 @@ export const Vector_layersUpdateInputSchema: z.ZodType<Prisma.Vector_layersUpdat
   polygon_count: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   layer_options: z.lazy(() => Layer_optionsUpdateManyWithoutVector_layersNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutVector_layersNestedInputSchema).optional(),
   accounts: z.lazy(() => AccountsUpdateOneWithoutVector_layersNestedInputSchema).optional(),
   projects: z.lazy(() => ProjectsUpdateOneRequiredWithoutVector_layersNestedInputSchema).optional()
 }).strict();
@@ -8396,7 +8790,8 @@ export const Vector_layersUncheckedUpdateInputSchema: z.ZodType<Prisma.Vector_la
   line_count: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   polygon_count: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  layer_options: z.lazy(() => Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInputSchema).optional()
+  layer_options: z.lazy(() => Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutVector_layersNestedInputSchema).optional()
 }).strict();
 
 export const Vector_layersCreateManyInputSchema: z.ZodType<Prisma.Vector_layersCreateManyInput> = z.object({
@@ -8827,6 +9222,12 @@ export const User_messagesListRelationFilterSchema: z.ZodType<Prisma.User_messag
   none: z.lazy(() => User_messagesWhereInputSchema).optional()
 }).strict();
 
+export const Vector_layer_displaysListRelationFilterSchema: z.ZodType<Prisma.Vector_layer_displaysListRelationFilter> = z.object({
+  every: z.lazy(() => Vector_layer_displaysWhereInputSchema).optional(),
+  some: z.lazy(() => Vector_layer_displaysWhereInputSchema).optional(),
+  none: z.lazy(() => Vector_layer_displaysWhereInputSchema).optional()
+}).strict();
+
 export const Vector_layersListRelationFilterSchema: z.ZodType<Prisma.Vector_layersListRelationFilter> = z.object({
   every: z.lazy(() => Vector_layersWhereInputSchema).optional(),
   some: z.lazy(() => Vector_layersWhereInputSchema).optional(),
@@ -8946,6 +9347,10 @@ export const UnitsOrderByRelationAggregateInputSchema: z.ZodType<Prisma.UnitsOrd
 }).strict();
 
 export const User_messagesOrderByRelationAggregateInputSchema: z.ZodType<Prisma.User_messagesOrderByRelationAggregateInput> = z.object({
+  _count: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const Vector_layer_displaysOrderByRelationAggregateInputSchema: z.ZodType<Prisma.Vector_layer_displaysOrderByRelationAggregateInput> = z.object({
   _count: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
@@ -10814,6 +11219,148 @@ export const UsersMinOrderByAggregateInputSchema: z.ZodType<Prisma.UsersMinOrder
   deleted: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
+export const Enummarker_type_enumNullableFilterSchema: z.ZodType<Prisma.Enummarker_type_enumNullableFilter> = z.object({
+  equals: z.lazy(() => marker_type_enumSchema).optional().nullable(),
+  in: z.lazy(() => marker_type_enumSchema).array().optional().nullable(),
+  notIn: z.lazy(() => marker_type_enumSchema).array().optional().nullable(),
+  not: z.union([ z.lazy(() => marker_type_enumSchema),z.lazy(() => NestedEnummarker_type_enumNullableFilterSchema) ]).optional().nullable(),
+}).strict();
+
+export const Enumline_cap_enumNullableFilterSchema: z.ZodType<Prisma.Enumline_cap_enumNullableFilter> = z.object({
+  equals: z.lazy(() => line_cap_enumSchema).optional().nullable(),
+  in: z.lazy(() => line_cap_enumSchema).array().optional().nullable(),
+  notIn: z.lazy(() => line_cap_enumSchema).array().optional().nullable(),
+  not: z.union([ z.lazy(() => line_cap_enumSchema),z.lazy(() => NestedEnumline_cap_enumNullableFilterSchema) ]).optional().nullable(),
+}).strict();
+
+export const Enumfill_rule_enumNullableFilterSchema: z.ZodType<Prisma.Enumfill_rule_enumNullableFilter> = z.object({
+  equals: z.lazy(() => fill_rule_enumSchema).optional().nullable(),
+  in: z.lazy(() => fill_rule_enumSchema).array().optional().nullable(),
+  notIn: z.lazy(() => fill_rule_enumSchema).array().optional().nullable(),
+  not: z.union([ z.lazy(() => fill_rule_enumSchema),z.lazy(() => NestedEnumfill_rule_enumNullableFilterSchema) ]).optional().nullable(),
+}).strict();
+
+export const Vector_layer_displaysCountOrderByAggregateInputSchema: z.ZodType<Prisma.Vector_layer_displaysCountOrderByAggregateInput> = z.object({
+  vector_layer_display_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  vector_layer_id: z.lazy(() => SortOrderSchema).optional(),
+  display_property_value: z.lazy(() => SortOrderSchema).optional(),
+  marker_type: z.lazy(() => SortOrderSchema).optional(),
+  circle_marker_radius: z.lazy(() => SortOrderSchema).optional(),
+  marker_symbol: z.lazy(() => SortOrderSchema).optional(),
+  marker_size: z.lazy(() => SortOrderSchema).optional(),
+  stroke: z.lazy(() => SortOrderSchema).optional(),
+  color: z.lazy(() => SortOrderSchema).optional(),
+  weight: z.lazy(() => SortOrderSchema).optional(),
+  opacity_percent: z.lazy(() => SortOrderSchema).optional(),
+  line_cap: z.lazy(() => SortOrderSchema).optional(),
+  line_join: z.lazy(() => SortOrderSchema).optional(),
+  dash_array: z.lazy(() => SortOrderSchema).optional(),
+  dash_offset: z.lazy(() => SortOrderSchema).optional(),
+  fill: z.lazy(() => SortOrderSchema).optional(),
+  fill_color: z.lazy(() => SortOrderSchema).optional(),
+  fill_opacity_percent: z.lazy(() => SortOrderSchema).optional(),
+  fill_rule: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  deleted: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const Vector_layer_displaysAvgOrderByAggregateInputSchema: z.ZodType<Prisma.Vector_layer_displaysAvgOrderByAggregateInput> = z.object({
+  circle_marker_radius: z.lazy(() => SortOrderSchema).optional(),
+  marker_size: z.lazy(() => SortOrderSchema).optional(),
+  weight: z.lazy(() => SortOrderSchema).optional(),
+  opacity_percent: z.lazy(() => SortOrderSchema).optional(),
+  fill_opacity_percent: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const Vector_layer_displaysMaxOrderByAggregateInputSchema: z.ZodType<Prisma.Vector_layer_displaysMaxOrderByAggregateInput> = z.object({
+  vector_layer_display_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  vector_layer_id: z.lazy(() => SortOrderSchema).optional(),
+  display_property_value: z.lazy(() => SortOrderSchema).optional(),
+  marker_type: z.lazy(() => SortOrderSchema).optional(),
+  circle_marker_radius: z.lazy(() => SortOrderSchema).optional(),
+  marker_symbol: z.lazy(() => SortOrderSchema).optional(),
+  marker_size: z.lazy(() => SortOrderSchema).optional(),
+  stroke: z.lazy(() => SortOrderSchema).optional(),
+  color: z.lazy(() => SortOrderSchema).optional(),
+  weight: z.lazy(() => SortOrderSchema).optional(),
+  opacity_percent: z.lazy(() => SortOrderSchema).optional(),
+  line_cap: z.lazy(() => SortOrderSchema).optional(),
+  line_join: z.lazy(() => SortOrderSchema).optional(),
+  dash_array: z.lazy(() => SortOrderSchema).optional(),
+  dash_offset: z.lazy(() => SortOrderSchema).optional(),
+  fill: z.lazy(() => SortOrderSchema).optional(),
+  fill_color: z.lazy(() => SortOrderSchema).optional(),
+  fill_opacity_percent: z.lazy(() => SortOrderSchema).optional(),
+  fill_rule: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  deleted: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const Vector_layer_displaysMinOrderByAggregateInputSchema: z.ZodType<Prisma.Vector_layer_displaysMinOrderByAggregateInput> = z.object({
+  vector_layer_display_id: z.lazy(() => SortOrderSchema).optional(),
+  account_id: z.lazy(() => SortOrderSchema).optional(),
+  vector_layer_id: z.lazy(() => SortOrderSchema).optional(),
+  display_property_value: z.lazy(() => SortOrderSchema).optional(),
+  marker_type: z.lazy(() => SortOrderSchema).optional(),
+  circle_marker_radius: z.lazy(() => SortOrderSchema).optional(),
+  marker_symbol: z.lazy(() => SortOrderSchema).optional(),
+  marker_size: z.lazy(() => SortOrderSchema).optional(),
+  stroke: z.lazy(() => SortOrderSchema).optional(),
+  color: z.lazy(() => SortOrderSchema).optional(),
+  weight: z.lazy(() => SortOrderSchema).optional(),
+  opacity_percent: z.lazy(() => SortOrderSchema).optional(),
+  line_cap: z.lazy(() => SortOrderSchema).optional(),
+  line_join: z.lazy(() => SortOrderSchema).optional(),
+  dash_array: z.lazy(() => SortOrderSchema).optional(),
+  dash_offset: z.lazy(() => SortOrderSchema).optional(),
+  fill: z.lazy(() => SortOrderSchema).optional(),
+  fill_color: z.lazy(() => SortOrderSchema).optional(),
+  fill_opacity_percent: z.lazy(() => SortOrderSchema).optional(),
+  fill_rule: z.lazy(() => SortOrderSchema).optional(),
+  label_replace_by_generated_column: z.lazy(() => SortOrderSchema).optional(),
+  deleted: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const Vector_layer_displaysSumOrderByAggregateInputSchema: z.ZodType<Prisma.Vector_layer_displaysSumOrderByAggregateInput> = z.object({
+  circle_marker_radius: z.lazy(() => SortOrderSchema).optional(),
+  marker_size: z.lazy(() => SortOrderSchema).optional(),
+  weight: z.lazy(() => SortOrderSchema).optional(),
+  opacity_percent: z.lazy(() => SortOrderSchema).optional(),
+  fill_opacity_percent: z.lazy(() => SortOrderSchema).optional()
+}).strict();
+
+export const Enummarker_type_enumNullableWithAggregatesFilterSchema: z.ZodType<Prisma.Enummarker_type_enumNullableWithAggregatesFilter> = z.object({
+  equals: z.lazy(() => marker_type_enumSchema).optional().nullable(),
+  in: z.lazy(() => marker_type_enumSchema).array().optional().nullable(),
+  notIn: z.lazy(() => marker_type_enumSchema).array().optional().nullable(),
+  not: z.union([ z.lazy(() => marker_type_enumSchema),z.lazy(() => NestedEnummarker_type_enumNullableWithAggregatesFilterSchema) ]).optional().nullable(),
+  _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
+  _min: z.lazy(() => NestedEnummarker_type_enumNullableFilterSchema).optional(),
+  _max: z.lazy(() => NestedEnummarker_type_enumNullableFilterSchema).optional()
+}).strict();
+
+export const Enumline_cap_enumNullableWithAggregatesFilterSchema: z.ZodType<Prisma.Enumline_cap_enumNullableWithAggregatesFilter> = z.object({
+  equals: z.lazy(() => line_cap_enumSchema).optional().nullable(),
+  in: z.lazy(() => line_cap_enumSchema).array().optional().nullable(),
+  notIn: z.lazy(() => line_cap_enumSchema).array().optional().nullable(),
+  not: z.union([ z.lazy(() => line_cap_enumSchema),z.lazy(() => NestedEnumline_cap_enumNullableWithAggregatesFilterSchema) ]).optional().nullable(),
+  _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
+  _min: z.lazy(() => NestedEnumline_cap_enumNullableFilterSchema).optional(),
+  _max: z.lazy(() => NestedEnumline_cap_enumNullableFilterSchema).optional()
+}).strict();
+
+export const Enumfill_rule_enumNullableWithAggregatesFilterSchema: z.ZodType<Prisma.Enumfill_rule_enumNullableWithAggregatesFilter> = z.object({
+  equals: z.lazy(() => fill_rule_enumSchema).optional().nullable(),
+  in: z.lazy(() => fill_rule_enumSchema).array().optional().nullable(),
+  notIn: z.lazy(() => fill_rule_enumSchema).array().optional().nullable(),
+  not: z.union([ z.lazy(() => fill_rule_enumSchema),z.lazy(() => NestedEnumfill_rule_enumNullableWithAggregatesFilterSchema) ]).optional().nullable(),
+  _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
+  _min: z.lazy(() => NestedEnumfill_rule_enumNullableFilterSchema).optional(),
+  _max: z.lazy(() => NestedEnumfill_rule_enumNullableFilterSchema).optional()
+}).strict();
+
 export const Enumvector_layer_type_enumNullableFilterSchema: z.ZodType<Prisma.Enumvector_layer_type_enumNullableFilter> = z.object({
   equals: z.lazy(() => vector_layer_type_enumSchema).optional().nullable(),
   in: z.lazy(() => vector_layer_type_enumSchema).array().optional().nullable(),
@@ -11189,6 +11736,13 @@ export const User_messagesCreateNestedManyWithoutAccountsInputSchema: z.ZodType<
   connect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
 }).strict();
 
+export const Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prisma.Vector_layer_displaysCreateNestedManyWithoutAccountsInput> = z.object({
+  create: z.union([ z.lazy(() => Vector_layer_displaysCreateWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysCreateWithoutAccountsInputSchema).array(),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Vector_layer_displaysCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Vector_layer_displaysCreateManyAccountsInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
 export const Vector_layersCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prisma.Vector_layersCreateNestedManyWithoutAccountsInput> = z.object({
   create: z.union([ z.lazy(() => Vector_layersCreateWithoutAccountsInputSchema),z.lazy(() => Vector_layersCreateWithoutAccountsInputSchema).array(),z.lazy(() => Vector_layersUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => Vector_layersUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => Vector_layersCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => Vector_layersCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
@@ -11397,6 +11951,13 @@ export const User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema: z
   connectOrCreate: z.union([ z.lazy(() => User_messagesCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => User_messagesCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
   createMany: z.lazy(() => User_messagesCreateManyAccountsInputEnvelopeSchema).optional(),
   connect: z.union([ z.lazy(() => User_messagesWhereUniqueInputSchema),z.lazy(() => User_messagesWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
+export const Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prisma.Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInput> = z.object({
+  create: z.union([ z.lazy(() => Vector_layer_displaysCreateWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysCreateWithoutAccountsInputSchema).array(),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Vector_layer_displaysCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Vector_layer_displaysCreateManyAccountsInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
 }).strict();
 
 export const Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema: z.ZodType<Prisma.Vector_layersUncheckedCreateNestedManyWithoutAccountsInput> = z.object({
@@ -11834,6 +12395,20 @@ export const User_messagesUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<
   deleteMany: z.union([ z.lazy(() => User_messagesScalarWhereInputSchema),z.lazy(() => User_messagesScalarWhereInputSchema).array() ]).optional(),
 }).strict();
 
+export const Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prisma.Vector_layer_displaysUpdateManyWithoutAccountsNestedInput> = z.object({
+  create: z.union([ z.lazy(() => Vector_layer_displaysCreateWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysCreateWithoutAccountsInputSchema).array(),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Vector_layer_displaysCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => Vector_layer_displaysUpsertWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysUpsertWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Vector_layer_displaysCreateManyAccountsInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => Vector_layer_displaysUpdateWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysUpdateWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => Vector_layer_displaysUpdateManyWithWhereWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysUpdateManyWithWhereWithoutAccountsInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => Vector_layer_displaysScalarWhereInputSchema),z.lazy(() => Vector_layer_displaysScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
 export const Vector_layersUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prisma.Vector_layersUpdateManyWithoutAccountsNestedInput> = z.object({
   create: z.union([ z.lazy(() => Vector_layersCreateWithoutAccountsInputSchema),z.lazy(() => Vector_layersCreateWithoutAccountsInputSchema).array(),z.lazy(() => Vector_layersUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => Vector_layersUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => Vector_layersCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => Vector_layersCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
@@ -12252,6 +12827,20 @@ export const User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema: z
   update: z.union([ z.lazy(() => User_messagesUpdateWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => User_messagesUpdateWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
   updateMany: z.union([ z.lazy(() => User_messagesUpdateManyWithWhereWithoutAccountsInputSchema),z.lazy(() => User_messagesUpdateManyWithWhereWithoutAccountsInputSchema).array() ]).optional(),
   deleteMany: z.union([ z.lazy(() => User_messagesScalarWhereInputSchema),z.lazy(() => User_messagesScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
+export const Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prisma.Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInput> = z.object({
+  create: z.union([ z.lazy(() => Vector_layer_displaysCreateWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysCreateWithoutAccountsInputSchema).array(),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutAccountsInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Vector_layer_displaysCreateOrConnectWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysCreateOrConnectWithoutAccountsInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => Vector_layer_displaysUpsertWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysUpsertWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Vector_layer_displaysCreateManyAccountsInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => Vector_layer_displaysUpdateWithWhereUniqueWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysUpdateWithWhereUniqueWithoutAccountsInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => Vector_layer_displaysUpdateManyWithWhereWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysUpdateManyWithWhereWithoutAccountsInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => Vector_layer_displaysScalarWhereInputSchema),z.lazy(() => Vector_layer_displaysScalarWhereInputSchema).array() ]).optional(),
 }).strict();
 
 export const Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema: z.ZodType<Prisma.Vector_layersUncheckedUpdateManyWithoutAccountsNestedInput> = z.object({
@@ -15372,11 +15961,62 @@ export const User_messagesUncheckedUpdateManyWithoutUsersNestedInputSchema: z.Zo
   deleteMany: z.union([ z.lazy(() => User_messagesScalarWhereInputSchema),z.lazy(() => User_messagesScalarWhereInputSchema).array() ]).optional(),
 }).strict();
 
+export const AccountsCreateNestedOneWithoutVector_layer_displaysInputSchema: z.ZodType<Prisma.AccountsCreateNestedOneWithoutVector_layer_displaysInput> = z.object({
+  create: z.union([ z.lazy(() => AccountsCreateWithoutVector_layer_displaysInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutVector_layer_displaysInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => AccountsCreateOrConnectWithoutVector_layer_displaysInputSchema).optional(),
+  connect: z.lazy(() => AccountsWhereUniqueInputSchema).optional()
+}).strict();
+
+export const Vector_layersCreateNestedOneWithoutVector_layer_displaysInputSchema: z.ZodType<Prisma.Vector_layersCreateNestedOneWithoutVector_layer_displaysInput> = z.object({
+  create: z.union([ z.lazy(() => Vector_layersCreateWithoutVector_layer_displaysInputSchema),z.lazy(() => Vector_layersUncheckedCreateWithoutVector_layer_displaysInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => Vector_layersCreateOrConnectWithoutVector_layer_displaysInputSchema).optional(),
+  connect: z.lazy(() => Vector_layersWhereUniqueInputSchema).optional()
+}).strict();
+
+export const NullableEnummarker_type_enumFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableEnummarker_type_enumFieldUpdateOperationsInput> = z.object({
+  set: z.lazy(() => marker_type_enumSchema).optional().nullable()
+}).strict();
+
+export const NullableEnumline_cap_enumFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableEnumline_cap_enumFieldUpdateOperationsInput> = z.object({
+  set: z.lazy(() => line_cap_enumSchema).optional().nullable()
+}).strict();
+
+export const NullableEnumfill_rule_enumFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableEnumfill_rule_enumFieldUpdateOperationsInput> = z.object({
+  set: z.lazy(() => fill_rule_enumSchema).optional().nullable()
+}).strict();
+
+export const AccountsUpdateOneWithoutVector_layer_displaysNestedInputSchema: z.ZodType<Prisma.AccountsUpdateOneWithoutVector_layer_displaysNestedInput> = z.object({
+  create: z.union([ z.lazy(() => AccountsCreateWithoutVector_layer_displaysInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutVector_layer_displaysInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => AccountsCreateOrConnectWithoutVector_layer_displaysInputSchema).optional(),
+  upsert: z.lazy(() => AccountsUpsertWithoutVector_layer_displaysInputSchema).optional(),
+  disconnect: z.boolean().optional(),
+  delete: z.boolean().optional(),
+  connect: z.lazy(() => AccountsWhereUniqueInputSchema).optional(),
+  update: z.union([ z.lazy(() => AccountsUpdateWithoutVector_layer_displaysInputSchema),z.lazy(() => AccountsUncheckedUpdateWithoutVector_layer_displaysInputSchema) ]).optional(),
+}).strict();
+
+export const Vector_layersUpdateOneWithoutVector_layer_displaysNestedInputSchema: z.ZodType<Prisma.Vector_layersUpdateOneWithoutVector_layer_displaysNestedInput> = z.object({
+  create: z.union([ z.lazy(() => Vector_layersCreateWithoutVector_layer_displaysInputSchema),z.lazy(() => Vector_layersUncheckedCreateWithoutVector_layer_displaysInputSchema) ]).optional(),
+  connectOrCreate: z.lazy(() => Vector_layersCreateOrConnectWithoutVector_layer_displaysInputSchema).optional(),
+  upsert: z.lazy(() => Vector_layersUpsertWithoutVector_layer_displaysInputSchema).optional(),
+  disconnect: z.boolean().optional(),
+  delete: z.boolean().optional(),
+  connect: z.lazy(() => Vector_layersWhereUniqueInputSchema).optional(),
+  update: z.union([ z.lazy(() => Vector_layersUpdateWithoutVector_layer_displaysInputSchema),z.lazy(() => Vector_layersUncheckedUpdateWithoutVector_layer_displaysInputSchema) ]).optional(),
+}).strict();
+
 export const Layer_optionsCreateNestedManyWithoutVector_layersInputSchema: z.ZodType<Prisma.Layer_optionsCreateNestedManyWithoutVector_layersInput> = z.object({
   create: z.union([ z.lazy(() => Layer_optionsCreateWithoutVector_layersInputSchema),z.lazy(() => Layer_optionsCreateWithoutVector_layersInputSchema).array(),z.lazy(() => Layer_optionsUncheckedCreateWithoutVector_layersInputSchema),z.lazy(() => Layer_optionsUncheckedCreateWithoutVector_layersInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => Layer_optionsCreateOrConnectWithoutVector_layersInputSchema),z.lazy(() => Layer_optionsCreateOrConnectWithoutVector_layersInputSchema).array() ]).optional(),
   createMany: z.lazy(() => Layer_optionsCreateManyVector_layersInputEnvelopeSchema).optional(),
   connect: z.union([ z.lazy(() => Layer_optionsWhereUniqueInputSchema),z.lazy(() => Layer_optionsWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
+export const Vector_layer_displaysCreateNestedManyWithoutVector_layersInputSchema: z.ZodType<Prisma.Vector_layer_displaysCreateNestedManyWithoutVector_layersInput> = z.object({
+  create: z.union([ z.lazy(() => Vector_layer_displaysCreateWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysCreateWithoutVector_layersInputSchema).array(),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutVector_layersInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Vector_layer_displaysCreateOrConnectWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysCreateOrConnectWithoutVector_layersInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Vector_layer_displaysCreateManyVector_layersInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
 }).strict();
 
 export const AccountsCreateNestedOneWithoutVector_layersInputSchema: z.ZodType<Prisma.AccountsCreateNestedOneWithoutVector_layersInput> = z.object({
@@ -15398,6 +16038,13 @@ export const Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInputSche
   connect: z.union([ z.lazy(() => Layer_optionsWhereUniqueInputSchema),z.lazy(() => Layer_optionsWhereUniqueInputSchema).array() ]).optional(),
 }).strict();
 
+export const Vector_layer_displaysUncheckedCreateNestedManyWithoutVector_layersInputSchema: z.ZodType<Prisma.Vector_layer_displaysUncheckedCreateNestedManyWithoutVector_layersInput> = z.object({
+  create: z.union([ z.lazy(() => Vector_layer_displaysCreateWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysCreateWithoutVector_layersInputSchema).array(),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutVector_layersInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Vector_layer_displaysCreateOrConnectWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysCreateOrConnectWithoutVector_layersInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Vector_layer_displaysCreateManyVector_layersInputEnvelopeSchema).optional(),
+  connect: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
 export const NullableEnumvector_layer_type_enumFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableEnumvector_layer_type_enumFieldUpdateOperationsInput> = z.object({
   set: z.lazy(() => vector_layer_type_enumSchema).optional().nullable()
 }).strict();
@@ -15414,6 +16061,20 @@ export const Layer_optionsUpdateManyWithoutVector_layersNestedInputSchema: z.Zod
   update: z.union([ z.lazy(() => Layer_optionsUpdateWithWhereUniqueWithoutVector_layersInputSchema),z.lazy(() => Layer_optionsUpdateWithWhereUniqueWithoutVector_layersInputSchema).array() ]).optional(),
   updateMany: z.union([ z.lazy(() => Layer_optionsUpdateManyWithWhereWithoutVector_layersInputSchema),z.lazy(() => Layer_optionsUpdateManyWithWhereWithoutVector_layersInputSchema).array() ]).optional(),
   deleteMany: z.union([ z.lazy(() => Layer_optionsScalarWhereInputSchema),z.lazy(() => Layer_optionsScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
+export const Vector_layer_displaysUpdateManyWithoutVector_layersNestedInputSchema: z.ZodType<Prisma.Vector_layer_displaysUpdateManyWithoutVector_layersNestedInput> = z.object({
+  create: z.union([ z.lazy(() => Vector_layer_displaysCreateWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysCreateWithoutVector_layersInputSchema).array(),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutVector_layersInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Vector_layer_displaysCreateOrConnectWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysCreateOrConnectWithoutVector_layersInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => Vector_layer_displaysUpsertWithWhereUniqueWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysUpsertWithWhereUniqueWithoutVector_layersInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Vector_layer_displaysCreateManyVector_layersInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => Vector_layer_displaysUpdateWithWhereUniqueWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysUpdateWithWhereUniqueWithoutVector_layersInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => Vector_layer_displaysUpdateManyWithWhereWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysUpdateManyWithWhereWithoutVector_layersInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => Vector_layer_displaysScalarWhereInputSchema),z.lazy(() => Vector_layer_displaysScalarWhereInputSchema).array() ]).optional(),
 }).strict();
 
 export const AccountsUpdateOneWithoutVector_layersNestedInputSchema: z.ZodType<Prisma.AccountsUpdateOneWithoutVector_layersNestedInput> = z.object({
@@ -15446,6 +16107,20 @@ export const Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInputSche
   update: z.union([ z.lazy(() => Layer_optionsUpdateWithWhereUniqueWithoutVector_layersInputSchema),z.lazy(() => Layer_optionsUpdateWithWhereUniqueWithoutVector_layersInputSchema).array() ]).optional(),
   updateMany: z.union([ z.lazy(() => Layer_optionsUpdateManyWithWhereWithoutVector_layersInputSchema),z.lazy(() => Layer_optionsUpdateManyWithWhereWithoutVector_layersInputSchema).array() ]).optional(),
   deleteMany: z.union([ z.lazy(() => Layer_optionsScalarWhereInputSchema),z.lazy(() => Layer_optionsScalarWhereInputSchema).array() ]).optional(),
+}).strict();
+
+export const Vector_layer_displaysUncheckedUpdateManyWithoutVector_layersNestedInputSchema: z.ZodType<Prisma.Vector_layer_displaysUncheckedUpdateManyWithoutVector_layersNestedInput> = z.object({
+  create: z.union([ z.lazy(() => Vector_layer_displaysCreateWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysCreateWithoutVector_layersInputSchema).array(),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutVector_layersInputSchema).array() ]).optional(),
+  connectOrCreate: z.union([ z.lazy(() => Vector_layer_displaysCreateOrConnectWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysCreateOrConnectWithoutVector_layersInputSchema).array() ]).optional(),
+  upsert: z.union([ z.lazy(() => Vector_layer_displaysUpsertWithWhereUniqueWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysUpsertWithWhereUniqueWithoutVector_layersInputSchema).array() ]).optional(),
+  createMany: z.lazy(() => Vector_layer_displaysCreateManyVector_layersInputEnvelopeSchema).optional(),
+  set: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+  disconnect: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+  delete: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+  connect: z.union([ z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema).array() ]).optional(),
+  update: z.union([ z.lazy(() => Vector_layer_displaysUpdateWithWhereUniqueWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysUpdateWithWhereUniqueWithoutVector_layersInputSchema).array() ]).optional(),
+  updateMany: z.union([ z.lazy(() => Vector_layer_displaysUpdateManyWithWhereWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysUpdateManyWithWhereWithoutVector_layersInputSchema).array() ]).optional(),
+  deleteMany: z.union([ z.lazy(() => Vector_layer_displaysScalarWhereInputSchema),z.lazy(() => Vector_layer_displaysScalarWhereInputSchema).array() ]).optional(),
 }).strict();
 
 export const FieldsCreateNestedManyWithoutWidget_typesInputSchema: z.ZodType<Prisma.FieldsCreateNestedManyWithoutWidget_typesInput> = z.object({
@@ -15963,6 +16638,57 @@ export const NestedEnumunit_typeNullableWithAggregatesFilterSchema: z.ZodType<Pr
   _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
   _min: z.lazy(() => NestedEnumunit_typeNullableFilterSchema).optional(),
   _max: z.lazy(() => NestedEnumunit_typeNullableFilterSchema).optional()
+}).strict();
+
+export const NestedEnummarker_type_enumNullableFilterSchema: z.ZodType<Prisma.NestedEnummarker_type_enumNullableFilter> = z.object({
+  equals: z.lazy(() => marker_type_enumSchema).optional().nullable(),
+  in: z.lazy(() => marker_type_enumSchema).array().optional().nullable(),
+  notIn: z.lazy(() => marker_type_enumSchema).array().optional().nullable(),
+  not: z.union([ z.lazy(() => marker_type_enumSchema),z.lazy(() => NestedEnummarker_type_enumNullableFilterSchema) ]).optional().nullable(),
+}).strict();
+
+export const NestedEnumline_cap_enumNullableFilterSchema: z.ZodType<Prisma.NestedEnumline_cap_enumNullableFilter> = z.object({
+  equals: z.lazy(() => line_cap_enumSchema).optional().nullable(),
+  in: z.lazy(() => line_cap_enumSchema).array().optional().nullable(),
+  notIn: z.lazy(() => line_cap_enumSchema).array().optional().nullable(),
+  not: z.union([ z.lazy(() => line_cap_enumSchema),z.lazy(() => NestedEnumline_cap_enumNullableFilterSchema) ]).optional().nullable(),
+}).strict();
+
+export const NestedEnumfill_rule_enumNullableFilterSchema: z.ZodType<Prisma.NestedEnumfill_rule_enumNullableFilter> = z.object({
+  equals: z.lazy(() => fill_rule_enumSchema).optional().nullable(),
+  in: z.lazy(() => fill_rule_enumSchema).array().optional().nullable(),
+  notIn: z.lazy(() => fill_rule_enumSchema).array().optional().nullable(),
+  not: z.union([ z.lazy(() => fill_rule_enumSchema),z.lazy(() => NestedEnumfill_rule_enumNullableFilterSchema) ]).optional().nullable(),
+}).strict();
+
+export const NestedEnummarker_type_enumNullableWithAggregatesFilterSchema: z.ZodType<Prisma.NestedEnummarker_type_enumNullableWithAggregatesFilter> = z.object({
+  equals: z.lazy(() => marker_type_enumSchema).optional().nullable(),
+  in: z.lazy(() => marker_type_enumSchema).array().optional().nullable(),
+  notIn: z.lazy(() => marker_type_enumSchema).array().optional().nullable(),
+  not: z.union([ z.lazy(() => marker_type_enumSchema),z.lazy(() => NestedEnummarker_type_enumNullableWithAggregatesFilterSchema) ]).optional().nullable(),
+  _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
+  _min: z.lazy(() => NestedEnummarker_type_enumNullableFilterSchema).optional(),
+  _max: z.lazy(() => NestedEnummarker_type_enumNullableFilterSchema).optional()
+}).strict();
+
+export const NestedEnumline_cap_enumNullableWithAggregatesFilterSchema: z.ZodType<Prisma.NestedEnumline_cap_enumNullableWithAggregatesFilter> = z.object({
+  equals: z.lazy(() => line_cap_enumSchema).optional().nullable(),
+  in: z.lazy(() => line_cap_enumSchema).array().optional().nullable(),
+  notIn: z.lazy(() => line_cap_enumSchema).array().optional().nullable(),
+  not: z.union([ z.lazy(() => line_cap_enumSchema),z.lazy(() => NestedEnumline_cap_enumNullableWithAggregatesFilterSchema) ]).optional().nullable(),
+  _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
+  _min: z.lazy(() => NestedEnumline_cap_enumNullableFilterSchema).optional(),
+  _max: z.lazy(() => NestedEnumline_cap_enumNullableFilterSchema).optional()
+}).strict();
+
+export const NestedEnumfill_rule_enumNullableWithAggregatesFilterSchema: z.ZodType<Prisma.NestedEnumfill_rule_enumNullableWithAggregatesFilter> = z.object({
+  equals: z.lazy(() => fill_rule_enumSchema).optional().nullable(),
+  in: z.lazy(() => fill_rule_enumSchema).array().optional().nullable(),
+  notIn: z.lazy(() => fill_rule_enumSchema).array().optional().nullable(),
+  not: z.union([ z.lazy(() => fill_rule_enumSchema),z.lazy(() => NestedEnumfill_rule_enumNullableWithAggregatesFilterSchema) ]).optional().nullable(),
+  _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
+  _min: z.lazy(() => NestedEnumfill_rule_enumNullableFilterSchema).optional(),
+  _max: z.lazy(() => NestedEnumfill_rule_enumNullableFilterSchema).optional()
 }).strict();
 
 export const NestedEnumvector_layer_type_enumNullableFilterSchema: z.ZodType<Prisma.NestedEnumvector_layer_type_enumNullableFilter> = z.object({
@@ -17123,6 +17849,64 @@ export const User_messagesCreateManyAccountsInputEnvelopeSchema: z.ZodType<Prism
   skipDuplicates: z.boolean().optional()
 }).strict();
 
+export const Vector_layer_displaysCreateWithoutAccountsInputSchema: z.ZodType<Prisma.Vector_layer_displaysCreateWithoutAccountsInput> = z.object({
+  vector_layer_display_id: z.string(),
+  display_property_value: z.string().optional().nullable(),
+  marker_type: z.lazy(() => marker_type_enumSchema).optional().nullable(),
+  circle_marker_radius: z.number().optional().nullable(),
+  marker_symbol: z.string().optional().nullable(),
+  marker_size: z.number().optional().nullable(),
+  stroke: z.boolean().optional().nullable(),
+  color: z.string().optional().nullable(),
+  weight: z.number().optional().nullable(),
+  opacity_percent: z.number().optional().nullable(),
+  line_cap: z.lazy(() => line_cap_enumSchema).optional().nullable(),
+  line_join: z.string().optional().nullable(),
+  dash_array: z.string().optional().nullable(),
+  dash_offset: z.string().optional().nullable(),
+  fill: z.boolean().optional().nullable(),
+  fill_color: z.string().optional().nullable(),
+  fill_opacity_percent: z.number().optional().nullable(),
+  fill_rule: z.lazy(() => fill_rule_enumSchema).optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable(),
+  vector_layers: z.lazy(() => Vector_layersCreateNestedOneWithoutVector_layer_displaysInputSchema).optional()
+}).strict();
+
+export const Vector_layer_displaysUncheckedCreateWithoutAccountsInputSchema: z.ZodType<Prisma.Vector_layer_displaysUncheckedCreateWithoutAccountsInput> = z.object({
+  vector_layer_display_id: z.string(),
+  vector_layer_id: z.string().optional().nullable(),
+  display_property_value: z.string().optional().nullable(),
+  marker_type: z.lazy(() => marker_type_enumSchema).optional().nullable(),
+  circle_marker_radius: z.number().optional().nullable(),
+  marker_symbol: z.string().optional().nullable(),
+  marker_size: z.number().optional().nullable(),
+  stroke: z.boolean().optional().nullable(),
+  color: z.string().optional().nullable(),
+  weight: z.number().optional().nullable(),
+  opacity_percent: z.number().optional().nullable(),
+  line_cap: z.lazy(() => line_cap_enumSchema).optional().nullable(),
+  line_join: z.string().optional().nullable(),
+  dash_array: z.string().optional().nullable(),
+  dash_offset: z.string().optional().nullable(),
+  fill: z.boolean().optional().nullable(),
+  fill_color: z.string().optional().nullable(),
+  fill_opacity_percent: z.number().optional().nullable(),
+  fill_rule: z.lazy(() => fill_rule_enumSchema).optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable()
+}).strict();
+
+export const Vector_layer_displaysCreateOrConnectWithoutAccountsInputSchema: z.ZodType<Prisma.Vector_layer_displaysCreateOrConnectWithoutAccountsInput> = z.object({
+  where: z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => Vector_layer_displaysCreateWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutAccountsInputSchema) ]),
+}).strict();
+
+export const Vector_layer_displaysCreateManyAccountsInputEnvelopeSchema: z.ZodType<Prisma.Vector_layer_displaysCreateManyAccountsInputEnvelope> = z.object({
+  data: z.lazy(() => Vector_layer_displaysCreateManyAccountsInputSchema).array(),
+  skipDuplicates: z.boolean().optional()
+}).strict();
+
 export const Vector_layersCreateWithoutAccountsInputSchema: z.ZodType<Prisma.Vector_layersCreateWithoutAccountsInput> = z.object({
   vector_layer_id: z.string(),
   label: z.string().optional().nullable(),
@@ -17143,6 +17927,7 @@ export const Vector_layersCreateWithoutAccountsInputSchema: z.ZodType<Prisma.Vec
   polygon_count: z.number().optional().nullable(),
   deleted: z.boolean().optional().nullable(),
   layer_options: z.lazy(() => Layer_optionsCreateNestedManyWithoutVector_layersInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutVector_layersInputSchema).optional(),
   projects: z.lazy(() => ProjectsCreateNestedOneWithoutVector_layersInputSchema)
 }).strict();
 
@@ -17166,7 +17951,8 @@ export const Vector_layersUncheckedCreateWithoutAccountsInputSchema: z.ZodType<P
   line_count: z.number().optional().nullable(),
   polygon_count: z.number().optional().nullable(),
   deleted: z.boolean().optional().nullable(),
-  layer_options: z.lazy(() => Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInputSchema).optional()
+  layer_options: z.lazy(() => Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutVector_layersInputSchema).optional()
 }).strict();
 
 export const Vector_layersCreateOrConnectWithoutAccountsInputSchema: z.ZodType<Prisma.Vector_layersCreateOrConnectWithoutAccountsInput> = z.object({
@@ -18162,6 +18948,50 @@ export const User_messagesScalarWhereInputSchema: z.ZodType<Prisma.User_messages
   read: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
 }).strict();
 
+export const Vector_layer_displaysUpsertWithWhereUniqueWithoutAccountsInputSchema: z.ZodType<Prisma.Vector_layer_displaysUpsertWithWhereUniqueWithoutAccountsInput> = z.object({
+  where: z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),
+  update: z.union([ z.lazy(() => Vector_layer_displaysUpdateWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysUncheckedUpdateWithoutAccountsInputSchema) ]),
+  create: z.union([ z.lazy(() => Vector_layer_displaysCreateWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutAccountsInputSchema) ]),
+}).strict();
+
+export const Vector_layer_displaysUpdateWithWhereUniqueWithoutAccountsInputSchema: z.ZodType<Prisma.Vector_layer_displaysUpdateWithWhereUniqueWithoutAccountsInput> = z.object({
+  where: z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),
+  data: z.union([ z.lazy(() => Vector_layer_displaysUpdateWithoutAccountsInputSchema),z.lazy(() => Vector_layer_displaysUncheckedUpdateWithoutAccountsInputSchema) ]),
+}).strict();
+
+export const Vector_layer_displaysUpdateManyWithWhereWithoutAccountsInputSchema: z.ZodType<Prisma.Vector_layer_displaysUpdateManyWithWhereWithoutAccountsInput> = z.object({
+  where: z.lazy(() => Vector_layer_displaysScalarWhereInputSchema),
+  data: z.union([ z.lazy(() => Vector_layer_displaysUpdateManyMutationInputSchema),z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutVector_layer_displaysInputSchema) ]),
+}).strict();
+
+export const Vector_layer_displaysScalarWhereInputSchema: z.ZodType<Prisma.Vector_layer_displaysScalarWhereInput> = z.object({
+  AND: z.union([ z.lazy(() => Vector_layer_displaysScalarWhereInputSchema),z.lazy(() => Vector_layer_displaysScalarWhereInputSchema).array() ]).optional(),
+  OR: z.lazy(() => Vector_layer_displaysScalarWhereInputSchema).array().optional(),
+  NOT: z.union([ z.lazy(() => Vector_layer_displaysScalarWhereInputSchema),z.lazy(() => Vector_layer_displaysScalarWhereInputSchema).array() ]).optional(),
+  vector_layer_display_id: z.union([ z.lazy(() => UuidFilterSchema),z.string() ]).optional(),
+  account_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  vector_layer_id: z.union([ z.lazy(() => UuidNullableFilterSchema),z.string() ]).optional().nullable(),
+  display_property_value: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  marker_type: z.union([ z.lazy(() => Enummarker_type_enumNullableFilterSchema),z.lazy(() => marker_type_enumSchema) ]).optional().nullable(),
+  circle_marker_radius: z.union([ z.lazy(() => IntNullableFilterSchema),z.number() ]).optional().nullable(),
+  marker_symbol: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  marker_size: z.union([ z.lazy(() => IntNullableFilterSchema),z.number() ]).optional().nullable(),
+  stroke: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+  color: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  weight: z.union([ z.lazy(() => IntNullableFilterSchema),z.number() ]).optional().nullable(),
+  opacity_percent: z.union([ z.lazy(() => IntNullableFilterSchema),z.number() ]).optional().nullable(),
+  line_cap: z.union([ z.lazy(() => Enumline_cap_enumNullableFilterSchema),z.lazy(() => line_cap_enumSchema) ]).optional().nullable(),
+  line_join: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  dash_array: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  dash_offset: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  fill: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+  fill_color: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  fill_opacity_percent: z.union([ z.lazy(() => IntNullableFilterSchema),z.number() ]).optional().nullable(),
+  fill_rule: z.union([ z.lazy(() => Enumfill_rule_enumNullableFilterSchema),z.lazy(() => fill_rule_enumSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  deleted: z.union([ z.lazy(() => BoolNullableFilterSchema),z.boolean() ]).optional().nullable(),
+}).strict();
+
 export const Vector_layersUpsertWithWhereUniqueWithoutAccountsInputSchema: z.ZodType<Prisma.Vector_layersUpsertWithWhereUniqueWithoutAccountsInput> = z.object({
   where: z.lazy(() => Vector_layersWhereUniqueInputSchema),
   update: z.union([ z.lazy(() => Vector_layersUpdateWithoutAccountsInputSchema),z.lazy(() => Vector_layersUncheckedUpdateWithoutAccountsInputSchema) ]),
@@ -18240,6 +19070,7 @@ export const AccountsCreateWithoutChart_subjectsInputSchema: z.ZodType<Prisma.Ac
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -18279,6 +19110,7 @@ export const AccountsUncheckedCreateWithoutChart_subjectsInputSchema: z.ZodType<
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -18422,6 +19254,7 @@ export const AccountsUpdateWithoutChart_subjectsInputSchema: z.ZodType<Prisma.Ac
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -18461,6 +19294,7 @@ export const AccountsUncheckedUpdateWithoutChart_subjectsInputSchema: z.ZodType<
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -18644,6 +19478,7 @@ export const AccountsCreateWithoutChartsInputSchema: z.ZodType<Prisma.AccountsCr
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -18683,6 +19518,7 @@ export const AccountsUncheckedCreateWithoutChartsInputSchema: z.ZodType<Prisma.A
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -18921,6 +19757,7 @@ export const AccountsUpdateWithoutChartsInputSchema: z.ZodType<Prisma.AccountsUp
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -18960,6 +19797,7 @@ export const AccountsUncheckedUpdateWithoutChartsInputSchema: z.ZodType<Prisma.A
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -19281,6 +20119,7 @@ export const AccountsCreateWithoutFieldsInputSchema: z.ZodType<Prisma.AccountsCr
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -19320,6 +20159,7 @@ export const AccountsUncheckedCreateWithoutFieldsInputSchema: z.ZodType<Prisma.A
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -19543,6 +20383,7 @@ export const AccountsUpdateWithoutFieldsInputSchema: z.ZodType<Prisma.AccountsUp
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -19582,6 +20423,7 @@ export const AccountsUncheckedUpdateWithoutFieldsInputSchema: z.ZodType<Prisma.A
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -19795,6 +20637,7 @@ export const AccountsCreateWithoutGbif_occurrence_downloadsInputSchema: z.ZodTyp
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -19834,6 +20677,7 @@ export const AccountsUncheckedCreateWithoutGbif_occurrence_downloadsInputSchema:
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -20017,6 +20861,7 @@ export const AccountsUpdateWithoutGbif_occurrence_downloadsInputSchema: z.ZodTyp
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -20056,6 +20901,7 @@ export const AccountsUncheckedUpdateWithoutGbif_occurrence_downloadsInputSchema:
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -20229,6 +21075,7 @@ export const AccountsCreateWithoutGbif_occurrencesInputSchema: z.ZodType<Prisma.
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -20268,6 +21115,7 @@ export const AccountsUncheckedCreateWithoutGbif_occurrencesInputSchema: z.ZodTyp
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -20451,6 +21299,7 @@ export const AccountsUpdateWithoutGbif_occurrencesInputSchema: z.ZodType<Prisma.
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -20490,6 +21339,7 @@ export const AccountsUncheckedUpdateWithoutGbif_occurrencesInputSchema: z.ZodTyp
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -20663,6 +21513,7 @@ export const AccountsCreateWithoutGbif_taxaInputSchema: z.ZodType<Prisma.Account
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -20702,6 +21553,7 @@ export const AccountsUncheckedCreateWithoutGbif_taxaInputSchema: z.ZodType<Prism
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -20842,6 +21694,7 @@ export const AccountsUpdateWithoutGbif_taxaInputSchema: z.ZodType<Prisma.Account
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -20881,6 +21734,7 @@ export const AccountsUncheckedUpdateWithoutGbif_taxaInputSchema: z.ZodType<Prism
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -21011,6 +21865,7 @@ export const AccountsCreateWithoutGoal_report_valuesInputSchema: z.ZodType<Prism
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -21050,6 +21905,7 @@ export const AccountsUncheckedCreateWithoutGoal_report_valuesInputSchema: z.ZodT
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -21169,6 +22025,7 @@ export const AccountsUpdateWithoutGoal_report_valuesInputSchema: z.ZodType<Prism
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -21208,6 +22065,7 @@ export const AccountsUncheckedUpdateWithoutGoal_report_valuesInputSchema: z.ZodT
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -21349,6 +22207,7 @@ export const AccountsCreateWithoutGoal_reportsInputSchema: z.ZodType<Prisma.Acco
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -21388,6 +22247,7 @@ export const AccountsUncheckedCreateWithoutGoal_reportsInputSchema: z.ZodType<Pr
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -21480,6 +22340,7 @@ export const AccountsUpdateWithoutGoal_reportsInputSchema: z.ZodType<Prisma.Acco
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -21519,6 +22380,7 @@ export const AccountsUncheckedUpdateWithoutGoal_reportsInputSchema: z.ZodType<Pr
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -21613,6 +22475,7 @@ export const AccountsCreateWithoutGoalsInputSchema: z.ZodType<Prisma.AccountsCre
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -21652,6 +22515,7 @@ export const AccountsUncheckedCreateWithoutGoalsInputSchema: z.ZodType<Prisma.Ac
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -21760,6 +22624,7 @@ export const AccountsUpdateWithoutGoalsInputSchema: z.ZodType<Prisma.AccountsUpd
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -21799,6 +22664,7 @@ export const AccountsUncheckedUpdateWithoutGoalsInputSchema: z.ZodType<Prisma.Ac
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -21881,6 +22747,7 @@ export const AccountsCreateWithoutLayer_optionsInputSchema: z.ZodType<Prisma.Acc
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -21920,6 +22787,7 @@ export const AccountsUncheckedCreateWithoutLayer_optionsInputSchema: z.ZodType<P
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -22008,6 +22876,7 @@ export const Vector_layersCreateWithoutLayer_optionsInputSchema: z.ZodType<Prism
   line_count: z.number().optional().nullable(),
   polygon_count: z.number().optional().nullable(),
   deleted: z.boolean().optional().nullable(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutVector_layersInputSchema).optional(),
   accounts: z.lazy(() => AccountsCreateNestedOneWithoutVector_layersInputSchema).optional(),
   projects: z.lazy(() => ProjectsCreateNestedOneWithoutVector_layersInputSchema)
 }).strict();
@@ -22032,7 +22901,8 @@ export const Vector_layersUncheckedCreateWithoutLayer_optionsInputSchema: z.ZodT
   point_count: z.number().optional().nullable(),
   line_count: z.number().optional().nullable(),
   polygon_count: z.number().optional().nullable(),
-  deleted: z.boolean().optional().nullable()
+  deleted: z.boolean().optional().nullable(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutVector_layersInputSchema).optional()
 }).strict();
 
 export const Vector_layersCreateOrConnectWithoutLayer_optionsInputSchema: z.ZodType<Prisma.Vector_layersCreateOrConnectWithoutLayer_optionsInput> = z.object({
@@ -22081,6 +22951,7 @@ export const AccountsUpdateWithoutLayer_optionsInputSchema: z.ZodType<Prisma.Acc
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -22120,6 +22991,7 @@ export const AccountsUncheckedUpdateWithoutLayer_optionsInputSchema: z.ZodType<P
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -22208,6 +23080,7 @@ export const Vector_layersUpdateWithoutLayer_optionsInputSchema: z.ZodType<Prism
   line_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   polygon_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutVector_layersNestedInputSchema).optional(),
   accounts: z.lazy(() => AccountsUpdateOneWithoutVector_layersNestedInputSchema).optional(),
   projects: z.lazy(() => ProjectsUpdateOneRequiredWithoutVector_layersNestedInputSchema).optional()
 }).strict();
@@ -22233,6 +23106,7 @@ export const Vector_layersUncheckedUpdateWithoutLayer_optionsInputSchema: z.ZodT
   line_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   polygon_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutVector_layersNestedInputSchema).optional()
 }).strict();
 
 export const AccountsCreateWithoutList_valuesInputSchema: z.ZodType<Prisma.AccountsCreateWithoutList_valuesInput> = z.object({
@@ -22271,6 +23145,7 @@ export const AccountsCreateWithoutList_valuesInputSchema: z.ZodType<Prisma.Accou
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -22310,6 +23185,7 @@ export const AccountsUncheckedCreateWithoutList_valuesInputSchema: z.ZodType<Pri
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -22390,6 +23266,7 @@ export const AccountsUpdateWithoutList_valuesInputSchema: z.ZodType<Prisma.Accou
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -22429,6 +23306,7 @@ export const AccountsUncheckedUpdateWithoutList_valuesInputSchema: z.ZodType<Pri
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -22569,6 +23447,7 @@ export const AccountsCreateWithoutListsInputSchema: z.ZodType<Prisma.AccountsCre
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -22608,6 +23487,7 @@ export const AccountsUncheckedCreateWithoutListsInputSchema: z.ZodType<Prisma.Ac
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -22832,6 +23712,7 @@ export const AccountsUpdateWithoutListsInputSchema: z.ZodType<Prisma.AccountsUpd
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -22871,6 +23752,7 @@ export const AccountsUncheckedUpdateWithoutListsInputSchema: z.ZodType<Prisma.Ac
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -23059,6 +23941,7 @@ export const AccountsCreateWithoutObservation_sourcesInputSchema: z.ZodType<Pris
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -23098,6 +23981,7 @@ export const AccountsUncheckedCreateWithoutObservation_sourcesInputSchema: z.Zod
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -23238,6 +24122,7 @@ export const AccountsUpdateWithoutObservation_sourcesInputSchema: z.ZodType<Pris
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -23277,6 +24162,7 @@ export const AccountsUncheckedUpdateWithoutObservation_sourcesInputSchema: z.Zod
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -23407,6 +24293,7 @@ export const AccountsCreateWithoutPersonsInputSchema: z.ZodType<Prisma.AccountsC
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -23446,6 +24333,7 @@ export const AccountsUncheckedCreateWithoutPersonsInputSchema: z.ZodType<Prisma.
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -23586,6 +24474,7 @@ export const AccountsUpdateWithoutPersonsInputSchema: z.ZodType<Prisma.AccountsU
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -23625,6 +24514,7 @@ export const AccountsUncheckedUpdateWithoutPersonsInputSchema: z.ZodType<Prisma.
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -23755,6 +24645,7 @@ export const AccountsCreateWithoutPlace_levelsInputSchema: z.ZodType<Prisma.Acco
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -23794,6 +24685,7 @@ export const AccountsUncheckedCreateWithoutPlace_levelsInputSchema: z.ZodType<Pr
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -23934,6 +24826,7 @@ export const AccountsUpdateWithoutPlace_levelsInputSchema: z.ZodType<Prisma.Acco
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -23973,6 +24866,7 @@ export const AccountsUncheckedUpdateWithoutPlace_levelsInputSchema: z.ZodType<Pr
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -24155,6 +25049,7 @@ export const AccountsCreateWithoutPlacesInputSchema: z.ZodType<Prisma.AccountsCr
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -24194,6 +25089,7 @@ export const AccountsUncheckedCreateWithoutPlacesInputSchema: z.ZodType<Prisma.A
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -24385,6 +25281,7 @@ export const AccountsUpdateWithoutPlacesInputSchema: z.ZodType<Prisma.AccountsUp
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -24424,6 +25321,7 @@ export const AccountsUncheckedUpdateWithoutPlacesInputSchema: z.ZodType<Prisma.A
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -24561,6 +25459,7 @@ export const AccountsCreateWithoutProject_reportsInputSchema: z.ZodType<Prisma.A
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -24600,6 +25499,7 @@ export const AccountsUncheckedCreateWithoutProject_reportsInputSchema: z.ZodType
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -24740,6 +25640,7 @@ export const AccountsUpdateWithoutProject_reportsInputSchema: z.ZodType<Prisma.A
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -24779,6 +25680,7 @@ export const AccountsUncheckedUpdateWithoutProject_reportsInputSchema: z.ZodType
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -24909,6 +25811,7 @@ export const AccountsCreateWithoutProject_usersInputSchema: z.ZodType<Prisma.Acc
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -24948,6 +25851,7 @@ export const AccountsUncheckedCreateWithoutProject_usersInputSchema: z.ZodType<P
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -25117,6 +26021,7 @@ export const AccountsUpdateWithoutProject_usersInputSchema: z.ZodType<Prisma.Acc
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -25156,6 +26061,7 @@ export const AccountsUncheckedUpdateWithoutProject_usersInputSchema: z.ZodType<P
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -25699,6 +26605,7 @@ export const AccountsCreateWithoutProjectsInputSchema: z.ZodType<Prisma.Accounts
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -25738,6 +26645,7 @@ export const AccountsUncheckedCreateWithoutProjectsInputSchema: z.ZodType<Prisma
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -25968,6 +26876,7 @@ export const Vector_layersCreateWithoutProjectsInputSchema: z.ZodType<Prisma.Vec
   polygon_count: z.number().optional().nullable(),
   deleted: z.boolean().optional().nullable(),
   layer_options: z.lazy(() => Layer_optionsCreateNestedManyWithoutVector_layersInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutVector_layersInputSchema).optional(),
   accounts: z.lazy(() => AccountsCreateNestedOneWithoutVector_layersInputSchema).optional()
 }).strict();
 
@@ -25991,7 +26900,8 @@ export const Vector_layersUncheckedCreateWithoutProjectsInputSchema: z.ZodType<P
   line_count: z.number().optional().nullable(),
   polygon_count: z.number().optional().nullable(),
   deleted: z.boolean().optional().nullable(),
-  layer_options: z.lazy(() => Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInputSchema).optional()
+  layer_options: z.lazy(() => Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutVector_layersInputSchema).optional()
 }).strict();
 
 export const Vector_layersCreateOrConnectWithoutProjectsInputSchema: z.ZodType<Prisma.Vector_layersCreateOrConnectWithoutProjectsInput> = z.object({
@@ -26221,6 +27131,7 @@ export const AccountsUpdateWithoutProjectsInputSchema: z.ZodType<Prisma.Accounts
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -26260,6 +27171,7 @@ export const AccountsUncheckedUpdateWithoutProjectsInputSchema: z.ZodType<Prisma
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -26379,6 +27291,7 @@ export const AccountsCreateWithoutSubproject_reportsInputSchema: z.ZodType<Prism
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -26418,6 +27331,7 @@ export const AccountsUncheckedCreateWithoutSubproject_reportsInputSchema: z.ZodT
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -26510,6 +27424,7 @@ export const AccountsUpdateWithoutSubproject_reportsInputSchema: z.ZodType<Prism
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -26549,6 +27464,7 @@ export const AccountsUncheckedUpdateWithoutSubproject_reportsInputSchema: z.ZodT
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -26631,6 +27547,7 @@ export const AccountsCreateWithoutSubproject_taxaInputSchema: z.ZodType<Prisma.A
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -26670,6 +27587,7 @@ export const AccountsUncheckedCreateWithoutSubproject_taxaInputSchema: z.ZodType
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -26789,6 +27707,7 @@ export const AccountsUpdateWithoutSubproject_taxaInputSchema: z.ZodType<Prisma.A
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -26828,6 +27747,7 @@ export const AccountsUncheckedUpdateWithoutSubproject_taxaInputSchema: z.ZodType
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -26937,6 +27857,7 @@ export const AccountsCreateWithoutSubproject_usersInputSchema: z.ZodType<Prisma.
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -26976,6 +27897,7 @@ export const AccountsUncheckedCreateWithoutSubproject_usersInputSchema: z.ZodTyp
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -27097,6 +28019,7 @@ export const AccountsUpdateWithoutSubproject_usersInputSchema: z.ZodType<Prisma.
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -27136,6 +28059,7 @@ export const AccountsUncheckedUpdateWithoutSubproject_usersInputSchema: z.ZodTyp
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -27523,6 +28447,7 @@ export const AccountsCreateWithoutSubprojectsInputSchema: z.ZodType<Prisma.Accou
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -27562,6 +28487,7 @@ export const AccountsUncheckedCreateWithoutSubprojectsInputSchema: z.ZodType<Pri
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -27830,6 +28756,7 @@ export const AccountsUpdateWithoutSubprojectsInputSchema: z.ZodType<Prisma.Accou
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -27869,6 +28796,7 @@ export const AccountsUncheckedUpdateWithoutSubprojectsInputSchema: z.ZodType<Pri
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -28025,6 +28953,7 @@ export const AccountsCreateWithoutTaxaInputSchema: z.ZodType<Prisma.AccountsCrea
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -28064,6 +28993,7 @@ export const AccountsUncheckedCreateWithoutTaxaInputSchema: z.ZodType<Prisma.Acc
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -28160,6 +29090,7 @@ export const AccountsUpdateWithoutTaxaInputSchema: z.ZodType<Prisma.AccountsUpda
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -28199,6 +29130,7 @@ export const AccountsUncheckedUpdateWithoutTaxaInputSchema: z.ZodType<Prisma.Acc
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -28301,6 +29233,7 @@ export const AccountsCreateWithoutTaxonomiesInputSchema: z.ZodType<Prisma.Accoun
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -28340,6 +29273,7 @@ export const AccountsUncheckedCreateWithoutTaxonomiesInputSchema: z.ZodType<Pris
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -28496,6 +29430,7 @@ export const AccountsUpdateWithoutTaxonomiesInputSchema: z.ZodType<Prisma.Accoun
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -28535,6 +29470,7 @@ export const AccountsUncheckedUpdateWithoutTaxonomiesInputSchema: z.ZodType<Pris
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -28697,6 +29633,7 @@ export const AccountsCreateWithoutTile_layersInputSchema: z.ZodType<Prisma.Accou
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -28736,6 +29673,7 @@ export const AccountsUncheckedCreateWithoutTile_layersInputSchema: z.ZodType<Pri
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -28892,6 +29830,7 @@ export const AccountsUpdateWithoutTile_layersInputSchema: z.ZodType<Prisma.Accou
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -28931,6 +29870,7 @@ export const AccountsUncheckedUpdateWithoutTile_layersInputSchema: z.ZodType<Pri
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -29061,6 +30001,7 @@ export const AccountsCreateWithoutUi_optionsInputSchema: z.ZodType<Prisma.Accoun
   tile_layers: z.lazy(() => Tile_layersCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -29100,6 +30041,7 @@ export const AccountsUncheckedCreateWithoutUi_optionsInputSchema: z.ZodType<Pris
   tile_layers: z.lazy(() => Tile_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -29178,6 +30120,7 @@ export const AccountsUpdateWithoutUi_optionsInputSchema: z.ZodType<Prisma.Accoun
   tile_layers: z.lazy(() => Tile_layersUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -29217,6 +30160,7 @@ export const AccountsUncheckedUpdateWithoutUi_optionsInputSchema: z.ZodType<Pris
   tile_layers: z.lazy(() => Tile_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -29367,6 +30311,7 @@ export const AccountsCreateWithoutUnitsInputSchema: z.ZodType<Prisma.AccountsCre
   tile_layers: z.lazy(() => Tile_layersCreateNestedManyWithoutAccountsInputSchema).optional(),
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -29406,6 +30351,7 @@ export const AccountsUncheckedCreateWithoutUnitsInputSchema: z.ZodType<Prisma.Ac
   tile_layers: z.lazy(() => Tile_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -29609,6 +30555,7 @@ export const AccountsUpdateWithoutUnitsInputSchema: z.ZodType<Prisma.AccountsUpd
   tile_layers: z.lazy(() => Tile_layersUpdateManyWithoutAccountsNestedInputSchema).optional(),
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -29648,6 +30595,7 @@ export const AccountsUncheckedUpdateWithoutUnitsInputSchema: z.ZodType<Prisma.Ac
   tile_layers: z.lazy(() => Tile_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -29809,6 +30757,7 @@ export const AccountsCreateWithoutUser_messagesInputSchema: z.ZodType<Prisma.Acc
   tile_layers: z.lazy(() => Tile_layersCreateNestedManyWithoutAccountsInputSchema).optional(),
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -29848,6 +30797,7 @@ export const AccountsUncheckedCreateWithoutUser_messagesInputSchema: z.ZodType<P
   tile_layers: z.lazy(() => Tile_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -29945,6 +30895,7 @@ export const AccountsUpdateWithoutUser_messagesInputSchema: z.ZodType<Prisma.Acc
   tile_layers: z.lazy(() => Tile_layersUpdateManyWithoutAccountsNestedInputSchema).optional(),
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -29984,6 +30935,7 @@ export const AccountsUncheckedUpdateWithoutUser_messagesInputSchema: z.ZodType<P
   tile_layers: z.lazy(() => Tile_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -30071,6 +31023,7 @@ export const AccountsCreateWithoutUsersInputSchema: z.ZodType<Prisma.AccountsCre
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -30110,6 +31063,7 @@ export const AccountsUncheckedCreateWithoutUsersInputSchema: z.ZodType<Prisma.Ac
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
@@ -30360,6 +31314,282 @@ export const User_messagesUpdateManyWithWhereWithoutUsersInputSchema: z.ZodType<
   data: z.union([ z.lazy(() => User_messagesUpdateManyMutationInputSchema),z.lazy(() => User_messagesUncheckedUpdateManyWithoutUser_messagesInputSchema) ]),
 }).strict();
 
+export const AccountsCreateWithoutVector_layer_displaysInputSchema: z.ZodType<Prisma.AccountsCreateWithoutVector_layer_displaysInput> = z.object({
+  account_id: z.string(),
+  type: z.string().optional().nullable(),
+  period_start: z.coerce.date().optional().nullable(),
+  period_end: z.coerce.date().optional().nullable(),
+  projects_label_by: z.string().optional().nullable(),
+  label: z.string().optional().nullable(),
+  users: z.lazy(() => UsersCreateNestedOneWithoutAccountsInputSchema).optional(),
+  chart_subjects: z.lazy(() => Chart_subjectsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  charts: z.lazy(() => ChartsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  fields: z.lazy(() => FieldsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  gbif_occurrences: z.lazy(() => Gbif_occurrencesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  gbif_taxa: z.lazy(() => Gbif_taxaCreateNestedManyWithoutAccountsInputSchema).optional(),
+  goal_report_values: z.lazy(() => Goal_report_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  goal_reports: z.lazy(() => Goal_reportsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  goals: z.lazy(() => GoalsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  layer_options: z.lazy(() => Layer_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  list_values: z.lazy(() => List_valuesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  lists: z.lazy(() => ListsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  persons: z.lazy(() => PersonsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  place_levels: z.lazy(() => Place_levelsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  places: z.lazy(() => PlacesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  project_reports: z.lazy(() => Project_reportsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  project_users: z.lazy(() => Project_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
+  projects: z.lazy(() => ProjectsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  subproject_reports: z.lazy(() => Subproject_reportsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  subproject_taxa: z.lazy(() => Subproject_taxaCreateNestedManyWithoutAccountsInputSchema).optional(),
+  subproject_users: z.lazy(() => Subproject_usersCreateNestedManyWithoutAccountsInputSchema).optional(),
+  subprojects: z.lazy(() => SubprojectsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  taxa: z.lazy(() => TaxaCreateNestedManyWithoutAccountsInputSchema).optional(),
+  taxonomies: z.lazy(() => TaxonomiesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  tile_layers: z.lazy(() => Tile_layersCreateNestedManyWithoutAccountsInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layers: z.lazy(() => Vector_layersCreateNestedManyWithoutAccountsInputSchema).optional()
+}).strict();
+
+export const AccountsUncheckedCreateWithoutVector_layer_displaysInputSchema: z.ZodType<Prisma.AccountsUncheckedCreateWithoutVector_layer_displaysInput> = z.object({
+  account_id: z.string(),
+  user_id: z.string().optional().nullable(),
+  type: z.string().optional().nullable(),
+  period_start: z.coerce.date().optional().nullable(),
+  period_end: z.coerce.date().optional().nullable(),
+  projects_label_by: z.string().optional().nullable(),
+  label: z.string().optional().nullable(),
+  chart_subjects: z.lazy(() => Chart_subjectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  charts: z.lazy(() => ChartsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  fields: z.lazy(() => FieldsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  gbif_taxa: z.lazy(() => Gbif_taxaUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  goal_report_values: z.lazy(() => Goal_report_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  goal_reports: z.lazy(() => Goal_reportsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  goals: z.lazy(() => GoalsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  layer_options: z.lazy(() => Layer_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  list_values: z.lazy(() => List_valuesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  lists: z.lazy(() => ListsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  persons: z.lazy(() => PersonsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  place_levels: z.lazy(() => Place_levelsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  places: z.lazy(() => PlacesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  project_reports: z.lazy(() => Project_reportsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  project_users: z.lazy(() => Project_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  projects: z.lazy(() => ProjectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  subproject_reports: z.lazy(() => Subproject_reportsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  subproject_taxa: z.lazy(() => Subproject_taxaUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  subproject_users: z.lazy(() => Subproject_usersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  subprojects: z.lazy(() => SubprojectsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  taxa: z.lazy(() => TaxaUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  taxonomies: z.lazy(() => TaxonomiesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  tile_layers: z.lazy(() => Tile_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layers: z.lazy(() => Vector_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
+}).strict();
+
+export const AccountsCreateOrConnectWithoutVector_layer_displaysInputSchema: z.ZodType<Prisma.AccountsCreateOrConnectWithoutVector_layer_displaysInput> = z.object({
+  where: z.lazy(() => AccountsWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => AccountsCreateWithoutVector_layer_displaysInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutVector_layer_displaysInputSchema) ]),
+}).strict();
+
+export const Vector_layersCreateWithoutVector_layer_displaysInputSchema: z.ZodType<Prisma.Vector_layersCreateWithoutVector_layer_displaysInput> = z.object({
+  vector_layer_id: z.string(),
+  label: z.string().optional().nullable(),
+  type: z.lazy(() => vector_layer_type_enumSchema).optional().nullable(),
+  display_by_property_field: z.string().optional().nullable(),
+  sort: z.number().optional().nullable(),
+  active: z.boolean().optional().nullable(),
+  max_zoom: z.number().optional().nullable(),
+  min_zoom: z.number().optional().nullable(),
+  max_features: z.number().optional().nullable(),
+  wfs_url: z.string().optional().nullable(),
+  wfs_layer: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  wfs_version: z.string().optional().nullable(),
+  wfs_output_format: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  feature_count: z.number().optional().nullable(),
+  point_count: z.number().optional().nullable(),
+  line_count: z.number().optional().nullable(),
+  polygon_count: z.number().optional().nullable(),
+  deleted: z.boolean().optional().nullable(),
+  layer_options: z.lazy(() => Layer_optionsCreateNestedManyWithoutVector_layersInputSchema).optional(),
+  accounts: z.lazy(() => AccountsCreateNestedOneWithoutVector_layersInputSchema).optional(),
+  projects: z.lazy(() => ProjectsCreateNestedOneWithoutVector_layersInputSchema)
+}).strict();
+
+export const Vector_layersUncheckedCreateWithoutVector_layer_displaysInputSchema: z.ZodType<Prisma.Vector_layersUncheckedCreateWithoutVector_layer_displaysInput> = z.object({
+  vector_layer_id: z.string(),
+  account_id: z.string().optional().nullable(),
+  project_id: z.string(),
+  label: z.string().optional().nullable(),
+  type: z.lazy(() => vector_layer_type_enumSchema).optional().nullable(),
+  display_by_property_field: z.string().optional().nullable(),
+  sort: z.number().optional().nullable(),
+  active: z.boolean().optional().nullable(),
+  max_zoom: z.number().optional().nullable(),
+  min_zoom: z.number().optional().nullable(),
+  max_features: z.number().optional().nullable(),
+  wfs_url: z.string().optional().nullable(),
+  wfs_layer: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  wfs_version: z.string().optional().nullable(),
+  wfs_output_format: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  feature_count: z.number().optional().nullable(),
+  point_count: z.number().optional().nullable(),
+  line_count: z.number().optional().nullable(),
+  polygon_count: z.number().optional().nullable(),
+  deleted: z.boolean().optional().nullable(),
+  layer_options: z.lazy(() => Layer_optionsUncheckedCreateNestedManyWithoutVector_layersInputSchema).optional()
+}).strict();
+
+export const Vector_layersCreateOrConnectWithoutVector_layer_displaysInputSchema: z.ZodType<Prisma.Vector_layersCreateOrConnectWithoutVector_layer_displaysInput> = z.object({
+  where: z.lazy(() => Vector_layersWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => Vector_layersCreateWithoutVector_layer_displaysInputSchema),z.lazy(() => Vector_layersUncheckedCreateWithoutVector_layer_displaysInputSchema) ]),
+}).strict();
+
+export const AccountsUpsertWithoutVector_layer_displaysInputSchema: z.ZodType<Prisma.AccountsUpsertWithoutVector_layer_displaysInput> = z.object({
+  update: z.union([ z.lazy(() => AccountsUpdateWithoutVector_layer_displaysInputSchema),z.lazy(() => AccountsUncheckedUpdateWithoutVector_layer_displaysInputSchema) ]),
+  create: z.union([ z.lazy(() => AccountsCreateWithoutVector_layer_displaysInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutVector_layer_displaysInputSchema) ]),
+}).strict();
+
+export const AccountsUpdateWithoutVector_layer_displaysInputSchema: z.ZodType<Prisma.AccountsUpdateWithoutVector_layer_displaysInput> = z.object({
+  account_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  type: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  period_start: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  users: z.lazy(() => UsersUpdateOneWithoutAccountsNestedInputSchema).optional(),
+  chart_subjects: z.lazy(() => Chart_subjectsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  charts: z.lazy(() => ChartsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  fields: z.lazy(() => FieldsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  gbif_occurrences: z.lazy(() => Gbif_occurrencesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  gbif_taxa: z.lazy(() => Gbif_taxaUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  goal_report_values: z.lazy(() => Goal_report_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  goal_reports: z.lazy(() => Goal_reportsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  goals: z.lazy(() => GoalsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  layer_options: z.lazy(() => Layer_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  list_values: z.lazy(() => List_valuesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  lists: z.lazy(() => ListsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  persons: z.lazy(() => PersonsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  place_levels: z.lazy(() => Place_levelsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  places: z.lazy(() => PlacesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  project_reports: z.lazy(() => Project_reportsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  project_users: z.lazy(() => Project_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  projects: z.lazy(() => ProjectsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  subproject_reports: z.lazy(() => Subproject_reportsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  subproject_taxa: z.lazy(() => Subproject_taxaUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  subproject_users: z.lazy(() => Subproject_usersUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  subprojects: z.lazy(() => SubprojectsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  taxa: z.lazy(() => TaxaUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  taxonomies: z.lazy(() => TaxonomiesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  tile_layers: z.lazy(() => Tile_layersUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
+}).strict();
+
+export const AccountsUncheckedUpdateWithoutVector_layer_displaysInputSchema: z.ZodType<Prisma.AccountsUncheckedUpdateWithoutVector_layer_displaysInput> = z.object({
+  account_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  user_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  type: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  period_start: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  period_end: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  projects_label_by: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  chart_subjects: z.lazy(() => Chart_subjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  charts: z.lazy(() => ChartsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  fields: z.lazy(() => FieldsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  gbif_occurrence_downloads: z.lazy(() => Gbif_occurrence_downloadsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  gbif_occurrences: z.lazy(() => Gbif_occurrencesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  gbif_taxa: z.lazy(() => Gbif_taxaUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  goal_report_values: z.lazy(() => Goal_report_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  goal_reports: z.lazy(() => Goal_reportsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  goals: z.lazy(() => GoalsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  layer_options: z.lazy(() => Layer_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  list_values: z.lazy(() => List_valuesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  lists: z.lazy(() => ListsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  observation_sources: z.lazy(() => Observation_sourcesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  persons: z.lazy(() => PersonsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  place_levels: z.lazy(() => Place_levelsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  places: z.lazy(() => PlacesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  project_reports: z.lazy(() => Project_reportsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  project_users: z.lazy(() => Project_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  projects: z.lazy(() => ProjectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  subproject_reports: z.lazy(() => Subproject_reportsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  subproject_taxa: z.lazy(() => Subproject_taxaUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  subproject_users: z.lazy(() => Subproject_usersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  subprojects: z.lazy(() => SubprojectsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  taxa: z.lazy(() => TaxaUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  taxonomies: z.lazy(() => TaxonomiesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  tile_layers: z.lazy(() => Tile_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
+}).strict();
+
+export const Vector_layersUpsertWithoutVector_layer_displaysInputSchema: z.ZodType<Prisma.Vector_layersUpsertWithoutVector_layer_displaysInput> = z.object({
+  update: z.union([ z.lazy(() => Vector_layersUpdateWithoutVector_layer_displaysInputSchema),z.lazy(() => Vector_layersUncheckedUpdateWithoutVector_layer_displaysInputSchema) ]),
+  create: z.union([ z.lazy(() => Vector_layersCreateWithoutVector_layer_displaysInputSchema),z.lazy(() => Vector_layersUncheckedCreateWithoutVector_layer_displaysInputSchema) ]),
+}).strict();
+
+export const Vector_layersUpdateWithoutVector_layer_displaysInputSchema: z.ZodType<Prisma.Vector_layersUpdateWithoutVector_layer_displaysInput> = z.object({
+  vector_layer_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  type: z.union([ z.lazy(() => vector_layer_type_enumSchema),z.lazy(() => NullableEnumvector_layer_type_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  display_by_property_field: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  sort: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  active: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  max_zoom: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  min_zoom: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  max_features: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  wfs_url: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  wfs_layer: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  wfs_version: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  wfs_output_format: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  feature_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  point_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  polygon_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  layer_options: z.lazy(() => Layer_optionsUpdateManyWithoutVector_layersNestedInputSchema).optional(),
+  accounts: z.lazy(() => AccountsUpdateOneWithoutVector_layersNestedInputSchema).optional(),
+  projects: z.lazy(() => ProjectsUpdateOneRequiredWithoutVector_layersNestedInputSchema).optional()
+}).strict();
+
+export const Vector_layersUncheckedUpdateWithoutVector_layer_displaysInputSchema: z.ZodType<Prisma.Vector_layersUncheckedUpdateWithoutVector_layer_displaysInput> = z.object({
+  vector_layer_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  account_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  project_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  type: z.union([ z.lazy(() => vector_layer_type_enumSchema),z.lazy(() => NullableEnumvector_layer_type_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  display_by_property_field: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  sort: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  active: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  max_zoom: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  min_zoom: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  max_features: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  wfs_url: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  wfs_layer: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  wfs_version: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  wfs_output_format: z.union([ z.lazy(() => NullableJsonNullValueInputSchema),InputJsonValue ]).optional(),
+  feature_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  point_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  polygon_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  layer_options: z.lazy(() => Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInputSchema).optional()
+}).strict();
+
 export const Layer_optionsCreateWithoutVector_layersInputSchema: z.ZodType<Prisma.Layer_optionsCreateWithoutVector_layersInput> = z.object({
   layer_option_id: z.string(),
   field: z.lazy(() => layer_options_field_enumSchema).optional().nullable(),
@@ -30389,6 +31619,64 @@ export const Layer_optionsCreateOrConnectWithoutVector_layersInputSchema: z.ZodT
 
 export const Layer_optionsCreateManyVector_layersInputEnvelopeSchema: z.ZodType<Prisma.Layer_optionsCreateManyVector_layersInputEnvelope> = z.object({
   data: z.lazy(() => Layer_optionsCreateManyVector_layersInputSchema).array(),
+  skipDuplicates: z.boolean().optional()
+}).strict();
+
+export const Vector_layer_displaysCreateWithoutVector_layersInputSchema: z.ZodType<Prisma.Vector_layer_displaysCreateWithoutVector_layersInput> = z.object({
+  vector_layer_display_id: z.string(),
+  display_property_value: z.string().optional().nullable(),
+  marker_type: z.lazy(() => marker_type_enumSchema).optional().nullable(),
+  circle_marker_radius: z.number().optional().nullable(),
+  marker_symbol: z.string().optional().nullable(),
+  marker_size: z.number().optional().nullable(),
+  stroke: z.boolean().optional().nullable(),
+  color: z.string().optional().nullable(),
+  weight: z.number().optional().nullable(),
+  opacity_percent: z.number().optional().nullable(),
+  line_cap: z.lazy(() => line_cap_enumSchema).optional().nullable(),
+  line_join: z.string().optional().nullable(),
+  dash_array: z.string().optional().nullable(),
+  dash_offset: z.string().optional().nullable(),
+  fill: z.boolean().optional().nullable(),
+  fill_color: z.string().optional().nullable(),
+  fill_opacity_percent: z.number().optional().nullable(),
+  fill_rule: z.lazy(() => fill_rule_enumSchema).optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable(),
+  accounts: z.lazy(() => AccountsCreateNestedOneWithoutVector_layer_displaysInputSchema).optional()
+}).strict();
+
+export const Vector_layer_displaysUncheckedCreateWithoutVector_layersInputSchema: z.ZodType<Prisma.Vector_layer_displaysUncheckedCreateWithoutVector_layersInput> = z.object({
+  vector_layer_display_id: z.string(),
+  account_id: z.string().optional().nullable(),
+  display_property_value: z.string().optional().nullable(),
+  marker_type: z.lazy(() => marker_type_enumSchema).optional().nullable(),
+  circle_marker_radius: z.number().optional().nullable(),
+  marker_symbol: z.string().optional().nullable(),
+  marker_size: z.number().optional().nullable(),
+  stroke: z.boolean().optional().nullable(),
+  color: z.string().optional().nullable(),
+  weight: z.number().optional().nullable(),
+  opacity_percent: z.number().optional().nullable(),
+  line_cap: z.lazy(() => line_cap_enumSchema).optional().nullable(),
+  line_join: z.string().optional().nullable(),
+  dash_array: z.string().optional().nullable(),
+  dash_offset: z.string().optional().nullable(),
+  fill: z.boolean().optional().nullable(),
+  fill_color: z.string().optional().nullable(),
+  fill_opacity_percent: z.number().optional().nullable(),
+  fill_rule: z.lazy(() => fill_rule_enumSchema).optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable()
+}).strict();
+
+export const Vector_layer_displaysCreateOrConnectWithoutVector_layersInputSchema: z.ZodType<Prisma.Vector_layer_displaysCreateOrConnectWithoutVector_layersInput> = z.object({
+  where: z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),
+  create: z.union([ z.lazy(() => Vector_layer_displaysCreateWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutVector_layersInputSchema) ]),
+}).strict();
+
+export const Vector_layer_displaysCreateManyVector_layersInputEnvelopeSchema: z.ZodType<Prisma.Vector_layer_displaysCreateManyVector_layersInputEnvelope> = z.object({
+  data: z.lazy(() => Vector_layer_displaysCreateManyVector_layersInputSchema).array(),
   skipDuplicates: z.boolean().optional()
 }).strict();
 
@@ -30428,7 +31716,8 @@ export const AccountsCreateWithoutVector_layersInputSchema: z.ZodType<Prisma.Acc
   tile_layers: z.lazy(() => Tile_layersCreateNestedManyWithoutAccountsInputSchema).optional(),
   ui_options: z.lazy(() => Ui_optionsCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsCreateNestedManyWithoutAccountsInputSchema).optional(),
-  user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional()
+  user_messages: z.lazy(() => User_messagesCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
 export const AccountsUncheckedCreateWithoutVector_layersInputSchema: z.ZodType<Prisma.AccountsUncheckedCreateWithoutVector_layersInput> = z.object({
@@ -30467,7 +31756,8 @@ export const AccountsUncheckedCreateWithoutVector_layersInputSchema: z.ZodType<P
   tile_layers: z.lazy(() => Tile_layersUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   ui_options: z.lazy(() => Ui_optionsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
-  user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
+  user_messages: z.lazy(() => User_messagesUncheckedCreateNestedManyWithoutAccountsInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedCreateNestedManyWithoutAccountsInputSchema).optional()
 }).strict();
 
 export const AccountsCreateOrConnectWithoutVector_layersInputSchema: z.ZodType<Prisma.AccountsCreateOrConnectWithoutVector_layersInput> = z.object({
@@ -30582,6 +31872,22 @@ export const Layer_optionsUpdateManyWithWhereWithoutVector_layersInputSchema: z.
   data: z.union([ z.lazy(() => Layer_optionsUpdateManyMutationInputSchema),z.lazy(() => Layer_optionsUncheckedUpdateManyWithoutLayer_optionsInputSchema) ]),
 }).strict();
 
+export const Vector_layer_displaysUpsertWithWhereUniqueWithoutVector_layersInputSchema: z.ZodType<Prisma.Vector_layer_displaysUpsertWithWhereUniqueWithoutVector_layersInput> = z.object({
+  where: z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),
+  update: z.union([ z.lazy(() => Vector_layer_displaysUpdateWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysUncheckedUpdateWithoutVector_layersInputSchema) ]),
+  create: z.union([ z.lazy(() => Vector_layer_displaysCreateWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysUncheckedCreateWithoutVector_layersInputSchema) ]),
+}).strict();
+
+export const Vector_layer_displaysUpdateWithWhereUniqueWithoutVector_layersInputSchema: z.ZodType<Prisma.Vector_layer_displaysUpdateWithWhereUniqueWithoutVector_layersInput> = z.object({
+  where: z.lazy(() => Vector_layer_displaysWhereUniqueInputSchema),
+  data: z.union([ z.lazy(() => Vector_layer_displaysUpdateWithoutVector_layersInputSchema),z.lazy(() => Vector_layer_displaysUncheckedUpdateWithoutVector_layersInputSchema) ]),
+}).strict();
+
+export const Vector_layer_displaysUpdateManyWithWhereWithoutVector_layersInputSchema: z.ZodType<Prisma.Vector_layer_displaysUpdateManyWithWhereWithoutVector_layersInput> = z.object({
+  where: z.lazy(() => Vector_layer_displaysScalarWhereInputSchema),
+  data: z.union([ z.lazy(() => Vector_layer_displaysUpdateManyMutationInputSchema),z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutVector_layer_displaysInputSchema) ]),
+}).strict();
+
 export const AccountsUpsertWithoutVector_layersInputSchema: z.ZodType<Prisma.AccountsUpsertWithoutVector_layersInput> = z.object({
   update: z.union([ z.lazy(() => AccountsUpdateWithoutVector_layersInputSchema),z.lazy(() => AccountsUncheckedUpdateWithoutVector_layersInputSchema) ]),
   create: z.union([ z.lazy(() => AccountsCreateWithoutVector_layersInputSchema),z.lazy(() => AccountsUncheckedCreateWithoutVector_layersInputSchema) ]),
@@ -30623,7 +31929,8 @@ export const AccountsUpdateWithoutVector_layersInputSchema: z.ZodType<Prisma.Acc
   tile_layers: z.lazy(() => Tile_layersUpdateManyWithoutAccountsNestedInputSchema).optional(),
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
-  user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional()
+  user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
 export const AccountsUncheckedUpdateWithoutVector_layersInputSchema: z.ZodType<Prisma.AccountsUncheckedUpdateWithoutVector_layersInput> = z.object({
@@ -30662,7 +31969,8 @@ export const AccountsUncheckedUpdateWithoutVector_layersInputSchema: z.ZodType<P
   tile_layers: z.lazy(() => Tile_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
-  user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
+  user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
 export const ProjectsUpsertWithoutVector_layersInputSchema: z.ZodType<Prisma.ProjectsUpsertWithoutVector_layersInput> = z.object({
@@ -31330,6 +32638,30 @@ export const User_messagesCreateManyAccountsInputSchema: z.ZodType<Prisma.User_m
   message_id: z.string().uuid().optional().nullable(),
   label_replace_by_generated_column: z.string().optional().nullable(),
   read: z.boolean().optional().nullable()
+}).strict();
+
+export const Vector_layer_displaysCreateManyAccountsInputSchema: z.ZodType<Prisma.Vector_layer_displaysCreateManyAccountsInput> = z.object({
+  vector_layer_display_id: z.string().uuid(),
+  vector_layer_id: z.string().uuid().optional().nullable(),
+  display_property_value: z.string().optional().nullable(),
+  marker_type: z.lazy(() => marker_type_enumSchema).optional().nullable(),
+  circle_marker_radius: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  marker_symbol: z.string().optional().nullable(),
+  marker_size: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  stroke: z.boolean().optional().nullable(),
+  color: z.string().optional().nullable(),
+  weight: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  opacity_percent: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  line_cap: z.lazy(() => line_cap_enumSchema).optional().nullable(),
+  line_join: z.string().optional().nullable(),
+  dash_array: z.string().optional().nullable(),
+  dash_offset: z.string().optional().nullable(),
+  fill: z.boolean().optional().nullable(),
+  fill_color: z.string().optional().nullable(),
+  fill_opacity_percent: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  fill_rule: z.lazy(() => fill_rule_enumSchema).optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable()
 }).strict();
 
 export const Vector_layersCreateManyAccountsInputSchema: z.ZodType<Prisma.Vector_layersCreateManyAccountsInput> = z.object({
@@ -32550,6 +33882,78 @@ export const User_messagesUncheckedUpdateManyWithoutUser_messagesInputSchema: z.
   read: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
+export const Vector_layer_displaysUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.Vector_layer_displaysUpdateWithoutAccountsInput> = z.object({
+  vector_layer_display_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  display_property_value: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_type: z.union([ z.lazy(() => marker_type_enumSchema),z.lazy(() => NullableEnummarker_type_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  circle_marker_radius: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_symbol: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_size: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  stroke: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  weight: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  opacity_percent: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_cap: z.union([ z.lazy(() => line_cap_enumSchema),z.lazy(() => NullableEnumline_cap_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_join: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_array: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_offset: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_opacity_percent: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_rule: z.union([ z.lazy(() => fill_rule_enumSchema),z.lazy(() => NullableEnumfill_rule_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  vector_layers: z.lazy(() => Vector_layersUpdateOneWithoutVector_layer_displaysNestedInputSchema).optional()
+}).strict();
+
+export const Vector_layer_displaysUncheckedUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.Vector_layer_displaysUncheckedUpdateWithoutAccountsInput> = z.object({
+  vector_layer_display_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  vector_layer_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  display_property_value: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_type: z.union([ z.lazy(() => marker_type_enumSchema),z.lazy(() => NullableEnummarker_type_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  circle_marker_radius: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_symbol: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_size: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  stroke: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  weight: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  opacity_percent: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_cap: z.union([ z.lazy(() => line_cap_enumSchema),z.lazy(() => NullableEnumline_cap_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_join: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_array: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_offset: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_opacity_percent: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_rule: z.union([ z.lazy(() => fill_rule_enumSchema),z.lazy(() => NullableEnumfill_rule_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const Vector_layer_displaysUncheckedUpdateManyWithoutVector_layer_displaysInputSchema: z.ZodType<Prisma.Vector_layer_displaysUncheckedUpdateManyWithoutVector_layer_displaysInput> = z.object({
+  vector_layer_display_id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  vector_layer_id: z.union([ z.string().uuid(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  display_property_value: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_type: z.union([ z.lazy(() => marker_type_enumSchema),z.lazy(() => NullableEnummarker_type_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  circle_marker_radius: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_symbol: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_size: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  stroke: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  weight: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  opacity_percent: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_cap: z.union([ z.lazy(() => line_cap_enumSchema),z.lazy(() => NullableEnumline_cap_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_join: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_array: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_offset: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_opacity_percent: z.union([ z.number().int().gte(-2147483648).lte(2147483647),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_rule: z.union([ z.lazy(() => fill_rule_enumSchema),z.lazy(() => NullableEnumfill_rule_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
 export const Vector_layersUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.Vector_layersUpdateWithoutAccountsInput> = z.object({
   vector_layer_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -32570,6 +33974,7 @@ export const Vector_layersUpdateWithoutAccountsInputSchema: z.ZodType<Prisma.Vec
   polygon_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   layer_options: z.lazy(() => Layer_optionsUpdateManyWithoutVector_layersNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutVector_layersNestedInputSchema).optional(),
   projects: z.lazy(() => ProjectsUpdateOneRequiredWithoutVector_layersNestedInputSchema).optional()
 }).strict();
 
@@ -32593,7 +33998,8 @@ export const Vector_layersUncheckedUpdateWithoutAccountsInputSchema: z.ZodType<P
   line_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   polygon_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  layer_options: z.lazy(() => Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInputSchema).optional()
+  layer_options: z.lazy(() => Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutVector_layersNestedInputSchema).optional()
 }).strict();
 
 export const Vector_layersUncheckedUpdateManyWithoutVector_layersInputSchema: z.ZodType<Prisma.Vector_layersUncheckedUpdateManyWithoutVector_layersInput> = z.object({
@@ -33779,6 +35185,7 @@ export const Vector_layersUpdateWithoutProjectsInputSchema: z.ZodType<Prisma.Vec
   polygon_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   layer_options: z.lazy(() => Layer_optionsUpdateManyWithoutVector_layersNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutVector_layersNestedInputSchema).optional(),
   accounts: z.lazy(() => AccountsUpdateOneWithoutVector_layersNestedInputSchema).optional()
 }).strict();
 
@@ -33802,7 +35209,8 @@ export const Vector_layersUncheckedUpdateWithoutProjectsInputSchema: z.ZodType<P
   line_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   polygon_count: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  layer_options: z.lazy(() => Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInputSchema).optional()
+  layer_options: z.lazy(() => Layer_optionsUncheckedUpdateManyWithoutVector_layersNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutVector_layersNestedInputSchema).optional()
 }).strict();
 
 export const ChartsCreateManySubprojectsInputSchema: z.ZodType<Prisma.ChartsCreateManySubprojectsInput> = z.object({
@@ -34348,6 +35756,7 @@ export const AccountsUpdateWithoutUsersInputSchema: z.ZodType<Prisma.AccountsUpd
   ui_options: z.lazy(() => Ui_optionsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -34387,6 +35796,7 @@ export const AccountsUncheckedUpdateWithoutUsersInputSchema: z.ZodType<Prisma.Ac
   ui_options: z.lazy(() => Ui_optionsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   units: z.lazy(() => UnitsUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   user_messages: z.lazy(() => User_messagesUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
+  vector_layer_displays: z.lazy(() => Vector_layer_displaysUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional(),
   vector_layers: z.lazy(() => Vector_layersUncheckedUpdateManyWithoutAccountsNestedInputSchema).optional()
 }).strict();
 
@@ -34462,6 +35872,30 @@ export const Layer_optionsCreateManyVector_layersInputSchema: z.ZodType<Prisma.L
   legend_url: z.string().optional().nullable()
 }).strict();
 
+export const Vector_layer_displaysCreateManyVector_layersInputSchema: z.ZodType<Prisma.Vector_layer_displaysCreateManyVector_layersInput> = z.object({
+  vector_layer_display_id: z.string().uuid(),
+  account_id: z.string().uuid().optional().nullable(),
+  display_property_value: z.string().optional().nullable(),
+  marker_type: z.lazy(() => marker_type_enumSchema).optional().nullable(),
+  circle_marker_radius: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  marker_symbol: z.string().optional().nullable(),
+  marker_size: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  stroke: z.boolean().optional().nullable(),
+  color: z.string().optional().nullable(),
+  weight: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  opacity_percent: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  line_cap: z.lazy(() => line_cap_enumSchema).optional().nullable(),
+  line_join: z.string().optional().nullable(),
+  dash_array: z.string().optional().nullable(),
+  dash_offset: z.string().optional().nullable(),
+  fill: z.boolean().optional().nullable(),
+  fill_color: z.string().optional().nullable(),
+  fill_opacity_percent: z.number().int().gte(-2147483648).lte(2147483647).optional().nullable(),
+  fill_rule: z.lazy(() => fill_rule_enumSchema).optional().nullable(),
+  label_replace_by_generated_column: z.string().optional().nullable(),
+  deleted: z.boolean().optional().nullable()
+}).strict();
+
 export const Layer_optionsUpdateWithoutVector_layersInputSchema: z.ZodType<Prisma.Layer_optionsUpdateWithoutVector_layersInput> = z.object({
   layer_option_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   field: z.union([ z.lazy(() => layer_options_field_enumSchema),z.lazy(() => NullableEnumlayer_options_field_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -34482,6 +35916,54 @@ export const Layer_optionsUncheckedUpdateWithoutVector_layersInputSchema: z.ZodT
   label: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   queryable: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   legend_url: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+}).strict();
+
+export const Vector_layer_displaysUpdateWithoutVector_layersInputSchema: z.ZodType<Prisma.Vector_layer_displaysUpdateWithoutVector_layersInput> = z.object({
+  vector_layer_display_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  display_property_value: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_type: z.union([ z.lazy(() => marker_type_enumSchema),z.lazy(() => NullableEnummarker_type_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  circle_marker_radius: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_symbol: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_size: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  stroke: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  weight: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  opacity_percent: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_cap: z.union([ z.lazy(() => line_cap_enumSchema),z.lazy(() => NullableEnumline_cap_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_join: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_array: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_offset: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_opacity_percent: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_rule: z.union([ z.lazy(() => fill_rule_enumSchema),z.lazy(() => NullableEnumfill_rule_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  accounts: z.lazy(() => AccountsUpdateOneWithoutVector_layer_displaysNestedInputSchema).optional()
+}).strict();
+
+export const Vector_layer_displaysUncheckedUpdateWithoutVector_layersInputSchema: z.ZodType<Prisma.Vector_layer_displaysUncheckedUpdateWithoutVector_layersInput> = z.object({
+  vector_layer_display_id: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  account_id: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  display_property_value: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_type: z.union([ z.lazy(() => marker_type_enumSchema),z.lazy(() => NullableEnummarker_type_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  circle_marker_radius: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_symbol: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  marker_size: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  stroke: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  weight: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  opacity_percent: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_cap: z.union([ z.lazy(() => line_cap_enumSchema),z.lazy(() => NullableEnumline_cap_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  line_join: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_array: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  dash_offset: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_color: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_opacity_percent: z.union([ z.number(),z.lazy(() => NullableIntFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  fill_rule: z.union([ z.lazy(() => fill_rule_enumSchema),z.lazy(() => NullableEnumfill_rule_enumFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  label_replace_by_generated_column: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  deleted: z.union([ z.boolean(),z.lazy(() => NullableBoolFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
 export const FieldsCreateManyWidget_typesInputSchema: z.ZodType<Prisma.FieldsCreateManyWidget_typesInput> = z.object({
@@ -36603,6 +38085,68 @@ export const UsersFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.UsersFindUniqueO
   where: UsersWhereUniqueInputSchema,
 }).strict() as z.ZodType<Prisma.UsersFindUniqueOrThrowArgs>
 
+export const Vector_layer_displaysFindFirstArgsSchema: z.ZodType<Prisma.Vector_layer_displaysFindFirstArgs> = z.object({
+  select: Vector_layer_displaysSelectSchema.optional(),
+  include: Vector_layer_displaysIncludeSchema.optional(),
+  where: Vector_layer_displaysWhereInputSchema.optional(),
+  orderBy: z.union([ Vector_layer_displaysOrderByWithRelationInputSchema.array(),Vector_layer_displaysOrderByWithRelationInputSchema ]).optional(),
+  cursor: Vector_layer_displaysWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: Vector_layer_displaysScalarFieldEnumSchema.array().optional(),
+}).strict() as z.ZodType<Prisma.Vector_layer_displaysFindFirstArgs>
+
+export const Vector_layer_displaysFindFirstOrThrowArgsSchema: z.ZodType<Prisma.Vector_layer_displaysFindFirstOrThrowArgs> = z.object({
+  select: Vector_layer_displaysSelectSchema.optional(),
+  include: Vector_layer_displaysIncludeSchema.optional(),
+  where: Vector_layer_displaysWhereInputSchema.optional(),
+  orderBy: z.union([ Vector_layer_displaysOrderByWithRelationInputSchema.array(),Vector_layer_displaysOrderByWithRelationInputSchema ]).optional(),
+  cursor: Vector_layer_displaysWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: Vector_layer_displaysScalarFieldEnumSchema.array().optional(),
+}).strict() as z.ZodType<Prisma.Vector_layer_displaysFindFirstOrThrowArgs>
+
+export const Vector_layer_displaysFindManyArgsSchema: z.ZodType<Prisma.Vector_layer_displaysFindManyArgs> = z.object({
+  select: Vector_layer_displaysSelectSchema.optional(),
+  include: Vector_layer_displaysIncludeSchema.optional(),
+  where: Vector_layer_displaysWhereInputSchema.optional(),
+  orderBy: z.union([ Vector_layer_displaysOrderByWithRelationInputSchema.array(),Vector_layer_displaysOrderByWithRelationInputSchema ]).optional(),
+  cursor: Vector_layer_displaysWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+  distinct: Vector_layer_displaysScalarFieldEnumSchema.array().optional(),
+}).strict() as z.ZodType<Prisma.Vector_layer_displaysFindManyArgs>
+
+export const Vector_layer_displaysAggregateArgsSchema: z.ZodType<Prisma.Vector_layer_displaysAggregateArgs> = z.object({
+  where: Vector_layer_displaysWhereInputSchema.optional(),
+  orderBy: z.union([ Vector_layer_displaysOrderByWithRelationInputSchema.array(),Vector_layer_displaysOrderByWithRelationInputSchema ]).optional(),
+  cursor: Vector_layer_displaysWhereUniqueInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() as z.ZodType<Prisma.Vector_layer_displaysAggregateArgs>
+
+export const Vector_layer_displaysGroupByArgsSchema: z.ZodType<Prisma.Vector_layer_displaysGroupByArgs> = z.object({
+  where: Vector_layer_displaysWhereInputSchema.optional(),
+  orderBy: z.union([ Vector_layer_displaysOrderByWithAggregationInputSchema.array(),Vector_layer_displaysOrderByWithAggregationInputSchema ]).optional(),
+  by: Vector_layer_displaysScalarFieldEnumSchema.array(),
+  having: Vector_layer_displaysScalarWhereWithAggregatesInputSchema.optional(),
+  take: z.number().optional(),
+  skip: z.number().optional(),
+}).strict() as z.ZodType<Prisma.Vector_layer_displaysGroupByArgs>
+
+export const Vector_layer_displaysFindUniqueArgsSchema: z.ZodType<Prisma.Vector_layer_displaysFindUniqueArgs> = z.object({
+  select: Vector_layer_displaysSelectSchema.optional(),
+  include: Vector_layer_displaysIncludeSchema.optional(),
+  where: Vector_layer_displaysWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.Vector_layer_displaysFindUniqueArgs>
+
+export const Vector_layer_displaysFindUniqueOrThrowArgsSchema: z.ZodType<Prisma.Vector_layer_displaysFindUniqueOrThrowArgs> = z.object({
+  select: Vector_layer_displaysSelectSchema.optional(),
+  include: Vector_layer_displaysIncludeSchema.optional(),
+  where: Vector_layer_displaysWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.Vector_layer_displaysFindUniqueOrThrowArgs>
+
 export const Vector_layersFindFirstArgsSchema: z.ZodType<Prisma.Vector_layersFindFirstArgs> = z.object({
   select: Vector_layersSelectSchema.optional(),
   include: Vector_layersIncludeSchema.optional(),
@@ -38142,6 +39686,47 @@ export const UsersDeleteManyArgsSchema: z.ZodType<Prisma.UsersDeleteManyArgs> = 
   where: UsersWhereInputSchema.optional(),
 }).strict() as z.ZodType<Prisma.UsersDeleteManyArgs>
 
+export const Vector_layer_displaysCreateArgsSchema: z.ZodType<Prisma.Vector_layer_displaysCreateArgs> = z.object({
+  select: Vector_layer_displaysSelectSchema.optional(),
+  include: Vector_layer_displaysIncludeSchema.optional(),
+  data: z.union([ Vector_layer_displaysCreateInputSchema,Vector_layer_displaysUncheckedCreateInputSchema ]),
+}).strict() as z.ZodType<Prisma.Vector_layer_displaysCreateArgs>
+
+export const Vector_layer_displaysUpsertArgsSchema: z.ZodType<Prisma.Vector_layer_displaysUpsertArgs> = z.object({
+  select: Vector_layer_displaysSelectSchema.optional(),
+  include: Vector_layer_displaysIncludeSchema.optional(),
+  where: Vector_layer_displaysWhereUniqueInputSchema,
+  create: z.union([ Vector_layer_displaysCreateInputSchema,Vector_layer_displaysUncheckedCreateInputSchema ]),
+  update: z.union([ Vector_layer_displaysUpdateInputSchema,Vector_layer_displaysUncheckedUpdateInputSchema ]),
+}).strict() as z.ZodType<Prisma.Vector_layer_displaysUpsertArgs>
+
+export const Vector_layer_displaysCreateManyArgsSchema: z.ZodType<Prisma.Vector_layer_displaysCreateManyArgs> = z.object({
+  data: Vector_layer_displaysCreateManyInputSchema.array(),
+  skipDuplicates: z.boolean().optional(),
+}).strict() as z.ZodType<Prisma.Vector_layer_displaysCreateManyArgs>
+
+export const Vector_layer_displaysDeleteArgsSchema: z.ZodType<Prisma.Vector_layer_displaysDeleteArgs> = z.object({
+  select: Vector_layer_displaysSelectSchema.optional(),
+  include: Vector_layer_displaysIncludeSchema.optional(),
+  where: Vector_layer_displaysWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.Vector_layer_displaysDeleteArgs>
+
+export const Vector_layer_displaysUpdateArgsSchema: z.ZodType<Prisma.Vector_layer_displaysUpdateArgs> = z.object({
+  select: Vector_layer_displaysSelectSchema.optional(),
+  include: Vector_layer_displaysIncludeSchema.optional(),
+  data: z.union([ Vector_layer_displaysUpdateInputSchema,Vector_layer_displaysUncheckedUpdateInputSchema ]),
+  where: Vector_layer_displaysWhereUniqueInputSchema,
+}).strict() as z.ZodType<Prisma.Vector_layer_displaysUpdateArgs>
+
+export const Vector_layer_displaysUpdateManyArgsSchema: z.ZodType<Prisma.Vector_layer_displaysUpdateManyArgs> = z.object({
+  data: z.union([ Vector_layer_displaysUpdateManyMutationInputSchema,Vector_layer_displaysUncheckedUpdateManyInputSchema ]),
+  where: Vector_layer_displaysWhereInputSchema.optional(),
+}).strict() as z.ZodType<Prisma.Vector_layer_displaysUpdateManyArgs>
+
+export const Vector_layer_displaysDeleteManyArgsSchema: z.ZodType<Prisma.Vector_layer_displaysDeleteManyArgs> = z.object({
+  where: Vector_layer_displaysWhereInputSchema.optional(),
+}).strict() as z.ZodType<Prisma.Vector_layer_displaysDeleteManyArgs>
+
 export const Vector_layersCreateArgsSchema: z.ZodType<Prisma.Vector_layersCreateArgs> = z.object({
   select: Vector_layersSelectSchema.optional(),
   include: Vector_layersIncludeSchema.optional(),
@@ -38430,6 +40015,11 @@ interface UsersGetPayload extends HKT {
   readonly type: Prisma.UsersGetPayload<this['_A']>
 }
 
+interface Vector_layer_displaysGetPayload extends HKT {
+  readonly _A?: boolean | null | undefined | Prisma.Vector_layer_displaysArgs
+  readonly type: Prisma.Vector_layer_displaysGetPayload<this['_A']>
+}
+
 interface Vector_layersGetPayload extends HKT {
   readonly _A?: boolean | null | undefined | Prisma.Vector_layersArgs
   readonly type: Prisma.Vector_layersGetPayload<this['_A']>
@@ -38508,6 +40098,7 @@ export const tableSchemas = {
       new Relation("ui_options", "", "", "ui_options", "AccountsToUi_options", "many"),
       new Relation("units", "", "", "units", "AccountsToUnits", "many"),
       new Relation("user_messages", "", "", "user_messages", "AccountsToUser_messages", "many"),
+      new Relation("vector_layer_displays", "", "", "vector_layer_displays", "AccountsToVector_layer_displays", "many"),
       new Relation("vector_layers", "", "", "vector_layers", "AccountsToVector_layers", "many"),
     ],
     modelSchema: (AccountsCreateInputSchema as any)
@@ -40904,6 +42495,125 @@ export const tableSchemas = {
     Prisma.UsersScalarFieldEnum,
     UsersGetPayload
   >,
+  vector_layer_displays: {
+    fields: new Map([
+      [
+        "vector_layer_display_id",
+        "UUID"
+      ],
+      [
+        "account_id",
+        "UUID"
+      ],
+      [
+        "vector_layer_id",
+        "UUID"
+      ],
+      [
+        "display_property_value",
+        "TEXT"
+      ],
+      [
+        "marker_type",
+        "TEXT"
+      ],
+      [
+        "circle_marker_radius",
+        "INT4"
+      ],
+      [
+        "marker_symbol",
+        "TEXT"
+      ],
+      [
+        "marker_size",
+        "INT4"
+      ],
+      [
+        "stroke",
+        "BOOL"
+      ],
+      [
+        "color",
+        "TEXT"
+      ],
+      [
+        "weight",
+        "INT4"
+      ],
+      [
+        "opacity_percent",
+        "INT4"
+      ],
+      [
+        "line_cap",
+        "TEXT"
+      ],
+      [
+        "line_join",
+        "TEXT"
+      ],
+      [
+        "dash_array",
+        "TEXT"
+      ],
+      [
+        "dash_offset",
+        "TEXT"
+      ],
+      [
+        "fill",
+        "BOOL"
+      ],
+      [
+        "fill_color",
+        "TEXT"
+      ],
+      [
+        "fill_opacity_percent",
+        "INT4"
+      ],
+      [
+        "fill_rule",
+        "TEXT"
+      ],
+      [
+        "label_replace_by_generated_column",
+        "TEXT"
+      ],
+      [
+        "deleted",
+        "BOOL"
+      ]
+    ]),
+    relations: [
+      new Relation("accounts", "account_id", "account_id", "accounts", "AccountsToVector_layer_displays", "one"),
+      new Relation("vector_layers", "vector_layer_id", "vector_layer_id", "vector_layers", "Vector_layer_displaysToVector_layers", "one"),
+    ],
+    modelSchema: (Vector_layer_displaysCreateInputSchema as any)
+      .partial()
+      .or((Vector_layer_displaysUncheckedCreateInputSchema as any).partial()),
+    createSchema: Vector_layer_displaysCreateArgsSchema,
+    createManySchema: Vector_layer_displaysCreateManyArgsSchema,
+    findUniqueSchema: Vector_layer_displaysFindUniqueArgsSchema,
+    findSchema: Vector_layer_displaysFindFirstArgsSchema,
+    updateSchema: Vector_layer_displaysUpdateArgsSchema,
+    updateManySchema: Vector_layer_displaysUpdateManyArgsSchema,
+    upsertSchema: Vector_layer_displaysUpsertArgsSchema,
+    deleteSchema: Vector_layer_displaysDeleteArgsSchema,
+    deleteManySchema: Vector_layer_displaysDeleteManyArgsSchema
+  } as TableSchema<
+    z.infer<typeof Vector_layer_displaysCreateInputSchema>,
+    Prisma.Vector_layer_displaysCreateArgs['data'],
+    Prisma.Vector_layer_displaysUpdateArgs['data'],
+    Prisma.Vector_layer_displaysFindFirstArgs['select'],
+    Prisma.Vector_layer_displaysFindFirstArgs['where'],
+    Prisma.Vector_layer_displaysFindUniqueArgs['where'],
+    Omit<Prisma.Vector_layer_displaysInclude, '_count'>,
+    Prisma.Vector_layer_displaysFindFirstArgs['orderBy'],
+    Prisma.Vector_layer_displaysScalarFieldEnum,
+    Vector_layer_displaysGetPayload
+  >,
   vector_layers: {
     fields: new Map([
       [
@@ -40989,6 +42699,7 @@ export const tableSchemas = {
     ]),
     relations: [
       new Relation("layer_options", "", "", "layer_options", "Layer_optionsToVector_layers", "many"),
+      new Relation("vector_layer_displays", "", "", "vector_layer_displays", "Vector_layer_displaysToVector_layers", "many"),
       new Relation("accounts", "account_id", "account_id", "accounts", "AccountsToVector_layers", "one"),
       new Relation("projects", "project_id", "project_id", "projects", "ProjectsToVector_layers", "one"),
     ],
