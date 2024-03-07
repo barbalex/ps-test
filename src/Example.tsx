@@ -98,7 +98,9 @@ const ExampleComponent = () => {
                               actions: {
                                 include: {
                                   action_values: true,
-                                  action_reports: true,
+                                  action_reports: {
+                                    include: { action_report_values: true },
+                                  },
                                 },
                               },
                             },
@@ -112,7 +114,9 @@ const ExampleComponent = () => {
                           actions: {
                             include: {
                               action_values: true,
-                              action_reports: true,
+                              action_reports: {
+                                include: { action_report_values: true },
+                              },
                             },
                           },
                         },
@@ -191,6 +195,7 @@ const ExampleComponent = () => {
               actions: true,
               action_values: true,
               action_reports: true,
+              action_report_values: true,
             },
           },
           ui_options: true,
