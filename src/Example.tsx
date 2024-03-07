@@ -103,7 +103,12 @@ const ExampleComponent = () => {
                                   },
                                 },
                               },
-                              checks: { include: { check_values: true } },
+                              checks: {
+                                include: {
+                                  check_values: true,
+                                  check_taxa: true,
+                                },
+                              },
                             },
                           },
                           charts: { include: { chart_subjects: true } },
@@ -120,7 +125,9 @@ const ExampleComponent = () => {
                               },
                             },
                           },
-                          checks: { include: { check_values: true } },
+                          checks: {
+                            include: { check_values: true, check_taxa: true },
+                          },
                         },
                       },
                       charts: { include: { chart_subjects: true } },
@@ -200,6 +207,7 @@ const ExampleComponent = () => {
               action_report_values: true,
               checks: true,
               check_values: true,
+              check_taxa: true,
             },
           },
           ui_options: true,
