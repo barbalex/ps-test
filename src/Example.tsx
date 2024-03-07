@@ -214,6 +214,7 @@ const ExampleComponent = () => {
           project_users: true,
           subproject_users: true,
           place_users: true,
+          notifications: true,
         },
       })
       const messagesShape = await db.messages.sync({
